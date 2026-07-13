@@ -31,6 +31,8 @@ export interface Movie {
   trivia: string[];
   backdropUrl: string;
   posterUrl: string;
+  safePosterUrl?: string;
+  safeBackdropUrl?: string;
   streamingLinks: StreamingLink[];
   productionTrivia?: string;
   seasonsCount?: number;
@@ -54,6 +56,8 @@ export interface UpcomingMovie {
   statusDetails: string;
   backdropUrl: string;
   posterUrl: string;
+  safePosterUrl?: string;
+  safeBackdropUrl?: string;
   behindTheScenesSecrets: string[];
 }
 
@@ -65,7 +69,13 @@ export interface UserState {
   clicks: Record<string, number>; // movieId -> count of clicks
   preferredLanguage: string; // 'en' | 'hi' | 'ar' | 'ja' | 'es'
   region: string; // 'US' | 'UK' | 'IN' | 'JP'
+  posterSafetyMode?: 'safe' | 'original'; // copyright-safe or original posters
   remindedUpcomingIds?: string[]; // persistent 'Remind Me' subscriptions
+  isLoggedIn?: boolean;
+  userName?: string;
+  email?: string;
+  password?: string;
+  selectedAvatar?: string;
 }
 
 export interface ChatMessage {

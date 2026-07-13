@@ -35,6 +35,9 @@ import ComedySection from './components/ComedySection';
 import ActionSection from './components/ActionSection';
 import TiltCard from './components/TiltCard';
 import CinemaPlayer from './components/CinemaPlayer';
+import CineWorldLogo from './components/CineWorldLogo';
+import CinematicAuth from './components/CinematicAuth';
+import GenreCarousel from './components/GenreCarousel';
 
 // Cinematic Official Trailer YouTube Video IDs for every movie & series
 const TRAILER_IDS: Record<string, string> = {
@@ -159,6 +162,108 @@ export default function App() {
   const [activeSeason, setActiveSeason] = useState<number>(1);
   const [activeEpisode, setActiveEpisode] = useState<number>(1);
 
+  // Dynamic images state resolved from our custom proxy API
+  const [resolvedImages, setResolvedImages] = useState<Record<string, { posterUrl: string; backdropUrl: string }>>(() => {
+    try {
+      const saved = localStorage.getItem('cineworld_resolved_images_v3');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  // Save resolved images to localStorage
+  useEffect(() => {
+    localStorage.setItem('cineworld_resolved_images_v3', JSON.stringify(resolvedImages));
+  }, [resolvedImages]);
+
+  // Prioritize active selected movie resolution
+  useEffect(() => {
+    if (!selectedMovieId || (resolvedImages[selectedMovieId]?.posterUrl && resolvedImages[selectedMovieId]?.backdropUrl)) return;
+    const movie = CURATED_CATALOG.find(m => m.id === selectedMovieId);
+    if (!movie) return;
+
+    let active = true;
+    async function resolveActive() {
+      try {
+        const response = await fetch(`/api/media-images?title=${encodeURIComponent(movie.title)}&type=${encodeURIComponent(movie.type)}`);
+        if (response.ok && active) {
+          const data = await response.json();
+          if (data && (data.posterUrl || data.backdropUrl)) {
+            setResolvedImages(prev => ({
+              ...prev,
+              [movie.id]: {
+                posterUrl: data.posterUrl || prev[movie.id]?.posterUrl || movie.posterUrl,
+                backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl
+              }
+            }));
+          }
+        }
+      } catch (err) {
+        console.error(`Failed to prioritize resolve for ${movie.title}:`, err);
+      }
+    }
+    resolveActive();
+    return () => { active = false; };
+  }, [selectedMovieId]);
+
+  // Sequential background pre-fetcher for all movies in the catalog
+  useEffect(() => {
+    let active = true;
+    const moviesToResolve = CURATED_CATALOG.filter(m => !resolvedImages[m.id]);
+
+    async function resolveNext(index: number) {
+      if (!active || index >= moviesToResolve.length) return;
+      const movie = moviesToResolve[index];
+
+      try {
+        const response = await fetch(`/api/media-images?title=${encodeURIComponent(movie.title)}&type=${encodeURIComponent(movie.type)}`);
+        if (response.ok && active) {
+          const data = await response.json();
+          if (data && (data.posterUrl || data.backdropUrl)) {
+            setResolvedImages(prev => ({
+              ...prev,
+              [movie.id]: {
+                posterUrl: data.posterUrl || prev[movie.id]?.posterUrl || movie.posterUrl,
+                backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl
+              }
+            }));
+          }
+        }
+      } catch (err) {
+        console.error(`Failed to background resolve for ${movie.title}:`, err);
+      }
+
+      // Add a 500ms delay to keep it polite to our backend
+      setTimeout(() => {
+        if (active) resolveNext(index + 1);
+      }, 500);
+    }
+
+    if (moviesToResolve.length > 0) {
+      resolveNext(0);
+    }
+
+    return () => { active = false; };
+  }, []); // Run on mount only to prevent infinite loop
+
+  // Dynamic display catalog mapping depending on the chosen posterSafetyMode and resolved images
+  const displayCatalog = CURATED_CATALOG.map(movie => {
+    const resolved = resolvedImages[movie.id];
+    let poster = userState.posterSafetyMode === 'safe' ? (movie.safePosterUrl || movie.posterUrl) : movie.posterUrl;
+    let backdrop = userState.posterSafetyMode === 'safe' ? (movie.safeBackdropUrl || movie.backdropUrl) : movie.backdropUrl;
+
+    // Use our high-resolution, hotlink-friendly resolved images if available
+    if (resolved?.posterUrl) poster = resolved.posterUrl;
+    if (resolved?.backdropUrl) backdrop = resolved.backdropUrl;
+
+    return {
+      ...movie,
+      posterUrl: poster,
+      backdropUrl: backdrop
+    };
+  });
+
   // Automatically reset stream mode, backup index, season, and episode when the theater movie changes
   useEffect(() => {
     if (theaterMovieId) {
@@ -175,14 +280,14 @@ export default function App() {
     
     const timer = setInterval(() => {
       setSelectedMovieId((prevId) => {
-        const currentIndex = CURATED_CATALOG.findIndex(m => m.id === prevId);
-        const nextIndex = (currentIndex + 1) % CURATED_CATALOG.length;
-        return CURATED_CATALOG[nextIndex].id;
+        const currentIndex = displayCatalog.findIndex(m => m.id === prevId);
+        const nextIndex = (currentIndex + 1) % displayCatalog.length;
+        return displayCatalog[nextIndex].id;
       });
     }, 10000);
     
     return () => clearInterval(timer);
-  }, [selectedMovieId, isCarouselPlaying]);
+  }, [selectedMovieId, isCarouselPlaying, displayCatalog]);
   
   // Custom reviews state
   const [allReviews, setAllReviews] = useState<Review[]>(() => {
@@ -237,7 +342,7 @@ export default function App() {
   };
 
   // Find currently selected movie
-  const currentMovie = CURATED_CATALOG.find(m => m.id === selectedMovieId) || CURATED_CATALOG[0];
+  const currentMovie = displayCatalog.find(m => m.id === selectedMovieId) || displayCatalog[0];
 
   // Record a click on a movie to train recommendation engine
   const handleMovieSelect = (movieId: string) => {
@@ -245,7 +350,7 @@ export default function App() {
     setTheaterMovieId(movieId); // Automatically start playing trailer in theater modal
     
     // Find movie to increment genre clicks
-    const movie = CURATED_CATALOG.find(m => m.id === movieId);
+    const movie = displayCatalog.find(m => m.id === movieId);
     if (movie) {
       setUserState(prev => {
         const nextClicks = { ...prev.clicks, [movieId]: (prev.clicks[movieId] || 0) + 1 };
@@ -517,7 +622,7 @@ export default function App() {
             .find(p => p.toLowerCase() === payload.toLowerCase());
           if (found) setActivePlatform(found);
         } else if (type === 'view_movie' && payload) {
-          const foundMovie = CURATED_CATALOG.find(m => m.id === payload || m.title.toLowerCase().includes(payload.toLowerCase()));
+          const foundMovie = displayCatalog.find(m => m.id === payload || m.title.toLowerCase().includes(payload.toLowerCase()));
           if (foundMovie) {
             handleMovieSelect(foundMovie.id);
           }
@@ -548,7 +653,7 @@ export default function App() {
   // Base recommendation logic:
   // - Calculate alignment score for all movies
   // - High score = highly relevant
-  const recommendationMatrix = CURATED_CATALOG.map(movie => {
+  const recommendationMatrix = displayCatalog.map(movie => {
     let score = 0;
     
     // 1. Explicit Rating correlation:
@@ -588,7 +693,7 @@ export default function App() {
   // - search query
   // - genre filter
   // - platform filter
-  const filteredCatalog = CURATED_CATALOG.filter(movie => {
+  const filteredCatalog = displayCatalog.filter(movie => {
     const matchesSearch = movie.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           movie.directorOrCreator.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           movie.cast.some(actor => actor.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -602,7 +707,16 @@ export default function App() {
   });
 
   // Collect all unique genres
-  const allGenres = ['All', ...Array.from(new Set(CURATED_CATALOG.flatMap(m => m.genres)))];
+  const allGenres = ['All', ...Array.from(new Set(displayCatalog.flatMap(m => m.genres)))];
+
+  if (!userState.isLoggedIn) {
+    return (
+      <CinematicAuth 
+        userState={userState} 
+        onAuthSuccess={(updatedState) => setUserState(prev => ({ ...prev, ...updatedState }))} 
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#050508] text-[#F5F5F5] font-sans relative overflow-x-hidden flex flex-col selection:bg-[#00D1FF]/30 selection:text-white">
@@ -622,9 +736,35 @@ export default function App() {
           <span className="hidden md:inline text-white/20">|</span>
           <span className="hidden md:inline">Precision Metadata Feed v2.4</span>
         </div>
-        <div className="flex items-center gap-6">
-          {/* User Email Telemetry */}
-          <span className="text-white/60 font-mono tracking-normal">zainab.azis2006@gmail.com</span>
+        <div className="flex items-center gap-4 flex-wrap sm:flex-nowrap">
+          <CineWorldLogo showText={false} size="sm" onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); }} />
+          
+          {/* User Profile Avatar badge & Email */}
+          <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+            <span className="text-xs sm:text-sm">
+              {userState.selectedAvatar === 'director' ? '🎬' :
+               userState.selectedAvatar === 'critic' ? '🧐' :
+               userState.selectedAvatar === 'scifi' ? '🚀' :
+               userState.selectedAvatar === 'horror' ? '👻' :
+               userState.selectedAvatar === 'romance' ? '💖' :
+               userState.selectedAvatar === 'action' ? '💥' : '👤'}
+            </span>
+            <span className="text-white/80 font-semibold text-xs capitalize hidden sm:inline truncate max-w-[100px]">
+              {userState.userName || 'Cinephile'}
+            </span>
+            <span className="text-white/40 font-mono text-[10px] hidden md:inline">
+              ({userState.email || 'zainab.azis2006@gmail.com'})
+            </span>
+          </div>
+
+          {/* Logout Action */}
+          <button 
+            onClick={() => setUserState(prev => ({ ...prev, isLoggedIn: false }))}
+            className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#d03050]/10 hover:bg-[#d03050]/25 border border-[#d03050]/25 text-[#ff4c6c] hover:text-[#ff6a85] text-xs font-bold uppercase tracking-wider transition-all cursor-pointer active:scale-95 shrink-0"
+            title="Exit Screening Session"
+          >
+            <span>Exit Theater</span>
+          </button>
         </div>
       </div>
 
@@ -632,10 +772,10 @@ export default function App() {
       <header className="relative z-20 border-b border-white/5 bg-black/30 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-4">
           <div className="flex items-center gap-6 lg:gap-12 flex-1 max-w-xl">
-            <div className="text-2xl font-black tracking-tighter text-white select-none cursor-pointer shrink-0" onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); }}>
-              CINE<span className="text-[#00D1FF] font-black">WORLD</span>
-              <span className="hidden sm:inline-block text-[10px] uppercase font-mono tracking-widest text-[#00D1FF]/70 ml-2 border border-[#00D1FF]/20 px-1.5 py-0.5 rounded bg-[#00D1FF]/5">Luxury</span>
-            </div>
+            <CineWorldLogo 
+              size="md" 
+              onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); }} 
+            />
             
             {/* Quick-Filter Navigation */}
             <nav className="hidden xl:flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-white/60">
@@ -767,6 +907,20 @@ export default function App() {
                 <option value="ar" className="bg-[#0b0b12]">العربية (Arabic)</option>
                 <option value="ja" className="bg-[#0b0b12]">日本語 (Japanese)</option>
                 <option value="es" className="bg-[#0b0b12]">Español (Spanish)</option>
+              </select>
+            </div>
+
+            {/* Poster Mode Switcher */}
+            <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 text-xs text-white/80">
+              <Sparkles className="w-3.5 h-3.5 text-[#00D1FF]" />
+              <select 
+                value={userState.posterSafetyMode || 'original'} 
+                onChange={(e) => setUserState(prev => ({ ...prev, posterSafetyMode: e.target.value as 'safe' | 'original' }))}
+                className="bg-transparent border-none outline-none text-white cursor-pointer font-sans text-xs pr-1"
+                aria-label="Poster Safety Mode"
+              >
+                <option value="original" className="bg-[#0b0b12]">Original Art</option>
+                <option value="safe" className="bg-[#0b0b12]">Safe Art</option>
               </select>
             </div>
             
@@ -940,40 +1094,36 @@ export default function App() {
                   </button>
 
                   {/* Launch Links */}
-                  {currentMovie.streamingLinks.map((link, idx) => {
-                    const isFreeCinema = link.platform === 'Free Cinema';
-                    const isAvailable = isFreeCinema || link.availableRegions.includes(userState.region);
-                    return (
-                      <a
-                        key={idx}
-                        href={isFreeCinema ? '#' : (isAvailable ? link.url : '#')}
-                        target={isFreeCinema ? undefined : (isAvailable ? "_blank" : undefined)}
-                        rel="noopener noreferrer"
-                        className={`px-5 py-3 rounded border font-bold uppercase text-xs tracking-wider transition-all duration-300 flex items-center gap-2.5 ${
-                          isFreeCinema
-                            ? 'bg-emerald-500 text-black border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:bg-white hover:border-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.6)]'
-                            : (isAvailable 
+                  {currentMovie.streamingLinks
+                    .filter(link => link.platform !== 'Free Cinema')
+                    .map((link, idx) => {
+                      const isAvailable = link.availableRegions.includes(userState.region);
+                      return (
+                        <a
+                          key={idx}
+                          href={isAvailable ? link.url : '#'}
+                          target={isAvailable ? "_blank" : undefined}
+                          rel="noopener noreferrer"
+                          className={`px-5 py-3 rounded border font-bold uppercase text-xs tracking-wider transition-all duration-300 flex items-center gap-2.5 ${
+                            isAvailable 
                               ? 'bg-[#00D1FF] text-black border-[#00D1FF] shadow-[0_0_15px_rgba(0,209,255,0.4)] hover:bg-white hover:border-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.6)]'
-                              : 'bg-white/5 text-white/30 border-white/5 cursor-not-allowed')
-                        }`}
-                        onClick={(e) => {
-                          if (isFreeCinema) {
-                            e.preventDefault();
-                            setTheaterMovieId(currentMovie.id);
-                          } else if (!isAvailable) {
-                            e.preventDefault();
-                            alert("This streaming link is restricted for your selected Geolocation Telemetry region.");
-                          }
-                        }}
-                      >
-                        <Play className="w-4 h-4 fill-current" />
-                        {isFreeCinema ? 'Play Free Masterpiece' : `${t('streamBadgeLabel')} on ${link.platform}`}
-                        <span className="text-[9px] px-1 py-0.5 rounded bg-black/20">
-                          {isFreeCinema ? '100% Free' : (link.priceTier || 'Included')}
-                        </span>
-                      </a>
-                    );
-                  })}
+                              : 'bg-white/5 text-white/30 border-white/5 cursor-not-allowed'
+                          }`}
+                          onClick={(e) => {
+                            if (!isAvailable) {
+                              e.preventDefault();
+                              alert("This streaming link is restricted for your selected Geolocation Telemetry region.");
+                            }
+                          }}
+                        >
+                          <Play className="w-4 h-4 fill-current" />
+                          {`${t('streamBadgeLabel')} on ${link.platform}`}
+                          <span className="text-[9px] px-1 py-0.5 rounded bg-black/20">
+                            {link.priceTier || 'Included'}
+                          </span>
+                        </a>
+                      );
+                    })}
 
                   <a 
                     href="#critic-hub"
@@ -1076,9 +1226,9 @@ export default function App() {
           {/* Previous Button */}
           <button
             onClick={() => {
-              const currentIndex = CURATED_CATALOG.findIndex(m => m.id === currentMovie.id);
-              const prevIndex = (currentIndex - 1 + CURATED_CATALOG.length) % CURATED_CATALOG.length;
-              handleMovieSelect(CURATED_CATALOG[prevIndex].id);
+              const currentIndex = displayCatalog.findIndex(m => m.id === currentMovie.id);
+              const prevIndex = (currentIndex - 1 + displayCatalog.length) % displayCatalog.length;
+              handleMovieSelect(displayCatalog[prevIndex].id);
             }}
             className="text-white/50 hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-wider"
             title="Previous Slide"
@@ -1089,18 +1239,18 @@ export default function App() {
           {/* Slide Indicator */}
           <div className="flex items-center gap-1.5 font-mono text-xs text-white/40">
             <span className="text-[#00D1FF] font-black">
-              {String(CURATED_CATALOG.findIndex(m => m.id === currentMovie.id) + 1).padStart(2, '0')}
+              {String(displayCatalog.findIndex(m => m.id === currentMovie.id) + 1).padStart(2, '0')}
             </span>
             <span>/</span>
-            <span>{String(CURATED_CATALOG.length).padStart(2, '0')}</span>
+            <span>{String(displayCatalog.length).padStart(2, '0')}</span>
           </div>
 
           {/* Next Button */}
           <button
             onClick={() => {
-              const currentIndex = CURATED_CATALOG.findIndex(m => m.id === currentMovie.id);
-              const nextIndex = (currentIndex + 1) % CURATED_CATALOG.length;
-              handleMovieSelect(CURATED_CATALOG[nextIndex].id);
+              const currentIndex = displayCatalog.findIndex(m => m.id === currentMovie.id);
+              const nextIndex = (currentIndex + 1) % displayCatalog.length;
+              handleMovieSelect(displayCatalog[nextIndex].id);
             }}
             className="text-white/50 hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-wider"
             title="Next Slide"
@@ -1236,7 +1386,7 @@ export default function App() {
                     <h3 className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-white">
                       Premium Cinematic Movies
                     </h3>
-                    <p className="text-[10px] text-white/40 font-mono">Curated feature films, masterpieces, and blockbusters</p>
+                    <p className="text-[10px] text-white/40 font-mono">Curated feature masterpieces and blockbuster titles organized by genre</p>
                   </div>
                 </div>
                 <span className="text-[10px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-white/60 font-mono">
@@ -1244,93 +1394,24 @@ export default function App() {
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredCatalog.filter(m => m.type === 'Movie').map((movie) => {
-                  const isSelected = movie.id === selectedMovieId;
-                  const matchPercent = recommendationMatrix.find(item => item.movie.id === movie.id)?.matchPercentage || 85;
+              {/* Genre-based Carousels */}
+              <div className="space-y-4">
+                {(activeGenre === 'All'
+                  ? Array.from(new Set(filteredCatalog.filter(m => m.type === 'Movie').flatMap(m => m.genres)))
+                  : [activeGenre]
+                ).map((genre) => {
+                  const genreMovies = filteredCatalog.filter(m => m.type === 'Movie' && m.genres.includes(genre));
+                  if (genreMovies.length === 0) return null;
                   
                   return (
-                    <TiltCard
-                      key={movie.id}
-                      onClick={() => {
-                        handleMovieSelect(movie.id);
-                        document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                      className={`relative group bg-[#0b0b12] border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 ${
-                        isSelected 
-                          ? 'border-[#00D1FF] shadow-[0_0_20px_rgba(0,209,255,0.2)]' 
-                          : 'border-white/10 hover:border-[#00D1FF]/40'
-                      }`}
-                    >
-                      <div className="absolute top-0 left-0 h-1 bg-[#00D1FF] transition-all" style={{ width: isSelected ? '100%' : '20%' }}></div>
-                      
-                      {/* Image frame */}
-                      <div className="h-64 sm:h-72 overflow-hidden relative">
-                        <img 
-                          src={movie.posterUrl} 
-                          alt={movie.title}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          onError={(e) => {
-                            e.currentTarget.src = 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop';
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-                        
-                        {/* Hover Play Button Overlay */}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 backdrop-blur-[2px]">
-                          <div className="bg-[#00D1FF] text-black w-12 h-12 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,209,255,0.6)] transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                            <Play className="w-5 h-5 fill-current ml-0.5" />
-                          </div>
-                        </div>
-
-                        {/* Top floating metadata */}
-                        <div className="absolute top-3 right-3 flex gap-1.5">
-                          <span className="bg-black/85 text-[#00D1FF] text-[9px] font-mono font-bold px-2 py-0.5 rounded border border-[#00D1FF]/30">
-                            {matchPercent}% Match
-                          </span>
-                        </div>
-
-                        {/* Floating bottom left label */}
-                        <div className="absolute bottom-3 left-4">
-                          <p className="text-[10px] font-bold text-[#00D1FF] uppercase tracking-widest">
-                            {movie.genres.slice(0, 2).join(' / ')}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Meta info bottom padding */}
-                      <div className="p-5 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <h4 className="text-lg font-black italic uppercase text-white truncate max-w-[80%]">
-                            {movie.title}
-                          </h4>
-                          <span className="text-xs text-white/40 font-mono">{movie.year}</span>
-                        </div>
-                        
-                        <p className="text-xs text-white/60 line-clamp-2">
-                          {movie.synopsis}
-                        </p>
-
-                        <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-white/40 uppercase">
-                          <span>Director: <strong className="text-white/70">{movie.directorOrCreator.split(' ')[0]}...</strong></span>
-                          <span>{movie.runtimeOrSeasons}</span>
-                        </div>
-
-                        {/* Elegant Interactive Play Button */}
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleMovieSelect(movie.id);
-                            document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
-                          }}
-                          className="w-full mt-3 py-2.5 bg-gradient-to-r from-[#00D1FF]/10 to-[#00D1FF]/25 hover:from-[#00D1FF] hover:to-[#00D1FF] border border-[#00D1FF]/35 hover:border-[#00D1FF] text-[#00D1FF] hover:text-black font-mono text-[10px] font-black uppercase tracking-widest rounded-lg flex items-center justify-center gap-1.5 transition-all duration-300 shadow-[0_0_15px_rgba(0,209,255,0.05)] hover:shadow-[0_0_20px_rgba(0,209,255,0.4)] transform active:scale-95"
-                        >
-                          <Play className="w-3 h-3 fill-current" />
-                          {movie.isPublicDomain ? '🍿 Play Free Movie' : '🎬 Play Now'}
-                        </button>
-                      </div>
-                    </TiltCard>
+                    <GenreCarousel
+                      key={genre}
+                      genre={genre}
+                      movies={genreMovies}
+                      selectedMovieId={selectedMovieId}
+                      handleMovieSelect={handleMovieSelect}
+                      recommendationMatrix={recommendationMatrix}
+                    />
                   );
                 })}
               </div>
@@ -1349,7 +1430,7 @@ export default function App() {
                     <h3 className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-white">
                       Exclusive Prestige Series
                     </h3>
-                    <p className="text-[10px] text-white/40 font-mono">Binge-worthy series, high-fidelity dramas, and award-winning anthologies</p>
+                    <p className="text-[10px] text-white/40 font-mono">Award-winning television series, premium anthologies, and high-fidelity series</p>
                   </div>
                 </div>
                 <span className="text-[10px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-white/60 font-mono">
@@ -1357,93 +1438,24 @@ export default function App() {
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredCatalog.filter(m => m.type === 'Series').map((movie) => {
-                  const isSelected = movie.id === selectedMovieId;
-                  const matchPercent = recommendationMatrix.find(item => item.movie.id === movie.id)?.matchPercentage || 85;
+              {/* Genre-based Carousels */}
+              <div className="space-y-4">
+                {(activeGenre === 'All'
+                  ? Array.from(new Set(filteredCatalog.filter(m => m.type === 'Series').flatMap(m => m.genres)))
+                  : [activeGenre]
+                ).map((genre) => {
+                  const genreSeries = filteredCatalog.filter(m => m.type === 'Series' && m.genres.includes(genre));
+                  if (genreSeries.length === 0) return null;
                   
                   return (
-                    <TiltCard
-                      key={movie.id}
-                      onClick={() => {
-                        handleMovieSelect(movie.id);
-                        document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                      className={`relative group bg-[#0b0b12] border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 ${
-                        isSelected 
-                          ? 'border-[#00D1FF] shadow-[0_0_20px_rgba(0,209,255,0.2)]' 
-                          : 'border-white/10 hover:border-[#00D1FF]/40'
-                      }`}
-                    >
-                      <div className="absolute top-0 left-0 h-1 bg-[#00D1FF] transition-all" style={{ width: isSelected ? '100%' : '20%' }}></div>
-                      
-                      {/* Image frame */}
-                      <div className="h-64 sm:h-72 overflow-hidden relative">
-                        <img 
-                          src={movie.posterUrl} 
-                          alt={movie.title}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          onError={(e) => {
-                            e.currentTarget.src = 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop';
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-                        
-                        {/* Hover Play Button Overlay */}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 backdrop-blur-[2px]">
-                          <div className="bg-[#00D1FF] text-black w-12 h-12 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,209,255,0.6)] transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                            <Play className="w-5 h-5 fill-current ml-0.5" />
-                          </div>
-                        </div>
-
-                        {/* Top floating metadata */}
-                        <div className="absolute top-3 right-3 flex gap-1.5">
-                          <span className="bg-black/85 text-[#00D1FF] text-[9px] font-mono font-bold px-2 py-0.5 rounded border border-[#00D1FF]/30">
-                            {matchPercent}% Match
-                          </span>
-                        </div>
-
-                        {/* Floating bottom left label */}
-                        <div className="absolute bottom-3 left-4">
-                          <p className="text-[10px] font-bold text-[#00D1FF] uppercase tracking-widest">
-                            {movie.genres.slice(0, 2).join(' / ')}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Meta info bottom padding */}
-                      <div className="p-5 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <h4 className="text-lg font-black italic uppercase text-white truncate max-w-[80%]">
-                            {movie.title}
-                          </h4>
-                          <span className="text-xs text-white/40 font-mono">{movie.year}</span>
-                        </div>
-                        
-                        <p className="text-xs text-white/60 line-clamp-2">
-                          {movie.synopsis}
-                        </p>
-
-                        <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[10px] font-mono text-white/40 uppercase">
-                          <span>Creator: <strong className="text-white/70">{movie.directorOrCreator.split(' ')[0]}...</strong></span>
-                          <span>{movie.runtimeOrSeasons}</span>
-                        </div>
-
-                        {/* Elegant Interactive Play Button */}
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleMovieSelect(movie.id);
-                            document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
-                          }}
-                          className="w-full mt-3 py-2.5 bg-gradient-to-r from-[#00D1FF]/10 to-[#00D1FF]/25 hover:from-[#00D1FF] hover:to-[#00D1FF] border border-[#00D1FF]/35 hover:border-[#00D1FF] text-[#00D1FF] hover:text-black font-mono text-[10px] font-black uppercase tracking-widest rounded-lg flex items-center justify-center gap-1.5 transition-all duration-300 shadow-[0_0_15px_rgba(0,209,255,0.05)] hover:shadow-[0_0_20px_rgba(0,209,255,0.4)] transform active:scale-95"
-                        >
-                          <Play className="w-3 h-3 fill-current" />
-                          🎬 Play Episode
-                        </button>
-                      </div>
-                    </TiltCard>
+                    <GenreCarousel
+                      key={genre}
+                      genre={genre}
+                      movies={genreSeries}
+                      selectedMovieId={selectedMovieId}
+                      handleMovieSelect={handleMovieSelect}
+                      recommendationMatrix={recommendationMatrix}
+                    />
                   );
                 })}
               </div>
@@ -1472,7 +1484,7 @@ export default function App() {
 
       {/* KOREAN ROMANCE SPECIALTY SECTION */}
       <KoreanRomanceSection 
-        catalog={CURATED_CATALOG} 
+        catalog={displayCatalog} 
         userState={userState} 
         handleMovieSelect={handleMovieSelect} 
         toggleWatchlist={toggleWatchlist} 
@@ -1480,7 +1492,7 @@ export default function App() {
 
       {/* HORROR SHOWCASE SECTION */}
       <HorrorShowcaseSection 
-        catalog={CURATED_CATALOG} 
+        catalog={displayCatalog} 
         userState={userState} 
         handleMovieSelect={handleMovieSelect} 
         toggleWatchlist={toggleWatchlist} 
@@ -1488,7 +1500,7 @@ export default function App() {
 
       {/* COMEDY SHOWCASE SECTION */}
       <ComedySection 
-        catalog={CURATED_CATALOG} 
+        catalog={displayCatalog} 
         userState={userState} 
         handleMovieSelect={handleMovieSelect} 
         toggleWatchlist={toggleWatchlist} 
@@ -1496,7 +1508,7 @@ export default function App() {
 
       {/* ACTION SHOWCASE SECTION */}
       <ActionSection 
-        catalog={CURATED_CATALOG} 
+        catalog={displayCatalog} 
         userState={userState} 
         handleMovieSelect={handleMovieSelect} 
         toggleWatchlist={toggleWatchlist} 
@@ -1504,7 +1516,7 @@ export default function App() {
 
       {/* TRENDING NOW TELEMETRY CHART */}
       <TrendingChart 
-        catalog={CURATED_CATALOG} 
+        catalog={displayCatalog} 
         userState={userState} 
         handleMovieSelect={handleMovieSelect} 
       />
@@ -1613,7 +1625,7 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {CURATED_CATALOG.filter(m => userState.watchlist.includes(m.id)).map(movie => (
+            {displayCatalog.filter(m => userState.watchlist.includes(m.id)).map(movie => (
               <div 
                 key={movie.id}
                 onClick={() => handleMovieSelect(movie.id)}
@@ -1842,7 +1854,7 @@ export default function App() {
                         <p className="text-[9px] text-[#00D1FF] font-mono font-bold uppercase tracking-wider">Matched Titles:</p>
                         <div className="flex flex-wrap gap-1.5">
                           {msg.suggestedMovies.map(id => {
-                            const title = CURATED_CATALOG.find(m => m.id === id)?.title || id;
+                            const title = displayCatalog.find(m => m.id === id)?.title || id;
                             return (
                               <button
                                 key={id}
@@ -1925,7 +1937,7 @@ export default function App() {
 
       {/* CINEMATIC FULL-SCREEN THEATER OVERLAY */}
       {theaterMovieId && (() => {
-        const theaterMovie = CURATED_CATALOG.find(m => m.id === theaterMovieId);
+        const theaterMovie = displayCatalog.find(m => m.id === theaterMovieId);
         if (!theaterMovie) return null;
         
         // Resolve Copyright-Safe Full-Length free movie/episode ID with rotating backup options

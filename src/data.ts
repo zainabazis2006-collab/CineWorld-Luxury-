@@ -1702,14 +1702,735 @@ const RAW_CATALOG: Movie[] = [
     productionTrivia: 'Utilized real high-density carbon-arc spotlights inside the simulated newsrooms to recreate the high-contrast atmosphere of busy 1940s printing offices.',
     isPublicDomain: true,
     fullMovieYoutubeId: '9eB3N6e0Sdg'
+  },
+  {
+    id: 'deadpool-and-wolverine',
+    title: 'Deadpool & Wolverine',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '128 min',
+    rating: 4.8,
+    genres: ['Action', 'Comedy', 'Sci-Fi'],
+    directorOrCreator: 'Shawn Levy',
+    cast: ['Ryan Reynolds', 'Hugh Jackman', 'Emma Corrin', 'Matthew Macfadyen'],
+    synopsis: 'A listless Wade Wilson toils in civilian life with his days as the morally flexible mercenary, Deadpool, behind him. But when his homeworld faces an existential threat, Wade must reluctantly suit-up again with an even more reluctant Wolverine.',
+    criticalAnalysis: 'A high-octane, self-referential multiverse romp that brilliantly pairs Ryan Reynolds\' sharp-tongued humor with Hugh Jackman\'s raw, iconic physical intensity. It serves as both a love letter and a cheeky satire of comic book cinema.',
+    trivia: [
+      'Hugh Jackman underwent a rigorous six-month physical training and diet regimen to get back into peak Wolverine shape.',
+      'The movie is the first R-rated film in the Marvel Cinematic Universe.',
+      'Numerous cameos were kept completely secret during filming by using closed sets, fake script pages, and elaborate body-cloaking ponchos.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/4/4c/Deadpool_%26_Wolverine_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.disneyplus.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Utilized state-of-the-art virtual production stages combined with extensive practical location shoots in London and Vancouver.'
+  },
+  {
+    id: 'gladiator-2',
+    title: 'Gladiator II',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '148 min',
+    rating: 4.6,
+    genres: ['Action', 'Drama', 'History'],
+    directorOrCreator: 'Ridley Scott',
+    cast: ['Paul Mescal', 'Pedro Pascal', 'Denzel Washington', 'Connie Nielsen'],
+    synopsis: 'Years after witnessing the death of the revered hero Maximus at the hands of his uncle, Lucius is forced to enter the Colosseum after his home is conquered by the tyrannical Emperors who now lead Rome with an iron fist.',
+    criticalAnalysis: 'Ridley Scott returns to the sand and blood with a breathtaking visual spectacle of imperial corruption and gladiatorial combat. Paul Mescal delivers a powerful, physical performance, while Denzel Washington steals the show with his magnetic, manipulative charisma.',
+    trivia: [
+      'Paul Mescal gained over 18 pounds of muscle to prepare for the physically demanding combat sequences in the arena.',
+      'A massive, fully-functional replica of the Roman Colosseum was constructed at Malta to film the crowd and battle scenes practically.',
+      'The movie features elaborate naval battles inside a flooded Colosseum, recreating historical "naumachia" spectacles with outstanding realism.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e3/Gladiator_II_theatrical_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Premium Rent'
+      }
+    ],
+    productionTrivia: 'Employed sophisticated AI crowd-generation systems to realistically render over 50,000 active, reactive spectators in the Colosseum seats.'
+  },
+  {
+    id: 'severance-series',
+    title: 'Severance',
+    type: 'Series',
+    year: 2022,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.9,
+    genres: ['Sci-Fi', 'Drama', 'Mystery'],
+    directorOrCreator: 'Ben Stiller',
+    cast: ['Adam Scott', 'Patricia Arquette', 'John Turturro', 'Christopher Walken'],
+    synopsis: 'Mark leads a team of office workers whose memories have been surgically divided between their work and personal lives. When a mysterious colleague appears outside of work, it begins a journey to discover the truth about their jobs.',
+    criticalAnalysis: 'A masterclass in dystopian mystery and mid-century corporate satire. Ben Stiller\'s precise, sterile visual framing perfectly matches the spine-chilling existential dread of the narrative, supported by spectacular ensemble performances.',
+    trivia: [
+      'The striking, endless white corridors of Lumon Industries were constructed on a massive soundstage to allow for continuous, uninterrupted walking shots.',
+      'Actors had to practice a specific, slightly robotic walking style to emphasize the unnatural nature of the "severed" office space.',
+      'The mysterious, colorful abstract art pieces shown in the hallways were custom-painted by a team of production designers to feel subtly unsettling.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e0/Severance_TV_series_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://tv.apple.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Used a highly controlled color palette, strictly forbidding any natural green or warm orange tones inside the Lumon office sets to heighten the sterile aesthetic.',
+    seasonsCount: 2
+  },
+  {
+    id: 'house-of-the-dragon',
+    title: 'House of the Dragon',
+    type: 'Series',
+    year: 2022,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.8,
+    genres: ['Drama', 'Fantasy', 'Action'],
+    directorOrCreator: 'Ryan Condal',
+    cast: ['Emma D\'Arcy', 'Matt Smith', 'Olivia Cooke', 'Rhys Ifans'],
+    synopsis: 'An internal succession war within House Targaryen, set 200 years before the events of Game of Thrones, during the height of their reign with dragons.',
+    criticalAnalysis: 'A magnificent, character-driven political tragedy that recaptures the intricate backstabbing and soaring scale of Westeros at its peak. The incredible conflict between Rhaenyra Targaryen and Alicent Hightower is beautifully realized with intense emotional depth.',
+    trivia: [
+      'Each of the dragons in the show was designed with a unique personality, color scheme, and aerodynamic flight style to make them instantly recognizable.',
+      'The massive King\'s Landing court set was built as a multi-level practical structure to allow actors to navigate the red keep naturally.',
+      'Matt Smith performed many of his sword-fighting stunts himself, working extensively with stunt coordinators to craft Daemon Targaryen\'s brutal combat style.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/di/House_of_the_Dragon_season_2_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.max.com',
+        availableRegions: ['US', 'UK'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Utilized cutting-edge LED volume screens (The StageCraft) to simulate realistic sky, clouds, and lighting environments for the complex dragon-riding sequences.',
+    seasonsCount: 2
+  },
+  {
+    id: 'lovely-runner',
+    title: 'Lovely Runner',
+    type: 'Series',
+    year: 2024,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.9,
+    genres: ['Romance', 'Comedy', 'Fantasy'],
+    directorOrCreator: 'Yoon Jong-ho',
+    cast: ['Byeon Woo-seok', 'Kim Hye-yoon', 'Song Geon-hee', 'Lee Seung-hyub'],
+    synopsis: 'A passionate fan of a top star travels back in time to his high school days after his tragic demise, determined to change his fate and save him from his future.',
+    criticalAnalysis: 'A brilliant, heartfelt blend of time-travel mystery, youthful nostalgia, and sparkling romantic comedy. The remarkable chemistry between Byeon Woo-seok and Kim Hye-yoon creates an emotionally gripping and incredibly charming masterpiece that became a global phenomenon.',
+    trivia: [
+      'Byeon Woo-seok sang the lead vocals for the tracks performed by his fictional band Eclipse, which went on to top real-world music charts in Korea.',
+      'Kim Hye-yoon had to portray her character across three different age periods (teenager, 20s, and 30s), subtly adjusting her speech and posture for each.',
+      'The iconic yellow umbrella scene was filmed during a real cherry blossom shower to capture the perfect dreamy, romantic aesthetic.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e0/Lovely_Runner_poster.png',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      },
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Utilized high-speed anamorphic lenses during the time-travel sequences to evoke a warm, nostalgic retro feeling reminiscent of the early 2000s.',
+    seasonsCount: 1
+  },
+  {
+    id: 'talk-to-me',
+    title: 'Talk to Me',
+    type: 'Movie',
+    year: 2023,
+    runtimeOrSeasons: '95 min',
+    rating: 4.7,
+    genres: ['Horror', 'Thriller'],
+    directorOrCreator: 'Danny & Michael Philippou',
+    cast: ['Sophie Wilde', 'Alexandra Jensen', 'Joe Bird', 'Otis Dhanji'],
+    synopsis: 'When a group of friends discover how to conjure spirits using an embalmed hand, they become hooked on the new thrill, until one of them goes too far and opens the door to terrifying supernatural forces.',
+    criticalAnalysis: 'A relentlessly terrifying, modern supernatural thriller that uses possession as a brilliant, haunting metaphor for teenage addiction and grief. Sophie Wilde delivers a stunning, visceral performance in a film packed with genuine dread and innovative horror choreography.',
+    trivia: [
+      'The directors, Danny and Michael Philippou, are famous Australian YouTubers (RackaRacka) who financed a major portion of the movie independently to maintain full creative control.',
+      'The creepy ceramic hand used in the movie was custom-designed with subtle, disturbing inscriptions carved into its surface.',
+      'To make the possession scenes feel raw and believable, the directors instructed actors to avoid typical cinematic head-twisting and focus on erratic, physical body language.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/2/22/Talk_to_Me_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com',
+        availableRegions: ['US', 'UK', 'IN'],
+        priceTier: 'Included'
+      },
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Captured using special wide-angle lenses paired with ultra-realistic practical makeup and prosthetic effects, minimizing CGI to maximize visceral, real-world horror.'
+  },
+  {
+    id: 'the-queens-gambit',
+    title: "The Queen's Gambit",
+    type: 'Series',
+    year: 2020,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.8,
+    genres: ['Drama'],
+    directorOrCreator: 'Scott Frank',
+    cast: ['Anya Taylor-Joy', 'Bill Camp', 'Marielle Heller', 'Thomas Brodie-Sangster'],
+    synopsis: 'Orphaned at the tender age of nine, prodigious introvert Beth Harmon discovers and masters the game of chess in 1960s USA. But child stardom comes at a price.',
+    criticalAnalysis: 'A visually breathtaking, meticulously paced character study that turns the cerebral game of chess into an edge-of-your-seat thriller. Anya Taylor-Joy is magnetic, supported by a rich mid-century aesthetic and brilliant costume design.',
+    trivia: [
+      'Garry Kasparov and Bruce Pandolfini served as chess consultants to ensure every single chess board and move shown on screen was historically accurate.',
+      'Anya Taylor-Joy had never played chess competitively before taking the role, learning the choreography of the pieces minutes before each scene was shot.',
+      'Following the series launch, search queries for "how to play chess" hit a nine-year peak, and chess set sales increased by over 125% globally.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/12/The_Queen%27s_Gambit_%28miniseries%29.png',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81040344',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The chess games were filmed using real tournaments as blueprints, with actors learning the precise rhythm of piece-captures like a musical score.',
+    seasonsCount: 1
+  },
+  {
+    id: 'narcos-series',
+    title: 'Narcos',
+    type: 'Series',
+    year: 2015,
+    runtimeOrSeasons: '3 Seasons',
+    rating: 4.8,
+    genres: ['Crime', 'Drama', 'Action'],
+    directorOrCreator: 'Carlo Bernard',
+    cast: ['Wagner Moura', 'Boyd Holbrook', 'Pedro Pascal', 'Joanna Christie'],
+    synopsis: 'A chronicled look at the criminal exploits of Colombian drug lord Pablo Escobar, as well as the many other drug kingpins who plagued the country through the years.',
+    criticalAnalysis: 'A gritty, fast-paced, and highly informative docu-drama that masterfully blends historical archive footage with intense dramatic tension. Wagner Moura delivers a towering, chillingly human performance as Pablo Escobar.',
+    trivia: [
+      'Wagner Moura had to gain over 40 pounds and move to Medellín to learn Paisa Spanish from scratch to accurately portray Pablo Escobar.',
+      'The real DEA agents Javier Peña and Steve Murphy served as story consultants on the production, explaining the exact intelligence-gathering methods used in the 1980s.',
+      'All of the location shoots were filmed directly in Colombia, giving the show an incredibly authentic, highly atmospheric visual style.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/10/Narcos_season_1_artwork.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/80025172',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Used handheld cameras and real Colombian actors to create a gritty, high-contrast, documentary-style aesthetic that mimics news broadcasts of the era.',
+    seasonsCount: 3
+  },
+  {
+    id: 'ozark-series',
+    title: 'Ozark',
+    type: 'Series',
+    year: 2017,
+    runtimeOrSeasons: '4 Seasons',
+    rating: 4.7,
+    genres: ['Drama', 'Thriller'],
+    directorOrCreator: 'Bill Dubuque',
+    cast: ['Jason Bateman', 'Laura Linney', 'Julia Garner', 'Sofia Hublitz'],
+    synopsis: 'A financial adviser drags his family from Chicago to the Missouri Ozarks, where he must launder $500 million in five years to appease a ruthless drug cartel boss.',
+    criticalAnalysis: 'A grim, incredibly tense thriller driven by unmatched performances from Laura Linney and Julia Garner. Its cold, blue-tinted visual style perfectly mirrors the ethical decay of its lead characters.',
+    trivia: [
+      'Jason Bateman directed many of the episodes himself, establishing the show\'s signature slow-burn tension and high-contrast, deeply shadowed lighting.',
+      'The series was mostly shot in Georgia rather than Missouri, using Lake Allatoona and Lake Lanier to stand in for the Ozarks.',
+      'Julia Garner practiced her highly-praised Southern accent by speaking in it constantly during pre-production, even when ordering food at restaurants.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/eb/Ozark_season_4_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/80117552',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The entire series is shot with a prominent, cool-blue color grade to underscore the constant sense of dread, coldness, and moral ambiguity of the Byrde family.',
+    seasonsCount: 4
+  },
+  {
+    id: 'bojack-horseman',
+    title: 'BoJack Horseman',
+    type: 'Series',
+    year: 2014,
+    runtimeOrSeasons: '6 Seasons',
+    rating: 4.8,
+    genres: ['Comedy', 'Drama'],
+    directorOrCreator: 'Raphael Bob-Waksberg',
+    cast: ['Will Arnett', 'Amy Sedaris', 'Alison Brie', 'Aaron Paul', 'Paul F. Tompkins'],
+    synopsis: 'BoJack Horseman, the washed-up star of the 1990s sitcom "Horsin\' Around," navigates his personal crises, mental health struggles, and dysfunctional relationships in an anthropomorphic Hollywood.',
+    criticalAnalysis: 'Widely regarded as one of the greatest animated series of all time. Underneath its hilarious, animal-pun-filled exterior lies a devastatingly honest, incredibly deep exploration of depression, addiction, and existential dread.',
+    trivia: [
+      'The show\'s unique visual style was created by cartoonist Lisa Hanawalt, a high school friend of series creator Raphael Bob-Waksberg.',
+      'The episode "Fish Out of Water" features virtually no spoken dialogue, relying entirely on visual storytelling and an ambient underwater score.',
+      'Every season features a recurring narrative climax in Episode 11, which invariably centers on a deeply emotional, reality-shattering breakdown for BoJack.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/5/5c/Bojack_Horseman_Season_6_Poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/70300800',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Voice actors recorded their lines individually rather than in a group, allowing Will Arnett to deliver highly intimate, nuanced vocal performances.',
+    seasonsCount: 6
+  },
+  {
+    id: 'the-irishman',
+    title: 'The Irishman',
+    type: 'Movie',
+    year: 2019,
+    runtimeOrSeasons: '209 min',
+    rating: 4.5,
+    genres: ['Drama', 'Crime'],
+    directorOrCreator: 'Martin Scorsese',
+    cast: ['Robert De Niro', 'Al Pacino', 'Joe Pesci', 'Harvey Keitel'],
+    synopsis: 'An old truck driver, Frank Sheeran, looks back at his life as a hitman for a mob syndicate and his close association with the infamous teamster president Jimmy Hoffa.',
+    criticalAnalysis: 'A somber, deeply reflective elegiac masterpiece that serves as a quiet postscript to Martin Scorsese\'s career of crime epics. Instead of glorifying the mafia, it strips away the glamour, leaving behind a devastating portrait of loneliness, aging, and regret.',
+    trivia: [
+      'The film made pioneering use of digital "de-aging" technology developed by Industrial Light & Magic to allow the actors to play characters across several decades.',
+      'Joe Pesci came out of unofficial retirement to play Russell Bufalino after being asked by Martin Scorsese and Robert De Niro over fifty times.',
+      'At 209 minutes, it is the longest film of Martin Scorsese\'s illustrious directing career.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1533929736458-ca588d08c8be?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/8/80/The_Irishman_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/80175798',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Filmed on over 117 different locations with 319 separate scenes, requiring a highly sophisticated multi-camera rig with specialized infrared sensors for de-aging.'
+  },
+  {
+    id: 'roma-movie',
+    title: 'Roma',
+    type: 'Movie',
+    year: 2018,
+    runtimeOrSeasons: '135 min',
+    rating: 4.6,
+    genres: ['Drama'],
+    directorOrCreator: 'Alfonso Cuarón',
+    cast: ['Yalitza Aparicio', 'Marina de Tavira', 'Diego Cortina Autrey'],
+    synopsis: 'A year in the life of a middle-class family\'s live-in housekeeper in Mexico City during the turbulent early 1970s, paying tribute to the women who raised the director.',
+    criticalAnalysis: 'A monumental achievement in cinematic art. Shot in stunning, high-contrast black-and-white, Alfonso Cuarón\'s deeply personal, sweeping, and intimate portrait of domestic life and social upheaval is nothing short of a visual masterpiece.',
+    trivia: [
+      'Yalitza Aparicio had no formal acting training before being cast as Cleo; she was a local pre-school teacher in Oaxaca who went to the audition on a whim.',
+      'Alfonso Cuarón served as his own director of photography, filming the entire movie chronologically to let the actors naturally experience the emotional journey.',
+      'The house featured in the movie was an exact replica of Cuarón\'s childhood home, furnished with many of his actual childhood belongings.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/f/f3/Roma_poster.png',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/80240715',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Used a state-of-the-art Dolby Atmos mix to capture the highly immersive, hyper-realistic, and multi-dimensional ambient sounds of 1970s Mexico City.'
+  },
+  {
+    id: 'glass-onion',
+    title: 'Glass Onion: A Knives Out Mystery',
+    type: 'Movie',
+    year: 2022,
+    runtimeOrSeasons: '139 min',
+    rating: 4.6,
+    genres: ['Comedy', 'Mystery'],
+    directorOrCreator: 'Rian Johnson',
+    cast: ['Daniel Craig', 'Edward Norton', 'Janelle Monáe', 'Kathryn Hahn', 'Leslie Odom Jr.'],
+    synopsis: 'Famed Southern detective Benoit Blanc travels to a private Greek island owned by a tech billionaire, where a playful murder-mystery game among friends turns deadly.',
+    criticalAnalysis: 'A sparklingly witty, brilliantly layered, and socially sharp whodunit. Rian Johnson crafts a puzzle-box movie that is as much a hilarious satire of modern tech-billionaire hubris as it is an incredibly satisfying puzzle.',
+    trivia: [
+      'The stunning Glass Onion dome featured on the billionaire\'s island was constructed as a combination of a massive practical set piece and seamless VFX.',
+      'Hugh Grant makes a brief, highly talked-about cameo appearance as Benoit Blanc\'s live-in partner, Phillip.',
+      'The movie\'s title is a direct homage to the famous 1968 Beatles song "Glass Onion" of the same name.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/6/62/Glass_Onion_A_Knives_Out_Mystery_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81458417',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Shot on location on the picturesque Peloponnese peninsula in Greece, using a luxurious, sun-drenched architectural villa as the main set.'
+  },
+  {
+    id: 'extraction-movie',
+    title: 'Extraction',
+    type: 'Movie',
+    year: 2020,
+    runtimeOrSeasons: '116 min',
+    rating: 4.6,
+    genres: ['Action', 'Thriller'],
+    directorOrCreator: 'Sam Hargrave',
+    cast: ['Chris Hemsworth', 'Rudhraksh Jaiswal', 'Randeep Hooda', 'Golshifteh Farahani'],
+    synopsis: 'Tyler Rake, a fearless black-market mercenary, embarks on the most deadly extraction of his career when he is enlisted to rescue the kidnapped son of an imprisoned international crime lord.',
+    criticalAnalysis: 'An adrenaline-fueled, action-heavy powerhouse that features some of the most impressive, jaw-dropping stunt choreography in modern action cinema. Its crown jewel is an incredible, seamless 12-minute "one-take" action sequence.',
+    trivia: [
+      'Director Sam Hargrave, a veteran stunt coordinator, strapped himself to the hoods of speeding cars to personally shoot the high-speed chase sequences.',
+      'The filming took place heavily in Ahmedabad, India, and Dhaka, Bangladesh, offering a highly vibrant, bustling, and realistic urban backdrop.',
+      'Chris Hemsworth performed over 85% of his own highly complex physical stunts, undergoing intense martial arts and tactical training.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/8/89/Extraction_%282020_film%29_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/80230399',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Utilized highly advanced camera stabilization rigs combined with practical car-chase stunts to capture fluid, continuous action without relying on heavy CGI cuts.'
+  },
+  {
+    id: 'marvelous-mrs-maisel',
+    title: 'The Marvelous Mrs. Maisel',
+    type: 'Series',
+    year: 2017,
+    runtimeOrSeasons: '5 Seasons',
+    rating: 4.8,
+    genres: ['Comedy', 'Drama'],
+    directorOrCreator: 'Amy Sherman-Palladino',
+    cast: ['Rachel Brosnahan', 'Alex Borstein', 'Michael Zegen', 'Marin Hinkle', 'Tony Shalhoub'],
+    synopsis: 'In 1958 New York, Midge Maisel\'s life is on track- husband, kids, and elegant Upper West Side dinners. But when her life takes an unexpected turn, she discovers a previously unknown talent for stand-up comedy.',
+    criticalAnalysis: 'A sparkling, incredibly fast-talking, and gorgeously styled comedic triumph. Amy Sherman-Palladino\'s signature rapid-fire dialogue pairs perfectly with a candy-colored, hyper-vibrant recreation of late-1950s Manhattan.',
+    trivia: [
+      'The stand-up routines performed by Rachel Brosnahan were written to mimic the rhythm and social commentary of legendary comic Joan Rivers.',
+      'Virtually every episode features highly complex, sweeping, theatrical camera movements that were rehearsed for days like a Broadway dance number.',
+      'The series won an outstanding total of 20 Primetime Emmy Awards over its highly successful five-season run.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/eb/The_Marvelous_Mrs._Maisel_Season_1_Poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/B06VY146CB',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Every single costume, shop window, and classic car was custom-selected to match the historic, highly romanticized Upper West Side aesthetic of 1950s New York.',
+    seasonsCount: 5
+  },
+  {
+    id: 'invincible-series',
+    title: 'Invincible',
+    type: 'Series',
+    year: 2021,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.8,
+    genres: ['Action', 'Sci-Fi'],
+    directorOrCreator: 'Robert Kirkman',
+    cast: ['Steven Yeun', 'Sandra Oh', 'J.K. Simmons', 'Gillian Jacobs'],
+    synopsis: 'An adult animated superhero show that revolves around seventeen-year-old Mark Grayson, who\'s just like every other guy his age- except his father is the most powerful superhero on the planet, Omni-Man.',
+    criticalAnalysis: 'A shocking, subvertive, and highly emotional masterpiece of superhero deconstruction. Combining standard comic book tropes with shocking, earth-shattering violence and deeply rich family drama, it is a magnificent character-driven triumph.',
+    trivia: [
+      'The creator, Robert Kirkman, also wrote the legendary comic series "The Walking Dead," which he adapted into the historic live-action TV show.',
+      'The pilot episode famously hides its extremely dark and bloody true nature until the shocking post-credits climax, catching casual viewers completely off-guard.',
+      'An incredible roster of veteran actors, including many alumni from "The Walking Dead," provide voices for the extensive ensemble cast.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/d4/Invincible_TV_Series_Poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The animators studied martial arts choreography and real-world weight physics to make the devastating, super-powered fights feel heavy and bone-crunching.',
+    seasonsCount: 2
+  },
+  {
+    id: 'jack-ryan-series',
+    title: "Tom Clancy's Jack Ryan",
+    type: 'Series',
+    year: 2018,
+    runtimeOrSeasons: '4 Seasons',
+    rating: 4.6,
+    genres: ['Action', 'Thriller', 'Drama'],
+    directorOrCreator: 'Carlton Cuse',
+    cast: ['John Krasinski', 'Wendell Pierce', 'Abbie Cornish', 'Michael Kelly'],
+    synopsis: 'An up-and-coming CIA analyst, Jack Ryan, is thrust into a dangerous field assignment for the first time as he uncovers a pattern in terrorist communication.',
+    criticalAnalysis: 'A sleek, contemporary, and incredibly high-budget geopolitical action-thriller. John Krasinski shines as a modernized, highly capable yet grounded Jack Ryan, supported by intense, realistic action sequences set across a global stage.',
+    trivia: [
+      'John Krasinski is the fifth actor to portray the iconic literary character Jack Ryan, following Alec Baldwin, Harrison Ford, Ben Affleck, and Chris Pine.',
+      'To prepare for the role, Krasinski worked closely with former Navy SEALs and active CIA officers to understand tactical movements and intelligence tradecraft.',
+      'The series was filmed across several international locations, including Morocco, France, Colombia, Russia, and Canada, utilizing authentic backdrops.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e8/Jack_Ryan_season_1_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Employed active military equipment, including real Black Hawk helicopters and military-grade armored vehicles, with permissions from global defense ministries.',
+    seasonsCount: 4
+  },
+  {
+    id: 'saltburn-movie',
+    title: 'Saltburn',
+    type: 'Movie',
+    year: 2023,
+    runtimeOrSeasons: '131 min',
+    rating: 4.4,
+    genres: ['Drama', 'Thriller', 'Comedy'],
+    directorOrCreator: 'Emerald Fennell',
+    cast: ['Barry Keoghan', 'Jacob Elordi', 'Rosamund Pike', 'Richard E. Grant'],
+    synopsis: 'Struggling to find his place at Oxford University, student Oliver Quick finds himself drawn into the world of the charming and aristocratic Felix Catton, who invites him to Saltburn, his eccentric family\'s sprawling estate, for a summer never to be forgotten.',
+    criticalAnalysis: 'A deliciously wicked, visually intoxicating, and highly controversial dark satire of wealth, privilege, and obsession. Emerald Fennell crafts a gothic, sun-drenched thriller packed with jaw-dropping, unforgettable moments and an incredible breakout performance by Barry Keoghan.',
+    trivia: [
+      'The entire movie was filmed in a real, privately owned 127-room Elizabethan country house in Northamptonshire, which had never been captured on film before.',
+      'The final, highly talked-about dancing sequence featuring Barry Keoghan was filmed in eleven continuous takes, with Keoghan dancing completely naked through the real estate rooms.',
+      'To emphasize the classical, highly framed, painting-like look of the sprawling estate, the movie was shot in a boxy 1.33:1 aspect ratio.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1543728716-80975210d477?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/8/84/Saltburn_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Shot on high-contrast 35mm film, creating a warm, lush, and incredibly saturated color palette that feels like a dreamy, slightly decayed aristocratic summer.'
+  },
+  {
+    id: 'air-movie',
+    title: 'Air',
+    type: 'Movie',
+    year: 2023,
+    runtimeOrSeasons: '111 min',
+    rating: 4.7,
+    genres: ['Drama', 'History'],
+    directorOrCreator: 'Ben Affleck',
+    cast: ['Matt Damon', 'Jason Bateman', 'Ben Affleck', 'Viola Davis', 'Chris Tucker'],
+    synopsis: 'The unbelievable, game-changing partnership between a then-rookie Michael Jordan and Nike\'s fledgling basketball division, which revolutionized the world of sports and contemporary culture with the Air Jordan brand.',
+    criticalAnalysis: 'A classic, incredibly entertaining, and highly inspiring crowd-pleaser. Ben Affleck directs with superb, breezy confidence, turning a corporate business negotiation into an extremely tense, emotionally resonant sports drama. Viola Davis is spectacular as Michael\'s formidable mother.',
+    trivia: [
+      'Michael Jordan personally gave Ben Affleck his blessing to direct the movie, but had one absolute condition: Viola Davis had to play his mother, Deloris Jordan.',
+      'Despite the movie revolving entirely around Michael Jordan, Jordan\'s face is never shown on camera during the film to maintain his legendary, larger-than-life status.',
+      'The production crew meticulously sourced authentic, functional late-1980s office machinery, computers, and retro soda cans to establish the period\'s nostalgic aesthetic.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/3/30/Air_2023_film_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Filmed in a digital-to-film process where the digital capture was transferred to actual 35mm film and then scanned back, giving it a soft, grain-filled 1980s texture.'
+  },
+  {
+    id: 'sound-of-metal',
+    title: 'Sound of Metal',
+    type: 'Movie',
+    year: 2019,
+    runtimeOrSeasons: '120 min',
+    rating: 4.8,
+    genres: ['Drama'],
+    directorOrCreator: 'Darius Marder',
+    cast: ['Riz Ahmed', 'Olivia Cooke', 'Paul Raci', 'Lauren Ridloff'],
+    synopsis: 'A heavy-metal drummer\'s life is thrown into freefall when he begins to lose his hearing. He must choose between accepting his new reality inside a deaf community or chasing his past life.',
+    criticalAnalysis: 'An extraordinary, profoundly moving cinematic achievement. Driven by an incredibly raw, deeply vulnerable, and Oscar-nominated performance by Riz Ahmed, the movie uses groundbreaking sound design to put the viewer directly into the disorienting, silent world of its protagonist.',
+    trivia: [
+      'Riz Ahmed spent six months learning American Sign Language (ASL) and practicing the drums for four hours every single day to prepare for the role.',
+      'Actor Paul Raci, who plays the deaf community leader Joe, is a child of deaf adults (CODA) who is completely fluent in ASL and has worked extensively with deaf veterans.',
+      'To simulate real hearing loss on set, Riz Ahmed wore specialized, custom-fitted in-ear monitors that emitted varying levels of white noise.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/t/t9/Sound_of_Metal_poster.jpeg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Used a highly sophisticated audio post-production process that manipulated individual frequencies to replicate the precise, mechanical sensations of receiving a cochlear implant.'
   }
 ];
 
-export const CURATED_CATALOG: Movie[] = RAW_CATALOG.map(movie => ({
-  ...movie,
-  posterUrl: getProxiedUrl(movie.posterUrl),
-  backdropUrl: getProxiedUrl(movie.backdropUrl)
-}));
+const SAFE_POSTERS: Record<string, string> = {
+  'dune-part-two': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
+  'oppenheimer': 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=600&auto=format&fit=crop',
+  'interstellar': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop',
+  'spider-verse': 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop',
+  'the-dark-knight': 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop',
+  'stranger-things': 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=600&auto=format&fit=crop',
+  'the-crown': 'https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=600&auto=format&fit=crop',
+  'black-mirror': 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&auto=format&fit=crop',
+  'the-boys': 'https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=600&auto=format&fit=crop',
+  'rings-of-power': 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop',
+  'fleabag': 'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop',
+  'the-mandalorian': 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=600&auto=format&fit=crop',
+  'loki': 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=600&auto=format&fit=crop',
+  'shogun': 'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?q=80&w=600&auto=format&fit=crop',
+  'squid-game': 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop',
+  'wednesday': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+  'reacher': 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=600&auto=format&fit=crop',
+  'the-bear': 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=600&auto=format&fit=crop',
+  'succession': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop',
+  'avatar-way-of-water': 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&w=600&auto=format&fit=crop',
+  'damsel': 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop',
+  'enola-holmes-1': 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=600&auto=format&fit=crop',
+  'enola-holmes-2': 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=600&auto=format&fit=crop',
+  'enola-holmes-3': 'https://images.unsplash.com/photo-1511108690759-009324a90311?q=80&w=600&auto=format&fit=crop',
+  'from-series': 'https://images.unsplash.com/photo-1518887570146-0612132dd618?q=80&w=600&auto=format&fit=crop',
+  'widows-bay': 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=600&auto=format&fit=crop',
+  'alice-in-borderland': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop',
+  'if-wishes-could-kill': 'https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=600&auto=format&fit=crop',
+  'all-of-us-are-dead': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
+  'voicemails-by-isabelle': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=600&auto=format&fit=crop',
+  'crash-landing-on-you': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
+  'queen-of-tears': 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop',
+  'past-lives': 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=600&auto=format&fit=crop',
+  'my-demon': 'https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=600&auto=format&fit=crop',
+  'shaitaan': 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop',
+  'the-last-of-us': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop',
+  'the-conjuring': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+  'jujutsu-kaisen': 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop',
+  'parasite': 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=600&auto=format&fit=crop',
+  'breaking-bad': 'https://images.unsplash.com/photo-1532187863486-abf9d39d66e8?q=80&w=600&auto=format&fit=crop',
+  'brooklyn-nine-nine': 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=600&auto=format&fit=crop',
+  'the-office': 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600&auto=format&fit=crop',
+  'modern-family': 'https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=600&auto=format&fit=crop',
+  'mad-max-fury-road': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
+  'john-wick-4': 'https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=600&auto=format&fit=crop',
+  'rrr': 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop',
+  'tumbbad': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+  'hereditary': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+  'panchayat': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
+  'schitts-creek': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop',
+  'goblin': 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop',
+  'business-proposal': 'https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?q=80&w=600&auto=format&fit=crop',
+  'charade-1963': 'https://images.unsplash.com/photo-1601513525393-495387c24a31?q=80&w=600&auto=format&fit=crop',
+  'night-of-the-living-dead': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+  'the-general-1926': 'https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=600&auto=format&fit=crop',
+  'his-girl-friday-1940': 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=600&auto=format&fit=crop',
+  'deadpool-and-wolverine': 'https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=600&auto=format&fit=crop',
+  'gladiator-2': 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=600&auto=format&fit=crop',
+  'severance-series': 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600&auto=format&fit=crop',
+  'house-of-the-dragon': 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop',
+  'lovely-runner': 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop',
+  'talk-to-me': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+  'the-queens-gambit': 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&w=600&auto=format&fit=crop',
+  'narcos-series': 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=600&auto=format&fit=crop',
+  'ozark-series': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop',
+  'bojack-horseman': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop',
+  'the-irishman': 'https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=600&auto=format&fit=crop',
+  'roma-movie': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=600&auto=format&fit=crop',
+  'glass-onion': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop',
+  'extraction-movie': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
+  'marvelous-mrs-maisel': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop',
+  'invincible-series': 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop',
+  'jack-ryan-series': 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=600&auto=format&fit=crop',
+  'saltburn-movie': 'https://images.unsplash.com/photo-1543728716-80975210d477?q=80&w=600&auto=format&fit=crop',
+  'air-movie': 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=600&auto=format&fit=crop',
+  'sound-of-metal': 'https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=600&auto=format&fit=crop'
+};
+
+const SAFE_BACKDROPS: Record<string, string> = {
+  'dune-part-two': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop',
+  'oppenheimer': 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=1200&auto=format&fit=crop',
+  'interstellar': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
+  'spider-verse': 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1200&auto=format&fit=crop',
+  'the-dark-knight': 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200&auto=format&fit=crop',
+  'stranger-things': 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1200&auto=format&fit=crop',
+  'the-crown': 'https://images.unsplash.com/photo-1543728716-80975210d477?q=80&w=1200&auto=format&fit=crop',
+  'black-mirror': 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop',
+  'the-boys': 'https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1200&auto=format&fit=crop',
+  'rings-of-power': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
+  'fleabag': 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
+  'deadpool-and-wolverine': 'https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=1200&auto=format&fit=crop',
+  'gladiator-2': 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1200&auto=format&fit=crop',
+  'severance-series': 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop',
+  'house-of-the-dragon': 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop',
+  'lovely-runner': 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop',
+  'talk-to-me': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200&auto=format&fit=crop',
+  'the-queens-gambit': 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&w=1200&auto=format&fit=crop',
+  'narcos-series': 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop',
+  'ozark-series': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop',
+  'bojack-horseman': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop',
+  'the-irishman': 'https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=1200&auto=format&fit=crop',
+  'roma-movie': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop',
+  'glass-onion': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop',
+  'extraction-movie': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop',
+  'marvelous-mrs-maisel': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop',
+  'invincible-series': 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1200&auto=format&fit=crop',
+  'jack-ryan-series': 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1200&auto=format&fit=crop',
+  'saltburn-movie': 'https://images.unsplash.com/photo-1543728716-80975210d477?q=80&w=1200&auto=format&fit=crop',
+  'air-movie': 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1200&auto=format&fit=crop',
+  'sound-of-metal': 'https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1200&auto=format&fit=crop'
+};
+
+export const CURATED_CATALOG: Movie[] = RAW_CATALOG.map(movie => {
+  const safePoster = SAFE_POSTERS[movie.id] || movie.posterUrl;
+  const safeBackdrop = SAFE_BACKDROPS[movie.id] || movie.backdropUrl;
+  return {
+    ...movie,
+    posterUrl: getProxiedUrl(movie.posterUrl),
+    backdropUrl: getProxiedUrl(movie.backdropUrl),
+    safePosterUrl: getProxiedUrl(safePoster),
+    safeBackdropUrl: getProxiedUrl(safeBackdrop)
+  };
+});
 
 export const TRANSLATIONS: Record<string, Record<string, string>> = {
   en: {

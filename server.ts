@@ -155,6 +155,84 @@ You MUST respond ONLY with a JSON object adhering to this schema:
   }
 });
 
+// In-memory cache to prevent redundant API requests to iTunes and TVmaze
+const mediaImageCache = new Map<string, { posterUrl: string; backdropUrl: string }>();
+
+// API Endpoint to dynamically search and return verified high-res posters and backdrops
+app.get('/api/media-images', async (req, res) => {
+  try {
+    const title = req.query.title as string;
+    const type = req.query.type as string; // 'Movie' or 'Series'
+
+    if (!title) {
+      res.status(400).json({ error: 'Title parameter is required' });
+      return;
+    }
+
+    const cacheKey = `${title.toLowerCase()}_${type?.toLowerCase() || 'any'}`;
+    if (mediaImageCache.has(cacheKey)) {
+      res.json(mediaImageCache.get(cacheKey));
+      return;
+    }
+
+    let posterUrl = '';
+    let backdropUrl = '';
+
+    // 1. Try iTunes Search API (highly reliable, clean posters, CORS/hotlink friendly)
+    try {
+      const iTunesMedia = type === 'Series' ? 'tvShow' : 'movie';
+      const iTunesUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(title)}&media=${iTunesMedia}&limit=1`;
+      const response = await fetch(iTunesUrl);
+      if (response.ok) {
+        const data = await response.json() as any;
+        if (data.results && data.results.length > 0) {
+          const item = data.results[0];
+          if (item.artworkUrl100) {
+            // Convert standard 100x100 artwork to high-resolution 600x900 or similar
+            posterUrl = item.artworkUrl100.replace(/100x100bb\.(jpg|png|gif)/i, '600x600bb.$1');
+          }
+        }
+      }
+    } catch (err) {
+      console.error('iTunes Search API failed:', err);
+    }
+
+    // 2. Fallback or augment with TVmaze API for series
+    if (type === 'Series' || !posterUrl) {
+      try {
+        const tvMazeUrl = `https://api.tvmaze.com/singlesearch/shows?q=${encodeURIComponent(title)}`;
+        const response = await fetch(tvMazeUrl);
+        if (response.ok) {
+          const data = await response.json() as any;
+          if (data && data.image) {
+            if (!posterUrl) {
+              posterUrl = data.image.original || data.image.medium;
+            }
+            backdropUrl = data.image.original || data.image.medium;
+          }
+        }
+      } catch (err) {
+        console.error('TVmaze Search API failed:', err);
+      }
+    }
+
+    // Set default fallbacks if none were successfully resolved
+    if (!posterUrl) {
+      posterUrl = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop';
+    }
+    if (!backdropUrl) {
+      backdropUrl = 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop';
+    }
+
+    const result = { posterUrl, backdropUrl };
+    mediaImageCache.set(cacheKey, result);
+    res.json(result);
+  } catch (error: any) {
+    console.error('Error in /api/media-images:', error);
+    res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+});
+
 // Configure Vite integration for dev server or serve build folder in production
 
 async function startServer() {
