@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+/* Custom utility for the vertical luxury text element */
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* Custom premium scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(5, 5, 8, 0.95);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 209, 255, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 209, 255, 0.6);
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1) translate(0px, 0px);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(1.1) translate(15px, -15px);
+  }
+}
+
+.animate-pulse-glow-1 {
+  animation: pulse-glow 10s ease-in-out infinite;
+}
+
+.animate-pulse-glow-2 {
+  animation: pulse-glow 14s ease-in-out infinite alternate;
+}
+

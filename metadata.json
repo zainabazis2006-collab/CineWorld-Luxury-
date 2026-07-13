@@ -1,0 +1,6 @@
+{
+  "name": "CineWorld Luxury Edition",
+  "description": "Premium luxury entertainment encyclopedia and centralized authority platform for curated movies and series with interactive AI discovery.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
