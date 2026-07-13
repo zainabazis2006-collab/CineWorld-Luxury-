@@ -123,6 +123,56 @@ const INITIAL_REVIEWS: Review[] = [
   }
 ];
 
+// Client-side fallback API fetcher to ensure high-resolution movie posters and backdrops
+// even when running in static-only hosting environments like Vercel where custom API proxy routes are not supported.
+async function fetchMediaImagesDirectly(title: string, type: string, defaultPoster: string, defaultBackdrop: string) {
+  let posterUrl = '';
+  let backdropUrl = '';
+
+  // 1. Try iTunes Search API (extremely reliable, clean posters, CORS friendly)
+  try {
+    const iTunesMedia = type === 'Series' ? 'tvShow' : 'movie';
+    const iTunesUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(title)}&media=${iTunesMedia}&limit=1`;
+    const response = await fetch(iTunesUrl);
+    if (response.ok) {
+      const data = await response.json();
+      if (data.results && data.results.length > 0) {
+        const item = data.results[0];
+        if (item.artworkUrl100) {
+          // Convert standard 100x100 artwork to high-resolution (600x900bb)
+          posterUrl = item.artworkUrl100.replace(/100x100bb\.(jpg|png|gif)/i, '600x900bb.$1');
+        }
+      }
+    }
+  } catch (err) {
+    console.error('iTunes client-side fallback failed:', err);
+  }
+
+  // 2. Try TVmaze for TV Series or as fallback
+  if (type === 'Series' || !posterUrl) {
+    try {
+      const tvMazeUrl = `https://api.tvmaze.com/singlesearch/shows?q=${encodeURIComponent(title)}`;
+      const response = await fetch(tvMazeUrl);
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.image) {
+          if (!posterUrl) {
+            posterUrl = data.image.original || data.image.medium;
+          }
+          backdropUrl = data.image.original || data.image.medium;
+        }
+      }
+    } catch (err) {
+      console.error('TVmaze client-side fallback failed:', err);
+    }
+  }
+
+  return {
+    posterUrl: posterUrl || defaultPoster,
+    backdropUrl: backdropUrl || defaultBackdrop
+  };
+}
+
 export default function App() {
   // Load state from localStorage if available, otherwise default
   const [userState, setUserState] = useState<UserState>(() => {
@@ -186,18 +236,27 @@ export default function App() {
     let active = true;
     async function resolveActive() {
       try {
-        const response = await fetch(`/api/media-images?title=${encodeURIComponent(movie.title)}&type=${encodeURIComponent(movie.type)}`);
-        if (response.ok && active) {
-          const data = await response.json();
-          if (data && (data.posterUrl || data.backdropUrl)) {
-            setResolvedImages(prev => ({
-              ...prev,
-              [movie.id]: {
-                posterUrl: data.posterUrl || prev[movie.id]?.posterUrl || movie.posterUrl,
-                backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl
-              }
-            }));
+        let data = null;
+        try {
+          const response = await fetch(`/api/media-images?title=${encodeURIComponent(movie.title)}&type=${encodeURIComponent(movie.type)}`);
+          if (response.ok) {
+            data = await response.json();
+          } else {
+            throw new Error('Backend dynamic API not available, falling back');
           }
+        } catch (fetchErr) {
+          // If custom Express backend is not serving this route (e.g., on Vercel), query direct APIs on the client
+          data = await fetchMediaImagesDirectly(movie.title, movie.type, movie.posterUrl, movie.backdropUrl);
+        }
+
+        if (active && data && (data.posterUrl || data.backdropUrl)) {
+          setResolvedImages(prev => ({
+            ...prev,
+            [movie.id]: {
+              posterUrl: data.posterUrl || prev[movie.id]?.posterUrl || movie.posterUrl,
+              backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl
+            }
+          }));
         }
       } catch (err) {
         console.error(`Failed to prioritize resolve for ${movie.title}:`, err);
@@ -217,27 +276,36 @@ export default function App() {
       const movie = moviesToResolve[index];
 
       try {
-        const response = await fetch(`/api/media-images?title=${encodeURIComponent(movie.title)}&type=${encodeURIComponent(movie.type)}`);
-        if (response.ok && active) {
-          const data = await response.json();
-          if (data && (data.posterUrl || data.backdropUrl)) {
-            setResolvedImages(prev => ({
-              ...prev,
-              [movie.id]: {
-                posterUrl: data.posterUrl || prev[movie.id]?.posterUrl || movie.posterUrl,
-                backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl
-              }
-            }));
+        let data = null;
+        try {
+          const response = await fetch(`/api/media-images?title=${encodeURIComponent(movie.title)}&type=${encodeURIComponent(movie.type)}`);
+          if (response.ok) {
+            data = await response.json();
+          } else {
+            throw new Error('Backend dynamic API not available, falling back');
           }
+        } catch (fetchErr) {
+          // Fallback to client-side public APIs if Express proxy fails or is not present
+          data = await fetchMediaImagesDirectly(movie.title, movie.type, movie.posterUrl, movie.backdropUrl);
+        }
+
+        if (active && data && (data.posterUrl || data.backdropUrl)) {
+          setResolvedImages(prev => ({
+            ...prev,
+            [movie.id]: {
+              posterUrl: data.posterUrl || prev[movie.id]?.posterUrl || movie.posterUrl,
+              backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl
+            }
+          }));
         }
       } catch (err) {
         console.error(`Failed to background resolve for ${movie.title}:`, err);
       }
 
-      // Add a 500ms delay to keep it polite to our backend
+      // Add a 300ms delay to keep it fast but polite to external search APIs
       setTimeout(() => {
         if (active) resolveNext(index + 1);
-      }, 500);
+      }, 300);
     }
 
     if (moviesToResolve.length > 0) {
