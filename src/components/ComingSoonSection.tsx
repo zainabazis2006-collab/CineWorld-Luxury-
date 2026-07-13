@@ -7,6 +7,7 @@ import { UPCOMING_RELEASES } from '../upcomingData';
 interface ComingSoonSectionProps {
   userState: UserState;
   setUserState: React.Dispatch<React.SetStateAction<UserState>>;
+  upcomingCatalog?: UpcomingMovie[];
 }
 
 const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
@@ -97,14 +98,16 @@ const LOCAL_TRANSLATIONS: Record<string, Record<string, string>> = {
   }
 };
 
-export default function ComingSoonSection({ userState, setUserState }: ComingSoonSectionProps) {
+export default function ComingSoonSection({ userState, setUserState, upcomingCatalog }: ComingSoonSectionProps) {
   const lang = userState.preferredLanguage || 'en';
   const localT = LOCAL_TRANSLATIONS[lang] || LOCAL_TRANSLATIONS['en'];
 
-  const [selectedUpcomingId, setSelectedUpcomingId] = useState<string>(UPCOMING_RELEASES[0].id);
+  const releases = upcomingCatalog || UPCOMING_RELEASES;
+
+  const [selectedUpcomingId, setSelectedUpcomingId] = useState<string>(releases[0]?.id || 'avatar-fire-and-ash');
   const [activeToast, setActiveToast] = useState<string | null>(null);
 
-  const selectedRelease = UPCOMING_RELEASES.find(r => r.id === selectedUpcomingId) || UPCOMING_RELEASES[0];
+  const selectedRelease = releases.find(r => r.id === selectedUpcomingId) || releases[0];
 
   const listReminded = userState.remindedUpcomingIds || [];
   const isReminded = listReminded.includes(selectedRelease.id);
@@ -305,11 +308,11 @@ export default function ComingSoonSection({ userState, setUserState }: ComingSoo
         <div className="lg:col-span-4 space-y-4">
           <div className="flex items-center justify-between text-xs uppercase tracking-widest font-mono text-white/40 pb-2 border-b border-white/5 px-1">
             <span>Choose Blockbuster</span>
-            <span>({UPCOMING_RELEASES.length} Titles)</span>
+            <span>({releases.length} Titles)</span>
           </div>
 
           <div className="space-y-3 max-h-[620px] overflow-y-auto pr-1">
-            {UPCOMING_RELEASES.map((movie) => {
+            {releases.map((movie) => {
               const isSelected = movie.id === selectedUpcomingId;
               const hasAlert = listReminded.includes(movie.id);
 
