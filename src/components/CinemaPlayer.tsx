@@ -30,12 +30,30 @@ interface CinemaPlayerProps {
 }
 
 // Map movies to actual beautiful, stable, high-definition public-domain/creative-commons video streams
-const STREAM_ASSETS: Record<string, string> = {
-  scifi: "https://vjs.zencdn.net/v/oceans.mp4", // Gorgeous 1080p CGI sci-fi movie (VideoJS Oceans)
-  fantasy: "https://media.w3.org/2010/05/sintel/trailer_hd.mp4", // Breathtaking fantasy animation (W3C Sintel)
-  comedy: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", // Fun, playful animation (MDN flower)
-  classic: "https://vjs.zencdn.net/v/oceans.mp4", // Surreal mechanical classic
-  action: "https://media.w3.org/2010/05/sintel/trailer_hd.mp4" // High-intensity road action
+const UNIQUE_STREAMS = [
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+  "https://vjs.zencdn.net/v/oceans.mp4",
+  "https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
+  "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4"
+];
+
+const getDeterministicIndex = (str: string, max: number): number => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash) % max;
 };
 
 // Map movie categories or specific movie IDs to custom subtitles for immersive realistic playback
@@ -258,20 +276,12 @@ export default function CinemaPlayer({
     };
   }, [isPlaying]);
 
-  // Handle source determination based on genre
+  // Handle source determination based on genre, movie id, season, and episode
   const getVideoStreamUrl = () => {
-    const genres = movie.genres.map(g => g.toLowerCase());
-    if (genres.includes('sci-fi') || genres.includes('adventure')) {
-      return STREAM_ASSETS.scifi;
-    } else if (genres.includes('fantasy')) {
-      return STREAM_ASSETS.fantasy;
-    } else if (genres.includes('comedy')) {
-      return STREAM_ASSETS.comedy;
-    } else if (genres.includes('horror') || genres.includes('thriller')) {
-      return STREAM_ASSETS.classic;
-    } else {
-      return STREAM_ASSETS.action;
-    }
+    const episodeSuffix = activeEpisode ? `-s${activeSeason || 1}e${activeEpisode}` : '';
+    const seed = `${movie.id}${episodeSuffix}-${playMethod}`;
+    const index = getDeterministicIndex(seed, UNIQUE_STREAMS.length);
+    return UNIQUE_STREAMS[index];
   };
 
   const videoUrl = getVideoStreamUrl();
@@ -565,7 +575,16 @@ export default function CinemaPlayer({
 
     // Retrieve specific dialogues or default to genre subtitles
     let track = SUBTITLE_TRACKS[movie.id];
-    if (!track) {
+    if (movie.type === 'Series' && activeEpisode) {
+      track = [
+        { time: 2, text: `[Opening Theme • S${activeSeason} Ep${activeEpisode} "${movie.title}"]` },
+        { time: 6, text: `Voiceover: Previously on ${movie.title}...` },
+        { time: 10, text: `Main Character: We have to find the connection in Season ${activeSeason}. The premium direct feeds originate from here.` },
+        { time: 16, text: `Operator: But the high-speed node is unstable! If we stream now, we might trigger buffering.` },
+        { time: 22, text: `Main Character: Trust me. This is the only way to play the whole episode cleanly and for free.` },
+        { time: 28, text: `[Dynamic music swells as high-fidelity decryption stream establishes successfully]` }
+      ];
+    } else if (!track) {
       const genres = movie.genres.map(g => g.toLowerCase());
       if (genres.includes('horror') || genres.includes('thriller')) track = GENRE_SUBTITLES.horror;
       else if (genres.includes('sci-fi') || genres.includes('fantasy')) track = GENRE_SUBTITLES.scifi;
@@ -604,6 +623,11 @@ export default function CinemaPlayer({
   };
 
   const activeSubtitle = getSubtitleText();
+
+  const matchedStreamingLink = movie.streamingLinks?.find(link => 
+    (playMethod === 'netflix' && link.platform === 'Netflix') ||
+    (playMethod === 'prime' && link.platform === 'Amazon Prime')
+  );
 
   return (
     <div 
@@ -678,6 +702,18 @@ export default function CinemaPlayer({
         </div>
 
         <div className="flex items-center gap-2">
+          {matchedStreamingLink && (
+            <a
+              href={matchedStreamingLink.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${theme.bg} text-white font-black px-3 py-1.5 rounded-lg text-[9px] font-mono uppercase tracking-widest flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95 pointer-events-auto shadow-[0_0_15px_rgba(0,0,0,0.5)]`}
+              title={`Watch directly on official ${matchedStreamingLink.platform}`}
+            >
+              <span>🍿 Watch on {matchedStreamingLink.platform}</span>
+              <span className="text-[7px] bg-black/25 px-1 py-0.5 rounded text-white font-normal">Official Link ↗</span>
+            </a>
+          )}
           {onRotateStream && (
             <button
               onClick={onRotateStream}
