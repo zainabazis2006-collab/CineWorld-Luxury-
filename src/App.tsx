@@ -22,7 +22,8 @@ import {
   Maximize2,
   Volume2,
   VolumeX,
-  Flame
+  Flame,
+  Menu
 } from 'lucide-react';
 import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
 import { UPCOMING_RELEASES } from './upcomingData';
@@ -410,6 +411,7 @@ export default function App() {
 
   // Talent Info Modal State
   const [infoMovie, setInfoMovie] = useState<Movie | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   // Dynamic images state resolved from our custom proxy API
   const [resolvedImages, setResolvedImages] = useState<Record<string, { posterUrl: string; backdropUrl: string }>>(() => {
@@ -1069,7 +1071,7 @@ export default function App() {
       <div className="absolute top-[50%] left-[30%] w-[400px] h-[400px] rounded-full bg-blue-900/10 blur-[130px] pointer-events-none z-0"></div>
 
       {/* Luxury Decorative Top Banner / Status Indicator */}
-      <div className="relative z-30 bg-black/40 border-b border-white/5 text-[11px] uppercase tracking-[0.25em] text-white/40 px-6 py-2 flex justify-between items-center">
+      <div className="relative z-30 bg-black/40 border-b border-white/5 text-[10px] md:text-[11px] uppercase tracking-[0.15em] md:tracking-[0.25em] text-white/40 px-4 md:px-6 py-2.5 flex flex-col sm:flex-row gap-2 justify-between items-center text-center sm:text-left">
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span>
@@ -1111,16 +1113,16 @@ export default function App() {
       </div>
 
       {/* Top Header Navigation bar */}
-      <header className="relative z-20 border-b border-white/5 bg-black/30 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-6 lg:gap-12 flex-1 max-w-xl">
+      <header className="sticky top-0 z-40 border-b border-white/5 bg-black/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3 md:gap-4">
+          <div className="flex items-center gap-4 lg:gap-12 flex-shrink-0">
             <CineWorldLogo 
               size="md" 
               onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); }} 
             />
             
-            {/* Quick-Filter Navigation */}
-            <nav className="hidden xl:flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-white/60">
+            {/* Quick-Filter Navigation (Hidden on Tablet/Mobile) */}
+            <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-semibold uppercase tracking-widest text-white/60">
               <button 
                 onClick={() => { setActiveGenre('All'); setActivePlatform('All'); }} 
                 className={`transition-colors duration-200 hover:text-white pb-1 border-b-2 ${activeGenre === 'All' && activePlatform === 'All' ? 'text-white border-[#00D1FF]' : 'border-transparent'}`}
@@ -1149,18 +1151,18 @@ export default function App() {
           </div>
 
           {/* Premium Header Search bar */}
-          <div className="flex-1 max-w-xs md:max-w-md mx-2 relative group z-30">
+          <div className="flex-1 max-w-[160px] xs:max-w-[200px] sm:max-w-xs md:max-w-md mx-1 sm:mx-2 relative group z-30">
             <div className="relative">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={exploreByTalent ? t('talentSearchPlaceholder') : t('searchPlaceholder')}
-                className="w-full bg-white/5 border border-white/10 hover:border-white/20 focus:border-[#00D1FF] focus:bg-black/80 rounded-xl px-4 py-2 pl-10 pr-24 text-xs text-white placeholder-white/30 outline-none transition-all duration-300"
+                className="w-full bg-white/5 border border-white/10 hover:border-white/20 focus:border-[#00D1FF] focus:bg-black/80 rounded-xl px-3 sm:px-4 py-2 pl-8 sm:pl-10 pr-12 sm:pr-20 text-[11px] sm:text-xs text-white placeholder-white/30 outline-none transition-all duration-300"
               />
-              <Compass className="absolute left-3.5 top-2.5 w-3.5 h-3.5 text-white/30 group-focus-within:text-[#00D1FF] transition-colors" />
+              <Compass className="absolute left-2.5 sm:left-3.5 top-2.5 w-3 h-3 sm:w-3.5 sm:h-3.5 text-white/30 group-focus-within:text-[#00D1FF] transition-colors" />
               
-              <div className="absolute right-2 top-1.5 flex items-center gap-1.5">
+              <div className="absolute right-1 sm:right-2 top-1.5 flex items-center gap-1">
                 {searchQuery && (
                   <button 
                     onClick={() => setSearchQuery('')}
@@ -1172,21 +1174,22 @@ export default function App() {
                 )}
                 <button
                   onClick={() => setExploreByTalent(!exploreByTalent)}
-                  className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider transition-all duration-300 ${
+                  className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider transition-all duration-300 ${
                     exploreByTalent 
                       ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black shadow-[0_0_12px_rgba(0,209,255,0.4)]' 
                       : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
                   }`}
                   title={t('exploreByTalent')}
                 >
-                  Talent
+                  <span className="hidden xs:inline">Talent</span>
+                  <span className="xs:hidden">★</span>
                 </button>
               </div>
             </div>
 
             {/* Instant Floating Results Dropdown */}
             {searchQuery && (
-              <div className="absolute top-11 left-0 w-full bg-[#0b0b12]/95 border border-white/15 rounded-xl p-3 shadow-[0_15px_30px_rgba(0,0,0,0.9)] backdrop-blur-md z-50 max-h-72 overflow-y-auto space-y-1">
+              <div className="absolute top-11 left-0 w-full min-w-[200px] bg-[#0b0b12]/95 border border-white/15 rounded-xl p-3 shadow-[0_15px_30px_rgba(0,0,0,0.9)] backdrop-blur-md z-50 max-h-72 overflow-y-auto space-y-1">
                 <div className="text-[10px] font-bold text-[#00D1FF]/70 uppercase tracking-widest px-2 pb-1.5 border-b border-white/5 flex justify-between items-center">
                   <span>Instant Results ({filteredCatalog.length})</span>
                   <span className="text-[8px] text-white/30 font-mono">Dynamic suggestions</span>
@@ -1234,9 +1237,8 @@ export default function App() {
             )}
           </div>
 
-          {/* Settings & Switchers Grid */}
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-            
+          {/* Settings & Switchers Grid (Hidden on Mobile/Tablet) */}
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
             {/* Geolocation Region Selector */}
             <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 text-xs text-white/80">
               <Globe className="w-3.5 h-3.5 text-[#00D1FF]" />
@@ -1285,17 +1287,225 @@ export default function App() {
             </div>
             
             {/* Watchlist Counter Badge */}
-            <div className="relative bg-white/5 p-2 rounded-full border border-white/10 hidden sm:block">
+            <button 
+              onClick={() => {
+                document.getElementById("watchlist-section")?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="relative bg-white/5 p-2 rounded-full border border-white/10 hover:bg-white/10 hover:text-white transition-all"
+              title="View Watchlist"
+            >
               <Bookmark className="w-4 h-4 text-white/70" />
               {userState.watchlist.length > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full border border-black animate-bounce">
                   {userState.watchlist.length}
                 </span>
               )}
-            </div>
+            </button>
+          </div>
+
+          {/* Mobile Navigation controls */}
+          <div className="flex items-center gap-2 lg:hidden">
+            {/* Mobile Watchlist trigger */}
+            <button 
+              onClick={() => {
+                const watchlistEl = document.getElementById("watchlist-section");
+                if (watchlistEl) {
+                  watchlistEl.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  setIsMobileMenuOpen(true);
+                }
+              }}
+              className="relative bg-white/5 text-white/70 hover:text-white border border-white/10 rounded-full min-w-[48px] min-h-[48px] flex items-center justify-center active:scale-95 transition-all"
+              title="View Watchlist"
+            >
+              <Bookmark className="w-4.5 h-4.5" />
+              {userState.watchlist.length > 0 && (
+                <span className="absolute top-1 right-1 bg-red-600 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full border border-black">
+                  {userState.watchlist.length}
+                </span>
+              )}
+            </button>
+
+            {/* Mobile Hamburg Trigger (With 48px Touch Target) */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="bg-white/5 border border-white/10 text-white rounded-full min-w-[48px] min-h-[48px] flex items-center justify-center hover:bg-white/10 active:scale-95 transition-all"
+              aria-label="Toggle Menu"
+            >
+              <Menu className="w-5 h-5 text-[#00D1FF]" />
+            </button>
           </div>
         </div>
       </header>
+
+      {/* Mobile Hamburger Sidebar Drawer */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
+            />
+
+            {/* Sidebar Drawer Container */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed right-0 top-0 bottom-0 w-full max-w-[320px] bg-[#050508]/98 border-l border-white/10 shadow-2xl z-[101] flex flex-col p-6 overflow-y-auto"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between pb-6 border-b border-white/5 mb-6">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-[#00D1FF]" />
+                  <span className="text-xs font-black uppercase tracking-widest text-white">CineWorld Menu</span>
+                </div>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-3 bg-white/5 rounded-full border border-white/10 text-white/70 hover:text-white min-w-[48px] min-h-[48px] flex items-center justify-center active:scale-95 transition-all"
+                >
+                  <X className="w-4.5 h-4.5" />
+                </button>
+              </div>
+
+              {/* Navigation Filters */}
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-3">Quick Navigation</h4>
+                  <div className="flex flex-col gap-2">
+                    <button 
+                      onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setIsMobileMenuOpen(false); }} 
+                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activeGenre === 'All' && activePlatform === 'All' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                    >
+                      <span>{t('allShows')}</span>
+                      <Play className="w-3.5 h-3.5 opacity-50" />
+                    </button>
+                    <button 
+                      onClick={() => { handleGenreSelect('Sci-Fi'); setIsMobileMenuOpen(false); }} 
+                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activeGenre === 'Sci-Fi' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                    >
+                      <span>Sci-Fi</span>
+                      <Play className="w-3.5 h-3.5 opacity-50" />
+                    </button>
+                    <button 
+                      onClick={() => { handleGenreSelect('Drama'); setIsMobileMenuOpen(false); }} 
+                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activeGenre === 'Drama' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                    >
+                      <span>Drama</span>
+                      <Play className="w-3.5 h-3.5 opacity-50" />
+                    </button>
+                    <button 
+                      onClick={() => { setActivePlatform('Disney+ Hotstar'); setIsMobileMenuOpen(false); }} 
+                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activePlatform === 'Disney+ Hotstar' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                    >
+                      <span>Disney+</span>
+                      <Play className="w-3.5 h-3.5 opacity-50" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Configurations */}
+                <div className="space-y-4 pt-4 border-t border-white/5">
+                  <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/40">Preferences</h4>
+                  
+                  {/* Region Select */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[9px] font-mono text-white/40 uppercase tracking-wider flex items-center gap-1.5">
+                      <Globe className="w-3 h-3 text-[#00D1FF]" /> {t('regionLabel')}
+                    </label>
+                    <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 min-h-[48px] flex items-center">
+                      <select 
+                        value={userState.region} 
+                        onChange={(e) => setUserState(prev => ({ ...prev, region: e.target.value }))}
+                        className="bg-transparent border-none outline-none text-white font-mono cursor-pointer text-xs w-full"
+                        aria-label={t('regionLabel')}
+                      >
+                        <option value="IN" className="bg-[#0b0b12]">IN (Hotstar-Region)</option>
+                        <option value="US" className="bg-[#0b0b12]">US (Global-West)</option>
+                        <option value="UK" className="bg-[#0b0b12]">UK (Europe-HQ)</option>
+                        <option value="JP" className="bg-[#0b0b12]">JP (Asia-East)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Language Select */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[9px] font-mono text-white/40 uppercase tracking-wider flex items-center gap-1.5">
+                      <Sliders className="w-3 h-3 text-red-500" /> {t('languageLabel')}
+                    </label>
+                    <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 min-h-[48px] flex items-center">
+                      <select 
+                        value={userState.preferredLanguage} 
+                        onChange={(e) => setUserState(prev => ({ ...prev, preferredLanguage: e.target.value }))}
+                        className="bg-transparent border-none outline-none text-white cursor-pointer font-sans text-xs w-full"
+                        aria-label={t('languageLabel')}
+                      >
+                        <option value="en" className="bg-[#0b0b12]">English</option>
+                        <option value="hi" className="bg-[#0b0b12]">हिन्दी (Hindi)</option>
+                        <option value="ar" className="bg-[#0b0b12]">العربية (Arabic)</option>
+                        <option value="ja" className="bg-[#0b0b12]">日本語 (Japanese)</option>
+                        <option value="es" className="bg-[#0b0b12]">Español (Spanish)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Safety Select */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[9px] font-mono text-white/40 uppercase tracking-wider flex items-center gap-1.5">
+                      <Sparkles className="w-3 h-3 text-[#00D1FF]" /> Poster Mode
+                    </label>
+                    <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 min-h-[48px] flex items-center">
+                      <select 
+                        value={userState.posterSafetyMode || 'original'} 
+                        onChange={(e) => setUserState(prev => ({ ...prev, posterSafetyMode: e.target.value as 'safe' | 'original' }))}
+                        className="bg-transparent border-none outline-none text-white cursor-pointer font-sans text-xs w-full"
+                        aria-label="Poster Safety Mode"
+                      >
+                        <option value="original" className="bg-[#0b0b12]">Original Art</option>
+                        <option value="safe" className="bg-[#0b0b12]">Safe Art</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Profile Display */}
+                <div className="pt-6 border-t border-white/5 flex flex-col gap-3">
+                  <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-3 rounded-xl min-h-[48px]">
+                    <span className="text-lg">
+                      {userState.selectedAvatar === 'director' ? '🎬' :
+                       userState.selectedAvatar === 'critic' ? '🧐' :
+                       userState.selectedAvatar === 'scifi' ? '🚀' :
+                       userState.selectedAvatar === 'horror' ? '👻' :
+                       userState.selectedAvatar === 'romance' ? '💖' :
+                       userState.selectedAvatar === 'action' ? '💥' : '👤'}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-white text-xs font-bold truncate capitalize">{userState.userName || 'Cinephile'}</p>
+                      <p className="text-[10px] text-white/40 font-mono truncate">{userState.email || 'zainab.azis2006@gmail.com'}</p>
+                    </div>
+                  </div>
+
+                  {/* Logout Button */}
+                  <button 
+                    onClick={() => {
+                      setUserState(prev => ({ ...prev, isLoggedIn: false }));
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full py-3.5 rounded-xl bg-[#d03050]/10 hover:bg-[#d03050]/25 border border-[#d03050]/25 text-[#ff4c6c] hover:text-[#ff6a85] text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all min-h-[48px]"
+                  >
+                    <span>Exit Theater</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Interactive Voice Helper Bar (Hidden if speech error, shows voice listening overlay) */}
       {speechError && (

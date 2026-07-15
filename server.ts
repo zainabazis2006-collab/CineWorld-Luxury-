@@ -160,10 +160,28 @@ const mediaImageCache = new Map<string, { posterUrl: string; backdropUrl: string
 
 // Clean search title to remove parenthetical context and season numbers
 function cleanSearchTitle(title: string): string {
-  let clean = title.replace(/\([^)]*\)/g, '').trim();
-  clean = clean.replace(/:\s*season\s*\d+/i, '').trim();
-  clean = clean.replace(/\s+\d{4}$/, '').trim();
-  return clean;
+  // 1. Strip all colons and any sub-text words following them
+  let clean = title;
+  if (clean.includes(':')) {
+    clean = clean.split(':')[0];
+  }
+
+  // 2. Strip multi-language brackets and parenthetical symbols completely
+  clean = clean
+    .replace(/\([^)]*\)/g, '')
+    .replace(/\[[^\]]*\]/g, '')
+    .replace(/\{[^}]*\}/g, '')
+    .replace(/【[^】]*】/g, '')
+    .replace(/「[^」]*」/g, '')
+    .replace(/『[^』]*』/g, '')
+    .replace(/《[^》]*》/g, '')
+    .replace(/〈[^〉]*〉/g, '');
+
+  // Strip trailing year (e.g. " 2024")
+  clean = clean.replace(/\s+\d{4}$/, '');
+
+  // 3. Remove leading and trailing whitespace
+  return clean.trim();
 }
 
 // Special local mappings for fictional, unreleased or highly ambiguous titles to ensure perfect, atmospheric images
