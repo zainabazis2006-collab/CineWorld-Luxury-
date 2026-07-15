@@ -2,7 +2,7 @@ import { Movie } from './types';
 
 export function getProxiedUrl(url: string): string {
   if (!url) return '';
-  if (url.includes('unsplash.com')) {
+  if (url.includes('unsplash.com') || url.includes('tmdb.org')) {
     return url;
   }
   // Use images.weserv.nl proxy for any non-Unsplash images (Wikipedia, Britannica, Nerdist, etc.)

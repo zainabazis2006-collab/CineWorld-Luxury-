@@ -254,156 +254,58 @@ const SPECIAL_LOCAL_MEDIA: Record<string, { posterUrl: string; backdropUrl: stri
   }
 };
 
-// Client-side fallback API fetcher to ensure high-resolution movie posters and backdrops
-// even when running in static-only hosting environments like Vercel where custom API proxy routes are not supported.
+// PLACEHOLDER: Paste your TMDB API Key here. Defaults to the pre-configured key.
+const TMDB_API_KEY = '7428800d516b49e4a44d898a4b57c879';
+
+// Client-side fallback API fetcher to ensure high-resolution movie posters and backdrops using the TMDB API
 async function fetchMediaImagesDirectly(title: string, type: string, defaultPoster: string, defaultBackdrop: string) {
   const normTitle = title.toLowerCase().trim();
   if (SPECIAL_LOCAL_MEDIA[normTitle]) {
     return SPECIAL_LOCAL_MEDIA[normTitle];
   }
 
-  let posterUrl = '';
-  let backdropUrl = '';
-
+  const apiKey = TMDB_API_KEY;
   const searchTerm = cleanSearchTitle(title);
+  const isSeries = type === 'Series';
+  const endpoint = isSeries ? 'tv' : 'movie';
+  const searchUrl = `https://api.themoviedb.org/3/search/${endpoint}?api_key=${apiKey}&query=${encodeURIComponent(searchTerm)}`;
 
-  // --- LAYER 1: Try Wikipedia API (Highly reliable for any film or series) ---
   try {
-    const isSeries = type === 'Series';
-    const searchQueries = [
-      `${searchTerm} ${isSeries ? 'series' : 'film'}`,
-      `${searchTerm} ${isSeries ? 'TV series' : 'movie'}`,
-      searchTerm
-    ];
+    const res = await fetch(searchUrl);
+    if (res.ok) {
+      const data = await res.json();
+      const results = data?.results || [];
+      if (results.length > 0) {
+        // Grab the best matched result
+        const bestResult = results[0];
+        const posterPath = bestResult.poster_path;
+        const backdropPath = bestResult.backdrop_path;
 
-    let wikipediaPageTitle = '';
-    for (const query of searchQueries) {
-      const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&limit=3`;
-      const wikiRes = await fetch(searchUrl);
-      if (wikiRes.ok) {
-        const wikiData = await wikiRes.json();
-        const searchResults = wikiData?.query?.search || [];
-        if (searchResults.length > 0) {
-          const termLower = searchTerm.toLowerCase();
-          const bestResult = searchResults.find((r: any) => {
-            const rTitleLower = r.title.toLowerCase();
-            return rTitleLower.includes(termLower) || termLower.includes(rTitleLower);
-          }) || searchResults[0];
+        let posterUrl = defaultPoster;
+        let backdropUrl = defaultBackdrop;
 
-          if (bestResult) {
-            wikipediaPageTitle = bestResult.title;
-            break;
-          }
+        if (posterPath) {
+          const normPath = posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
+          posterUrl = `https://image.tmdb.org/t/p/w500${normPath}`;
         }
-      }
-    }
-
-    if (wikipediaPageTitle) {
-      const imgQueryUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(wikipediaPageTitle)}&prop=pageimages&piprop=original&format=json&origin=*`;
-      const imgRes = await fetch(imgQueryUrl);
-      if (imgRes.ok) {
-        const imgData = await imgRes.json();
-        const pages = imgData?.query?.pages || {};
-        const pageId = Object.keys(pages)[0];
-        if (pageId && pageId !== '-1') {
-          const page = pages[pageId];
-          if (page?.original?.source) {
-            const sourceUrl = page.original.source;
-            const lowerSrc = sourceUrl.toLowerCase();
-            const isMediaFile = lowerSrc.endsWith('.jpg') || lowerSrc.endsWith('.jpeg') || lowerSrc.endsWith('.png') || lowerSrc.endsWith('.webp');
-            const isGeneric = lowerSrc.includes('wiki') || lowerSrc.includes('question') || lowerSrc.includes('padlock') || lowerSrc.includes('stub');
-            
-            if (isMediaFile && !isGeneric) {
-              posterUrl = sourceUrl;
-            }
-          }
+        if (backdropPath) {
+          const normPath = backdropPath.startsWith('/') ? backdropPath : `/${backdropPath}`;
+          backdropUrl = `https://image.tmdb.org/t/p/w1280${normPath}`;
+        } else if (posterPath) {
+          const normPath = posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
+          backdropUrl = `https://image.tmdb.org/t/p/w1280${normPath}`;
         }
+
+        return { posterUrl, backdropUrl };
       }
     }
   } catch (err) {
-    console.error('Wikipedia client-side lookup failed:', err);
-  }
-
-  // --- LAYER 2: Try iTunes Search API (Strict and General) ---
-  if (!posterUrl) {
-    try {
-      const iTunesMedia = type === 'Series' ? 'tvShow' : 'movie';
-      const iTunesEntity = type === 'Series' ? 'tvSeason' : 'movie';
-      const iTunesUrls = [
-        `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=${iTunesMedia}&entity=${iTunesEntity}&limit=5`,
-        `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&limit=10`
-      ];
-
-      for (const url of iTunesUrls) {
-        const response = await fetch(url);
-        if (response.ok) {
-          const data = await response.json();
-          if (data.results && data.results.length > 0) {
-            const s = searchTerm.toLowerCase().replace(/[^a-z0-9\s]/g, '');
-            const bestItem = data.results.find((item: any) => {
-              const resTitle = (item.trackName || item.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-              return resTitle.includes(s) || s.includes(resTitle);
-            }) || data.results[0];
-
-            const matchedTitle = (bestItem.trackName || bestItem.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-            const sWords = s.split(/\s+/).filter(w => w.length > 2);
-            const matchOk = sWords.length === 0 || sWords.some(w => matchedTitle.includes(w)) || matchedTitle.includes(s) || s.includes(matchedTitle);
-
-            if (matchOk && bestItem.artworkUrl100) {
-              posterUrl = bestItem.artworkUrl100
-                .replace(/100x100bb/g, '600x900bb')
-                .replace(/100x100/g, '600x900');
-              break;
-            }
-          }
-        }
-      }
-    } catch (err) {
-      console.error('iTunes client-side fallback failed:', err);
-    }
-  }
-
-  // --- LAYER 3: Try TVmaze for TV Series or as general fallback ---
-  if ((type === 'Series' || !posterUrl) && !normTitle.includes('enola holmes 3')) {
-    try {
-      const tvMazeUrl = `https://api.tvmaze.com/search/shows?q=${encodeURIComponent(searchTerm)}`;
-      const response = await fetch(tvMazeUrl);
-      if (response.ok) {
-        const results = await response.json();
-        if (results && results.length > 0) {
-          const s = searchTerm.toLowerCase().replace(/[^a-z0-9\s]/g, '');
-          const best = results.find((r: any) => {
-            const showName = (r.show?.name || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-            return showName.includes(s) || s.includes(showName);
-          });
-          const show = best ? best.show : results[0].show;
-          if (show && show.image) {
-            const showNameNorm = (show.name || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-            const sWords = s.split(/\s+/).filter(w => w.length > 2);
-            const matchOk = sWords.length === 0 || sWords.some(w => showNameNorm.includes(w)) || showNameNorm.includes(s) || s.includes(showNameNorm);
-
-            if (matchOk) {
-              if (!posterUrl) {
-                posterUrl = show.image.original || show.image.medium;
-              }
-              backdropUrl = show.image.original || show.image.medium;
-            }
-          }
-        }
-      }
-    } catch (err) {
-      console.error('TVmaze client-side fallback failed:', err);
-    }
-  }
-
-  // --- LAYER 4: Backdrops ---
-  if (posterUrl && !backdropUrl) {
-    backdropUrl = posterUrl;
+    console.error(`TMDB direct search lookup failed for ${title}:`, err);
   }
 
   return {
-    posterUrl: posterUrl || defaultPoster,
-    backdropUrl: backdropUrl || defaultBackdrop
+    posterUrl: defaultPoster,
+    backdropUrl: defaultBackdrop
   };
 }
 

@@ -286,7 +286,10 @@ const SPECIAL_LOCAL_MEDIA: Record<string, { posterUrl: string; backdropUrl: stri
   }
 };
 
-// API Endpoint to dynamically search and return verified high-res posters and backdrops
+// PLACEHOLDER: Paste your TMDB API Key here. Defaults to the pre-configured key.
+const TMDB_API_KEY = process.env.TMDB_API_KEY || '7428800d516b49e4a44d898a4b57c879';
+
+// API Endpoint to dynamically search and return verified high-res posters and backdrops using the TMDB API
 app.get('/api/media-images', async (req, res) => {
   try {
     const title = req.query.title as string;
@@ -313,141 +316,37 @@ app.get('/api/media-images', async (req, res) => {
     let backdropUrl = '';
 
     const searchTerm = cleanSearchTitle(title);
+    const isSeries = type === 'Series';
+    const endpoint = isSeries ? 'tv' : 'movie';
+    const searchUrl = `https://api.themoviedb.org/3/search/${endpoint}?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(searchTerm)}`;
 
-    // --- LAYER 1: Try Wikipedia API (Excellent for authentic theatrical/TV cover posters) ---
     try {
-      const isSeries = type === 'Series';
-      const searchQueries = [
-        `${searchTerm} ${isSeries ? 'series' : 'film'}`,
-        `${searchTerm} ${isSeries ? 'TV series' : 'movie'}`,
-        searchTerm
-      ];
+      const response = await fetch(searchUrl);
+      if (response.ok) {
+        const data = await response.json() as any;
+        const results = data?.results || [];
+        if (results.length > 0) {
+          const bestResult = results[0];
+          const posterPath = bestResult.poster_path;
+          const backdropPath = bestResult.backdrop_path;
 
-      let wikipediaPageTitle = '';
-      for (const query of searchQueries) {
-        const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&limit=3`;
-        const wikiRes = await fetch(searchUrl);
-        if (wikiRes.ok) {
-          const wikiData = await wikiRes.json() as any;
-          const searchResults = wikiData?.query?.search || [];
-          if (searchResults.length > 0) {
-            // Find a result that has soft title match to avoid unrelated results
-            const termLower = searchTerm.toLowerCase();
-            const bestResult = searchResults.find((r: any) => {
-              const rTitleLower = r.title.toLowerCase();
-              return rTitleLower.includes(termLower) || termLower.includes(rTitleLower);
-            }) || searchResults[0];
-
-            if (bestResult) {
-              wikipediaPageTitle = bestResult.title;
-              break;
-            }
+          if (posterPath) {
+            const normPath = posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
+            posterUrl = `https://image.tmdb.org/t/p/w500${normPath}`;
           }
-        }
-      }
-
-      if (wikipediaPageTitle) {
-        const imgQueryUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(wikipediaPageTitle)}&prop=pageimages&piprop=original&format=json&origin=*`;
-        const imgRes = await fetch(imgQueryUrl);
-        if (imgRes.ok) {
-          const imgData = await imgRes.json() as any;
-          const pages = imgData?.query?.pages || {};
-          const pageId = Object.keys(pages)[0];
-          if (pageId && pageId !== '-1') {
-            const page = pages[pageId];
-            if (page?.original?.source) {
-              const sourceUrl = page.original.source;
-              // Filter out generic Wikipedia placeholder icons
-              const lowerSrc = sourceUrl.toLowerCase();
-              const isMediaFile = lowerSrc.endsWith('.jpg') || lowerSrc.endsWith('.jpeg') || lowerSrc.endsWith('.png') || lowerSrc.endsWith('.webp');
-              const isGeneric = lowerSrc.includes('wiki') || lowerSrc.includes('question') || lowerSrc.includes('padlock') || lowerSrc.includes('stub');
-              
-              if (isMediaFile && !isGeneric) {
-                posterUrl = sourceUrl;
-              }
-            }
+          if (backdropPath) {
+            const normPath = backdropPath.startsWith('/') ? backdropPath : `/${backdropPath}`;
+            backdropUrl = `https://image.tmdb.org/t/p/w1280${normPath}`;
+          } else if (posterPath) {
+            const normPath = posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
+            backdropUrl = `https://image.tmdb.org/t/p/w1280${normPath}`;
           }
         }
       }
     } catch (err) {
-      console.error('Wikipedia Search API failed:', err);
+      console.error(`TMDB search API call failed for ${title}:`, err);
     }
 
-    // --- LAYER 2: Try iTunes Search API with Strict & Relaxed search fallbacks ---
-    if (!posterUrl) {
-      try {
-        const iTunesMedia = type === 'Series' ? 'tvShow' : 'movie';
-        const iTunesEntity = type === 'Series' ? 'tvSeason' : 'movie';
-        
-        // Formulate strict and general search endpoints
-        const iTunesUrls = [
-          `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=${iTunesMedia}&entity=${iTunesEntity}&limit=5`,
-          `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&limit=10`
-        ];
-
-        for (const url of iTunesUrls) {
-          const response = await fetch(url);
-          if (response.ok) {
-            const data = await response.json() as any;
-            if (data.results && data.results.length > 0) {
-              const s = searchTerm.toLowerCase().replace(/[^a-z0-9\s]/g, '');
-              const bestItem = data.results.find((item: any) => {
-                const resTitle = (item.trackName || item.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-                return resTitle.includes(s) || s.includes(resTitle);
-              }) || data.results[0];
-
-              const matchedTitle = (bestItem.trackName || bestItem.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-              const sWords = s.split(/\s+/).filter(w => w.length > 2);
-              const matchOk = sWords.length === 0 || sWords.some(w => matchedTitle.includes(w)) || matchedTitle.includes(s) || s.includes(matchedTitle);
-
-              if (matchOk && bestItem.artworkUrl100) {
-                posterUrl = bestItem.artworkUrl100
-                  .replace(/100x100bb/g, '600x900bb')
-                  .replace(/100x100/g, '600x900');
-                break;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        console.error('iTunes Search API failed:', err);
-      }
-    }
-
-    // --- LAYER 3: Try TVmaze Search API for Series and general fallback ---
-    if ((type === 'Series' || !posterUrl) && !normTitle.includes('enola holmes 3')) {
-      try {
-        const tvMazeUrl = `https://api.tvmaze.com/search/shows?q=${encodeURIComponent(searchTerm)}`;
-        const response = await fetch(tvMazeUrl);
-        if (response.ok) {
-          const results = await response.json() as any[];
-          if (results && results.length > 0) {
-            const s = searchTerm.toLowerCase().replace(/[^a-z0-9\s]/g, '');
-            const best = results.find((r: any) => {
-              const showName = (r.show?.name || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-              return showName.includes(s) || s.includes(showName);
-            });
-            const show = best ? best.show : results[0].show;
-            if (show && show.image) {
-              const showNameNorm = (show.name || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-              const sWords = s.split(/\s+/).filter(w => w.length > 2);
-              const matchOk = sWords.length === 0 || sWords.some(w => showNameNorm.includes(w)) || showNameNorm.includes(s) || s.includes(showNameNorm);
-
-              if (matchOk) {
-                if (!posterUrl) {
-                  posterUrl = show.image.original || show.image.medium;
-                }
-                backdropUrl = show.image.original || show.image.medium;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        console.error('TVmaze Search API failed:', err);
-      }
-    }
-
-    // --- LAYER 4: Dynamic Atmospheric Backdrops and Default Fallbacks ---
     if (posterUrl && !backdropUrl) {
       // Use the high-quality poster as the backdrop; the UI overlays and blurs beautifully
       backdropUrl = posterUrl;
