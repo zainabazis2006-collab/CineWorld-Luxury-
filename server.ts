@@ -180,7 +180,12 @@ function cleanSearchTitle(title: string): string {
   // Strip trailing year (e.g. " 2024")
   clean = clean.replace(/\s+\d{4}$/, '');
 
-  // 3. Remove leading and trailing whitespace
+  // Strip common trailing words like "- Series" or "- Movie"
+  clean = clean.replace(/\s+-\s+series$/i, '')
+               .replace(/\s+-\s+movie$/i, '')
+               .replace(/\s+series$/i, '')
+               .replace(/\s+movie$/i, '');
+
   return clean.trim();
 }
 
@@ -335,16 +340,17 @@ app.get('/api/media-images', async (req, res) => {
 
     const searchTerm = cleanSearchTitle(title);
     const isSeries = type === 'Series';
-    const endpoint = isSeries ? 'tv' : 'movie';
-    const searchUrl = `https://api.themoviedb.org/3/search/${endpoint}?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(searchTerm)}`;
 
+    // 1. Try TMDB Multi-Search (allows both movies and TV shows simultaneously, perfect for cross-type matching)
     try {
-      const response = await fetch(searchUrl);
+      const tmdbMultiUrl = `https://api.themoviedb.org/3/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(searchTerm)}`;
+      const response = await fetch(tmdbMultiUrl);
       if (response.ok) {
         const data = await response.json() as any;
         const results = data?.results || [];
         if (results.length > 0) {
-          const bestResult = results[0];
+          // Find first result that has a poster_path and is either tv or movie
+          const bestResult = results.find((r: any) => (r.media_type === 'movie' || r.media_type === 'tv') && r.poster_path) || results[0];
           const posterPath = bestResult.poster_path;
           const backdropPath = bestResult.backdrop_path;
 
@@ -362,11 +368,55 @@ app.get('/api/media-images', async (req, res) => {
         }
       }
     } catch (err) {
-      console.error(`TMDB search API call failed for ${title}:`, err);
+      console.error(`TMDB multi search API call failed for ${title}:`, err);
     }
 
+    // 2. If no poster is found and it is a Series (or generally), try TVmaze (completely free, keyless, great for shows)
+    if (!posterUrl && (isSeries || normTitle.includes('series') || normTitle.includes('show'))) {
+      try {
+        const tvmazeUrl = `https://api.tvmaze.com/singlesearch/shows?q=${encodeURIComponent(searchTerm)}`;
+        const response = await fetch(tvmazeUrl);
+        if (response.ok) {
+          const tvData = await response.json() as any;
+          if (tvData?.image?.original) {
+            posterUrl = tvData.image.original;
+            backdropUrl = tvData.image.original;
+          } else if (tvData?.image?.medium) {
+            posterUrl = tvData.image.medium;
+            backdropUrl = tvData.image.medium;
+          }
+        }
+      } catch (tvErr) {
+        console.error(`TVmaze fallback failed for ${title}:`, tvErr);
+      }
+    }
+
+    // 3. Fallback to iTunes Search API (completely free, no API key required, highly reliable for all movies/series)
+    if (!posterUrl) {
+      try {
+        const itunesUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&limit=3`;
+        const response = await fetch(itunesUrl);
+        if (response.ok) {
+          const itunesData = await response.json() as any;
+          const results = itunesData?.results || [];
+          if (results.length > 0) {
+            // Find a movie or tv show result if possible, otherwise default to first
+            const match = results.find((r: any) => r.kind === 'feature-movie' || r.kind === 'tv-episode' || r.wrapperType === 'track') || results[0];
+            const artworkUrl = match?.artworkUrl100;
+            if (artworkUrl) {
+              // Convert 100x100 thumbnail to gorgeous 600x600 or 1000x1000 high-res poster
+              posterUrl = artworkUrl.replace('100x100bb', '600x600bb').replace('100x100', '600x600');
+              backdropUrl = posterUrl;
+            }
+          }
+        }
+      } catch (itunesErr) {
+        console.error(`iTunes fallback failed for ${title}:`, itunesErr);
+      }
+    }
+
+    // Apply beautiful generic fallbacks only if both APIs failed
     if (posterUrl && !backdropUrl) {
-      // Use the high-quality poster as the backdrop; the UI overlays and blurs beautifully
       backdropUrl = posterUrl;
     }
 

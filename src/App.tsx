@@ -132,10 +132,33 @@ const INITIAL_REVIEWS: Review[] = [
 
 // Clean search title to remove parenthetical context and season numbers
 function cleanSearchTitle(title: string): string {
-  let clean = title.replace(/\([^)]*\)/g, '').trim();
-  clean = clean.replace(/:\s*season\s*\d+/i, '').trim();
-  clean = clean.replace(/\s+\d{4}$/, '').trim();
-  return clean;
+  // 1. Strip all colons and any sub-text words following them
+  let clean = title;
+  if (clean.includes(':')) {
+    clean = clean.split(':')[0];
+  }
+
+  // 2. Strip multi-language brackets and parenthetical symbols completely
+  clean = clean
+    .replace(/\([^)]*\)/g, '')
+    .replace(/\[[^\]]*\]/g, '')
+    .replace(/\{[^}]*\}/g, '')
+    .replace(/【[^】]*】/g, '')
+    .replace(/「[^」]*」/g, '')
+    .replace(/『[^』]*』/g, '')
+    .replace(/《[^》]*》/g, '')
+    .replace(/〈[^〉]*〉/g, '');
+
+  // Strip trailing year (e.g. " 2024")
+  clean = clean.replace(/\s+\d{4}$/, '');
+
+  // Strip common trailing words like "- Series" or "- Movie"
+  clean = clean.replace(/\s+-\s+series$/i, '')
+               .replace(/\s+-\s+movie$/i, '')
+               .replace(/\s+series$/i, '')
+               .replace(/\s+movie$/i, '');
+
+  return clean.trim();
 }
 
 // Special local mappings for fictional or unreleased titles to ensure perfect, atmospheric images
@@ -276,7 +299,62 @@ function validateImageDimensions(url: string): Promise<boolean> {
   });
 }
 
-// Client-side fallback API fetcher to ensure high-resolution movie posters and backdrops using the TMDB API
+// Helper to fetch images from TVmaze API (free, no-key, very reliable for TV shows/series)
+async function fetchTVmazeImageDirectly(title: string): Promise<{ posterUrl: string; backdropUrl: string } | null> {
+  try {
+    const cleanTitle = cleanSearchTitle(title);
+    const url = `https://api.tvmaze.com/singlesearch/shows?q=${encodeURIComponent(cleanTitle)}`;
+    const response = await fetch(url);
+    if (response.ok) {
+      const show = await response.json();
+      if (show && show.image) {
+        const originalImage = show.image.original || show.image.medium;
+        if (originalImage) {
+          return { posterUrl: originalImage, backdropUrl: originalImage };
+        }
+      }
+    }
+  } catch (e) {
+    console.error(`TVmaze search failed for ${title}:`, e);
+  }
+  return null;
+}
+
+// Helper to fetch images from iTunes Search API (free, no-key, very reliable for both movies and tv shows)
+async function fetchiTunesImageDirectly(title: string, type: string): Promise<{ posterUrl: string; backdropUrl: string } | null> {
+  try {
+    const cleanTitle = cleanSearchTitle(title);
+    const entity = type === 'Series' ? 'tvShow' : 'movie';
+    let url = `https://itunes.apple.com/search?term=${encodeURIComponent(cleanTitle)}&entity=${entity}&limit=1`;
+    let response = await fetch(url);
+    let data = response.ok ? await response.json() : null;
+
+    if (!data || !data.results || data.results.length === 0) {
+      // General broad search without specific entity constraint
+      url = `https://itunes.apple.com/search?term=${encodeURIComponent(cleanTitle)}&limit=1`;
+      response = await fetch(url);
+      data = response.ok ? await response.json() : null;
+    }
+
+    if (data && data.results && data.results.length > 0) {
+      const result = data.results[0];
+      const artworkUrl = result.artworkUrl100 || result.artworkUrl60;
+      if (artworkUrl) {
+        // Upgrade the low-res 100x100 artwork to extremely high-res (e.g., 600x600 or 1000x1000)
+        const highResPoster = artworkUrl.replace(/100x100bb|100x100|60x60bb|60x60/g, '600x600bb');
+        return {
+          posterUrl: highResPoster,
+          backdropUrl: highResPoster
+        };
+      }
+    }
+  } catch (e) {
+    console.error(`iTunes search failed for ${title}:`, e);
+  }
+  return null;
+}
+
+// Client-side fallback API fetcher to ensure high-resolution movie posters and backdrops using TMDB, TVmaze, and iTunes
 async function fetchMediaImagesDirectly(title: string, type: string, defaultPoster: string, defaultBackdrop: string) {
   const normTitle = title.toLowerCase().trim();
   const POSTER_COMING_SOON_FALLBACK = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop';
@@ -289,20 +367,20 @@ async function fetchMediaImagesDirectly(title: string, type: string, defaultPost
     posterUrl = SPECIAL_LOCAL_MEDIA[normTitle].posterUrl;
     backdropUrl = SPECIAL_LOCAL_MEDIA[normTitle].backdropUrl;
   } else {
+    // 1. Try TMDB Search first using Multi-Search
     const apiKey = TMDB_API_KEY;
     const searchTerm = cleanSearchTitle(title);
     const isSeries = type === 'Series';
-    const endpoint = isSeries ? 'tv' : 'movie';
-    const searchUrl = `https://api.themoviedb.org/3/search/${endpoint}?api_key=${apiKey}&query=${encodeURIComponent(searchTerm)}`;
+    const tmdbMultiUrl = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${encodeURIComponent(searchTerm)}`;
 
+    let tmdbSuccess = false;
     try {
-      const res = await fetch(searchUrl);
+      const res = await fetch(tmdbMultiUrl);
       if (res.ok) {
         const data = await res.json();
         const results = data?.results || [];
         if (results.length > 0) {
-          // Grab the best matched result
-          const bestResult = results[0];
+          const bestResult = results.find((r: any) => (r.media_type === 'movie' || r.media_type === 'tv') && r.poster_path) || results[0];
           const posterPath = bestResult.poster_path;
           const backdropPath = bestResult.backdrop_path;
 
@@ -317,14 +395,52 @@ async function fetchMediaImagesDirectly(title: string, type: string, defaultPost
             const normPath = posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
             backdropUrl = `https://image.tmdb.org/t/p/w1280${normPath}`;
           }
+          tmdbSuccess = true;
         }
       }
     } catch (err) {
-      console.error(`TMDB direct search lookup failed for ${title}:`, err);
+      console.error(`TMDB multi search lookup failed for ${title}:`, err);
+    }
+
+    // 2. Validate TMDB results; if invalid or failed, proceed to keyless, robust open APIs (iTunes / TVmaze)
+    const isTmdbPosterValid = tmdbSuccess ? await validateImageDimensions(posterUrl) : false;
+
+    if (!isTmdbPosterValid) {
+      console.log(`TMDB image invalid/missing for "${title}". Trying robust fallback APIs...`);
+
+      // If it is a TV series, prioritize TVmaze API which has stellar exact-match accuracy
+      if (type === 'Series') {
+        const tvmazeResult = await fetchTVmazeImageDirectly(title);
+        if (tvmazeResult && (await validateImageDimensions(tvmazeResult.posterUrl))) {
+          posterUrl = tvmazeResult.posterUrl;
+          backdropUrl = tvmazeResult.backdropUrl;
+        } else {
+          // Fall back to iTunes
+          const iTunesResult = await fetchiTunesImageDirectly(title, type);
+          if (iTunesResult && (await validateImageDimensions(iTunesResult.posterUrl))) {
+            posterUrl = iTunesResult.posterUrl;
+            backdropUrl = iTunesResult.backdropUrl;
+          }
+        }
+      } else {
+        // If it is a Movie, prioritize iTunes Search API
+        const iTunesResult = await fetchiTunesImageDirectly(title, type);
+        if (iTunesResult && (await validateImageDimensions(iTunesResult.posterUrl))) {
+          posterUrl = iTunesResult.posterUrl;
+          backdropUrl = iTunesResult.backdropUrl;
+        } else {
+          // Fall back to TVmaze search as final attempt
+          const tvmazeResult = await fetchTVmazeImageDirectly(title);
+          if (tvmazeResult && (await validateImageDimensions(tvmazeResult.posterUrl))) {
+            posterUrl = tvmazeResult.posterUrl;
+            backdropUrl = tvmazeResult.backdropUrl;
+          }
+        }
+      }
     }
   }
 
-  // Perform explicit checks for valid image dimensions (>100x100px)
+  // Perform final explicit checks for valid image dimensions (>100x100px)
   const isPosterValid = await validateImageDimensions(posterUrl);
   const isBackdropValid = await validateImageDimensions(backdropUrl);
 
