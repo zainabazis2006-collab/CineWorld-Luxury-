@@ -362,23 +362,11 @@ export default function KoreanRomanceSection({
               {/* Action Buttons */}
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => toggleWatchlist(activeMovie.id)}
-                  className={`flex-1 sm:flex-initial px-4 py-3 rounded-xl font-bold uppercase text-[10px] tracking-wider border transition-all duration-300 flex items-center justify-center gap-2 ${
-                    isWatchlisted
-                      ? 'bg-pink-500/20 text-pink-400 border-pink-500/40 hover:bg-pink-500/30'
-                      : 'bg-white/5 hover:bg-white/10 text-white border-white/10'
-                  }`}
-                >
-                  {isWatchlisted ? <Check className="w-3.5 h-3.5 text-pink-400" /> : <Plus className="w-3.5 h-3.5" />}
-                  {isWatchlisted ? localT.watchlisted : localT.addToQueue}
-                </button>
-
-                <button
                   onClick={() => {
                     handleMovieSelect(activeMovie.id);
                     document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="flex-1 sm:flex-initial px-5 py-3 rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-bold uppercase text-[10px] tracking-wider transition-all duration-300 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:shadow-[0_0_25px_rgba(236,72,153,0.5)] flex items-center justify-center gap-2"
+                  className="flex-grow sm:flex-initial px-5 py-3 rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-bold uppercase text-[10px] tracking-wider transition-all duration-300 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:shadow-[0_0_25px_rgba(236,72,153,0.5)] flex items-center justify-center gap-2"
                 >
                   <Film className="w-3.5 h-3.5 text-white" />
                   {localT.quickView}

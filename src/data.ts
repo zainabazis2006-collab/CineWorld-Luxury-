@@ -2594,6 +2594,354 @@ const RAW_CATALOG: Movie[] = [
       }
     ],
     productionTrivia: 'The animators developed a highly distinct, hand-drawn digital 2D-looking style mapped onto complex 3D assets, giving the movie its timeless, painted illustration feel.'
+  },
+  {
+    id: 'laapataa-ladies',
+    title: 'Laapataa Ladies',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '122 min',
+    rating: 4.9,
+    genres: ['Comedy', 'Drama', 'Mystery'],
+    directorOrCreator: 'Kiran Rao',
+    cast: ['Nitanshi Goel', 'Pratibha Ranta', 'Sparsh Shrivastav', 'Chhaya Kadam', 'Ravi Kishan'],
+    synopsis: 'In rural 2001 India, two young, veiled brides accidentally get swapped during a crowded train journey home, leading to a delightful, heartwarming comedy of errors and self-discovery.',
+    criticalAnalysis: 'A masterfully crafted, socially relevant satire that addresses patriarchal norms and female empowerment with an incredibly light, humorous touch and deeply empathetic performances.',
+    trivia: [
+      'The film was selected as India\'s official entry for the Best International Feature Film category at the 97th Academy Awards.',
+      'To maintain authentic rural flavor, much of the movie was shot on location in the villages of Madhya Pradesh using local residents as extras.',
+      'Director Kiran Rao returned to feature film directing after a hiatus of over a decade, receiving widespread international acclaim.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/3/3a/Laapataa_Ladies_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81726581',
+        availableRegions: ['IN', 'US', 'UK', 'JP', 'CA'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production team spent months sourcing authentic 2001-era train coaches, regional clothing, and retro items to establish the turn-of-the-century rural setting.'
+  },
+  {
+    id: 'heeramandi-series',
+    title: 'Heeramandi: The Diamond Bazaar',
+    type: 'Series',
+    year: 2024,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.7,
+    genres: ['Drama', 'History', 'Romance'],
+    directorOrCreator: 'Sanjay Leela Bhansali',
+    cast: ['Manisha Koirala', 'Sonakshi Sinha', 'Aditi Rao Hydari', 'Richa Chadha', 'Sanjeeda Sheikh'],
+    synopsis: 'The lives, loves, and power struggles of elite tawaifs (courtesans) in the red-light district of Heera Mandi in Lahore during the turbulent Indian independence movement against the British Raj.',
+    criticalAnalysis: 'An opulent, visually breathtaking spectacle that displays Sanjay Leela Bhansali’s signature grand sets, complex characters, lavish choreography, and classical Indian musical heritage.',
+    trivia: [
+      'The series marks the digital streaming debut of legendary Indian filmmaker Sanjay Leela Bhansali.',
+      'A massive, detailed historical set representing Lahore of the 1940s was built from scratch in Mumbai, covering over 60,000 square feet.',
+      'The intricate costumes took over seven months to design, utilizing authentic historical embroidery styles like Zardozi and Chikankari.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/ab/Heeramandi_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81313410',
+        availableRegions: ['IN', 'US', 'UK', 'JP', 'CA'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Features over 300 hand-woven custom saris and heavy, authentic jewelry weighing several kilograms for each lead actress to maintain historical realism.'
+  },
+  {
+    id: 'kalki-2898-ad',
+    title: 'Kalki 2898 AD',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '180 min',
+    rating: 4.8,
+    genres: ['Sci-Fi', 'Action', 'Fantasy'],
+    directorOrCreator: 'Nag Ashwin',
+    cast: ['Prabhas', 'Amitabh Bachchan', 'Kamal Haasan', 'Deepika Padukone', 'Disha Patani'],
+    synopsis: 'In a post-apocalyptic world in the year 2898 AD, a modern avatar of Vishnu descends to Earth to protect a pregnant lab subject carrying a divine child, clashing with powerful bounty hunters and a totalitarian regime.',
+    criticalAnalysis: 'A groundbreaking Indian sci-fi epic that successfully merges complex Hindu mythology (the Mahabharata) with a futuristic, cyberpunk dystopian aesthetic, elevated by stunning visual effects.',
+    trivia: [
+      'The film features legendary actor Amitabh Bachchan as the immortal warrior Ashwatthama, using advanced de-aging technology for flashback sequences.',
+      'A custom-built futuristic vehicle named "Bujji" was physically engineered and constructed in collaboration with Mahindra Research Valley.',
+      'It is one of the most expensive Indian films ever produced, utilizing over 3,000 VFX shots created by top global studios.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/4/4c/Kalki_2898_AD_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81768406',
+        availableRegions: ['IN', 'US', 'UK', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production designed fully custom-fabricated armor and weapons combining advanced laser-emitters with ancient Indian temple architecture engravings.'
+  },
+  {
+    id: 'mirzapur-series',
+    title: 'Mirzapur',
+    type: 'Series',
+    year: 2024,
+    runtimeOrSeasons: '3 Seasons',
+    rating: 4.8,
+    genres: ['Action', 'Crime', 'Drama'],
+    directorOrCreator: 'Karan Anshuman',
+    cast: ['Pankaj Tripathi', 'Ali Fazal', 'Shweta Tripathi', 'Rasika Dugal', 'Vijay Varma'],
+    synopsis: 'A shocking incident at a wedding procession ignites a series of events, entangling the lives of two brothers in the lawless city of Mirzapur, leading to a ruthless battle for ultimate power over the underworld.',
+    criticalAnalysis: 'A powerhouse of high-stakes crime drama, Mirzapur continues to captivate audiences with raw character development, razor-sharp dialogue, and stellar performances, particularly by Pankaj Tripathi.',
+    trivia: [
+      'Pankaj Tripathi\'s portrayal of Kaleen Bhaiya has become iconic in modern Indian popular culture.',
+      'Season 3 was filmed in extensive real locations across Uttar Pradesh, including Varanasi, Mirzapur, and Lucknow, to maintain maximum cultural authenticity.',
+      'The series has one of the largest ensemble casts of any streaming series in India.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/3/3c/Mirzapur_season_3_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.primevideo.com/detail/Mirzapur/0F3W2O2Z4Y9LRECC1S8O6N4V56',
+        availableRegions: ['IN', 'US', 'UK', 'CA'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The stunt coordination team worked for four months to design the highly realistic and intense hand-to-hand action sequences for Season 3.'
+  },
+  {
+    id: 'aavesham-movie',
+    title: 'Aavesham',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '158 min',
+    rating: 4.9,
+    genres: ['Comedy', 'Action'],
+    directorOrCreator: 'Jithu Madhavan',
+    cast: ['Fahadh Faasil', 'Sajin Gopu', 'Hipzster', 'Mithun Jai Shankar', 'Roshan Shanavas'],
+    synopsis: 'Three college students in Bangalore find themselves in trouble and seek the help of a quirky, white-clad local gangster named Ranga, resulting in a chaotic, hilariously high-octane adventure.',
+    criticalAnalysis: 'Fahadh Faasil delivers a legendary, career-defining performance as the eccentric yet warm-hearted Ranga. The movie combines top-tier physical comedy with stylized, incredibly engaging action sequences.',
+    trivia: [
+      'Fahadh Faasil\'s catchphrases like "Eda Mone" became viral internet sensations across India.',
+      'The movie became one of the highest-grossing Malayalam films of all time, receiving unanimous acclaim from both critics and audiences.',
+      'The energetic soundtrack composed by Sushin Shyam, particularly the song "Illuminati", topped music charts for several weeks.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/dd/Aavesham_Poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.primevideo.com/detail/Aavesham/0S2S0Y678FDR34QZ2B5P1M5L68',
+        availableRegions: ['IN', 'US', 'UK', 'CA', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Fahadh Faasil completely improvised many of his character\'s erratic dances and hysterical facial expressions during shooting, bringing a wild energy to the set.'
+  },
+  {
+    id: 'farzi-series',
+    title: 'Farzi',
+    type: 'Series',
+    year: 2023,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.7,
+    genres: ['Crime', 'Thriller', 'Drama'],
+    directorOrCreator: 'Raj & DK',
+    cast: ['Shahid Kapoor', 'Vijay Sethupathi', 'Kay Kay Menon', 'Raashii Khanna', 'Bhuvan Arora'],
+    synopsis: 'A brilliant, disillusioned artist finds himself dragged into the high-stakes world of counterfeiting after designing the ultimate counterfeit note. A fiery, unconventional task force officer is determined to rid the country of his menace.',
+    criticalAnalysis: 'A sleek, fast-paced, and highly intelligent cat-and-mouse game. Directors Raj & DK bring their signature dark comedy and sharp realism, perfectly balancing the desperation of the middle class with the greed of high-level syndicates.',
+    trivia: [
+      'The series marks the digital streaming debut of Bollywood star Shahid Kapoor.',
+      'It occupies the same fictional universe as Raj & DK\'s other blockbuster series, The Family Man, featuring several subtle crossovers.',
+      'The show became the most-watched Indian streaming series of all time within weeks of its release.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b3/Farzi_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.primevideo.com/detail/Farzi/0O3B3A5Z4Y9LRECC1S8O6N4V56',
+        availableRegions: ['IN', 'US', 'UK', 'CA', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production team worked closely with printing experts and security paper consultants to ensure the counterfeit printing methods shown in the series looked authentic while complying with legal regulations.'
+  },
+  {
+    id: 'railway-men',
+    title: 'The Railway Men',
+    type: 'Series',
+    year: 2023,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.8,
+    genres: ['Drama', 'Thriller', 'History'],
+    directorOrCreator: 'Shiv Rawail',
+    cast: ['R. Madhavan', 'Kay Kay Menon', 'Babil Khan', 'Divyenndu', 'Sunny Hinduja'],
+    synopsis: 'Following the lethal 1984 toxic gas leak in Bhopal, India, four brave railway workers risk their own lives to steer incoming passenger trains away and rescue trapped citizens from certain death.',
+    criticalAnalysis: 'A beautifully filmed, intensely respectful, and gripping exploration of humanitarian duty and courage in the face of immense industrial disaster. It balances gut-wrenching tragedy with the light of selfless human spirit.',
+    trivia: [
+      'The series serves as a tribute to the unsung heroes of the Indian Railways who saved thousands of lives during the Bhopal gas tragedy.',
+      'Marked the digital streaming directorial debut of Shiv Rawail and received glowing praise across international markets.',
+      'The detailed, historical set of Bhopal Junction railway station was recreated with breathtaking precision in Mumbai.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1474487548417-781f71495f3b?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/91/The_Railway_Men_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81577755',
+        availableRegions: ['IN', 'US', 'UK', 'CA', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production design team spent three months researching period-accurate steam locomotives and passenger carriages to match 1984 specifications.'
+  },
+  {
+    id: 'chamkila-movie',
+    title: 'Amar Singh Chamkila',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '145 min',
+    rating: 4.8,
+    genres: ['Biography', 'Drama', 'Music'],
+    directorOrCreator: 'Imtiaz Ali',
+    cast: ['Diljit Dosanjh', 'Parineeti Chopra', 'Apinderdeep Singh', 'Anurag Arora'],
+    synopsis: 'The meteoric and highly controversial rise of Punjab\'s original rockstar, Amar Singh Chamkila, whose raw, energetic songs captivated the masses before his shocking, unsolved assassination in 1988.',
+    criticalAnalysis: 'Director Imtiaz Ali returns to peak form with a dazzling, multimedia visual masterpiece. Diljit Dosanjh delivers an astonishing, soul-stirring performance, complemented by an unforgettable soundtrack from A.R. Rahman.',
+    trivia: [
+      'Diljit Dosanjh and Parineeti Chopra sang all of Chamkila and Amarjot\'s original songs live on set rather than lip-syncing to studio tracks.',
+      'The movie utilizes creative split screens, translation graphics, and live archival photos to tell its story dynamically.',
+      'A.R. Rahman composed a dual soundtrack—one containing original songs sung by the cast, and another featuring new songs sung by playback singers.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a2/Amar_Singh_Chamkila.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81615560',
+        availableRegions: ['IN', 'US', 'UK', 'CA'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The movie was shot in real Punjabi villages where Chamkila actually performed, with several elderly residents who had attended his 1980s concerts appearing as extras.'
+  },
+  {
+    id: 'family-man-series',
+    title: 'The Family Man',
+    type: 'Series',
+    year: 2021,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.9,
+    genres: ['Action', 'Comedy', 'Drama', 'Thriller'],
+    directorOrCreator: 'Raj & DK',
+    cast: ['Manoj Bajpayee', 'Priyamani', 'Sharib Hashmi', 'Samantha Ruth Prabhu', 'Shreya Dhanwanthary'],
+    synopsis: 'An underpaid, middle-class man secretly working as a world-class intelligence officer for an elite anti-terror squad struggles to protect his nation from major threats while managing his chaotic domestic life.',
+    criticalAnalysis: 'A phenomenal milestone in Indian web-series history. It flawlessly weaves brilliant, deadpan family humor with high-stakes counter-terrorism operations, realistic geopolitics, and masterfully shot single-take action sequences.',
+    trivia: [
+      'The famous 11-minute police station shootout in Season 1 was filmed in a single, continuous, highly coordinated take with no hidden cuts.',
+      'The show won five Filmfare OTT Awards, sweepingly dominating the drama categories.',
+      'Manoj Bajpayee did the majority of his own physical stunts, showing amazing dedication to his role as Srikant Tiwari.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/dc/The_Family_Man_Poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.primevideo.com/detail/The-Family-Man/0S3B3A5Z4Y9LRECC1S8O6N4V56',
+        availableRegions: ['IN', 'US', 'UK', 'CA', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The directors collaborated with real retired security officers to gain detailed technical knowledge of surveillance operations and tactical radio chatter.'
+  },
+  {
+    id: 'kohrra-series',
+    title: 'Kohrra',
+    type: 'Series',
+    year: 2023,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.7,
+    genres: ['Crime', 'Mystery', 'Drama'],
+    directorOrCreator: 'Randeep Jha',
+    cast: ['Suvinder Vicky', 'Barun Sobti', 'Harleen Sethi', 'Rachel Shelley', 'Varun Badola'],
+    synopsis: 'When an expatriate Indian groom is found dead in rural Punjab just before his wedding, two haunted police officers must untangle a thick fog of toxic family histories, secret lives, and class tensions.',
+    criticalAnalysis: 'A dark, brooding, and exceptional police procedural that transcends the genre. Kohrra is as much a clinical study of generational trauma, love, and loneliness in Punjabi society as it is a murder mystery.',
+    trivia: [
+      'The title "Kohrra" translates to "Fog", symbolizing both the physical winter fog of Punjab and the dense psychological confusion surrounding the characters.',
+      'Features British actress Rachel Shelley, famous for her role in the Oscar-nominated Indian film Lagaan.',
+      'Suvinder Vicky\'s portrayal of the tired, morally grey sub-inspector Balbir Singh was widely hailed by international critics as a masterclass in restrained acting.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e0/Kohrra_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81512450',
+        availableRegions: ['IN', 'US', 'UK', 'CA'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The show was filmed entirely during Punjabi winters to take full cinematic advantage of the natural, thick atmospheric morning fog, which added a haunting layer of realism.'
+  },
+  {
+    id: 'paatal-lok-series',
+    title: 'Paatal Lok',
+    type: 'Series',
+    year: 2020,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.8,
+    genres: ['Crime', 'Drama', 'Thriller'],
+    directorOrCreator: 'Avinash Arun',
+    cast: ['Jaideep Ahlawat', 'Ishwak Singh', 'Abhishek Banerjee', 'Neeraj Kabi', 'Gul Panag'],
+    synopsis: 'A washed-up, weary Delhi cop is handed a career-defining case involving the failed assassination of a celebrity journalist, plunging him into the dark, terrifying, and multi-layered Indian criminal underworld.',
+    criticalAnalysis: 'A complex, unflinching, and brilliantly written Neo-noir masterpiece. It metaphorically splits society into Swarga (heaven), Dharti (earth), and Paatal (hell), presenting a visceral, philosophical, and devastating social critique.',
+    trivia: [
+      'The show is loosely based on Tarun Tejpal\'s novel "The Story of My Assassins".',
+      'Jaideep Ahlawat\'s stunning performance as Hathiram Chaudhary instantly elevated him into mainstream stardom.',
+      'Abhishek Banerjee, who plays the terrifying assassin Hathoda Tyagi, is also one of the most prominent casting directors in the Indian film industry.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a7/Paatal_Lok_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.primevideo.com/detail/Paatal-Lok/0S4B3A5Z4Y9LRECC1S8O6N4V56',
+        availableRegions: ['IN', 'US', 'UK', 'CA'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'To capture the grit of the different worlds, shooting spanned over 110 real locations across India, including narrow alleys of Delhi, luxurious farmhouses, and villages in Punjab.'
+  },
+  {
+    id: 'maamla-legal-hai',
+    title: 'Maamla Legal Hai',
+    type: 'Series',
+    year: 2024,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.6,
+    genres: ['Comedy', 'Drama'],
+    directorOrCreator: 'Rahul Pandey',
+    cast: ['Ravi Kishan', 'Nidhi Bisht', 'Anant V Joshi', 'Naila Grewal', 'Yashpal Sharma'],
+    synopsis: 'At the district court of Patparganj, a colorful group of highly eccentric lawyers use creative legal loopholes, bizarre arguments, and hilarious wit to tackle unusual cases and outsmart their opponents.',
+    criticalAnalysis: 'A refreshing, fast-paced comedy that highlights the absurdities of the grassroots legal system in India. It succeeds through sharp dialogue, lovable characters, and a warm-hearted balance of humor and emotional resonance.',
+    trivia: [
+      'Several court cases depicted in the series, including one involving a parrot accused of using obscene language, are inspired by real-life Indian legal cases.',
+      'Ravi Kishan\'s character VD Tyagi is highly praised for his perfect blend of street-smart legal swagger and comedic timing.',
+      'The series marked a major hit for comedic storytelling coming out of the Indian streaming space in early 2024.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1505664194779-8bebcb95c557?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b3/Maamla_Legal_Hai_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81571550',
+        availableRegions: ['IN', 'US', 'UK', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The writers spent weeks sitting in local sessions courts in Delhi to capture the authentic, colloquial humor and eccentric behavior of local lawyers and clerks.'
   }
 ];
 
@@ -2683,7 +3031,19 @@ const SAFE_POSTERS: Record<string, string> = {
   'society-of-the-snow': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
   'road-house-2024': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
   'the-covenant': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
-  'nimona': 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop'
+  'nimona': 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop',
+  'laapataa-ladies': 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=600&auto=format&fit=crop',
+  'heeramandi-series': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
+  'kalki-2898-ad': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop',
+  'mirzapur-series': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop',
+  'aavesham-movie': 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=600&auto=format&fit=crop',
+  'farzi-series': 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&auto=format&fit=crop',
+  'railway-men': 'https://images.unsplash.com/photo-1474487548417-781f71495f3b?q=80&w=600&auto=format&fit=crop',
+  'chamkila-movie': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=600&auto=format&fit=crop',
+  'family-man-series': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
+  'kohrra-series': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
+  'paatal-lok-series': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop',
+  'maamla-legal-hai': 'https://images.unsplash.com/photo-1505664194779-8bebcb95c557?q=80&w=600&auto=format&fit=crop'
 };
 
 const SAFE_BACKDROPS: Record<string, string> = {
@@ -2727,7 +3087,19 @@ const SAFE_BACKDROPS: Record<string, string> = {
   'society-of-the-snow': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop',
   'road-house-2024': 'https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=1200&auto=format&fit=crop',
   'the-covenant': 'https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
-  'nimona': 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop'
+  'nimona': 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop',
+  'laapataa-ladies': 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
+  'heeramandi-series': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
+  'kalki-2898-ad': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
+  'mirzapur-series': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop',
+  'aavesham-movie': 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop',
+  'farzi-series': 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop',
+  'railway-men': 'https://images.unsplash.com/photo-1474487548417-781f71495f3b?q=80&w=1200&auto=format&fit=crop',
+  'chamkila-movie': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop',
+  'family-man-series': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop',
+  'kohrra-series': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop',
+  'paatal-lok-series': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop',
+  'maamla-legal-hai': 'https://images.unsplash.com/photo-1505664194779-8bebcb95c557?q=80&w=1200&auto=format&fit=crop'
 };
 
 export const CURATED_CATALOG: Movie[] = RAW_CATALOG.map(movie => {

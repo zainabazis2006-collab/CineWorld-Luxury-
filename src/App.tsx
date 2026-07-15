@@ -261,55 +261,76 @@ const SPECIAL_LOCAL_MEDIA: Record<string, { posterUrl: string; backdropUrl: stri
 // PLACEHOLDER: Paste your TMDB API Key here. Defaults to the pre-configured key.
 const TMDB_API_KEY = '7428800d516b49e4a44d898a4b57c879';
 
+// Helper to validate image dimensions (>100x100px) before displaying
+function validateImageDimensions(url: string): Promise<boolean> {
+  if (!url) return Promise.resolve(false);
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      resolve(img.naturalWidth > 100 && img.naturalHeight > 100);
+    };
+    img.onerror = () => {
+      resolve(false);
+    };
+    img.src = url;
+  });
+}
+
 // Client-side fallback API fetcher to ensure high-resolution movie posters and backdrops using the TMDB API
 async function fetchMediaImagesDirectly(title: string, type: string, defaultPoster: string, defaultBackdrop: string) {
   const normTitle = title.toLowerCase().trim();
+  const POSTER_COMING_SOON_FALLBACK = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop';
+  const BACKDROP_COMING_SOON_FALLBACK = 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop';
+
+  let posterUrl = defaultPoster;
+  let backdropUrl = defaultBackdrop;
+
   if (SPECIAL_LOCAL_MEDIA[normTitle]) {
-    return SPECIAL_LOCAL_MEDIA[normTitle];
-  }
+    posterUrl = SPECIAL_LOCAL_MEDIA[normTitle].posterUrl;
+    backdropUrl = SPECIAL_LOCAL_MEDIA[normTitle].backdropUrl;
+  } else {
+    const apiKey = TMDB_API_KEY;
+    const searchTerm = cleanSearchTitle(title);
+    const isSeries = type === 'Series';
+    const endpoint = isSeries ? 'tv' : 'movie';
+    const searchUrl = `https://api.themoviedb.org/3/search/${endpoint}?api_key=${apiKey}&query=${encodeURIComponent(searchTerm)}`;
 
-  const apiKey = TMDB_API_KEY;
-  const searchTerm = cleanSearchTitle(title);
-  const isSeries = type === 'Series';
-  const endpoint = isSeries ? 'tv' : 'movie';
-  const searchUrl = `https://api.themoviedb.org/3/search/${endpoint}?api_key=${apiKey}&query=${encodeURIComponent(searchTerm)}`;
+    try {
+      const res = await fetch(searchUrl);
+      if (res.ok) {
+        const data = await res.json();
+        const results = data?.results || [];
+        if (results.length > 0) {
+          // Grab the best matched result
+          const bestResult = results[0];
+          const posterPath = bestResult.poster_path;
+          const backdropPath = bestResult.backdrop_path;
 
-  try {
-    const res = await fetch(searchUrl);
-    if (res.ok) {
-      const data = await res.json();
-      const results = data?.results || [];
-      if (results.length > 0) {
-        // Grab the best matched result
-        const bestResult = results[0];
-        const posterPath = bestResult.poster_path;
-        const backdropPath = bestResult.backdrop_path;
-
-        let posterUrl = defaultPoster;
-        let backdropUrl = defaultBackdrop;
-
-        if (posterPath) {
-          const normPath = posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
-          posterUrl = `https://image.tmdb.org/t/p/w500${normPath}`;
+          if (posterPath) {
+            const normPath = posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
+            posterUrl = `https://image.tmdb.org/t/p/w500${normPath}`;
+          }
+          if (backdropPath) {
+            const normPath = backdropPath.startsWith('/') ? backdropPath : `/${backdropPath}`;
+            backdropUrl = `https://image.tmdb.org/t/p/w1280${normPath}`;
+          } else if (posterPath) {
+            const normPath = posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
+            backdropUrl = `https://image.tmdb.org/t/p/w1280${normPath}`;
+          }
         }
-        if (backdropPath) {
-          const normPath = backdropPath.startsWith('/') ? backdropPath : `/${backdropPath}`;
-          backdropUrl = `https://image.tmdb.org/t/p/w1280${normPath}`;
-        } else if (posterPath) {
-          const normPath = posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
-          backdropUrl = `https://image.tmdb.org/t/p/w1280${normPath}`;
-        }
-
-        return { posterUrl, backdropUrl };
       }
+    } catch (err) {
+      console.error(`TMDB direct search lookup failed for ${title}:`, err);
     }
-  } catch (err) {
-    console.error(`TMDB direct search lookup failed for ${title}:`, err);
   }
+
+  // Perform explicit checks for valid image dimensions (>100x100px)
+  const isPosterValid = await validateImageDimensions(posterUrl);
+  const isBackdropValid = await validateImageDimensions(backdropUrl);
 
   return {
-    posterUrl: defaultPoster,
-    backdropUrl: defaultBackdrop
+    posterUrl: isPosterValid ? posterUrl : POSTER_COMING_SOON_FALLBACK,
+    backdropUrl: isBackdropValid ? backdropUrl : BACKDROP_COMING_SOON_FALLBACK
   };
 }
 
@@ -661,6 +682,17 @@ export default function App() {
 
   // Find currently selected movie
   const currentMovie = displayCatalog.find(m => m.id === selectedMovieId) || displayCatalog[0];
+
+  // Calculate "More Like This" recommended movies based on shared genres and ratings
+  const moreLikeThisMovies = displayCatalog
+    .filter(m => m.id !== currentMovie.id)
+    .map(m => {
+      const sharedGenresCount = m.genres.filter(g => currentMovie.genres.includes(g)).length;
+      return { movie: m, sharedGenresCount };
+    })
+    .sort((a, b) => b.sharedGenresCount - a.sharedGenresCount || b.movie.rating - a.movie.rating)
+    .map(item => item.movie)
+    .slice(0, 6);
 
   // Record a click on a movie to train recommendation engine
   const handleMovieSelect = (movieId: string) => {
@@ -1667,21 +1699,6 @@ export default function App() {
                       </button>
                     ))}
                   </div>
-                  
-                  <span className="text-white/20">|</span>
-
-                  {/* Bookmark Watchlist Button */}
-                  <button 
-                    onClick={() => toggleWatchlist(currentMovie.id)}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
-                      userState.watchlist.includes(currentMovie.id)
-                        ? 'bg-red-500/20 text-red-400 border border-red-500/40 hover:bg-red-500/30'
-                        : 'bg-white/5 text-white/80 border border-white/10 hover:bg-white/10'
-                    }`}
-                  >
-                    <Bookmark className={`w-3.5 h-3.5 ${userState.watchlist.includes(currentMovie.id) ? 'fill-red-400' : ''}`} />
-                    {userState.watchlist.includes(currentMovie.id) ? 'In Watchlist' : 'Add Watchlist'}
-                  </button>
                 </div>
               </div>
 
@@ -1886,6 +1903,75 @@ export default function App() {
           <div className="h-28 w-[1px] bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
         </div>
       </section>
+
+      {/* MORE LIKE THIS SECTION */}
+      {moreLikeThisMovies.length > 0 && (
+        <section className="relative z-20 max-w-7xl mx-auto px-6 pt-10 pb-4">
+          <div className="flex items-center justify-between mb-6">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5 text-[#00D1FF]" />
+                <h2 className="text-xs font-black uppercase tracking-widest text-[#00D1FF]">
+                  More Like This
+                </h2>
+              </div>
+              <p className="text-[10px] text-white/40 font-mono">
+                Recommended titles matching {currentMovie.title.split(': ')[0]} genres & vibe
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
+            {moreLikeThisMovies.map((movie) => (
+              <motion.div
+                key={movie.id}
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                onClick={() => {
+                  handleMovieSelect(movie.id);
+                  document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="group/card cursor-pointer"
+              >
+                <div className="relative aspect-[2/3] rounded-xl overflow-hidden bg-white/5 border border-white/10 shadow-lg group-hover/card:border-[#00D1FF] group-hover/card:shadow-[0_0_20px_rgba(0,209,255,0.2)] transition-all duration-300">
+                  {/* Poster Image */}
+                  <BlurUpImage 
+                    src={movie.posterUrl} 
+                    alt={movie.title}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+                  />
+                  
+                  {/* Hover play button overlay */}
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <Play className="w-8 h-8 text-[#00D1FF] fill-[#00D1FF]" />
+                  </div>
+
+                  {/* Rating Indicator badge */}
+                  <div className="absolute top-2 right-2 px-1.5 py-0.5 bg-black/80 border border-white/10 rounded text-[9px] font-mono text-white/80">
+                    ★ {movie.rating}
+                  </div>
+
+                  {/* Type badge */}
+                  <div className="absolute top-2 left-2 px-1.5 py-0.5 bg-black/80 border border-white/10 rounded text-[8px] font-black uppercase tracking-widest text-[#00D1FF]">
+                    {movie.type}
+                  </div>
+                </div>
+
+                {/* Movie Title & Info */}
+                <h4 className="text-xs font-black uppercase text-white truncate mt-3 tracking-tight group-hover/card:text-[#00D1FF] transition-colors">
+                  {movie.title}
+                </h4>
+                <div className="flex items-center gap-1.5 text-[9px] text-white/40 font-mono mt-0.5">
+                  <span>{movie.year}</span>
+                  <span>•</span>
+                  <span>{movie.runtimeOrSeasons}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* SEARCH AND BROWSE CONTROL DECK */}
       <section className="relative z-20 max-w-7xl mx-auto px-6 py-10">
@@ -3091,19 +3177,8 @@ export default function App() {
                 <div className="md:col-span-4 space-y-4 bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-md">
                   <p className="text-[10px] uppercase tracking-wider text-white/40 font-bold font-mono">Cinema Controls</p>
                   
-                  {/* Interactive Watchlist, Rotating backup and Rating */}
+                  {/* Rotating backup and Rating */}
                   <div className="space-y-3">
-                    <button 
-                      onClick={() => toggleWatchlist(theaterMovie.id)}
-                      className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
-                        inWatchlist
-                          ? 'bg-red-500/20 text-red-400 border border-red-500/40 hover:bg-red-500/30'
-                          : 'bg-white/10 text-white/90 border border-white/10 hover:bg-[#00D1FF] hover:text-black hover:border-transparent'
-                      }`}
-                    >
-                      <Bookmark className={`w-4 h-4 ${inWatchlist ? 'fill-red-400' : ''}`} />
-                      {inWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
-                    </button>
 
                     {/* Rotate Alternate Stream Button to bypass blocked/unavailable videos */}
                     {isFullStream && (
