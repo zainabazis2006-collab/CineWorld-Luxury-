@@ -31,6 +31,32 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
   const [success, setSuccess] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // Pre-seed some default users if none exist, including user's email for convenience
+  React.useEffect(() => {
+    const existing = localStorage.getItem('cineworld_registered_users_v1');
+    if (!existing) {
+      const seedUsers = [
+        {
+          email: 'zainab.azis2006@gmail.com',
+          password: 'password123',
+          name: 'Zainab Azis',
+          selectedAvatar: 'director',
+          region: 'US',
+          preferredLanguage: 'en'
+        },
+        {
+          email: 'cinephile@cineworld.vip',
+          password: 'password123',
+          name: 'Elite Cinephile',
+          selectedAvatar: 'critic',
+          region: 'US',
+          preferredLanguage: 'en'
+        }
+      ];
+      localStorage.setItem('cineworld_registered_users_v1', JSON.stringify(seedUsers));
+    }
+  }, []);
+
   // Password strength checker
   const getPasswordStrength = () => {
     if (!password) return { label: '', color: 'bg-white/10', percent: 0 };
@@ -43,13 +69,16 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
     e.preventDefault();
     setError('');
     
+    const emailTrimmed = email.trim();
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
     // Basic validations
-    if (!email.trim()) {
+    if (!emailTrimmed) {
       setError('An email address is required to register your private screening pass.');
       return;
     }
-    if (!email.includes('@')) {
-      setError('Please provide a valid email format.');
+    if (!emailRegex.test(emailTrimmed)) {
+      setError('Please provide a valid email format (e.g., name@domain.com) with a proper domain extension.');
       return;
     }
     if (!password) {
@@ -61,6 +90,17 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
       return;
     }
 
+    // Load registered users database
+    const usersJson = localStorage.getItem('cineworld_registered_users_v1');
+    let registeredUsers = [];
+    try {
+      registeredUsers = usersJson ? JSON.parse(usersJson) : [];
+    } catch (err) {
+      registeredUsers = [];
+    }
+
+    let matchedUser: any = null;
+
     if (isSignUp) {
       if (!name.trim()) {
         setError('Please enter your esteemed name.');
@@ -70,6 +110,36 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
         setError('You must accept the CineWorld Luxury terms of private screening to unlock entry.');
         return;
       }
+
+      // Check duplicate
+      const emailExists = registeredUsers.some((u: any) => u.email.toLowerCase() === emailTrimmed.toLowerCase());
+      if (emailExists) {
+        setError('This email address is already registered. Please sign in instead.');
+        return;
+      }
+
+      // Register new user
+      matchedUser = {
+        email: emailTrimmed,
+        password: password,
+        name: name.trim(),
+        selectedAvatar: selectedAvatar,
+        region: region,
+        preferredLanguage: language
+      };
+
+      registeredUsers.push(matchedUser);
+      localStorage.setItem('cineworld_registered_users_v1', JSON.stringify(registeredUsers));
+    } else {
+      // Sign In validation - User must match a registered user exactly!
+      matchedUser = registeredUsers.find(
+        (u: any) => u.email.toLowerCase() === emailTrimmed.toLowerCase() && u.password === password
+      );
+
+      if (!matchedUser) {
+        setError('Incorrect email or password. No matching pass found in our private screening register. Please register first or verify your details.');
+        return;
+      }
     }
 
     setIsLoading(true);
@@ -77,17 +147,18 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
     // Simulate luxury credentials generation with cinematic delay
     setTimeout(() => {
       setIsLoading(false);
-      setSuccess(isSignUp ? 'Screening Account Activated!' : 'Welcome back, Cinephile!');
+      setSuccess(isSignUp ? 'Screening Account Activated!' : `Welcome back, ${matchedUser.name || 'Cinephile'}!`);
       
+      const finalUser = matchedUser;
       setTimeout(() => {
         onAuthSuccess({
           isLoggedIn: true,
-          userName: isSignUp ? name.trim() : email.split('@')[0],
-          email: email.trim(),
-          password: password, // For mock persistence
-          selectedAvatar: selectedAvatar,
-          region: region,
-          preferredLanguage: language
+          userName: finalUser.name,
+          email: finalUser.email,
+          password: finalUser.password,
+          selectedAvatar: finalUser.selectedAvatar || selectedAvatar,
+          region: finalUser.region || region,
+          preferredLanguage: finalUser.preferredLanguage || language
         });
       }, 800);
     }, 1500);

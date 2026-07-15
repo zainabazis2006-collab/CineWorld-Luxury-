@@ -3118,6 +3118,7 @@ export default function App() {
                 <CinemaPlayer
                   movie={theaterMovie}
                   streamMode={streamMode}
+                  youtubeId={videoId}
                   activeSeason={activeSeason}
                   activeEpisode={activeEpisode}
                   onRotateStream={() => {
