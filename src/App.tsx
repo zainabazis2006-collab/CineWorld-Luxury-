@@ -23,7 +23,8 @@ import {
   Volume2,
   VolumeX,
   Flame,
-  Menu
+  Menu,
+  Settings
 } from 'lucide-react';
 import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
 import { UPCOMING_RELEASES } from './upcomingData';
@@ -412,6 +413,8 @@ export default function App() {
   // Talent Info Modal State
   const [infoMovie, setInfoMovie] = useState<Movie | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [activeType, setActiveType] = useState<string>('All'); // 'All' | 'Movie' | 'Series'
+  const [isHeaderSettingsOpen, setIsHeaderSettingsOpen] = useState<boolean>(false);
 
   // Dynamic images state resolved from our custom proxy API
   const [resolvedImages, setResolvedImages] = useState<Record<string, { posterUrl: string; backdropUrl: string }>>(() => {
@@ -1047,7 +1050,9 @@ export default function App() {
     const matchesPlatform = activePlatform === 'All' || 
                             movie.streamingLinks.some(link => link.platform === activePlatform);
     
-    return matchesSearch && matchesGenre && matchesPlatform;
+    const matchesType = activeType === 'All' || movie.type === activeType;
+    
+    return matchesSearch && matchesGenre && matchesPlatform && matchesType;
   });
 
   // Collect all unique genres
@@ -1115,43 +1120,39 @@ export default function App() {
       {/* Top Header Navigation bar */}
       <header className="sticky top-0 z-40 border-b border-white/5 bg-black/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3 md:gap-4">
-          <div className="flex items-center gap-4 lg:gap-12 flex-shrink-0">
+          <div className="flex items-center gap-4 lg:gap-8 flex-shrink-0">
             <CineWorldLogo 
               size="md" 
-              onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); }} 
+              onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); setActiveType('All'); }} 
             />
             
-            {/* Quick-Filter Navigation (Hidden on Tablet/Mobile) */}
-            <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-semibold uppercase tracking-widest text-white/60">
+            {/* Quick-Filter Navigation (Movies & Series) */}
+            <nav className="hidden lg:flex items-center gap-6 text-xs font-semibold uppercase tracking-widest text-white/60">
               <button 
-                onClick={() => { setActiveGenre('All'); setActivePlatform('All'); }} 
-                className={`transition-colors duration-200 hover:text-white pb-1 border-b-2 ${activeGenre === 'All' && activePlatform === 'All' ? 'text-white border-[#00D1FF]' : 'border-transparent'}`}
+                onClick={() => { 
+                  setActiveType(activeType === 'Movie' ? 'All' : 'Movie'); 
+                  setActiveGenre('All'); 
+                  setActivePlatform('All'); 
+                }} 
+                className={`transition-colors duration-200 hover:text-white pb-1 border-b-2 ${activeType === 'Movie' ? 'text-[#00D1FF] border-[#00D1FF]' : 'border-transparent'}`}
               >
-                {t('allShows')}
+                Movies
               </button>
               <button 
-                onClick={() => handleGenreSelect('Sci-Fi')} 
-                className={`transition-colors duration-200 hover:text-white pb-1 border-b-2 ${activeGenre === 'Sci-Fi' ? 'text-white border-[#00D1FF]' : 'border-transparent'}`}
+                onClick={() => { 
+                  setActiveType(activeType === 'Series' ? 'All' : 'Series'); 
+                  setActiveGenre('All'); 
+                  setActivePlatform('All'); 
+                }} 
+                className={`transition-colors duration-200 hover:text-white pb-1 border-b-2 ${activeType === 'Series' ? 'text-[#00D1FF] border-[#00D1FF]' : 'border-transparent'}`}
               >
-                Sci-Fi
-              </button>
-              <button 
-                onClick={() => handleGenreSelect('Drama')} 
-                className={`transition-colors duration-200 hover:text-white pb-1 border-b-2 ${activeGenre === 'Drama' ? 'text-white border-[#00D1FF]' : 'border-transparent'}`}
-              >
-                Drama
-              </button>
-              <button 
-                onClick={() => { setActivePlatform('Disney+ Hotstar'); }} 
-                className={`transition-colors duration-200 hover:text-white pb-1 border-b-2 ${activePlatform === 'Disney+ Hotstar' ? 'text-white border-[#00D1FF]' : 'border-transparent'}`}
-              >
-                Disney+
+                Series
               </button>
             </nav>
           </div>
 
-          {/* Premium Header Search bar */}
-          <div className="flex-1 max-w-[160px] xs:max-w-[200px] sm:max-w-xs md:max-w-md mx-1 sm:mx-2 relative group z-30">
+          {/* Premium Header Search bar (Increased length) */}
+          <div className="flex-grow max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-1 sm:mx-4 relative group z-30">
             <div className="relative">
               <input
                 type="text"
@@ -1237,53 +1238,100 @@ export default function App() {
             )}
           </div>
 
-          {/* Settings & Switchers Grid (Hidden on Mobile/Tablet) */}
+          {/* Settings & Watchlist (Hidden on Mobile/Tablet) */}
           <div className="hidden lg:flex items-center gap-3 shrink-0">
-            {/* Geolocation Region Selector */}
-            <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 text-xs text-white/80">
-              <Globe className="w-3.5 h-3.5 text-[#00D1FF]" />
-              <select 
-                value={userState.region} 
-                onChange={(e) => setUserState(prev => ({ ...prev, region: e.target.value }))}
-                className="bg-transparent border-none outline-none text-white font-mono cursor-pointer text-xs pr-1"
-                aria-label={t('regionLabel')}
+            {/* Unified Settings Option */}
+            <div className="relative">
+              <button
+                onClick={() => setIsHeaderSettingsOpen(!isHeaderSettingsOpen)}
+                className={`flex items-center gap-2 bg-white/5 border rounded-full px-4 py-2 text-xs font-semibold tracking-wider uppercase transition-all duration-300 ${isHeaderSettingsOpen ? 'border-[#00D1FF] text-[#00D1FF] bg-[#00D1FF]/10 shadow-[0_0_15px_rgba(0,209,255,0.25)]' : 'border-white/10 text-white/80 hover:bg-white/10 hover:text-white'}`}
+                title="Settings"
               >
-                <option value="IN" className="bg-[#0b0b12]">IN (Hotstar-Region)</option>
-                <option value="US" className="bg-[#0b0b12]">US (Global-West)</option>
-                <option value="UK" className="bg-[#0b0b12]">UK (Europe-HQ)</option>
-                <option value="JP" className="bg-[#0b0b12]">JP (Asia-East)</option>
-              </select>
-            </div>
+                <Settings className="w-3.5 h-3.5" />
+                <span>Settings</span>
+              </button>
+              
+              <AnimatePresence>
+                {isHeaderSettingsOpen && (
+                  <>
+                    {/* Backdrop to close settings */}
+                    <div 
+                      className="fixed inset-0 z-40 cursor-default" 
+                      onClick={() => setIsHeaderSettingsOpen(false)}
+                    />
+                    
+                    {/* Settings Dropdown Card */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 mt-3 w-72 bg-[#0b0b12]/95 border border-white/15 rounded-2xl p-4 shadow-[0_15px_30px_rgba(0,0,0,0.9)] backdrop-blur-md z-50 space-y-4 text-left"
+                    >
+                      <div className="text-[10px] font-bold text-[#00D1FF]/70 uppercase tracking-widest pb-2 border-b border-white/5 flex justify-between items-center">
+                        <span>Application Settings</span>
+                        <Settings className="w-3.5 h-3.5 text-white/30" />
+                      </div>
 
-            {/* Language Switcher */}
-            <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 text-xs text-white/80">
-              <Sliders className="w-3.5 h-3.5 text-red-500" />
-              <select 
-                value={userState.preferredLanguage} 
-                onChange={(e) => setUserState(prev => ({ ...prev, preferredLanguage: e.target.value }))}
-                className="bg-transparent border-none outline-none text-white cursor-pointer font-sans text-xs pr-1"
-                aria-label={t('languageLabel')}
-              >
-                <option value="en" className="bg-[#0b0b12]">English</option>
-                <option value="hi" className="bg-[#0b0b12]">हिन्दी (Hindi)</option>
-                <option value="ar" className="bg-[#0b0b12]">العربية (Arabic)</option>
-                <option value="ja" className="bg-[#0b0b12]">日本語 (Japanese)</option>
-                <option value="es" className="bg-[#0b0b12]">Español (Spanish)</option>
-              </select>
-            </div>
+                      {/* Region Select */}
+                      <div className="space-y-1.5">
+                        <label className="text-[9px] font-mono text-white/40 uppercase tracking-wider flex items-center gap-1.5">
+                          <Globe className="w-3 h-3 text-[#00D1FF]" /> {t('regionLabel')}
+                        </label>
+                        <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 flex items-center">
+                          <select 
+                            value={userState.region} 
+                            onChange={(e) => setUserState(prev => ({ ...prev, region: e.target.value }))}
+                            className="bg-transparent border-none outline-none text-white font-mono cursor-pointer text-xs w-full"
+                          >
+                            <option value="IN" className="bg-[#0b0b12]">IN (Hotstar-Region)</option>
+                            <option value="US" className="bg-[#0b0b12]">US (Global-West)</option>
+                            <option value="UK" className="bg-[#0b0b12]">UK (Europe-HQ)</option>
+                            <option value="JP" className="bg-[#0b0b12]">JP (Asia-East)</option>
+                          </select>
+                        </div>
+                      </div>
 
-            {/* Poster Mode Switcher */}
-            <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1.5 text-xs text-white/80">
-              <Sparkles className="w-3.5 h-3.5 text-[#00D1FF]" />
-              <select 
-                value={userState.posterSafetyMode || 'original'} 
-                onChange={(e) => setUserState(prev => ({ ...prev, posterSafetyMode: e.target.value as 'safe' | 'original' }))}
-                className="bg-transparent border-none outline-none text-white cursor-pointer font-sans text-xs pr-1"
-                aria-label="Poster Safety Mode"
-              >
-                <option value="original" className="bg-[#0b0b12]">Original Art</option>
-                <option value="safe" className="bg-[#0b0b12]">Safe Art</option>
-              </select>
+                      {/* Language Select */}
+                      <div className="space-y-1.5">
+                        <label className="text-[9px] font-mono text-white/40 uppercase tracking-wider flex items-center gap-1.5">
+                          <Sliders className="w-3 h-3 text-red-500" /> {t('languageLabel')}
+                        </label>
+                        <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 flex items-center">
+                          <select 
+                            value={userState.preferredLanguage} 
+                            onChange={(e) => setUserState(prev => ({ ...prev, preferredLanguage: e.target.value }))}
+                            className="bg-transparent border-none outline-none text-white cursor-pointer font-sans text-xs w-full"
+                          >
+                            <option value="en" className="bg-[#0b0b12]">English</option>
+                            <option value="hi" className="bg-[#0b0b12]">हिन्दी (Hindi)</option>
+                            <option value="ar" className="bg-[#0b0b12]">العربية (Arabic)</option>
+                            <option value="ja" className="bg-[#0b0b12]">日本語 (Japanese)</option>
+                            <option value="es" className="bg-[#0b0b12]">Español (Spanish)</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Poster Safety Mode */}
+                      <div className="space-y-1.5">
+                        <label className="text-[9px] font-mono text-white/40 uppercase tracking-wider flex items-center gap-1.5">
+                          <Sparkles className="w-3 h-3 text-[#00D1FF]" /> Poster Mode
+                        </label>
+                        <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 flex items-center">
+                          <select 
+                            value={userState.posterSafetyMode || 'original'} 
+                            onChange={(e) => setUserState(prev => ({ ...prev, posterSafetyMode: e.target.value as 'safe' | 'original' }))}
+                            className="bg-transparent border-none outline-none text-white cursor-pointer font-sans text-xs w-full"
+                          >
+                            <option value="original" className="bg-[#0b0b12]">Original Art</option>
+                            <option value="safe" className="bg-[#0b0b12]">Safe Art</option>
+                          </select>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
             
             {/* Watchlist Counter Badge */}
@@ -1379,31 +1427,24 @@ export default function App() {
                   <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-3">Quick Navigation</h4>
                   <div className="flex flex-col gap-2">
                     <button 
-                      onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setIsMobileMenuOpen(false); }} 
-                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activeGenre === 'All' && activePlatform === 'All' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                      onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setActiveType('All'); setIsMobileMenuOpen(false); }} 
+                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activeType === 'All' && activeGenre === 'All' && activePlatform === 'All' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
                     >
-                      <span>{t('allShows')}</span>
+                      <span>All Shows</span>
                       <Play className="w-3.5 h-3.5 opacity-50" />
                     </button>
                     <button 
-                      onClick={() => { handleGenreSelect('Sci-Fi'); setIsMobileMenuOpen(false); }} 
-                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activeGenre === 'Sci-Fi' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                      onClick={() => { setActiveType('Movie'); setActiveGenre('All'); setActivePlatform('All'); setIsMobileMenuOpen(false); }} 
+                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activeType === 'Movie' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
                     >
-                      <span>Sci-Fi</span>
+                      <span>Movies</span>
                       <Play className="w-3.5 h-3.5 opacity-50" />
                     </button>
                     <button 
-                      onClick={() => { handleGenreSelect('Drama'); setIsMobileMenuOpen(false); }} 
-                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activeGenre === 'Drama' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                      onClick={() => { setActiveType('Series'); setActiveGenre('All'); setActivePlatform('All'); setIsMobileMenuOpen(false); }} 
+                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activeType === 'Series' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
                     >
-                      <span>Drama</span>
-                      <Play className="w-3.5 h-3.5 opacity-50" />
-                    </button>
-                    <button 
-                      onClick={() => { setActivePlatform('Disney+ Hotstar'); setIsMobileMenuOpen(false); }} 
-                      className={`w-full text-left px-4 py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between min-h-[48px] ${activePlatform === 'Disney+ Hotstar' ? 'bg-[#00D1FF]/20 text-white border border-[#00D1FF]/30' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
-                    >
-                      <span>Disney+</span>
+                      <span>Series</span>
                       <Play className="w-3.5 h-3.5 opacity-50" />
                     </button>
                   </div>
@@ -1584,9 +1625,11 @@ export default function App() {
               {/* Title display */}
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-black italic uppercase leading-[0.85] tracking-tighter">
                 {currentMovie.title.split(': ')[0]} <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-white/30 font-black">
-                  {currentMovie.title.split(': ')[1] || 'PREMIUM'}
-                </span>
+                {currentMovie.title.split(': ')[1] && (
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-white/30 font-black">
+                    {currentMovie.title.split(': ')[1]}
+                  </span>
+                )}
               </h1>
 
               {/* Synopsis */}
