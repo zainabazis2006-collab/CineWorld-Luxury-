@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, lazy, Suspense } from 'react';
 import { 
   Play, 
   Info, 
@@ -29,14 +29,16 @@ import { UPCOMING_RELEASES } from './upcomingData';
 import { Movie, Review, UserState, ChatMessage } from './types';
 import { getSeriesSeasons } from './episodes';
 import { motion, AnimatePresence } from 'motion/react';
-import ComingSoonSection from './components/ComingSoonSection';
-import KoreanRomanceSection from './components/KoreanRomanceSection';
-import TrendingChart from './components/TrendingChart';
-import HorrorShowcaseSection from './components/HorrorShowcaseSection';
-import ComedySection from './components/ComedySection';
-import ActionSection from './components/ActionSection';
+import LazySection from './components/LazySection';
+
+const ComingSoonSection = lazy(() => import('./components/ComingSoonSection'));
+const KoreanRomanceSection = lazy(() => import('./components/KoreanRomanceSection'));
+const TrendingChart = lazy(() => import('./components/TrendingChart'));
+const HorrorShowcaseSection = lazy(() => import('./components/HorrorShowcaseSection'));
+const ComedySection = lazy(() => import('./components/ComedySection'));
+const ActionSection = lazy(() => import('./components/ActionSection'));
 import TiltCard from './components/TiltCard';
-import CinemaPlayer from './components/CinemaPlayer';
+const CinemaPlayer = lazy(() => import('./components/CinemaPlayer'));
 import CineWorldLogo from './components/CineWorldLogo';
 import CinematicAuth from './components/CinematicAuth';
 import GenreCarousel from './components/GenreCarousel';
@@ -1897,46 +1899,70 @@ export default function App() {
       </section>
 
       {/* COMING SOON / ANTICIPATION SECTION */}
-      <ComingSoonSection userState={userState} setUserState={setUserState} upcomingCatalog={displayUpcomingCatalog} />
+      <LazySection height="250px">
+        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+          <ComingSoonSection userState={userState} setUserState={setUserState} upcomingCatalog={displayUpcomingCatalog} />
+        </Suspense>
+      </LazySection>
 
       {/* KOREAN ROMANCE SPECIALTY SECTION */}
-      <KoreanRomanceSection 
-        catalog={displayCatalog} 
-        userState={userState} 
-        handleMovieSelect={handleMovieSelect} 
-        toggleWatchlist={toggleWatchlist} 
-      />
+      <LazySection height="350px">
+        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+          <KoreanRomanceSection 
+            catalog={displayCatalog} 
+            userState={userState} 
+            handleMovieSelect={handleMovieSelect} 
+            toggleWatchlist={toggleWatchlist} 
+          />
+        </Suspense>
+      </LazySection>
 
       {/* HORROR SHOWCASE SECTION */}
-      <HorrorShowcaseSection 
-        catalog={displayCatalog} 
-        userState={userState} 
-        handleMovieSelect={handleMovieSelect} 
-        toggleWatchlist={toggleWatchlist} 
-      />
+      <LazySection height="350px">
+        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+          <HorrorShowcaseSection 
+            catalog={displayCatalog} 
+            userState={userState} 
+            handleMovieSelect={handleMovieSelect} 
+            toggleWatchlist={toggleWatchlist} 
+          />
+        </Suspense>
+      </LazySection>
 
       {/* COMEDY SHOWCASE SECTION */}
-      <ComedySection 
-        catalog={displayCatalog} 
-        userState={userState} 
-        handleMovieSelect={handleMovieSelect} 
-        toggleWatchlist={toggleWatchlist} 
-      />
+      <LazySection height="350px">
+        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+          <ComedySection 
+            catalog={displayCatalog} 
+            userState={userState} 
+            handleMovieSelect={handleMovieSelect} 
+            toggleWatchlist={toggleWatchlist} 
+          />
+        </Suspense>
+      </LazySection>
 
       {/* ACTION SHOWCASE SECTION */}
-      <ActionSection 
-        catalog={displayCatalog} 
-        userState={userState} 
-        handleMovieSelect={handleMovieSelect} 
-        toggleWatchlist={toggleWatchlist} 
-      />
+      <LazySection height="350px">
+        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+          <ActionSection 
+            catalog={displayCatalog} 
+            userState={userState} 
+            handleMovieSelect={handleMovieSelect} 
+            toggleWatchlist={toggleWatchlist} 
+          />
+        </Suspense>
+      </LazySection>
 
       {/* TRENDING NOW TELEMETRY CHART */}
-      <TrendingChart 
-        catalog={displayCatalog} 
-        userState={userState} 
-        handleMovieSelect={handleMovieSelect} 
-      />
+      <LazySection height="300px">
+        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+          <TrendingChart 
+            catalog={displayCatalog} 
+            userState={userState} 
+            handleMovieSelect={handleMovieSelect} 
+          />
+        </Suspense>
+      </LazySection>
 
       {/* SPECIAL PERSONALIZATION & SUGGESTED MATRIX BAR (Durable recommendation engine) */}
       <section className="relative z-10 max-w-7xl mx-auto px-6 py-8 border-t border-white/5">
@@ -2628,19 +2654,26 @@ export default function App() {
               </div>
 
               {/* 16:9 Video Canvas Frame */}
-              <CinemaPlayer
-                movie={theaterMovie}
-                streamMode={streamMode}
-                activeSeason={activeSeason}
-                activeEpisode={activeEpisode}
-                onRotateStream={() => {
-                  const nextIndex = backupIndex + 1;
-                  setBackupIndex(nextIndex);
-                  pushSystemChatMessage(`Rotating to alternate backup streaming server (Index: #${nextIndex + 1}).`);
-                }}
-                safeStreamTitle={safeStream.title}
-                backupIndex={backupIndex}
-              />
+              <Suspense fallback={
+                <div className="aspect-video w-full bg-[#0b0b12] border border-[#00D1FF]/20 rounded-2xl flex flex-col items-center justify-center gap-4">
+                  <div className="w-12 h-12 rounded-full border-4 border-t-[#00D1FF] border-white/10 animate-spin" />
+                  <span className="text-sm text-white/50 font-mono tracking-widest uppercase">Loading Digital Stream Player...</span>
+                </div>
+              }>
+                <CinemaPlayer
+                  movie={theaterMovie}
+                  streamMode={streamMode}
+                  activeSeason={activeSeason}
+                  activeEpisode={activeEpisode}
+                  onRotateStream={() => {
+                    const nextIndex = backupIndex + 1;
+                    setBackupIndex(nextIndex);
+                    pushSystemChatMessage(`Rotating to alternate backup streaming server (Index: #${nextIndex + 1}).`);
+                  }}
+                  safeStreamTitle={safeStream.title}
+                  backupIndex={backupIndex}
+                />
+              </Suspense>
 
               {/* Info Panel & Interactive Controls Grid */}
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start mt-2">
