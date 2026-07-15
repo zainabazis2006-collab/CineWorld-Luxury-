@@ -2942,6 +2942,209 @@ const RAW_CATALOG: Movie[] = [
       }
     ],
     productionTrivia: 'The writers spent weeks sitting in local sessions courts in Delhi to capture the authentic, colloquial humor and eccentric behavior of local lawyers and clerks.'
+  },
+  {
+    id: 'aladdin',
+    title: 'Aladdin',
+    type: 'Movie',
+    year: 2019,
+    runtimeOrSeasons: '128 min',
+    rating: 4.7,
+    genres: ['Adventure', 'Fantasy', 'Family', 'Romance'],
+    directorOrCreator: 'Guy Ritchie',
+    cast: ['Mena Massoud', 'Will Smith', 'Naomi Scott', 'Marwan Kenzari'],
+    synopsis: 'A kind-hearted street urchin named Aladdin embarks on a magical adventure after finding a mystical lamp containing a witty, wish-granting Genie, while competing with an evil vizier for the heart of Princess Jasmine.',
+    criticalAnalysis: 'A visually lavish, energetic adaptation of the animated classic that breathes new life into Agrabah, powered by Will Smith\'s charismatic performance and Naomi Scott\'s stunning musical numbers.',
+    trivia: [
+      'Will Smith was initially hesitant to take on the role of the Genie due to Robin Williams\' iconic and legendary original performance.',
+      'The desert scenes were filmed in the breathtaking Wadi Rum Desert in Jordan, where the crew constructed massive ancient city structures.',
+      'Naomi Scott\'s empowering song "Speechless" was written specifically for this live-action adaptation.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/movies/aladdin',
+        availableRegions: ['IN', 'US', 'UK', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production team built a life-sized Agrabah set covering an area equivalent to two football fields, including authentic spice markets and narrow stone streets.'
+  },
+  {
+    id: 'ikka',
+    title: 'Ikka',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '142 min',
+    rating: 4.8,
+    genres: ['Action', 'Thriller', 'Drama'],
+    directorOrCreator: 'Sandeep Reddy',
+    cast: ['Vijay Sethupathi', 'Fahadh Faasil', 'Suriya', 'Nayanthara'],
+    synopsis: 'In a rain-soaked metropolis, a mysterious vigilante operating under the alias "Ikka" wages a tactical war against a ruthless underground syndicate, executing high-stakes heists to expose institutional corruption.',
+    criticalAnalysis: 'A phenomenal, neon-drenched neo-noir thriller that features masterclass tension-building, hyper-stylized action sequences, and a powerhouse performance by the lead cast.',
+    trivia: [
+      'The director spent over eight months storyboard-visualizing the continuous-shot harbor heist sequence.',
+      'The movie is shot entirely using anamorphic lenses to deliver a gritty, high-contrast widescreen cinematic experience.',
+      'The ambient background score utilizes live heavy analog synthesizers to build a looming sense of corporate dread.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/ikka',
+        availableRegions: ['IN', 'US', 'UK', 'CA'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Leveraged dynamic camera rigs mounted on customized electric motorcycles to capture the high-octane city car chases.'
+  },
+  {
+    id: 'peddi',
+    title: 'Peddi',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '135 min',
+    rating: 4.5,
+    genres: ['Action', 'Drama'],
+    directorOrCreator: 'Prashanth Neel',
+    cast: ['Yash', 'Sanjay Dutt', 'Raveena Tandon', 'Prakash Raj'],
+    synopsis: 'Set in the harsh gold mines of India, an ambitious and fierce warrior named Peddi rises from poverty to protect his community from corporate exploitation, leading a powerful workers\' rebellion against corrupt forces.',
+    criticalAnalysis: 'A high-decibel, adrenaline-fueled epic drama boasting stylized slow-motion cinematography, robust action choreography, and a monumental background score.',
+    trivia: [
+      'The costume designer researched historical mining workwear from the 1970s and 1980s to design the outfits.',
+      'Over 1,000 background actors were cast to portray the gold miners during the dramatic workers\' strike scenes.',
+      'The film\'s cinematography used high-dynamic range cameras to capture the rich contrast of dust and shadows.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.primevideo.com/detail/peddi',
+        availableRegions: ['IN', 'US', 'UK', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production constructed a massive artificial mine quarry covering 30 acres to shoot the heavy explosion and action sequences safely.'
+  },
+  {
+    id: 'daadi-ki-shaadi',
+    title: 'Daadi Ki Shaadi',
+    type: 'Movie',
+    year: 2025,
+    runtimeOrSeasons: '118 min',
+    rating: 4.9,
+    genres: ['Comedy', 'Drama', 'Family'],
+    directorOrCreator: 'Karan Johar',
+    cast: ['Neena Gupta', 'Anupam Kher', 'Alia Bhatt', 'Rajkummar Rao'],
+    synopsis: 'When an eccentric, free-spirited 75-year-old grandmother announces her plan to remarry her childhood sweetheart, it triggers a hilarious, chaotic, and emotional roller-coaster within her highly conservative family.',
+    criticalAnalysis: 'A sparkling, progressive comedy-drama that masterfully challenges societal stigmas surrounding elderly romance with non-stop laughter, outstanding emotional depth, and stellar family chemistry.',
+    trivia: [
+      'Neena Gupta was the first and only choice for the role of the energetic grandmother, agreeing to the script immediately.',
+      'The movie captures gorgeous wedding aesthetics shot during real autumn festivals in northern India.',
+      'Several dialogue sequences were entirely improvised by the veteran actors during live family dining scenes.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/daadi-ki-shaadi',
+        availableRegions: ['IN', 'US', 'UK'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The costume design featured authentic vintage hand-woven Banarasi sarees that were sourced from traditional weavers to support local artisans.'
+  },
+  {
+    id: 'blast',
+    title: 'Blast',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '122 min',
+    rating: 4.6,
+    genres: ['Action', 'Sci-Fi', 'Thriller'],
+    directorOrCreator: 'Michael Bay',
+    cast: ['Ryan Reynolds', 'Chris Hemsworth', 'Zoe Saldana', 'Pedro Pascal'],
+    synopsis: 'When an experimental clean-energy reactor undergoes a catastrophic failure in a futuristic city, a team of elite special-ops and scientists have exactly 90 minutes to prevent a thermal blast from engulfing the hemisphere.',
+    criticalAnalysis: 'An explosive, relentless sci-fi blockbuster with breathtaking visual effects, rapid-fire humor, and stunning sound design that keeps viewers on the absolute edge of their seats.',
+    trivia: [
+      'The director insisted on using real pyrotechnics for over 70% of the explosion sequences to maximize sensory realism.',
+      'Ryan Reynolds did many of his own physical stunts, including the dramatic leap from a high-rise helicopter pad.',
+      'The movie\'s sound design team recorded real rocket thruster tests to simulate the deafening sound of the core reactor.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.primevideo.com/detail/blast',
+        availableRegions: ['US', 'UK', 'CA', 'IN'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Utilized cutting-edge virtual production stages (the Volume) to render the expansive futuristic city skyline in real-time behind the actors.'
+  },
+  {
+    id: 'dhurandar-1',
+    title: 'Dhurandar 1',
+    type: 'Movie',
+    year: 2022,
+    runtimeOrSeasons: '125 min',
+    rating: 4.7,
+    genres: ['Comedy', 'Action'],
+    directorOrCreator: 'Rohit Shetty',
+    cast: ['Akshay Kumar', 'Suniel Shetty', 'Paresh Rawal', 'Johnny Lever'],
+    synopsis: 'Two clumsy and debt-ridden friends accidentally intercept a high-profile ransom delivery, triggering a chaotic chase involving local mobsters, police officers, and a pet monkey.',
+    criticalAnalysis: 'A riotous, nostalgic slapstick comedy that pays tribute to classic comedy duos. It delivers endless laughs through fast-paced dialogue, colorful action sequences, and timeless physical comedy.',
+    trivia: [
+      'The film reunites the legendary comedy trio after a decade, leading to instant hype among fans.',
+      'The iconic car crash scene into the swimming pool took four takes to perfect without damaging the camera rigs.',
+      'Johnny Lever\'s hilarious tongue-twister monologue was fully written by the actor himself during a lunch break.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/movies/dhurandar-1',
+        availableRegions: ['IN', 'US', 'UK'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production constructed a colorful, customized amusement park set to host the film\'s chaotic climax sequence.'
+  },
+  {
+    id: 'dhurandar-2',
+    title: 'Dhurandar 2',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '130 min',
+    rating: 4.8,
+    genres: ['Comedy', 'Action'],
+    directorOrCreator: 'Rohit Shetty',
+    cast: ['Akshay Kumar', 'Suniel Shetty', 'Paresh Rawal', 'Sanjay Dutt', 'Johnny Lever'],
+    synopsis: 'The clumsy duo returns, this time accidentally boarding a flight to London under stolen identities, where they become entangled with an eccentric British billionaire and an underground diamond heist.',
+    criticalAnalysis: 'A worthy, bigger, and louder sequel that takes the slapstick humor international. It pairs spectacular London landmarks with Rohit Shetty\'s signature action-comedy signature.',
+    trivia: [
+      'Filmed extensively on location in London, including Tower Bridge, the London Eye, and Trafalgar Square.',
+      'Sanjay Dutt joined the sequel as a funny, partially blind mob boss, which became an instant crowd-pleaser.',
+      'The filmmakers used twenty-four high-end sports cars for a single hilarious street race sequence in the suburbs of London.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/movies/dhurandar-2',
+        availableRegions: ['IN', 'US', 'UK'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Secured rare, highly coveted filming permissions from the city of London to shoot action-comedy car chases in high-traffic zones.'
   }
 ];
 
@@ -3043,7 +3246,14 @@ const SAFE_POSTERS: Record<string, string> = {
   'family-man-series': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
   'kohrra-series': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
   'paatal-lok-series': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop',
-  'maamla-legal-hai': 'https://images.unsplash.com/photo-1505664194779-8bebcb95c557?q=80&w=600&auto=format&fit=crop'
+  'maamla-legal-hai': 'https://images.unsplash.com/photo-1505664194779-8bebcb95c557?q=80&w=600&auto=format&fit=crop',
+  'aladdin': 'https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=600&auto=format&fit=crop',
+  'ikka': 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=600&auto=format&fit=crop',
+  'peddi': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop',
+  'daadi-ki-shaadi': 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop',
+  'blast': 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop',
+  'dhurandar-1': 'https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=600&auto=format&fit=crop',
+  'dhurandar-2': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop'
 };
 
 const SAFE_BACKDROPS: Record<string, string> = {
@@ -3099,7 +3309,14 @@ const SAFE_BACKDROPS: Record<string, string> = {
   'family-man-series': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop',
   'kohrra-series': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop',
   'paatal-lok-series': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop',
-  'maamla-legal-hai': 'https://images.unsplash.com/photo-1505664194779-8bebcb95c557?q=80&w=1200&auto=format&fit=crop'
+  'maamla-legal-hai': 'https://images.unsplash.com/photo-1505664194779-8bebcb95c557?q=80&w=1200&auto=format&fit=crop',
+  'aladdin': 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200&auto=format&fit=crop',
+  'ikka': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop',
+  'peddi': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
+  'daadi-ki-shaadi': 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
+  'blast': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
+  'dhurandar-1': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop',
+  'dhurandar-2': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop'
 };
 
 export const CURATED_CATALOG: Movie[] = RAW_CATALOG.map(movie => {

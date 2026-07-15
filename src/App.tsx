@@ -533,6 +533,21 @@ export default function App() {
   // General App states
   const [selectedMovieId, setSelectedMovieId] = useState<string>('shogun');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isSearchLoading, setIsSearchLoading] = useState<boolean>(false);
+
+  // Trigger loading spinner for perceived API search requests in progress
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setIsSearchLoading(false);
+      return;
+    }
+    setIsSearchLoading(true);
+    const timer = setTimeout(() => {
+      setIsSearchLoading(false);
+    }, 450); // Simulates TMDB multi-search query latency and premium lookup
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   const [exploreByTalent, setExploreByTalent] = useState<boolean>(false);
   const [activeGenre, setActiveGenre] = useState<string>('All');
   const [activePlatform, setActivePlatform] = useState<string>('All');
@@ -1311,8 +1326,11 @@ export default function App() {
               />
               <Compass className="absolute left-2.5 sm:left-3.5 top-2.5 w-3 h-3 sm:w-3.5 sm:h-3.5 text-white/30 group-focus-within:text-[#00D1FF] transition-colors" />
               
-              <div className="absolute right-1 sm:right-2 top-1.5 flex items-center gap-1">
-                {searchQuery && (
+              <div className="absolute right-1 sm:right-2 top-1.5 flex items-center gap-1.5">
+                {isSearchLoading && (
+                  <span className="w-3.5 h-3.5 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="TMDB API searching..." />
+                )}
+                {searchQuery && !isSearchLoading && (
                   <button 
                     onClick={() => setSearchQuery('')}
                     className="text-white/40 hover:text-white p-0.5"
@@ -2111,14 +2129,16 @@ export default function App() {
               />
               <Compass className="absolute left-4 top-3.5 w-4.5 h-4.5 text-white/30" />
               
-              {searchQuery && (
+              {isSearchLoading ? (
+                <span className="absolute right-4 top-3.5 w-4 h-4 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="TMDB API searching..." />
+              ) : searchQuery ? (
                 <button 
                   onClick={() => setSearchQuery('')}
                   className="absolute right-4 top-3.5 text-white/40 hover:text-white"
                 >
                   <X className="w-4 h-4" />
                 </button>
-              )}
+              ) : null}
             </div>
 
             {/* Dedicated Explore by Talent Search Mode Toggles */}
