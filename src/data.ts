@@ -1,6 +1,6 @@
 import { Movie } from './types';
 
-function getProxiedUrl(url: string): string {
+export function getProxiedUrl(url: string): string {
   if (!url) return '';
   if (url.includes('unsplash.com')) {
     return url;
@@ -2304,6 +2304,296 @@ const RAW_CATALOG: Movie[] = [
       }
     ],
     productionTrivia: 'Used a highly sophisticated audio post-production process that manipulated individual frequencies to replicate the precise, mechanical sensations of receiving a cochlear implant.'
+  },
+  {
+    id: 'fallout-series',
+    title: 'Fallout',
+    type: 'Series',
+    year: 2024,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.8,
+    genres: ['Sci-Fi', 'Action', 'Adventure'],
+    directorOrCreator: 'Graham Wagner, Geneva Robertson-Dworet',
+    cast: ['Ella Purnell', 'Walton Goggins', 'Aaron Moten', 'Kyle MacLachlan'],
+    synopsis: 'Based on one of the greatest video game series of all time, Fallout is the story of haves and have-nots in a world in which there\'s almost nothing left to have. 200 years after the apocalypse, the gentle denizens of luxury fallout shelters are forced to return to the irradiated hellscape their ancestors left behind.',
+    criticalAnalysis: 'An absolute masterpiece of adaptation. Fallout captures the game\'s unique retro-futuristic aesthetic, grim post-apocalyptic survivalist themes, and morbidly satirical dark humor with astonishing fidelity. Walton Goggins delivers a career-defining performance as The Ghoul, perfectly embodying the tragic, irradiated soul of the wasteland.',
+    trivia: [
+      'The power armor suits seen in the series were mostly built as functional, heavy-duty practical suits by Legacy Effects rather than relying entirely on CGI.',
+      'The Vault-Tec mascot\'s iconic "thumbs up" is famously explained in the show\'s opening episode as a method for measuring distance from a nuclear blast.',
+      'Jonathan Nolan, who directed several episodes, is a massive fan of the games and personally pushed to keep the production design incredibly close to the original game assets.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Fallout_TV_series_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP', 'DE'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production team shot on location at the skeleton coast in Namibia, using real abandoned shipwrecks and salt flats to construct the desolate, hauntingly beautiful wasteland landscapes.'
+  },
+  {
+    id: 'bridgerton',
+    title: 'Bridgerton',
+    type: 'Series',
+    year: 2020,
+    runtimeOrSeasons: '3 Seasons',
+    rating: 4.7,
+    genres: ['Romance', 'Drama', 'History'],
+    directorOrCreator: 'Chris Van Dusen',
+    cast: ['Nicola Coughlan', 'Luke Newton', 'Jonathan Bailey', 'Phoebe Devine'],
+    synopsis: 'During the Regency era in England, eight close-knit siblings of the powerful Bridgerton family look for love and happiness in London high society, guided and criticized by the mysterious newsletter writer Lady Whistledown.',
+    criticalAnalysis: 'A beautifully lavish, wildly addictive historical romance. By blending vibrant modern music covers, gorgeous high-society fashion, and steam-filled chemistry, Bridgerton revitalized the costume drama genre for a younger generation. Its diverse casting and dazzling color palette make it a visual feast.',
+    trivia: [
+      'The show\'s incredible, classical-style pop music covers are performed by the Vitamin String Quartet and Duomo, covering artists like Billie Eilish, Ariana Grande, and Taylor Swift.',
+      'To prepare for the demanding high-society ball scenes, the cast underwent extensive Regency etiquette training, learning how to dance, hold teacups, bow, and walk.',
+      'Over 7,500 custom-made costume pieces were designed and created from scratch for the first season alone.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1518887570146-0612132dd618?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/c/cb/Bridgerton_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP', 'BR'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production rented several historic English estates, including the breathtaking Ranger\'s House in Greenwich, London, which served as the elegant brick exterior of the Bridgerton family home.'
+  },
+  {
+    id: 'beef-series',
+    title: 'Beef',
+    type: 'Series',
+    year: 2023,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.8,
+    genres: ['Comedy', 'Drama'],
+    directorOrCreator: 'Lee Sung Jin',
+    cast: ['Steven Yeun', 'Ali Wong', 'Joseph Lee', 'Young Mazino'],
+    synopsis: 'A road rage incident between two strangers—a failing contractor and an unfulfilled entrepreneur—sparks a bitter feud that unleashes their darkest impulses, gradually unraveling their relationships and careers.',
+    criticalAnalysis: 'A kinetic, brilliant, and hilariously toxic examination of modern existential dread, class divide, and repressed anger. Lee Sung Jin masterfully paces the conflict as it escalates from trivial vandalism to existential warfare. Steven Yeun and Ali Wong share an incredible, destructive magnetic energy.',
+    trivia: [
+      'The title card for each episode features custom surrealist paintings created by co-star Joseph Lee, who plays George Nakai.',
+      'The show is named Beef, representing the slang term for a grudge or conflict, and serves as a literal metaphor for consuming toxic rage.',
+      'The series swept the 75th Primetime Emmy Awards, winning 8 awards including Outstanding Limited or Anthology Series, and lead acting awards for Yeun and Wong.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/15/Beef_Netflix_series_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP', 'KR'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Shot entirely in and around Los Angeles, California, utilizing high-contrast lighting and tight lenses to emphasize the characters\' feelings of claustrophobia and modern alienation.'
+  },
+  {
+    id: 'the-sandman-series',
+    title: 'The Sandman',
+    type: 'Series',
+    year: 2022,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.6,
+    genres: ['Fantasy', 'Drama', 'Sci-Fi'],
+    directorOrCreator: 'Neil Gaiman, David S. Goyer, Allan Heinberg',
+    cast: ['Tom Sturridge', 'Boyd Holbrook', 'Patton Oswalt', 'Vivienne Acheampong'],
+    synopsis: 'Upon escaping after decades of imprisonment by a mortal wizard, Dream, the personification of dreams and king of the Dreaming, sets out to reclaim his lost tools of power and rebuild his crumbling kingdom.',
+    criticalAnalysis: 'An atmospheric, imaginative adaptation that respects Neil Gaiman\'s legendary comic source material. Sturridge is spectacular as the brooding, pale Lord of Dreams. The series beautifully balances philosophical standalone tales with overarching mythic fantasy, creating a dark, lyrical, and visually stunning world.',
+    trivia: [
+      'Tom Sturridge beat out over a thousand actors who auditioned for the role of Dream, after Gaiman felt his voice and posture perfectly mirrored the comic books.',
+      'The episode "24 Hours" is widely considered one of the most terrifying hours of television, shot like a bottle film inside a retro diner.',
+      'The voice of Matthew the Raven is provided by Patton Oswalt, who is a massive lifelong fan of the comic books.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/95/The_Sandman_Netflix_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP', 'FR'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The Dreaming\'s surreal landscapes were crafted using a blend of physical gothic architectural sets built in Pinewood Studios and expansive CGI landscapes.'
+  },
+  {
+    id: 'the-expanse',
+    title: 'The Expanse',
+    type: 'Series',
+    year: 2015,
+    runtimeOrSeasons: '6 Seasons',
+    rating: 4.8,
+    genres: ['Sci-Fi', 'Drama', 'Mystery'],
+    directorOrCreator: 'Mark Fergus, Hawk Ostby',
+    cast: ['Steven Strait', 'Dominique Tipper', 'Wes Chatham', 'Shohreh Aghdashloo'],
+    synopsis: 'In a highly colonized solar system where Earth, Mars, and the outer asteroid belt are on the brink of war, a hardened detective and a rogue spaceship captain find themselves in a race across the galaxy to expose the greatest conspiracy in human history.',
+    criticalAnalysis: 'Arguably the greatest hard sci-fi television series ever created. The Expanse stands tall for its meticulous adherence to orbital mechanics, realistic gravity physics, and exceptionally rich geopolitical writing. The complex, morally gray characters and deep world-building provide a deeply intellectual sci-fi experience.',
+    trivia: [
+      'The series was famously cancelled by Syfy after three seasons, but a massive fan campaign (including flying a "Save The Expanse" banner over Amazon headquarters) led Jeff Bezos, a massive fan of the books, to personally acquire the series for Prime Video.',
+      'The fictional language Belter Creole was meticulously designed by professional linguist Nick Farmer, drawing roots from English, Spanish, Chinese, German, and Swahili.',
+      'Actor Wes Chatham, who plays Amos Burton, worked closely with writers Ty Franck and Daniel Abraham to ensure his character\'s complex trauma-induced psychology was perfectly portrayed.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/db/The_Expanse_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP', 'CA'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Utilized ultra-high definition cameras and state-of-the-art physics simulation engines to render accurate zero-gravity thrusts, thruster plumes, and kinetic weaponry battles.'
+  },
+  {
+    id: 'the-idea-of-you',
+    title: 'The Idea of You',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '115 min',
+    rating: 4.5,
+    genres: ['Romance', 'Drama'],
+    directorOrCreator: 'Michael Showalter',
+    cast: ['Anne Hathaway', 'Nicholas Galitzine', 'Ella Rubin', 'Reid Scott'],
+    synopsis: 'Solène, a chic 40-year-old art gallery owner and single mother, begins an unexpected, whirlwind romance with 24-year-old Hayes Campbell, the lead singer of August Moon, the hottest boy band on earth, after a chance meeting at Coachella.',
+    criticalAnalysis: 'A delightful, sophisticated, and mature entry in the romantic drama genre. Led by Anne Hathaway\'s radiating, elegant charm and an exceptionally charismatic Nicholas Galitzine, the film transcends standard romance tropes by honestly exploring age gaps, public scrutiny, and the complexities of motherhood.',
+    trivia: [
+      'The fictional boy band August Moon recorded an entire EP of original pop songs written by acclaimed songwriters Savan Kotecha and Carl Falk, who have written real hits for One Direction.',
+      'The film is adapted from the bestselling novel by Robinne Lee, which was widely rumored to be inspired by Harry Styles fan fiction, though the author notes it is a general commentary on women reclaiming their sexuality.',
+      'Anne Hathaway and Nicholas Galitzine underwent a rigorous chemistry read that involved listening to music and dancing together to prove their on-screen spark.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/ad/The_Idea_of_You_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP', 'DE'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The spectacular festival performance scenes were shot on a massive custom stage setup, recreating the scale of the Coachella festival with hundreds of enthusiastic live extras.'
+  },
+  {
+    id: 'society-of-the-snow',
+    title: 'Society of the Snow',
+    type: 'Movie',
+    year: 2023,
+    runtimeOrSeasons: '144 min',
+    rating: 4.8,
+    genres: ['Biography', 'Drama', 'Adventure'],
+    directorOrCreator: 'J.A. Bayona',
+    cast: ['Enzo Vogrincic', 'Agustín Pardella', 'Matías Recalt', 'Esteban Bigliardi'],
+    synopsis: 'In 1972, a Uruguayan rugby team\'s flight crashes onto a glacier in the heart of the Andes. To survive one of the world\'s toughest environments, the remaining passengers are forced to stick together and make unimaginably difficult decisions.',
+    criticalAnalysis: 'A masterpiece of survival cinema. J.A. Bayona treats this legendary tragedy with profound respect, shifting the narrative focus from mere sensational survival horror to an deeply spiritual, poetic tribute to human solidarity, friendship, and sacrificial love. The cinematography of the towering Andes is breathtakingly terrifying.',
+    trivia: [
+      'The actors spent months in close contact with the real survivors of the crash and the families of those who perished, aiming for complete historical accuracy and emotional honesty.',
+      'To capture the harsh physical toll of the ordeal, the actors underwent a strict supervised diet to safely lose significant weight over the course of the chronological shoot.',
+      'The film was nominated for Best International Feature Film and Best Makeup and Hairstyling at the 96th Academy Awards.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/9d/Society_of_the_Snow_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP', 'ES', 'UY'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Bayona shot the film in the Sierra Nevada mountains in Spain, but also captured actual plates and background footage at the real Crash Site (Valley of the Tears) in the Andes to stitch together seamless, realistic backdrops.'
+  },
+  {
+    id: 'road-house-2024',
+    title: 'Road House',
+    type: 'Movie',
+    year: 2024,
+    runtimeOrSeasons: '121 min',
+    rating: 4.4,
+    genres: ['Action', 'Thriller'],
+    directorOrCreator: 'Doug Liman',
+    cast: ['Jake Gyllenhaal', 'Daniela Melchior', 'Conor McGregor', 'JD Pardo'],
+    synopsis: 'In this adrenaline-fueled reimagining of the 80s classic, an ex-UFC fighter Dalton takes a job as a bouncer at a rough Florida Keys roadhouse, only to discover that this tropical paradise is under threat from a ruthless crime syndicate.',
+    criticalAnalysis: 'A highly entertaining, bone-crunching modern action-comedy. Jake Gyllenhaal brings a charming, laid-back yet lethally dangerous energy to Dalton, while real-life UFC legend Conor McGregor makes a cartoonish, delightfully unhinged acting debut. Doug Liman directs the action with an inventive, hyper-kinetic camera style.',
+    trivia: [
+      'To capture the high-impact bar fights, the stunt team developed a custom multi-pass camera technique where fighters would make actual contact at a slow, safe speed, which was then speed-ramped to look incredibly brutal.',
+      'Jake Gyllenhaal maintained an extremely strict training and dieting regime to achieve the physique of a professional middleweight fighter, shooting several weigh-in scenes during real UFC events.',
+      'Conor McGregor\'s character Knox is an entirely original creation, designed to match the fighter\'s real-life explosive persona.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/af/Road_House_2024_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP', 'BR'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production built a massive, fully functional "Road House" bar set on a beach in the Dominican Republic, which withstood several real tropical storms during filming.'
+  },
+  {
+    id: 'the-covenant',
+    title: 'The Covenant',
+    type: 'Movie',
+    year: 2023,
+    runtimeOrSeasons: '123 min',
+    rating: 4.7,
+    genres: ['Action', 'Thriller', 'War'],
+    directorOrCreator: 'Guy Ritchie',
+    cast: ['Jake Gyllenhaal', 'Dar Salim', 'Sean Sagar', 'Jason Wong'],
+    synopsis: 'During the war in Afghanistan, local interpreter Ahmed risks his life to carry injured US Army Sergeant John Kinley across miles of hostile terrain. When Kinley learns that Ahmed was denied safe passage to America, he returns to the active war zone to rescue his savior.',
+    criticalAnalysis: 'A tense, gripping, and deeply emotional war thriller. Stepping away from his signature stylized crime capers, Guy Ritchie delivers a grounded, mature, and deeply respectful story of brotherhood, honor, and a debt of survival. Jake Gyllenhaal and Dar Salim share an exceptionally powerful, non-verbal connection that anchors the film.',
+    trivia: [
+      'The film was titled "Guy Ritchie\'s The Covenant" to distinguish it from the 2006 horror-fantasy film "The Covenant" and to reflect the director\'s deeply personal commitment to the story.',
+      'Dar Salim, a highly acclaimed Iraqi-Danish actor, brought his real-life experiences and cultural insights to the character of Ahmed, ensuring a respectful, authentic portrayal.',
+      'The filming took place in Alicante, Spain, which served as an incredibly convincing stand-in for the mountainous landscapes of Afghanistan\'s Hindu Kush.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/ee/The_Covenant_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Used advanced military technical consultants on set to ensure all squad movements, communication codes, weapon handling, and medical procedures were highly accurate.'
+  },
+  {
+    id: 'nimona',
+    title: 'Nimona',
+    type: 'Movie',
+    year: 2023,
+    runtimeOrSeasons: '101 min',
+    rating: 4.7,
+    genres: ['Animation', 'Action', 'Adventure'],
+    directorOrCreator: 'Nick Bruno, Troy Quane',
+    cast: ['Chloë Grace Moretz', 'Riz Ahmed', 'Eugene Lee Yang', 'Frances Conroy'],
+    synopsis: 'In a futuristic medieval world, a knight is framed for a tragic crime he didn\'t commit. The only person who can help him prove his innocence is Nimona, a mischievous, punk-rock, shape-shifting teenager whom he has been trained to destroy.',
+    criticalAnalysis: 'A vibrant, heartwarming, and beautifully rebellious animated film. Nimona is a masterclass in modern storytelling, blending stunning "futuristic-medieval" aesthetics with a powerful, deeply moving allegory about acceptance, identity, and the danger of institutional prejudice. Moretz and Ahmed are a match made in voice-acting heaven.',
+    trivia: [
+      'The film was famously over 75% complete at Blue Sky Studios when Disney shut the studio down in 2021, canceling the project. However, Annapurna Pictures rescued the film, partnering with DNEG Animation to finish it for Netflix.',
+      'Nimona was nominated for Best Animated Feature at the 96th Academy Awards, representing a massive triumph for its creators and rescuers.',
+      'The film is based on ND Stevenson\'s critically acclaimed, award-winning webcomic and graphic novel of the same name.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1a/Nimona_poster.jpeg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com',
+        availableRegions: ['US', 'UK', 'IN', 'JP', 'CA'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The animators developed a highly distinct, hand-drawn digital 2D-looking style mapped onto complex 3D assets, giving the movie its timeless, painted illustration feel.'
   }
 ];
 
@@ -2383,7 +2673,17 @@ const SAFE_POSTERS: Record<string, string> = {
   'jack-ryan-series': 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=600&auto=format&fit=crop',
   'saltburn-movie': 'https://images.unsplash.com/photo-1543728716-80975210d477?q=80&w=600&auto=format&fit=crop',
   'air-movie': 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=600&auto=format&fit=crop',
-  'sound-of-metal': 'https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=600&auto=format&fit=crop'
+  'sound-of-metal': 'https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=600&auto=format&fit=crop',
+  'fallout-series': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
+  'bridgerton': 'https://images.unsplash.com/photo-1518887570146-0612132dd618?q=80&w=600&auto=format&fit=crop',
+  'beef-series': 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop',
+  'the-sandman-series': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+  'the-expanse': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop',
+  'the-idea-of-you': 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=600&auto=format&fit=crop',
+  'society-of-the-snow': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
+  'road-house-2024': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
+  'the-covenant': 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
+  'nimona': 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop'
 };
 
 const SAFE_BACKDROPS: Record<string, string> = {
@@ -2417,7 +2717,17 @@ const SAFE_BACKDROPS: Record<string, string> = {
   'jack-ryan-series': 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1200&auto=format&fit=crop',
   'saltburn-movie': 'https://images.unsplash.com/photo-1543728716-80975210d477?q=80&w=1200&auto=format&fit=crop',
   'air-movie': 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=1200&auto=format&fit=crop',
-  'sound-of-metal': 'https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1200&auto=format&fit=crop'
+  'sound-of-metal': 'https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=1200&auto=format&fit=crop',
+  'fallout-series': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
+  'bridgerton': 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=1200&auto=format&fit=crop',
+  'beef-series': 'https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=1200&auto=format&fit=crop',
+  'the-sandman-series': 'https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=1200&auto=format&fit=crop',
+  'the-expanse': 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1200&auto=format&fit=crop',
+  'the-idea-of-you': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop',
+  'society-of-the-snow': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop',
+  'road-house-2024': 'https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=1200&auto=format&fit=crop',
+  'the-covenant': 'https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
+  'nimona': 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop'
 };
 
 export const CURATED_CATALOG: Movie[] = RAW_CATALOG.map(movie => {
@@ -2467,7 +2777,10 @@ export const TRANSLATIONS: Record<string, Record<string, string>> = {
     voiceInstruction: 'Click Mic, then speak commands like "show Sci-Fi", "Netflix", "reset", "view Loki"',
     emptyWatchlist: 'Your exclusive watchlist queue is empty. Bookmark content below.',
     highlyRecommended: 'Highly Recommended Correlation',
-    suggestedMatch: 'Matching index based on rating patterns and genre click frequency.'
+    suggestedMatch: 'Matching index based on rating patterns and genre click frequency.',
+    exploreByTalent: 'Explore by Talent',
+    allInOneSearch: 'All-in-One',
+    talentSearchPlaceholder: 'Search directors, creators, cast...'
   },
   hi: {
     title: 'सिनेवर्ल्ड लक्जरी संस्करण',
@@ -2503,7 +2816,10 @@ export const TRANSLATIONS: Record<string, Record<string, string>> = {
     voiceInstruction: 'माइक पर क्लिक करें, फिर "show Sci-Fi", "Netflix", "reset", "view Loki" जैसे कमांड बोलें',
     emptyWatchlist: 'आपकी वॉचलिस्ट कतार खाली है। नीचे से बुकमार्क करें।',
     highlyRecommended: 'अत्यधिक अनुशंसित सहसंबंध',
-    suggestedMatch: 'रेटिंग पैटर्न और शैली क्लिक आवृत्ति के आधार पर मिलान सूचकांक।'
+    suggestedMatch: 'रेटिंग पैटर्न और शैली क्लिक आवृत्ति के आधार पर मिलान सूचकांक।',
+    exploreByTalent: 'टैलेंट खोज',
+    allInOneSearch: 'ऑल-इन-वन',
+    talentSearchPlaceholder: 'निर्देशक, निर्माता, कलाकारों की खोज करें...'
   },
   ar: {
     title: 'سينما العالم النسخة الفاخرة',
@@ -2539,7 +2855,10 @@ export const TRANSLATIONS: Record<string, Record<string, string>> = {
     voiceInstruction: 'انقر فوق الميكروفون، ثم تحدث بأوامر مثل "show Sci-Fi" أو "Netflix" أو "reset" أو "view Loki"',
     emptyWatchlist: 'قائمة المشاهدة الخاصة بك فارغة. احفظ المحتوى من الأسفل.',
     highlyRecommended: 'ارتباط موصى به للغاية',
-    suggestedMatch: 'مؤشر المطابقة بناءً على أنماط التقييم وتكرار النقر على الأنواع.'
+    suggestedMatch: 'مؤشر المطابقة بناءً على أنماط التقييم وتكرار النقر على الأنواع.',
+    exploreByTalent: 'استكشاف المواهب',
+    allInOneSearch: 'الكل في واحد',
+    talentSearchPlaceholder: 'ابحث عن المخرجين والمبدعين وطاقم العمل...'
   },
   ja: {
     title: 'CineWorld ラグジュアリー・エディション',
@@ -2575,7 +2894,10 @@ export const TRANSLATIONS: Record<string, Record<string, string>> = {
     voiceInstruction: 'マイクをクリックして、「show Sci-Fi」「Netflix」「reset」「view Loki」などの音声コマンドを話します。',
     emptyWatchlist: 'ウィッシュリストは空です。以下の作品をブックマークしてください。',
     highlyRecommended: '非常におすすめの相関関係',
-    suggestedMatch: '評価パターンとジャンルクリック頻度に基づくマッチング指数。'
+    suggestedMatch: '評価パターンとジャンルクリック頻度に基づくマッチング指数。',
+    exploreByTalent: 'タレントで探索',
+    allInOneSearch: 'オールインワン',
+    talentSearchPlaceholder: '監督、クリエイター、キャストを検索...'
   },
   es: {
     title: 'CineWorld Edición de Lujo',
@@ -2611,6 +2933,9 @@ export const TRANSLATIONS: Record<string, Record<string, string>> = {
     voiceInstruction: 'Haz clic en el micrófono y habla comandos como "show Sci-Fi", "Netflix", "reset", "view Loki"',
     emptyWatchlist: 'Tu lista exclusiva está vacía. Añade marcadores abajo.',
     highlyRecommended: 'Correlación Altamente Recomendada',
-    suggestedMatch: 'Índice de coincidencia basado en patrones de calificación y frecuencia de clics de género.'
+    suggestedMatch: 'Índice de coincidencia basado en patrones de calificación y frecuencia de clics de género.',
+    exploreByTalent: 'Explorar por talento',
+    allInOneSearch: 'Todo en uno',
+    talentSearchPlaceholder: 'Buscar directores, creadores, reparto...'
   }
 };

@@ -71,6 +71,7 @@ export interface UserState {
   region: string; // 'US' | 'UK' | 'IN' | 'JP'
   posterSafetyMode?: 'safe' | 'original'; // copyright-safe or original posters
   remindedUpcomingIds?: string[]; // persistent 'Remind Me' subscriptions
+  genreClickHistory?: { genre: string; timestamp: number }[]; // historical log of clicks for 24-hour trending
   isLoggedIn?: boolean;
   userName?: string;
   email?: string;

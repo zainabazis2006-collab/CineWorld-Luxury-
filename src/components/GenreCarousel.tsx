@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Movie } from '../types';
 import TiltCard from './TiltCard';
+import BlurUpImage from './BlurUpImage';
 
 interface GenreCarouselProps {
   key?: any;
@@ -10,6 +11,7 @@ interface GenreCarouselProps {
   selectedMovieId: string;
   handleMovieSelect: (id: string) => void;
   recommendationMatrix: any[];
+  exploreByTalent?: boolean;
 }
 
 export default function GenreCarousel({
@@ -17,7 +19,8 @@ export default function GenreCarousel({
   movies,
   selectedMovieId,
   handleMovieSelect,
-  recommendationMatrix
+  recommendationMatrix,
+  exploreByTalent = false
 }: GenreCarouselProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
@@ -134,14 +137,11 @@ export default function GenreCarousel({
 
                   {/* Image Frame */}
                   <div className="h-44 sm:h-48 overflow-hidden relative">
-                    <img 
+                    <BlurUpImage 
                       src={movie.posterUrl} 
                       alt={movie.title}
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => {
-                        e.currentTarget.src = 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop';
-                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
@@ -182,11 +182,18 @@ export default function GenreCarousel({
                     </div>
 
                     <div className="space-y-3">
-                      <div className="pt-2.5 border-t border-white/5 flex items-center justify-between text-[9px] font-mono text-white/40 uppercase">
-                        <span className="truncate max-w-[120px]">
-                          By: <strong className="text-white/60">{movie.directorOrCreator.split(' ')[0]}...</strong>
-                        </span>
-                        <span>{movie.runtimeOrSeasons}</span>
+                      <div className="pt-2.5 border-t border-white/5 flex flex-col gap-1 text-[9px] font-mono text-white/40 uppercase">
+                        <div className="flex items-center justify-between">
+                          <span className="truncate max-w-[150px]">
+                            By: <strong className="text-white/60">{movie.directorOrCreator}</strong>
+                          </span>
+                          <span>{movie.runtimeOrSeasons}</span>
+                        </div>
+                        {exploreByTalent && (
+                          <div className="text-[8.5px] text-[#00D1FF] truncate normal-case font-medium">
+                            Cast: <span className="text-white/70">{movie.cast.join(', ')}</span>
+                          </div>
+                        )}
                       </div>
 
                       <button 

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Flame, Sparkles, Trophy, BarChart3, RotateCcw, Play } from 'lucide-react';
 import { Movie, UserState } from '../types';
+import BlurUpImage from './BlurUpImage';
 
 interface TrendingChartProps {
   catalog: Movie[];
@@ -293,7 +294,7 @@ export default function TrendingChart({ catalog, userState, handleMovieSelect }:
             {topMovie && (
               <div className="space-y-4 mt-2">
                 <div className="aspect-[4/3] rounded-xl overflow-hidden border border-white/10 relative group shadow-lg">
-                  <img 
+                  <BlurUpImage 
                     src={topMovie.posterUrl} 
                     alt={topMovie.title} 
                     referrerPolicy="no-referrer"

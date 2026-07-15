@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Bell, BellOff, Hourglass, ShieldCheck, Flame, Tv, Play, Info } from 'lucide-react';
 import { UpcomingMovie, UserState } from '../types';
 import { UPCOMING_RELEASES } from '../upcomingData';
+import BlurUpImage from './BlurUpImage';
 
 interface ComingSoonSectionProps {
   userState: UserState;
@@ -179,7 +180,7 @@ export default function ComingSoonSection({ userState, setUserState, upcomingCat
           
           {/* Main Cinematic Backdrop with dynamic aspect ratio */}
           <div className="h-64 sm:h-80 relative overflow-hidden group">
-            <img 
+            <BlurUpImage 
               src={selectedRelease.backdropUrl} 
               alt={selectedRelease.title} 
               referrerPolicy="no-referrer"
@@ -328,7 +329,7 @@ export default function ComingSoonSection({ userState, setUserState, upcomingCat
                 >
                   {/* Small Poster Frame */}
                   <div className="w-16 h-20 rounded-lg overflow-hidden border border-white/15 relative shrink-0">
-                    <img 
+                    <BlurUpImage 
                       src={movie.posterUrl} 
                       alt={movie.title} 
                       referrerPolicy="no-referrer"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   Play, 
   Info, 
@@ -21,9 +21,10 @@ import {
   Sliders,
   Maximize2,
   Volume2,
-  VolumeX
+  VolumeX,
+  Flame
 } from 'lucide-react';
-import { CURATED_CATALOG, TRANSLATIONS } from './data';
+import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
 import { UPCOMING_RELEASES } from './upcomingData';
 import { Movie, Review, UserState, ChatMessage } from './types';
 import { getSeriesSeasons } from './episodes';
@@ -39,6 +40,7 @@ import CinemaPlayer from './components/CinemaPlayer';
 import CineWorldLogo from './components/CineWorldLogo';
 import CinematicAuth from './components/CinematicAuth';
 import GenreCarousel from './components/GenreCarousel';
+import BlurUpImage from './components/BlurUpImage';
 
 // Cinematic Official Trailer YouTube Video IDs for every movie & series
 const TRAILER_IDS: Record<string, string> = {
@@ -124,6 +126,14 @@ const INITIAL_REVIEWS: Review[] = [
   }
 ];
 
+// Clean search title to remove parenthetical context and season numbers
+function cleanSearchTitle(title: string): string {
+  let clean = title.replace(/\([^)]*\)/g, '').trim();
+  clean = clean.replace(/:\s*season\s*\d+/i, '').trim();
+  clean = clean.replace(/\s+\d{4}$/, '').trim();
+  return clean;
+}
+
 // Special local mappings for fictional or unreleased titles to ensure perfect, atmospheric images
 const SPECIAL_LOCAL_MEDIA: Record<string, { posterUrl: string; backdropUrl: string }> = {
   "widow's bay": {
@@ -157,6 +167,90 @@ const SPECIAL_LOCAL_MEDIA: Record<string, { posterUrl: string; backdropUrl: stri
   "project hail mary": {
     posterUrl: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=600&auto=format&fit=crop",
     backdropUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop"
+  },
+  "from": {
+    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop"
+  },
+  "goblin (guardian: the lonely and great god)": {
+    posterUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop"
+  },
+  "goblin": {
+    posterUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop"
+  },
+  "lovely runner": {
+    posterUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1518887570146-0612132dd618?q=80&w=1200&auto=format&fit=crop"
+  },
+  "queen of tears": {
+    posterUrl: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop"
+  },
+  "crash landing on you": {
+    posterUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1200&auto=format&fit=crop"
+  },
+  "my demon": {
+    posterUrl: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200&auto=format&fit=crop"
+  },
+  "shaitaan": {
+    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=1200&auto=format&fit=crop"
+  },
+  "panchayat": {
+    posterUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop"
+  },
+  "tumbbad": {
+    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1505852673653-db4fc4aa3dd4?q=80&w=1200&auto=format&fit=crop"
+  },
+  "enola holmes 3": {
+    posterUrl: "https://images.unsplash.com/photo-1511108690759-009324a90311?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=1200&auto=format&fit=crop"
+  },
+  "fallout": {
+    posterUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop"
+  },
+  "bridgerton": {
+    posterUrl: "https://images.unsplash.com/photo-1518887570146-0612132dd618?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=1200&auto=format&fit=crop"
+  },
+  "beef": {
+    posterUrl: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=1200&auto=format&fit=crop"
+  },
+  "the sandman": {
+    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=1200&auto=format&fit=crop"
+  },
+  "the expanse": {
+    posterUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1200&auto=format&fit=crop"
+  },
+  "the idea of you": {
+    posterUrl: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop"
+  },
+  "society of the snow": {
+    posterUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop"
+  },
+  "road house": {
+    posterUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=1200&auto=format&fit=crop"
+  },
+  "the covenant": {
+    posterUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop"
+  },
+  "nimona": {
+    posterUrl: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"
   }
 };
 
@@ -171,47 +265,113 @@ async function fetchMediaImagesDirectly(title: string, type: string, defaultPost
   let posterUrl = '';
   let backdropUrl = '';
 
-  // 1. Try iTunes Search API with strict entity matching & title verification
+  const searchTerm = cleanSearchTitle(title);
+
+  // --- LAYER 1: Try Wikipedia API (Highly reliable for any film or series) ---
   try {
-    const iTunesMedia = type === 'Series' ? 'tvShow' : 'movie';
-    const iTunesEntity = type === 'Series' ? 'tvSeason' : 'movie';
-    const iTunesUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(title)}&media=${iTunesMedia}&entity=${iTunesEntity}&limit=5`;
-    const response = await fetch(iTunesUrl);
-    if (response.ok) {
-      const data = await response.json();
-      if (data.results && data.results.length > 0) {
-        // Find the item with closest word overlap to avoid wrong matches
-        const s = normTitle.replace(/[^a-z0-9\s]/g, '');
-        const bestItem = data.results.find((item: any) => {
-          const resTitle = (item.trackName || item.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-          return resTitle.includes(s) || s.includes(resTitle);
-        }) || data.results[0];
+    const isSeries = type === 'Series';
+    const searchQueries = [
+      `${searchTerm} ${isSeries ? 'series' : 'film'}`,
+      `${searchTerm} ${isSeries ? 'TV series' : 'movie'}`,
+      searchTerm
+    ];
 
-        // Re-verify that it's a decent name match
-        const matchedTitle = (bestItem.trackName || bestItem.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-        const sWords = s.split(/\s+/).filter(w => w.length > 2);
-        const matchOk = sWords.length === 0 || sWords.some(w => matchedTitle.includes(w)) || matchedTitle.includes(s) || s.includes(matchedTitle);
+    let wikipediaPageTitle = '';
+    for (const query of searchQueries) {
+      const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&limit=3`;
+      const wikiRes = await fetch(searchUrl);
+      if (wikiRes.ok) {
+        const wikiData = await wikiRes.json();
+        const searchResults = wikiData?.query?.search || [];
+        if (searchResults.length > 0) {
+          const termLower = searchTerm.toLowerCase();
+          const bestResult = searchResults.find((r: any) => {
+            const rTitleLower = r.title.toLowerCase();
+            return rTitleLower.includes(termLower) || termLower.includes(rTitleLower);
+          }) || searchResults[0];
 
-        if (matchOk && bestItem.artworkUrl100) {
-          posterUrl = bestItem.artworkUrl100
-            .replace(/100x100bb/g, '600x900bb')
-            .replace(/100x100/g, '600x900');
+          if (bestResult) {
+            wikipediaPageTitle = bestResult.title;
+            break;
+          }
+        }
+      }
+    }
+
+    if (wikipediaPageTitle) {
+      const imgQueryUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(wikipediaPageTitle)}&prop=pageimages&piprop=original&format=json&origin=*`;
+      const imgRes = await fetch(imgQueryUrl);
+      if (imgRes.ok) {
+        const imgData = await imgRes.json();
+        const pages = imgData?.query?.pages || {};
+        const pageId = Object.keys(pages)[0];
+        if (pageId && pageId !== '-1') {
+          const page = pages[pageId];
+          if (page?.original?.source) {
+            const sourceUrl = page.original.source;
+            const lowerSrc = sourceUrl.toLowerCase();
+            const isMediaFile = lowerSrc.endsWith('.jpg') || lowerSrc.endsWith('.jpeg') || lowerSrc.endsWith('.png') || lowerSrc.endsWith('.webp');
+            const isGeneric = lowerSrc.includes('wiki') || lowerSrc.includes('question') || lowerSrc.includes('padlock') || lowerSrc.includes('stub');
+            
+            if (isMediaFile && !isGeneric) {
+              posterUrl = sourceUrl;
+            }
+          }
         }
       }
     }
   } catch (err) {
-    console.error('iTunes client-side fallback failed:', err);
+    console.error('Wikipedia client-side lookup failed:', err);
   }
 
-  // 2. Try TVmaze for TV Series or as fallback
+  // --- LAYER 2: Try iTunes Search API (Strict and General) ---
+  if (!posterUrl) {
+    try {
+      const iTunesMedia = type === 'Series' ? 'tvShow' : 'movie';
+      const iTunesEntity = type === 'Series' ? 'tvSeason' : 'movie';
+      const iTunesUrls = [
+        `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=${iTunesMedia}&entity=${iTunesEntity}&limit=5`,
+        `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&limit=10`
+      ];
+
+      for (const url of iTunesUrls) {
+        const response = await fetch(url);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.results && data.results.length > 0) {
+            const s = searchTerm.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+            const bestItem = data.results.find((item: any) => {
+              const resTitle = (item.trackName || item.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
+              return resTitle.includes(s) || s.includes(resTitle);
+            }) || data.results[0];
+
+            const matchedTitle = (bestItem.trackName || bestItem.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
+            const sWords = s.split(/\s+/).filter(w => w.length > 2);
+            const matchOk = sWords.length === 0 || sWords.some(w => matchedTitle.includes(w)) || matchedTitle.includes(s) || s.includes(matchedTitle);
+
+            if (matchOk && bestItem.artworkUrl100) {
+              posterUrl = bestItem.artworkUrl100
+                .replace(/100x100bb/g, '600x900bb')
+                .replace(/100x100/g, '600x900');
+              break;
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.error('iTunes client-side fallback failed:', err);
+    }
+  }
+
+  // --- LAYER 3: Try TVmaze for TV Series or as general fallback ---
   if ((type === 'Series' || !posterUrl) && !normTitle.includes('enola holmes 3')) {
     try {
-      const tvMazeUrl = `https://api.tvmaze.com/search/shows?q=${encodeURIComponent(title)}`;
+      const tvMazeUrl = `https://api.tvmaze.com/search/shows?q=${encodeURIComponent(searchTerm)}`;
       const response = await fetch(tvMazeUrl);
       if (response.ok) {
         const results = await response.json();
         if (results && results.length > 0) {
-          const s = normTitle.replace(/[^a-z0-9\s]/g, '');
+          const s = searchTerm.toLowerCase().replace(/[^a-z0-9\s]/g, '');
           const best = results.find((r: any) => {
             const showName = (r.show?.name || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
             return showName.includes(s) || s.includes(showName);
@@ -236,6 +396,11 @@ async function fetchMediaImagesDirectly(title: string, type: string, defaultPost
     }
   }
 
+  // --- LAYER 4: Backdrops ---
+  if (posterUrl && !backdropUrl) {
+    backdropUrl = posterUrl;
+  }
+
   return {
     posterUrl: posterUrl || defaultPoster,
     backdropUrl: backdropUrl || defaultBackdrop
@@ -246,8 +411,27 @@ export default function App() {
   // Load state from localStorage if available, otherwise default
   const [userState, setUserState] = useState<UserState>(() => {
     const saved = localStorage.getItem('cineworld_user_state_v1');
+    const now = Date.now();
+    const defaultHistory = [
+      { genre: 'Sci-Fi', timestamp: now - 3600000 },
+      { genre: 'Sci-Fi', timestamp: now - 7200000 },
+      { genre: 'Sci-Fi', timestamp: now - 10800000 },
+      { genre: 'Sci-Fi', timestamp: now - 14400000 },
+      { genre: 'Drama', timestamp: now - 18000000 },
+      { genre: 'Drama', timestamp: now - 21600000 },
+      { genre: 'Drama', timestamp: now - 25200000 },
+      { genre: 'Action', timestamp: now - 28800000 },
+      { genre: 'Action', timestamp: now - 32400000 }
+    ];
+
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try {
+        const parsed = JSON.parse(saved);
+        if (!parsed.genreClickHistory) {
+          parsed.genreClickHistory = defaultHistory;
+        }
+        return parsed;
+      } catch (e) {}
     }
     return {
       ratings: {},
@@ -256,7 +440,8 @@ export default function App() {
       genreClicks: { 'Sci-Fi': 2, 'Drama': 1 },
       clicks: {},
       preferredLanguage: 'en',
-      region: 'IN'
+      region: 'IN',
+      genreClickHistory: defaultHistory
     };
   });
 
@@ -265,9 +450,30 @@ export default function App() {
     localStorage.setItem('cineworld_user_state_v1', JSON.stringify(userState));
   }, [userState]);
 
+  // Calculate 24-hour trending genres from local interaction history
+  const trendingGenres = useMemo(() => {
+    const history = userState.genreClickHistory || [];
+    const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+    
+    // Count clicks in the last 24 hours
+    const counts: Record<string, number> = {};
+    history.forEach(item => {
+      if (item.timestamp >= oneDayAgo) {
+        counts[item.genre] = (counts[item.genre] || 0) + 1;
+      }
+    });
+    
+    // Determine which are "high click volume"
+    // Criteria: A genre is trending if it has at least 3 clicks/interactions in the last 24 hours
+    return Object.entries(counts)
+      .filter(([_, count]) => count >= 3)
+      .map(([genre]) => genre);
+  }, [userState.genreClickHistory]);
+
   // General App states
   const [selectedMovieId, setSelectedMovieId] = useState<string>('shogun');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [exploreByTalent, setExploreByTalent] = useState<boolean>(false);
   const [activeGenre, setActiveGenre] = useState<string>('All');
   const [activePlatform, setActivePlatform] = useState<string>('All');
   const [theaterMovieId, setTheaterMovieId] = useState<string | null>(null); // Full screen modal trailer player state
@@ -284,7 +490,7 @@ export default function App() {
   // Dynamic images state resolved from our custom proxy API
   const [resolvedImages, setResolvedImages] = useState<Record<string, { posterUrl: string; backdropUrl: string }>>(() => {
     try {
-      const saved = localStorage.getItem('cineworld_resolved_images_v3');
+      const saved = localStorage.getItem('cineworld_resolved_images_v10');
       return saved ? JSON.parse(saved) : {};
     } catch {
       return {};
@@ -293,7 +499,7 @@ export default function App() {
 
   // Save resolved images to localStorage
   useEffect(() => {
-    localStorage.setItem('cineworld_resolved_images_v3', JSON.stringify(resolvedImages));
+    localStorage.setItem('cineworld_resolved_images_v10', JSON.stringify(resolvedImages));
   }, [resolvedImages]);
 
   // Prioritize active selected movie resolution
@@ -391,8 +597,8 @@ export default function App() {
     let backdrop = userState.posterSafetyMode === 'safe' ? (movie.safeBackdropUrl || movie.backdropUrl) : movie.backdropUrl;
 
     // Use our high-resolution, hotlink-friendly resolved images if available
-    if (resolved?.posterUrl) poster = resolved.posterUrl;
-    if (resolved?.backdropUrl) backdrop = resolved.backdropUrl;
+    if (resolved?.posterUrl) poster = getProxiedUrl(resolved.posterUrl);
+    if (resolved?.backdropUrl) backdrop = getProxiedUrl(resolved.backdropUrl);
 
     return {
       ...movie,
@@ -407,8 +613,8 @@ export default function App() {
     let poster = movie.posterUrl;
     let backdrop = movie.backdropUrl;
 
-    if (resolved?.posterUrl) poster = resolved.posterUrl;
-    if (resolved?.backdropUrl) backdrop = resolved.backdropUrl;
+    if (resolved?.posterUrl) poster = getProxiedUrl(resolved.posterUrl);
+    if (resolved?.backdropUrl) backdrop = getProxiedUrl(resolved.backdropUrl);
 
     return {
       ...movie,
@@ -508,13 +714,22 @@ export default function App() {
       setUserState(prev => {
         const nextClicks = { ...prev.clicks, [movieId]: (prev.clicks[movieId] || 0) + 1 };
         const nextGenreClicks = { ...prev.genreClicks };
+        const now = Date.now();
+        const cutoff = now - 48 * 60 * 60 * 1000;
+        
+        // Clean history older than 48 hours and add new interaction events
+        const nextHistory = (prev.genreClickHistory || []).filter(h => h.timestamp >= cutoff);
+        
         movie.genres.forEach(g => {
           nextGenreClicks[g] = (nextGenreClicks[g] || 0) + 1;
+          nextHistory.push({ genre: g, timestamp: now });
         });
+        
         return {
           ...prev,
           clicks: nextClicks,
-          genreClicks: nextGenreClicks
+          genreClicks: nextGenreClicks,
+          genreClickHistory: nextHistory
         };
       });
     }
@@ -526,7 +741,18 @@ export default function App() {
     if (genre !== 'All') {
       setUserState(prev => {
         const nextGenreClicks = { ...prev.genreClicks, [genre]: (prev.genreClicks[genre] || 0) + 1 };
-        return { ...prev, genreClicks: nextGenreClicks };
+        const now = Date.now();
+        const cutoff = now - 48 * 60 * 60 * 1000;
+        
+        // Clean history older than 48 hours and add new interaction event
+        const nextHistory = (prev.genreClickHistory || []).filter(h => h.timestamp >= cutoff);
+        nextHistory.push({ genre, timestamp: now });
+        
+        return { 
+          ...prev, 
+          genreClicks: nextGenreClicks,
+          genreClickHistory: nextHistory
+        };
       });
     }
   };
@@ -847,9 +1073,18 @@ export default function App() {
   // - genre filter
   // - platform filter
   const filteredCatalog = displayCatalog.filter(movie => {
-    const matchesSearch = movie.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          movie.directorOrCreator.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          movie.cast.some(actor => actor.toLowerCase().includes(searchQuery.toLowerCase()));
+    let matchesSearch = true;
+    if (searchQuery.trim() !== '') {
+      const query = searchQuery.toLowerCase();
+      if (exploreByTalent) {
+        matchesSearch = movie.directorOrCreator.toLowerCase().includes(query) ||
+                        movie.cast.some(actor => actor.toLowerCase().includes(query));
+      } else {
+        matchesSearch = movie.title.toLowerCase().includes(query) ||
+                        movie.directorOrCreator.toLowerCase().includes(query) ||
+                        movie.cast.some(actor => actor.toLowerCase().includes(query));
+      }
+    }
     
     const matchesGenre = activeGenre === 'All' || movie.genres.includes(activeGenre);
     
@@ -966,18 +1201,33 @@ export default function App() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search shows, creators, cast..."
-                className="w-full bg-white/5 border border-white/10 hover:border-white/20 focus:border-[#00D1FF] focus:bg-black/80 rounded-xl px-4 py-2 pl-10 pr-8 text-xs text-white placeholder-white/30 outline-none transition-all duration-300"
+                placeholder={exploreByTalent ? t('talentSearchPlaceholder') : t('searchPlaceholder')}
+                className="w-full bg-white/5 border border-white/10 hover:border-white/20 focus:border-[#00D1FF] focus:bg-black/80 rounded-xl px-4 py-2 pl-10 pr-24 text-xs text-white placeholder-white/30 outline-none transition-all duration-300"
               />
               <Compass className="absolute left-3.5 top-2.5 w-3.5 h-3.5 text-white/30 group-focus-within:text-[#00D1FF] transition-colors" />
-              {searchQuery && (
-                <button 
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-2.5 text-white/40 hover:text-white"
+              
+              <div className="absolute right-2 top-1.5 flex items-center gap-1.5">
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery('')}
+                    className="text-white/40 hover:text-white p-0.5"
+                    title="Clear search"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                )}
+                <button
+                  onClick={() => setExploreByTalent(!exploreByTalent)}
+                  className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider transition-all duration-300 ${
+                    exploreByTalent 
+                      ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black shadow-[0_0_12px_rgba(0,209,255,0.4)]' 
+                      : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
+                  }`}
+                  title={t('exploreByTalent')}
                 >
-                  <X className="w-3.5 h-3.5" />
+                  Talent
                 </button>
-              )}
+              </div>
             </div>
 
             {/* Instant Floating Results Dropdown */}
@@ -1003,18 +1253,21 @@ export default function App() {
                       }}
                       className="w-full text-left flex items-center gap-3 p-2 rounded-lg hover:bg-[#00D1FF]/10 text-white transition-all group"
                     >
-                      <img 
+                      <BlurUpImage 
                         src={movie.posterUrl} 
                         alt={movie.title} 
                         referrerPolicy="no-referrer" 
                         className="w-8 h-10 object-cover rounded border border-white/10 shrink-0" 
-                        onError={(e) => {
-                          e.currentTarget.src = 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop';
-                        }}
                       />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-white group-hover:text-[#00D1FF] truncate transition-colors">{movie.title}</p>
-                        <p className="text-[10px] text-white/40 font-mono truncate">{movie.directorOrCreator} • {movie.runtimeOrSeasons}</p>
+                        {exploreByTalent ? (
+                          <p className="text-[10px] text-[#00D1FF]/90 font-mono truncate">
+                            Creator/Dir: {movie.directorOrCreator} • Cast: {movie.cast.join(', ')}
+                          </p>
+                        ) : (
+                          <p className="text-[10px] text-white/40 font-mono truncate">{movie.directorOrCreator} • {movie.runtimeOrSeasons}</p>
+                        )}
                       </div>
                       <div className="flex flex-col items-end shrink-0 gap-0.5">
                         <span className="text-[9px] font-mono bg-white/5 px-1.5 py-0.5 rounded text-[#00D1FF]">WATCH</span>
@@ -1110,14 +1363,11 @@ export default function App() {
               transition={{ duration: 1.0, ease: "easeInOut" }}
               className="absolute inset-0 w-full h-full"
             >
-              <img 
+              <BlurUpImage 
                 src={currentMovie.backdropUrl} 
                 alt={currentMovie.title}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover scale-105 filter saturate-[1.1] contrast-[1.05]"
-                onError={(e) => {
-                  e.currentTarget.src = 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop';
-                }}
               />
             </motion.div>
           </AnimatePresence>
@@ -1297,14 +1547,12 @@ export default function App() {
               <div className="relative group w-full max-w-[340px] aspect-[2/3] bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 hover:border-[#00D1FF] hover:shadow-[0_0_30px_rgba(0,209,255,0.25)]">
                 
                 {/* Backing image */}
-                <img 
+                <BlurUpImage 
                   src={currentMovie.posterUrl} 
                   alt={currentMovie.title}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  onError={(e) => {
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop';
-                  }}
+                  fallbackSrc="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop"
                 />
                 
                 {/* Gradient card label overlay */}
@@ -1428,7 +1676,7 @@ export default function App() {
         {/* Row 1: Search and voice microphone */}
         <div className="flex flex-col md:flex-row gap-6 items-center justify-between bg-black/30 border border-white/5 rounded-2xl p-6 backdrop-blur-sm">
           
-          <div className="w-full md:w-1/2 space-y-2">
+          <div className="w-full md:w-1/2 space-y-3">
             <label className="text-xs font-black uppercase tracking-widest text-[#00D1FF]/70 block">
               {t('allShows')}
             </label>
@@ -1439,7 +1687,7 @@ export default function App() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t('searchPlaceholder')}
+                placeholder={exploreByTalent ? t('talentSearchPlaceholder') : t('searchPlaceholder')}
                 className="w-full bg-[#050508] border border-white/10 focus:border-[#00D1FF] rounded-xl px-4 py-3 pl-11 text-sm text-white placeholder-white/30 outline-none transition-all"
               />
               <Compass className="absolute left-4 top-3.5 w-4.5 h-4.5 text-white/30" />
@@ -1452,6 +1700,32 @@ export default function App() {
                   <X className="w-4 h-4" />
                 </button>
               )}
+            </div>
+
+            {/* Dedicated Explore by Talent Search Mode Toggles */}
+            <div className="flex flex-wrap gap-2 pt-1">
+              <button
+                onClick={() => setExploreByTalent(false)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 border ${
+                  !exploreByTalent 
+                    ? 'bg-[#00D1FF]/10 text-[#00D1FF] border-[#00D1FF]/30' 
+                    : 'bg-transparent text-white/50 border-white/5 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <Compass className="w-3.5 h-3.5" />
+                {t('allInOneSearch')}
+              </button>
+              <button
+                onClick={() => setExploreByTalent(true)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 border ${
+                  exploreByTalent 
+                    ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black border-transparent shadow-[0_0_15px_rgba(0,209,255,0.25)]' 
+                    : 'bg-transparent text-white/50 border-white/5 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <User className="w-3.5 h-3.5" />
+                {t('exploreByTalent')}
+              </button>
             </div>
           </div>
 
@@ -1490,18 +1764,42 @@ export default function App() {
 
         {/* Interactive Filter Pills */}
         <div className="flex flex-wrap gap-2.5 mt-8 items-center">
-          <span className="text-xs uppercase tracking-widest text-white/40 font-bold mr-2">Genres:</span>
+          <div className="flex items-center gap-2 mr-2">
+            <span className="text-xs uppercase tracking-widest text-white/40 font-bold">Genres:</span>
+            <div className="group relative">
+              <span className="cursor-help text-[10px] text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20 font-sans tracking-wide transition-colors hover:bg-amber-400/20">
+                🔥 24h Trends
+              </span>
+              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-30 w-64 p-3 bg-zinc-900 border border-white/10 rounded-xl text-[11px] text-white/80 shadow-2xl leading-relaxed">
+                <p className="font-bold text-amber-400 mb-1 flex items-center gap-1">
+                  <Flame className="w-3.5 h-3.5 fill-amber-400 animate-pulse" />
+                  24-Hour Trending Genres
+                </p>
+                Genres with <span className="text-[#00D1FF] font-semibold">3+ interactions</span> (direct filter clicks or selected/played movie genres) in the last 24 hours are highlighted. Click genres to trigger!
+              </div>
+            </div>
+          </div>
           {allGenres.map((genre) => (
             <button
               key={genre}
               onClick={() => handleGenreSelect(genre)}
-              className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full transition-all ${
+              className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full transition-all flex items-center gap-1.5 ${
                 activeGenre === genre
                   ? 'bg-[#00D1FF] text-black font-black'
                   : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/5'
               }`}
             >
-              {genre}
+              <span>{genre}</span>
+              {trendingGenres.includes(genre) && (
+                <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-black tracking-tight ${
+                  activeGenre === genre 
+                    ? 'bg-black/10 text-black border border-black/20' 
+                    : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                }`}>
+                  <Flame className="w-2.5 h-2.5 fill-current animate-pulse" />
+                  <span>Trending</span>
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -1564,6 +1862,7 @@ export default function App() {
                       selectedMovieId={selectedMovieId}
                       handleMovieSelect={handleMovieSelect}
                       recommendationMatrix={recommendationMatrix}
+                      exploreByTalent={exploreByTalent}
                     />
                   );
                 })}
@@ -1608,6 +1907,7 @@ export default function App() {
                       selectedMovieId={selectedMovieId}
                       handleMovieSelect={handleMovieSelect}
                       recommendationMatrix={recommendationMatrix}
+                      exploreByTalent={exploreByTalent}
                     />
                   );
                 })}
@@ -1785,7 +2085,7 @@ export default function App() {
                 className="bg-[#0b0b12] border border-white/5 hover:border-red-500/50 rounded-xl overflow-hidden cursor-pointer group relative transition-all"
               >
                 <div className="h-28 overflow-hidden relative">
-                  <img src={movie.posterUrl} alt={movie.title} referrerPolicy="no-referrer" className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                  <BlurUpImage src={movie.posterUrl} alt={movie.title} referrerPolicy="no-referrer" className="w-full h-full object-cover transition-transform group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                   
                   {/* Delete button */}
@@ -2611,14 +2911,11 @@ export default function App() {
                         className="w-full text-left bg-black/40 hover:bg-[#00D1FF]/10 p-3 rounded-xl border border-white/5 hover:border-[#00D1FF]/30 transition-all group flex items-center gap-3"
                       >
                         <div className="w-8 h-10 rounded overflow-hidden shrink-0 border border-white/10 relative">
-                          <img 
+                          <BlurUpImage 
                             src={nextMovie.posterUrl} 
                             alt={nextMovie.title} 
                             referrerPolicy="no-referrer" 
                             className="w-full h-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.src = 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop';
-                            }}
                           />
                           <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                             <Play className="w-2.5 h-2.5 fill-white text-white" />

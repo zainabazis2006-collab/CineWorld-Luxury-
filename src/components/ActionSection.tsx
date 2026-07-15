@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Flame, Swords, Zap, Crosshair, Target, Shield, Skull, Heart, BookOpen, MessageSquare, Film, Tv, Plus, Check, Star, Play } from 'lucide-react';
 import { Movie, UserState } from '../types';
 import TiltCard from './TiltCard';
+import BlurUpImage from './BlurUpImage';
 
 interface ActionSectionProps {
   catalog: Movie[];
@@ -263,7 +264,7 @@ export default function ActionSection({
 
           {/* Active backdrop */}
           <div className="h-72 sm:h-96 relative overflow-hidden">
-            <img 
+            <BlurUpImage 
               src={activeMovie.backdropUrl} 
               alt={activeMovie.title} 
               referrerPolicy="no-referrer"
@@ -493,7 +494,7 @@ export default function ActionSection({
                   >
                     {/* Tiny Poster frame */}
                     <div className="w-16 h-20 rounded-lg overflow-hidden border border-white/15 relative shrink-0">
-                      <img 
+                      <BlurUpImage 
                         src={movie.posterUrl} 
                         alt={movie.title} 
                         referrerPolicy="no-referrer"

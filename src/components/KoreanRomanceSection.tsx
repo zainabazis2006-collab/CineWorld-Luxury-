@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Sparkles, BookOpen, Music, Film, Tv, Plus, Check, Star, Share2, Play } from 'lucide-react';
 import { Movie, UserState } from '../types';
 import TiltCard from './TiltCard';
+import BlurUpImage from './BlurUpImage';
 
 interface KoreanRomanceSectionProps {
   catalog: Movie[];
@@ -202,7 +203,7 @@ export default function KoreanRomanceSection({
 
           {/* Master backdrop preview screen */}
           <div className="h-72 sm:h-96 relative overflow-hidden">
-            <img 
+            <BlurUpImage 
               src={activeMovie.backdropUrl} 
               alt={activeMovie.title} 
               referrerPolicy="no-referrer"
@@ -418,7 +419,7 @@ export default function KoreanRomanceSection({
                   >
                     {/* Small Poster Frame */}
                     <div className="w-16 h-20 rounded-lg overflow-hidden border border-white/15 relative shrink-0">
-                      <img 
+                      <BlurUpImage 
                         src={movie.posterUrl} 
                         alt={movie.title} 
                         referrerPolicy="no-referrer"

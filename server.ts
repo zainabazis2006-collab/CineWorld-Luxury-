@@ -158,7 +158,15 @@ You MUST respond ONLY with a JSON object adhering to this schema:
 // In-memory cache to prevent redundant API requests to iTunes and TVmaze
 const mediaImageCache = new Map<string, { posterUrl: string; backdropUrl: string }>();
 
-// Special local mappings for fictional or unreleased titles to ensure perfect, atmospheric images
+// Clean search title to remove parenthetical context and season numbers
+function cleanSearchTitle(title: string): string {
+  let clean = title.replace(/\([^)]*\)/g, '').trim();
+  clean = clean.replace(/:\s*season\s*\d+/i, '').trim();
+  clean = clean.replace(/\s+\d{4}$/, '').trim();
+  return clean;
+}
+
+// Special local mappings for fictional, unreleased or highly ambiguous titles to ensure perfect, atmospheric images
 const SPECIAL_LOCAL_MEDIA: Record<string, { posterUrl: string; backdropUrl: string }> = {
   "widow's bay": {
     posterUrl: "https://images.unsplash.com/photo-1505852673653-db4fc4aa3dd4?q=80&w=600&auto=format&fit=crop",
@@ -191,6 +199,90 @@ const SPECIAL_LOCAL_MEDIA: Record<string, { posterUrl: string; backdropUrl: stri
   "project hail mary": {
     posterUrl: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=600&auto=format&fit=crop",
     backdropUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop"
+  },
+  "from": {
+    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop"
+  },
+  "goblin (guardian: the lonely and great god)": {
+    posterUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop"
+  },
+  "goblin": {
+    posterUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop"
+  },
+  "lovely runner": {
+    posterUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1518887570146-0612132dd618?q=80&w=1200&auto=format&fit=crop"
+  },
+  "queen of tears": {
+    posterUrl: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop"
+  },
+  "crash landing on you": {
+    posterUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1200&auto=format&fit=crop"
+  },
+  "my demon": {
+    posterUrl: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200&auto=format&fit=crop"
+  },
+  "shaitaan": {
+    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=1200&auto=format&fit=crop"
+  },
+  "panchayat": {
+    posterUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop"
+  },
+  "tumbbad": {
+    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1505852673653-db4fc4aa3dd4?q=80&w=1200&auto=format&fit=crop"
+  },
+  "enola holmes 3": {
+    posterUrl: "https://images.unsplash.com/photo-1511108690759-009324a90311?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=1200&auto=format&fit=crop"
+  },
+  "fallout": {
+    posterUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop"
+  },
+  "bridgerton": {
+    posterUrl: "https://images.unsplash.com/photo-1518887570146-0612132dd618?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=1200&auto=format&fit=crop"
+  },
+  "beef": {
+    posterUrl: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=1200&auto=format&fit=crop"
+  },
+  "the sandman": {
+    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=1200&auto=format&fit=crop"
+  },
+  "the expanse": {
+    posterUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1200&auto=format&fit=crop"
+  },
+  "the idea of you": {
+    posterUrl: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop"
+  },
+  "society of the snow": {
+    posterUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop"
+  },
+  "road house": {
+    posterUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=1200&auto=format&fit=crop"
+  },
+  "the covenant": {
+    posterUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop"
+  },
+  "nimona": {
+    posterUrl: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop",
+    backdropUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"
   }
 };
 
@@ -220,47 +312,117 @@ app.get('/api/media-images', async (req, res) => {
     let posterUrl = '';
     let backdropUrl = '';
 
-    // 1. Try iTunes Search API with strict entity matching & title verification
+    const searchTerm = cleanSearchTitle(title);
+
+    // --- LAYER 1: Try Wikipedia API (Excellent for authentic theatrical/TV cover posters) ---
     try {
-      const iTunesMedia = type === 'Series' ? 'tvShow' : 'movie';
-      const iTunesEntity = type === 'Series' ? 'tvSeason' : 'movie';
-      const iTunesUrl = `https://itunes.apple.com/search?term=${encodeURIComponent(title)}&media=${iTunesMedia}&entity=${iTunesEntity}&limit=5`;
-      const response = await fetch(iTunesUrl);
-      if (response.ok) {
-        const data = await response.json() as any;
-        if (data.results && data.results.length > 0) {
-          // Find the item with closest word overlap to avoid wrong matches
-          const s = normTitle.replace(/[^a-z0-9\s]/g, '');
-          const bestItem = data.results.find((item: any) => {
-            const resTitle = (item.trackName || item.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-            return resTitle.includes(s) || s.includes(resTitle);
-          }) || data.results[0];
+      const isSeries = type === 'Series';
+      const searchQueries = [
+        `${searchTerm} ${isSeries ? 'series' : 'film'}`,
+        `${searchTerm} ${isSeries ? 'TV series' : 'movie'}`,
+        searchTerm
+      ];
 
-          // Re-verify that it's a decent name match
-          const matchedTitle = (bestItem.trackName || bestItem.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
-          const sWords = s.split(/\s+/).filter(w => w.length > 2);
-          const matchOk = sWords.length === 0 || sWords.some(w => matchedTitle.includes(w)) || matchedTitle.includes(s) || s.includes(matchedTitle);
+      let wikipediaPageTitle = '';
+      for (const query of searchQueries) {
+        const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&limit=3`;
+        const wikiRes = await fetch(searchUrl);
+        if (wikiRes.ok) {
+          const wikiData = await wikiRes.json() as any;
+          const searchResults = wikiData?.query?.search || [];
+          if (searchResults.length > 0) {
+            // Find a result that has soft title match to avoid unrelated results
+            const termLower = searchTerm.toLowerCase();
+            const bestResult = searchResults.find((r: any) => {
+              const rTitleLower = r.title.toLowerCase();
+              return rTitleLower.includes(termLower) || termLower.includes(rTitleLower);
+            }) || searchResults[0];
 
-          if (matchOk && bestItem.artworkUrl100) {
-            posterUrl = bestItem.artworkUrl100
-              .replace(/100x100bb/g, '600x900bb')
-              .replace(/100x100/g, '600x900');
+            if (bestResult) {
+              wikipediaPageTitle = bestResult.title;
+              break;
+            }
+          }
+        }
+      }
+
+      if (wikipediaPageTitle) {
+        const imgQueryUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(wikipediaPageTitle)}&prop=pageimages&piprop=original&format=json&origin=*`;
+        const imgRes = await fetch(imgQueryUrl);
+        if (imgRes.ok) {
+          const imgData = await imgRes.json() as any;
+          const pages = imgData?.query?.pages || {};
+          const pageId = Object.keys(pages)[0];
+          if (pageId && pageId !== '-1') {
+            const page = pages[pageId];
+            if (page?.original?.source) {
+              const sourceUrl = page.original.source;
+              // Filter out generic Wikipedia placeholder icons
+              const lowerSrc = sourceUrl.toLowerCase();
+              const isMediaFile = lowerSrc.endsWith('.jpg') || lowerSrc.endsWith('.jpeg') || lowerSrc.endsWith('.png') || lowerSrc.endsWith('.webp');
+              const isGeneric = lowerSrc.includes('wiki') || lowerSrc.includes('question') || lowerSrc.includes('padlock') || lowerSrc.includes('stub');
+              
+              if (isMediaFile && !isGeneric) {
+                posterUrl = sourceUrl;
+              }
+            }
           }
         }
       }
     } catch (err) {
-      console.error('iTunes Search API failed:', err);
+      console.error('Wikipedia Search API failed:', err);
     }
 
-    // 2. Fallback or augment with TVmaze API for series with title verification
+    // --- LAYER 2: Try iTunes Search API with Strict & Relaxed search fallbacks ---
+    if (!posterUrl) {
+      try {
+        const iTunesMedia = type === 'Series' ? 'tvShow' : 'movie';
+        const iTunesEntity = type === 'Series' ? 'tvSeason' : 'movie';
+        
+        // Formulate strict and general search endpoints
+        const iTunesUrls = [
+          `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=${iTunesMedia}&entity=${iTunesEntity}&limit=5`,
+          `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&limit=10`
+        ];
+
+        for (const url of iTunesUrls) {
+          const response = await fetch(url);
+          if (response.ok) {
+            const data = await response.json() as any;
+            if (data.results && data.results.length > 0) {
+              const s = searchTerm.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+              const bestItem = data.results.find((item: any) => {
+                const resTitle = (item.trackName || item.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
+                return resTitle.includes(s) || s.includes(resTitle);
+              }) || data.results[0];
+
+              const matchedTitle = (bestItem.trackName || bestItem.collectionName || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
+              const sWords = s.split(/\s+/).filter(w => w.length > 2);
+              const matchOk = sWords.length === 0 || sWords.some(w => matchedTitle.includes(w)) || matchedTitle.includes(s) || s.includes(matchedTitle);
+
+              if (matchOk && bestItem.artworkUrl100) {
+                posterUrl = bestItem.artworkUrl100
+                  .replace(/100x100bb/g, '600x900bb')
+                  .replace(/100x100/g, '600x900');
+                break;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.error('iTunes Search API failed:', err);
+      }
+    }
+
+    // --- LAYER 3: Try TVmaze Search API for Series and general fallback ---
     if ((type === 'Series' || !posterUrl) && !normTitle.includes('enola holmes 3')) {
       try {
-        const tvMazeUrl = `https://api.tvmaze.com/search/shows?q=${encodeURIComponent(title)}`;
+        const tvMazeUrl = `https://api.tvmaze.com/search/shows?q=${encodeURIComponent(searchTerm)}`;
         const response = await fetch(tvMazeUrl);
         if (response.ok) {
           const results = await response.json() as any[];
           if (results && results.length > 0) {
-            const s = normTitle.replace(/[^a-z0-9\s]/g, '');
+            const s = searchTerm.toLowerCase().replace(/[^a-z0-9\s]/g, '');
             const best = results.find((r: any) => {
               const showName = (r.show?.name || '').toLowerCase().replace(/[^a-z0-9\s]/g, '');
               return showName.includes(s) || s.includes(showName);
@@ -285,7 +447,12 @@ app.get('/api/media-images', async (req, res) => {
       }
     }
 
-    // Set default fallbacks if none were successfully resolved
+    // --- LAYER 4: Dynamic Atmospheric Backdrops and Default Fallbacks ---
+    if (posterUrl && !backdropUrl) {
+      // Use the high-quality poster as the backdrop; the UI overlays and blurs beautifully
+      backdropUrl = posterUrl;
+    }
+
     if (!posterUrl) {
       posterUrl = 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop';
     }
