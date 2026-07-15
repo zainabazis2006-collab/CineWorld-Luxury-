@@ -309,6 +309,23 @@ async function fetchMediaImagesDirectly(title: string, type: string, defaultPost
   };
 }
 
+// Utility function to map movie genres to high-definition sample streams for preloading
+function getVideoStreamUrl(movie: Movie): string {
+  if (!movie) return '';
+  const genres = (movie.genres || []).map(g => g.toLowerCase());
+  if (genres.includes('sci-fi') || genres.includes('adventure')) {
+    return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4";
+  } else if (genres.includes('fantasy')) {
+    return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4";
+  } else if (genres.includes('comedy')) {
+    return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  } else if (genres.includes('horror') || genres.includes('thriller')) {
+    return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+  } else {
+    return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutback.mp4";
+  }
+}
+
 export default function App() {
   // Load state from localStorage if available, otherwise default
   const [userState, setUserState] = useState<UserState>(() => {
@@ -389,6 +406,9 @@ export default function App() {
   const [activeSeason, setActiveSeason] = useState<number>(1);
   const [activeEpisode, setActiveEpisode] = useState<number>(1);
 
+  // Talent Info Modal State
+  const [infoMovie, setInfoMovie] = useState<Movie | null>(null);
+
   // Dynamic images state resolved from our custom proxy API
   const [resolvedImages, setResolvedImages] = useState<Record<string, { posterUrl: string; backdropUrl: string }>>(() => {
     try {
@@ -443,50 +463,62 @@ export default function App() {
     return () => { active = false; };
   }, [selectedMovieId]);
 
-  // Sequential background pre-fetcher for all movies in the catalog
+  // Highly optimized parallel/concurrent background pre-fetcher for all movies in the catalog
   useEffect(() => {
     let active = true;
     const moviesToResolve = [...CURATED_CATALOG, ...UPCOMING_RELEASES].filter(m => !resolvedImages[m.id]);
 
-    async function resolveNext(index: number) {
-      if (!active || index >= moviesToResolve.length) return;
-      const movie = moviesToResolve[index];
+    async function resolveAllInParallel() {
+      const concurrencyLimit = 10;
+      let currentIndex = 0;
 
-      try {
-        let data = null;
-        try {
-          const response = await fetch(`/api/media-images?title=${encodeURIComponent(movie.title)}&type=${encodeURIComponent(movie.type)}`);
-          if (response.ok) {
-            data = await response.json();
-          } else {
-            throw new Error('Backend dynamic API not available, falling back');
-          }
-        } catch (fetchErr) {
-          // Fallback to client-side public APIs if Express proxy fails or is not present
-          data = await fetchMediaImagesDirectly(movie.title, movie.type, movie.posterUrl, movie.backdropUrl);
-        }
+      async function worker() {
+        while (currentIndex < moviesToResolve.length && active) {
+          const index = currentIndex++;
+          if (index >= moviesToResolve.length) break;
+          const movie = moviesToResolve[index];
 
-        if (active && data && (data.posterUrl || data.backdropUrl)) {
-          setResolvedImages(prev => ({
-            ...prev,
-            [movie.id]: {
-              posterUrl: data.posterUrl || prev[movie.id]?.posterUrl || movie.posterUrl,
-              backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl
+          try {
+            let data = null;
+            try {
+              const response = await fetch(`/api/media-images?title=${encodeURIComponent(movie.title)}&type=${encodeURIComponent(movie.type)}`);
+              if (response.ok) {
+                data = await response.json();
+              } else {
+                throw new Error('Backend dynamic API not available, falling back');
+              }
+            } catch (fetchErr) {
+              // Fallback to client-side public APIs if Express proxy fails or is not present
+              data = await fetchMediaImagesDirectly(movie.title, movie.type, movie.posterUrl, movie.backdropUrl);
             }
-          }));
+
+            if (active && data && (data.posterUrl || data.backdropUrl)) {
+              setResolvedImages(prev => ({
+                ...prev,
+                [movie.id]: {
+                  posterUrl: data.posterUrl || prev[movie.id]?.posterUrl || movie.posterUrl,
+                  backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl
+                }
+              }));
+            }
+          } catch (err) {
+            console.error(`Failed to background resolve for ${movie.title}:`, err);
+          }
+
+          // Polite throttle gap to prevent complete network congestion
+          await new Promise(resolve => setTimeout(resolve, 100));
         }
-      } catch (err) {
-        console.error(`Failed to background resolve for ${movie.title}:`, err);
       }
 
-      // Add a 300ms delay to keep it fast but polite to external search APIs
-      setTimeout(() => {
-        if (active) resolveNext(index + 1);
-      }, 300);
+      const workers = [];
+      for (let i = 0; i < Math.min(concurrencyLimit, moviesToResolve.length); i++) {
+        workers.push(worker());
+      }
+      await Promise.all(workers);
     }
 
     if (moviesToResolve.length > 0) {
-      resolveNext(0);
+      resolveAllInParallel();
     }
 
     return () => { active = false; };
@@ -549,6 +581,24 @@ export default function App() {
     
     return () => clearInterval(timer);
   }, [selectedMovieId, isCarouselPlaying, displayCatalog]);
+
+  // Preload currently selected movie's high-res poster and backdrop images for instant visual presentation
+  useEffect(() => {
+    if (!selectedMovieId) return;
+    const movie = displayCatalog.find(m => m.id === selectedMovieId);
+    if (!movie) return;
+
+    // Preload backdrop image
+    if (movie.backdropUrl) {
+      const imgBackdrop = new Image();
+      imgBackdrop.src = movie.backdropUrl;
+    }
+    // Preload poster image
+    if (movie.posterUrl) {
+      const imgPoster = new Image();
+      imgPoster.src = movie.posterUrl;
+    }
+  }, [selectedMovieId, displayCatalog]);
   
   // Custom reviews state
   const [allReviews, setAllReviews] = useState<Review[]>(() => {
@@ -1448,6 +1498,16 @@ export default function App() {
               {/* Ambient Poster Glow container */}
               <div className="relative group w-full max-w-[340px] aspect-[2/3] bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 hover:border-[#00D1FF] hover:shadow-[0_0_30px_rgba(0,209,255,0.25)]">
                 
+                {/* Floating Info Button Overlay */}
+                <button
+                  type="button"
+                  onClick={() => setInfoMovie(currentMovie)}
+                  className="absolute top-4 left-4 z-20 p-2 rounded-full bg-black/80 hover:bg-[#00D1FF] border border-white/10 hover:border-[#00D1FF] text-white hover:text-black hover:scale-110 shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer flex items-center justify-center animate-pulse"
+                  title="View Cast & Director Info"
+                >
+                  <Info className="w-4 h-4" />
+                </button>
+
                 {/* Backing image */}
                 <BlurUpImage 
                   src={currentMovie.posterUrl} 
@@ -1765,6 +1825,7 @@ export default function App() {
                       handleMovieSelect={handleMovieSelect}
                       recommendationMatrix={recommendationMatrix}
                       exploreByTalent={exploreByTalent}
+                      onShowInfo={setInfoMovie}
                     />
                   );
                 })}
@@ -1810,6 +1871,7 @@ export default function App() {
                       handleMovieSelect={handleMovieSelect}
                       recommendationMatrix={recommendationMatrix}
                       exploreByTalent={exploreByTalent}
+                      onShowInfo={setInfoMovie}
                     />
                   );
                 })}
@@ -2836,6 +2898,120 @@ export default function App() {
           </div>
         );
       })()}
+
+      {/* EXCLUSIVE TALENT & MOVIE INFO OVERLAY MODAL */}
+      {infoMovie && (
+        <div 
+          id="talent-info-modal"
+          className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-all duration-300"
+          onClick={() => setInfoMovie(null)}
+        >
+          <div 
+            className="bg-[#0b0b12] border border-[#00D1FF]/30 rounded-2xl w-full max-w-xl overflow-hidden shadow-[0_0_50px_rgba(0,209,255,0.35)] relative transition-all transform scale-100 animate-fade-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Ambient luxury visual layers - subtle dark red/cyan gradient glow borders */}
+            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-red-600 via-[#00D1FF] to-blue-600" />
+            
+            {/* Close button */}
+            <button 
+              onClick={() => setInfoMovie(null)}
+              className="absolute top-4 right-4 text-white/50 hover:text-white bg-white/5 hover:bg-white/10 p-1.5 rounded-full transition-all border border-white/10 z-20 cursor-pointer"
+              title="Close Panel"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6">
+              {/* Left Column: Movie Poster */}
+              <div className="w-32 md:w-44 shrink-0 aspect-[2/3] rounded-xl overflow-hidden border border-white/10 relative shadow-2xl mx-auto md:mx-0 bg-black">
+                <BlurUpImage 
+                  src={infoMovie.posterUrl} 
+                  alt={infoMovie.title} 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-2 left-2 bg-black/80 text-[#00D1FF] text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded border border-[#00D1FF]/20">
+                  {infoMovie.year}
+                </div>
+              </div>
+
+              {/* Right Column: Information & Talent Bios */}
+              <div className="flex-1 space-y-4 text-left">
+                <div>
+                  <span className="text-[10px] font-mono text-[#00D1FF] uppercase tracking-[0.2em] font-black">
+                    {infoMovie.type === 'Movie' ? 'Cinematic Presentation' : 'Exclusive Series'}
+                  </span>
+                  <h4 className="text-xl md:text-2xl font-black uppercase italic tracking-tight text-white mt-1 leading-tight">
+                    {infoMovie.title}
+                  </h4>
+                  <p className="text-[10px] text-white/40 font-mono mt-1">★ {infoMovie.rating} Rating • {infoMovie.runtimeOrSeasons}</p>
+                </div>
+
+                <div className="space-y-4 pt-4 border-t border-white/5">
+                  <div>
+                    <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span> Director / Creator
+                    </p>
+                    <p className="text-sm font-bold text-white mt-1">{infoMovie.directorOrCreator}</p>
+                    <p className="text-[11px] text-white/60 leading-relaxed mt-1">
+                      An accomplished visionary maestro orchestrating the aesthetic execution and emotional narrative of this curation.
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span> Starring Cast / Talent
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {infoMovie.cast.map((actor, idx) => (
+                        <span 
+                          key={idx} 
+                          className="bg-white/5 border border-white/10 hover:border-[#00D1FF]/40 text-white/90 text-[10px] px-2.5 py-1 rounded-md font-medium transition-colors cursor-default"
+                        >
+                          {actor}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer View Controls */}
+            <div className="bg-black/60 px-6 py-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="text-left w-full sm:max-w-[65%]">
+                <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider">Premise & Core Narrative</p>
+                <p className="text-[11px] text-white/60 italic truncate mt-0.5" title={infoMovie.synopsis}>
+                  "{infoMovie.synopsis}"
+                </p>
+              </div>
+              <button 
+                onClick={() => {
+                  handleMovieSelect(infoMovie.id);
+                  setInfoMovie(null);
+                  document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-[#00D1FF] to-blue-500 hover:from-white hover:to-white text-black font-mono text-[10px] font-black uppercase tracking-[0.15em] rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-[0_0_15px_rgba(0,209,255,0.3)] shrink-0 cursor-pointer"
+              >
+                <Play className="w-3 h-3 fill-current" />
+                <span>Stream Film</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Dynamic Invisible Preloader for the Currently Selected Movie/Series Video Stream */}
+      {currentMovie && (
+        <video 
+          key={`preload-video-${currentMovie.id}`}
+          src={getVideoStreamUrl(currentMovie)} 
+          preload="auto" 
+          muted 
+          className="hidden" 
+          style={{ display: 'none', width: 0, height: 0 }}
+        />
+      )}
 
     </div>
   );

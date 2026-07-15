@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, ChevronLeft, ChevronRight, Info } from 'lucide-react';
 import { Movie } from '../types';
 import TiltCard from './TiltCard';
 import BlurUpImage from './BlurUpImage';
@@ -12,6 +12,7 @@ interface GenreCarouselProps {
   handleMovieSelect: (id: string) => void;
   recommendationMatrix: any[];
   exploreByTalent?: boolean;
+  onShowInfo?: (movie: Movie) => void;
 }
 
 export default function GenreCarousel({
@@ -20,7 +21,8 @@ export default function GenreCarousel({
   selectedMovieId,
   handleMovieSelect,
   recommendationMatrix,
-  exploreByTalent = false
+  exploreByTalent = false,
+  onShowInfo
 }: GenreCarouselProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
@@ -137,6 +139,21 @@ export default function GenreCarousel({
 
                   {/* Image Frame */}
                   <div className="h-44 sm:h-48 overflow-hidden relative">
+                    {/* Floating Info Button */}
+                    {onShowInfo && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onShowInfo(movie);
+                        }}
+                        className="absolute top-3 left-3 z-30 p-1.5 rounded-full bg-black/85 hover:bg-[#00D1FF] border border-white/15 hover:border-[#00D1FF] text-white/80 hover:text-black hover:scale-110 shadow-[0_2px_8px_rgba(0,0,0,0.5)] transition-all cursor-pointer flex items-center justify-center"
+                        title="View Cast & Director"
+                      >
+                        <Info className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+
                     <BlurUpImage 
                       src={movie.posterUrl} 
                       alt={movie.title}
