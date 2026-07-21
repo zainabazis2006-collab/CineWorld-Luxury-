@@ -3145,6 +3145,702 @@ const RAW_CATALOG: Movie[] = [
       }
     ],
     productionTrivia: 'Secured rare, highly coveted filming permissions from the city of London to shoot action-comedy car chases in high-traffic zones.'
+  },
+  {
+    id: 'the-witcher-series',
+    title: 'The Witcher',
+    type: 'Series',
+    year: 2023,
+    runtimeOrSeasons: '3 Seasons',
+    rating: 4.6,
+    genres: ['Fantasy', 'Adventure', 'Action', 'Drama'],
+    directorOrCreator: 'Lauren Schmidt Hissrich',
+    cast: ['Henry Cavill', 'Anya Chalotra', 'Freya Allan', 'Joey Batey'],
+    synopsis: 'Geralt of Rivia, a mutated monster-hunter for hire, journeys toward his destiny in a turbulent world where people often prove more wicked than beasts.',
+    criticalAnalysis: 'A gritty, complex fantasy saga that brilliantly handles the dark political intrigue and philosophical nuances of Andrzej Sapkowski\'s novels, elevated by exceptional swordplay choreography.',
+    trivia: [
+      'Henry Cavill performed all of his own stunts and sword fighting sequences without a stunt double.',
+      'The production designed realistic physical costumes and prosthetics for the monsters instead of relying purely on CGI.',
+      'The iconic song "Toss a Coin to Your Witcher" became a massive viral sensation, reaching millions of streams on Spotify.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/80189685',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The costume department manufactured over thirty custom suits of armor for the Nilfgaardian armies, shifting to lighter leather composite plates for better actor mobility.'
+  },
+  {
+    id: 'mindhunter-series',
+    title: 'Mindhunter',
+    type: 'Series',
+    year: 2019,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.8,
+    genres: ['Crime', 'Drama', 'Thriller', 'Mystery'],
+    directorOrCreator: 'Joe Penhall & David Fincher',
+    cast: ['Jonathan Groff', 'Holt McCallany', 'Anna Torv', 'Cameron Britton'],
+    synopsis: 'In the late 1970s, two FBI agents expand criminal science by delving into the psychology of murder and uneasily getting close to all-too-real monsters.',
+    criticalAnalysis: 'A mesmerizing, chilly psychological thriller. It favors meticulous dialogue, slow-burn tension, and clinical camera movements over cheap sensationalism.',
+    trivia: [
+      'David Fincher is famous for demanding dozens of takes for even the simplest dialogue scenes to achieve a completely natural delivery.',
+      'The actors portraying the serial killers studied real FBI interview recordings to match their exact speech patterns, body language, and tics.',
+      'The series is based on the true-crime memoir written by John E. Douglas, a pioneering FBI profiling specialist.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/80114855',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Utilized custom red-tinted digital color curves and vintage anamorphic lenses to recreate the sterile, institutional grit of late 1970s government offices.'
+  },
+  {
+    id: 'everything-everywhere',
+    title: 'Everything Everywhere All at Once',
+    type: 'Movie',
+    year: 2022,
+    runtimeOrSeasons: '139 min',
+    rating: 4.9,
+    genres: ['Sci-Fi', 'Comedy', 'Action', 'Drama', 'Adventure'],
+    directorOrCreator: 'Daniel Kwan & Daniel Scheinert',
+    cast: ['Michelle Yeoh', 'Ke Huy Quan', 'Stephanie Hsu', 'Jamie Lee Curtis'],
+    synopsis: 'An aging Chinese immigrant is swept up in an insane adventure, where she alone can save the world by exploring other universes connecting with the lives she could have led.',
+    criticalAnalysis: 'An absolute masterpiece of maximalist filmmaking. It takes the multiverse concept and grounds it in a deeply emotional family drama about existentialism, regret, and the choice of kindness.',
+    trivia: [
+      'The film\'s mind-bending visual effects were created by a core team of only five self-taught artists using standard commercial software.',
+      'Ke Huy Quan returned to acting after a 20-year hiatus, having quit due to the lack of opportunities for Asian actors in Hollywood.',
+      'The directors filmed the entire action-packed hallway fight sequence using actual physical props like a fanny pack stuffed with loose change.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/everything-everywhere',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The entire film was shot in just 38 days, requiring strict storyboarding and synchronized lighting setups to accommodate rapid inter-dimensional jump cuts.'
+  },
+  {
+    id: 'fellowship-of-the-ring',
+    title: 'The Lord of the Rings: The Fellowship of the Ring',
+    type: 'Movie',
+    year: 2001,
+    runtimeOrSeasons: '178 min',
+    rating: 4.9,
+    genres: ['Fantasy', 'Adventure', 'Action'],
+    directorOrCreator: 'Peter Jackson',
+    cast: ['Elijah Wood', 'Ian McKellen', 'Viggo Mortensen', 'Orlando Bloom', 'Sean Bean'],
+    synopsis: 'A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.',
+    criticalAnalysis: 'A monumental achievement in fantasy cinema. Peter Jackson perfectly captures the grand scale, pastoral beauty, and looming dread of Tolkien\'s universe, backed by an unforgettable score and ground-breaking practical effects.',
+    trivia: [
+      'Viggo Mortensen bonded so deeply with his character\'s horse during filming that he purchased the horse from the production after shooting wrapped.',
+      'The production constructed entire miniature castles and landscapes, dubbed "bigatures," to capture highly detailed wide shots.',
+      'The iconic scream of the Ringwraiths was created by combining the screams of sound designer David Farmer and producer Fran Walsh scraping plastic cups.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/fellowship',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'To establish natural, convincing scale differences between the Hobbits and ordinary men, the cinematographers built custom moving forced-perspective tables and camera rigs.'
+  },
+  {
+    id: 'the-white-lotus',
+    title: 'The White Lotus',
+    type: 'Series',
+    year: 2022,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.7,
+    genres: ['Comedy', 'Drama', 'Mystery'],
+    directorOrCreator: 'Mike White',
+    cast: ['Jennifer Coolidge', 'Aubrey Plaza', 'Theo James', 'Sydney Sweeney'],
+    synopsis: 'A sharp social satire following the exploits of various employees and guests at an exclusive luxury resort over the span of one highly volatile week.',
+    criticalAnalysis: 'A beautifully uncomfortable examination of wealth, privilege, and existential dread. It uses a hypnotic tropical score, brilliant ensemble acting, and slow-burn awkwardness to dissect class disparities.',
+    trivia: [
+      'The first season was conceived, written, cast, and filmed entirely during the height of the COVID-19 pandemic inside a single closed resort.',
+      'Jennifer Coolidge was the only major cast member from the first season to return for the second season in Sicily.',
+      'Mike White wrote the entire series, drawing on his own experiences competing on the reality show Survivor to pace the tension.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/shows/the-white-lotus',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The show\'s distinctive wallpapers and title credit graphics were custom hand-painted to subtly illustrate the dark character fates waiting in the narrative.'
+  },
+  {
+    id: 'chernobyl-series',
+    title: 'Chernobyl',
+    type: 'Series',
+    year: 2019,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.9,
+    genres: ['Drama', 'History', 'Thriller'],
+    directorOrCreator: 'Craig Mazin',
+    cast: ['Jared Harris', 'Stellan Skarsgård', 'Emily Watson', 'Paul Ritter'],
+    synopsis: 'In April 1986, an explosion at the Chernobyl Nuclear Power Plant in the USSR becomes one of the world\'s worst man-made catastrophes, triggering a desperate struggle to save Europe.',
+    criticalAnalysis: 'A towering, horrifying masterpiece of historical reconstruction. It frames scientific failure as a tragedy of bureaucratic lies, creating a suffocating atmosphere of dread and heroic sacrifice.',
+    trivia: [
+      'Craig Mazin spent over two years researching primary sources, Soviet archives, and first-hand survivor accounts to ensure exact accuracy.',
+      'The sound of Geiger counters clicking was heavily integrated into the musical score to amplify the invisible horror of radiation.',
+      'Many of the characters represent actual historical figures, while Emily Watson\'s character was created to represent the collective scientific community.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/shows/chernobyl',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production team secured shooting permission at the decommissioned Ignalina Nuclear Power Plant in Lithuania, which had sister-reactors physically matching Chernobyl.'
+  },
+  {
+    id: 'all-quiet-western-front',
+    title: 'All Quiet on the Western Front',
+    type: 'Movie',
+    year: 2022,
+    runtimeOrSeasons: '148 min',
+    rating: 4.8,
+    genres: ['War', 'Drama', 'History'],
+    directorOrCreator: 'Edward Berger',
+    cast: ['Felix Kammerer', 'Albrecht Schuch', 'Aaron Hilmer', 'Daniel Brühl'],
+    synopsis: 'A young German soldier\'s terrifying experiences on the Western Front during World War I reveal how the initial euphoria of war turns into brutal survival.',
+    criticalAnalysis: 'A visceral, relentlessly bleak anti-war masterpiece. Its technical precision, thumping mechanical score, and unflinching camera work dismantle any romantic notions of military glory.',
+    trivia: [
+      'The film won four Academy Awards, including Best International Feature Film and Best Cinematography.',
+      'To make the trenches look authentic, the crew excavated massive physical mud battlefields in the Czech Republic during the freezing winter.',
+      'The sound designers used real period-accurate weapons and artillery to capture the deafening, bone-shaking reality of World War I combat.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81260280',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Employed massive, custom-designed rain machines and wind turbines to turn dry, flat plains into the bone-chillingly cold, muddy, and hostile trenches of no-man\'s-land.'
+  },
+  {
+    id: 'normal-people',
+    title: 'Normal People',
+    type: 'Series',
+    year: 2020,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.8,
+    genres: ['Romance', 'Drama'],
+    directorOrCreator: 'Lenny Abrahamson & Hettie Macdonald',
+    cast: ['Daisy Edgar-Jones', 'Paul Mescal', 'Desmond Eastwood', 'India Mullen'],
+    synopsis: 'The complicated relationship between Marianne and Connell, who come from different backgrounds in a small Irish town, as they navigate adulthood.',
+    criticalAnalysis: 'A beautiful, quiet, and raw exploration of intimacy and vulnerability. The performances are incredibly tender, capturing the silent misunderstandings and deep connection of first love.',
+    trivia: [
+      'Paul Mescal won a BAFTA award for his breakthrough performance as Connell, which immediately launched him into global stardom.',
+      'The show employed an intimacy coordinator for all romantic scenes to ensure the actors felt completely comfortable and safe.',
+      'Filmed primarily in Ireland, with key scenic episodes shot on location in beautiful villas in Italy and the streets of Sweden.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/normal-people',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'To capture the hyper-realistic, diary-like visual perspective of youth, the cameramen utilized hand-held prime lenses with a extremely shallow depth-of-field configuration.'
+  },
+  {
+    id: 'the-night-manager',
+    title: 'The Night Manager',
+    type: 'Series',
+    year: 2016,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.7,
+    genres: ['Thriller', 'Drama', 'Mystery'],
+    directorOrCreator: 'Susanne Bier',
+    cast: ['Tom Hiddleston', 'Hugh Laurie', 'Olivia Colman', 'Elizabeth Debicki'],
+    synopsis: 'A former British soldier and hotel night manager is recruited by an intelligence operative to infiltrate the inner circle of a ruthless international arms dealer.',
+    criticalAnalysis: 'A sleek, high-class espionage thriller that updates John le Carré\'s classic novel with luxurious Mediterranean locales, razor-sharp dialogue, and phenomenal tension.',
+    trivia: [
+      'Tom Hiddleston actually worked shifts as a real night manager at a luxury hotel in London to prepare for the role.',
+      'The stunning clifftop villa belonging to Richard Roper is a real historic fortress called Sa Fortaleza located in Mallorca, Spain.',
+      'Olivia Colman was pregnant during filming, which led the director to adjust her character\'s role to incorporate her pregnancy naturally.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/shows/the-night-manager',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The luxurious yachts and speedboats featured as assets of Roper\'s operations were hired directly from local Mediterranean charter captains for shooting weeks.'
+  },
+  {
+    id: 'sacred-games',
+    title: 'Sacred Games',
+    type: 'Series',
+    year: 2019,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.8,
+    genres: ['Crime', 'Thriller', 'Drama'],
+    directorOrCreator: 'Anurag Kashyap & Vikramaditya Motwane',
+    cast: ['Saif Ali Khan', 'Nawazuddin Siddiqui', 'Radhika Apte', 'Pankaj Tripathi'],
+    synopsis: 'A link in their pasts leads an honest cop to a fugitive gang boss, whose cryptic warning spurs the officer on a quest to save Mumbai from cataclysm.',
+    criticalAnalysis: 'A milestone in Indian streaming television. It blends gritty Mumbai noir with mythological allegories, delivering intense performances and deep social commentary.',
+    trivia: [
+      'Nawazuddin Siddiqui shot many of his vintage Mumbai gangster scenes on locations that were scheduled for redevelopment shortly after.',
+      'The title of each episode corresponds to a concept or character from Hindu mythology, mirroring the narrative arc.',
+      'It was Netflix\'s first original series produced in India.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1540749003-4d3b07264627?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1540749003-4d3b07264627?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/80115328',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production design crew meticulously gathered authentic 1980s and 1990s vintage Indian household props to recreate the historical retro crime timelines.'
+  },
+  {
+    id: 'jubilee-series',
+    title: 'Jubilee',
+    type: 'Series',
+    year: 2023,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.9,
+    genres: ['Drama', 'History'],
+    directorOrCreator: 'Vikramaditya Motwane',
+    cast: ['Prosenjit Chatterjee', 'Aparshakti Khurana', 'Aditi Rao Hydari', 'Wamiqa Gabbi'],
+    synopsis: 'Set in the golden age of Hindi cinema, this epic drama chronicles the trials, betrayals, and absolute triumphs of stars and filmmakers navigating stardom in post-partition India.',
+    criticalAnalysis: 'An extraordinary, visually stunning tribute to classic filmmaking. Its cinematic lighting, haunting orchestration, and poignant storytelling masterfully dissect the cost of dreams.',
+    trivia: [
+      'The character of Roy Talkies owner Himanshu Rai is inspired heavily by pioneer studio boss Himanshu Rai of Bombay Talkies.',
+      'Aparshakti Khurana underwent rigorous posture training to emulate the physical gait of 1940s leading gentlemen.',
+      'The entire show is colored using rich sepia tones and deep shadows to mimic vintage celluloid look.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/jubilee',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Recreated the historical post-independence Bombay cityscape using massive scale models and custom CGI to blend retro tram cars and streetscapes seamlessly.'
+  },
+  {
+    id: 'kantara-movie',
+    title: 'Kantara',
+    type: 'Movie',
+    year: 2022,
+    runtimeOrSeasons: '150 min',
+    rating: 4.7,
+    genres: ['Action', 'Fantasy', 'Thriller', 'Drama'],
+    directorOrCreator: 'Rishab Shetty',
+    cast: ['Rishab Shetty', 'Sapthami Gowda', 'Kishore', 'Achyuth Kumar'],
+    synopsis: 'When greed paves the way for betrayal, a rebellious champion from a forest tribe takes on forces threatening his ancestral land and its divine traditions.',
+    criticalAnalysis: 'A tour de force of visual storytelling. Rishab Shetty combines folklore, regional beliefs (Bhoota Kola), and high-octane action to create a deeply resonant sensory experience.',
+    trivia: [
+      'Rishab Shetty performs the actual Bhoota Kola rituals in the climax, requiring weeks of strict spiritual preparation.',
+      'The film was originally intended as a regional Kannada release but became a major pan-Indian commercial blockbuster.',
+      'The spectacular folk song "Varaha Roopam" integrates traditional classical instruments with modern rock-fusion chords.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/kantara',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The forest sequences were shot under dense natural canopies in coastal Karnataka, utilizing specialized portable LED light bars to maintain stable exposures under changing sunlight.'
+  },
+  {
+    id: 'dahaad-series',
+    title: 'Dahaad',
+    type: 'Series',
+    year: 2023,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.6,
+    genres: ['Crime', 'Mystery', 'Thriller'],
+    directorOrCreator: 'Reema Kagti & Ruchika Oberoi',
+    cast: ['Sonakshi Sinha', 'Vijay Varma', 'Gulshan Devaiah', 'Sohum Shah'],
+    synopsis: 'When a series of women are found dead in public bathrooms under mysterious circumstances, a fierce sub-inspector is hot on the heels of an elusive serial killer.',
+    criticalAnalysis: 'A masterful crime drama. It uses the police procedural format to examine deeply entrenched caste biases, systemic apathy, and the horrifying banality of evil.',
+    trivia: [
+      'Vijay Varma is highly acclaimed for his spine-chilling performance as the polite, double-living antagonist.',
+      'Sonakshi Sinha spent months learning the specific Rajasthani dialect and riding heavy motorcycles to play the tough cop.',
+      'Dahaad became the first ever Indian web series to premiere at the prestigious Berlin International Film Festival.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1547483238-f400e65ccd56?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1547483238-f400e65ccd56?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/dahaad',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Shot entirely in the remote, arid landscapes of Rajasthan, using specialized dust filters on the camera lenses to preserve the bright, high-contrast desert atmosphere.'
+  },
+  {
+    id: 'aarya-series',
+    title: 'Aarya',
+    type: 'Series',
+    year: 2023,
+    runtimeOrSeasons: '3 Seasons',
+    rating: 4.7,
+    genres: ['Action', 'Crime', 'Drama'],
+    directorOrCreator: 'Ram Madhvani',
+    cast: ['Sushmita Sen', 'Sikandar Kher', 'Chandrachur Singh', 'Ankur Bhatia'],
+    synopsis: 'After her husband is unexpectedly murdered, a protective mother must join her family\'s illegal drug syndicate to protect her children from international cartels.',
+    criticalAnalysis: 'A phenomenal thriller that centers an incredibly strong female protagonist. Ram Madhvani utilizes long, continuous shots and realistic acting style to build intense stakes.',
+    trivia: [
+      'The show marked the spectacular return of former Miss Universe Sushmita Sen to mainstream acting after a decade-long hiatus.',
+      'It is an official adaptation of the acclaimed Dutch drama series Penoza.',
+      'The background score uses classic old Hindi songs like "Bade Achhe Lagte Hain" to build deeply contrasting, chilling irony during violent gunfights.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/shows/aarya',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The crew shot inside authentic palaces in Jaipur, needing to comply with strict conservation rules by using specialized softbox LED panels that avoided thermal damage to historical murals.'
+  },
+  {
+    id: 'criminal-justice-india',
+    title: 'Criminal Justice',
+    type: 'Series',
+    year: 2022,
+    runtimeOrSeasons: '3 Seasons',
+    rating: 4.6,
+    genres: ['Crime', 'Drama', 'Mystery'],
+    directorOrCreator: 'Rohan Sippy',
+    cast: ['Pankaj Tripathi', 'Vikrant Massey', 'Kirti Kulhari', 'Shweta Basu Prasad'],
+    synopsis: 'Follow the brilliant but eccentric advocate Madhav Mishra as he takes on seemingly impossible criminal cases, representing vulnerable clients trapped in the legal system.',
+    criticalAnalysis: 'A highly compelling legal drama. Pankaj Tripathi\'s pitch-perfect portrayal of a humble, witty lawyer brings unmatched warmth to a cold, sterile legal environment.',
+    trivia: [
+      'The character of Madhav Mishra became so popular that it spawned multiple standalone seasons focused entirely on his legal exploits.',
+      'The writers consulted actual high-court criminal defense lawyers to ensure courtroom arguments and legal protocols were entirely authentic.',
+      'The first season is a direct adaptation of the BBC series of the same name.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/shows/criminal-justice',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The courtroom sets were built with precise acoustic damping to capture clear, uncolored dialogue during low-whisper intense legal arguments.'
+  },
+  {
+    id: 'jaane-jaan',
+    title: 'Jaane Jaan',
+    type: 'Movie',
+    year: 2023,
+    runtimeOrSeasons: '139 min',
+    rating: 4.5,
+    genres: ['Thriller', 'Mystery', 'Drama'],
+    directorOrCreator: 'Sujoy Ghosh',
+    cast: ['Kareena Kapoor Khan', 'Jaideep Ahlawat', 'Vijay Varma'],
+    synopsis: 'A single mother in Kalimpong becomes entangled in a murder investigation when her abusive ex-husband goes missing, aided by a brilliant math teacher living next door.',
+    criticalAnalysis: 'A wonderfully moody and atmospheric adaptation of Keigo Higashino\'s beloved novel "The Devotion of Suspect X". Jaideep Ahlawat delivers a spectacular, career-defining performance as the tragic genius.',
+    trivia: [
+      'The film was shot on location in the misty hills of Kalimpong, West Bengal, which perfectly reflects the chilly, isolating mood of the story.',
+      'Jaideep Ahlawat underwent significant physical transformation, losing weight and receding his hairline to look like the middle-aged teacher.',
+      'The title is a loving homage to the iconic old Bollywood track "Jaane Jaan" from the movie Jawani Diwani.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1461696114087-397271a7aedc?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1461696114087-397271a7aedc?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81577711',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The misty Kalimpong atmosphere was so thick during shooting that the cameramen had to utilize ultra-bright high-intensity HMI lights just to project visible light beams through the fog.'
+  },
+  {
+    id: 'super-deluxe-movie',
+    title: 'Super Deluxe',
+    type: 'Movie',
+    year: 2019,
+    runtimeOrSeasons: '176 min',
+    rating: 4.8,
+    genres: ['Drama', 'Comedy', 'Thriller'],
+    directorOrCreator: 'Thiagarajan Kumararaja',
+    cast: ['Vijay Sethupathi', 'Fahadh Faasil', 'Samantha Ruth Prabhu', 'Ramya Krishnan'],
+    synopsis: 'An unfaithful wife, an estranged transgender mother, a curious boy, and a rebellious teenager find themselves in highly bizarre situations on one fateful day.',
+    criticalAnalysis: 'An extraordinary piece of hyperlink cinema. It is incredibly bold, deeply philosophical, and packed with dark humor, questioning conventional morality, religion, and human connections.',
+    trivia: [
+      'Vijay Sethupathi won a National Film Award for Best Supporting Actor for his incredible portrayal of Shilpa, a transgender woman.',
+      'The film took over two years in the editing room to weave the complex parallel storylines together seamlessly.',
+      'The soundtrack features experimental electronic beats combined with traditional old Tamil cinema dialogue snippets.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81113936',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The director employed highly vivid, saturated neon primary color palettes (reds, blues, greens) for each parallel story, creating distinct visual spaces.'
+  },
+  {
+    id: 'delhi-crime-series',
+    title: 'Delhi Crime',
+    type: 'Series',
+    year: 2022,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.8,
+    genres: ['Crime', 'Drama'],
+    directorOrCreator: 'Richie Mehta & Tanuj Chopra',
+    cast: ['Shefali Shah', 'Rasika Dugal', 'Adil Hussain', 'Rajesh Tailang'],
+    synopsis: 'Follow Deputy Commissioner of Police Vartika Chaturvedi and her dedicated team as they investigate harrowing crimes in the heart of Delhi, seeking justice under intense public scrutiny.',
+    criticalAnalysis: 'A phenomenal, hard-hitting police procedural. Shefali Shah delivers a stellar, powerhouse performance in a series that treats sensitive subjects with extreme dignity, precision, and respect.',
+    trivia: [
+      'The first season won the prestigious International Emmy Award for Best Drama Series, the first ever for an Indian web series.',
+      'Richie Mehta spent over four years reading thousands of pages of police files and court testimonies before writing a single word of the script.',
+      'The show is shot primarily in natural, low-key lighting to reflect the exhausting, round-the-clock nature of actual police investigations.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81076756',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production team built a highly detailed replica of a real working Delhi police station, complete with worn-out wooden files, dusty desks, and authentic governmental stationary.'
+  },
+  {
+    id: 'jawan-movie',
+    title: 'Jawan',
+    type: 'Movie',
+    year: 2023,
+    runtimeOrSeasons: '169 min',
+    rating: 4.6,
+    genres: ['Action', 'Thriller', 'Drama'],
+    directorOrCreator: 'Atlee Kumar',
+    cast: ['Shah Rukh Khan', 'Nayanthara', 'Vijay Sethupathi', 'Deepika Padukone'],
+    synopsis: 'A high-octane action thriller that outlines the emotional journey of a man who is set to rectify the wrongs in the society, driven by a personal vendetta while keeping a promise made years ago.',
+    criticalAnalysis: 'Atlee craftily delivers a supreme mass action blockbuster filled with social messaging, stylish action sequences, and a powerful dual performance by Shah Rukh Khan.',
+    trivia: [
+      'Shah Rukh Khan wears six distinct visual disguises throughout the film, requiring hours of daily prosthetic work.',
+      'The movie features incredible high-octane stunts supervised by international action directors.',
+      'It is one of the highest-grossing Indian films of all time.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81699042',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The train hijacking sequence took over 15 nights to shoot on a custom-designed real-scale metro station set in Mumbai.'
+  },
+  {
+    id: 'hanuman-legend',
+    title: 'The Legend of Hanuman',
+    type: 'Series',
+    year: 2024,
+    runtimeOrSeasons: '4 Seasons',
+    rating: 4.7,
+    genres: ['Action', 'Fantasy', 'Adventure'],
+    directorOrCreator: 'Sharad Devarajan & Jeevan J. Kang',
+    cast: ['Damandeep Singh Baggan', 'Sanket Mhatre', 'Sharad Kelkar'],
+    synopsis: 'The legendary saga of Lord Hanuman, a humble vanara who realizes his immense, god-like strength to guide the light of righteousness in an era of dark demons.',
+    criticalAnalysis: 'A visual marvel in Indian animation, presenting an epic mythological tale with spectacular world-building, emotional gravity, and rich character depth.',
+    trivia: [
+      'Created with state-of-the-art 3D animation technology, setting a new benchmark for Indian animated storytelling.',
+      'Features a soaring orchestral background score combining classical Indian chants with modern cinematic arrangements.',
+      'Sharad Kelkar provides the grand, baritone voiceover narration for the series.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/in/shows/the-legend-of-hanuman/1260052156',
+        availableRegions: ['IN', 'US', 'UK'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The animation design team spent over eight months researching ancient texts and traditional Indian temple carvings to sketch authentic clothing, crowns, and armor designs.'
+  },
+  {
+    id: 'tumbbad-movie',
+    title: 'Tumbbad',
+    type: 'Movie',
+    year: 2018,
+    runtimeOrSeasons: '104 min',
+    rating: 4.9,
+    genres: ['Horror', 'Fantasy', 'Drama'],
+    directorOrCreator: 'Rahi Anil Barve',
+    cast: ['Sohum Shah', 'Jyoti Malshe', 'Dhundiraj Prabhakar'],
+    synopsis: 'In the rain-swept village of Tumbbad, a man searches for a legendary, cursed treasure hidden deep inside an ancient temple dedicated to Hastar, the greedy firstborn of the Goddess of Prosperity.',
+    criticalAnalysis: 'A towering masterpiece of mythological horror. Its rich atmospheric cinematography, haunting score, and powerful greed allegory make it one of the finest Indian films ever made.',
+    trivia: [
+      'The film was shot over six years, as the director insisted on filming only during the actual monsoon seasons to capture the authentic, gloomy, rain-drenched atmosphere of rural Maharashtra.',
+      'Hastar is a completely custom mythological character invented by the writers, inspired by ancient local folklore and fairy tales.',
+      'The terrifying, deep well sequences inside the womb of the Goddess were shot inside custom-constructed dark tunnels under a real fort.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/B07K6Y8F9R',
+        availableRegions: ['IN', 'US', 'UK'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Utilized award-winning practical effects and prosthetic makeup created by international artists to bring Hastar and the cursed grandmother to life.'
+  },
+  {
+    id: 'suzhal-series',
+    title: 'Suzhal: The Vortex',
+    type: 'Series',
+    year: 2022,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.8,
+    genres: ['Thriller', 'Crime', 'Drama'],
+    directorOrCreator: 'Pushkar & Gayatri',
+    cast: ['Kathir', 'Aishwarya Rajesh', 'Srireddy', 'Radhakrishnan Parthiban'],
+    synopsis: 'In a small industrial town in South India, the disappearance of a young girl during an ancient micro-festival triggers a series of shocking secrets, setting the local community on a path of absolute chaos.',
+    criticalAnalysis: 'A masterclass in slow-burn mystery. It weaves folklore, socio-political tensions, and forensic police work into a gripping, visually atmospheric narrative.',
+    trivia: [
+      'This was the first Tamil original series on Amazon Prime Video to be released in over 30 languages globally.',
+      'The show is structured around the 10 days of the "Mayana Kollai" festival, mirroring the narrative development.',
+      'The haunting theme track was composed by Sam C.S.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/B0B68C2L9M',
+        availableRegions: ['IN', 'US', 'UK'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The festival fire dance sequences were shot live with actual regional performers and fire dancers, captured in dramatic slow motion.'
+  },
+  {
+    id: 'shershaah-movie',
+    title: 'Shershaah',
+    type: 'Movie',
+    year: 2021,
+    runtimeOrSeasons: '135 min',
+    rating: 4.7,
+    genres: ['Biography', 'Romance', 'History'],
+    directorOrCreator: 'Vishnuvardhan',
+    cast: ['Sidharth Malhotra', 'Kiara Advani', 'Shiv Panditt'],
+    synopsis: 'The life story of Captain Vikram Batra, an Indian army officer who was posthumously awarded the Param Vir Chakra, Indias highest award for bravery, for his actions during the 1999 Kargil War.',
+    criticalAnalysis: 'An emotionally stirring tribute. Sidharth Malhotra delivers his career-best performance, coupled with beautiful romance tracks and highly realistic warfare sequences.',
+    trivia: [
+      'Sidharth Malhotra trained with real Army commandos and met the family of Captain Vikram Batra to understand his mannerisms.',
+      'The battle scenes were shot in actual mountainous terrains of Kargil at over 14,000 feet altitude, making breathing difficult during physical stunts.',
+      'The title "Shershaah" was Batras real-life military codename during the war.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/B09C3X6F78',
+        availableRegions: ['IN', 'US', 'UK'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production team hired military advisors to oversee all weapons handling, battle strategies, and radio call-sign authenticity.'
+  },
+  {
+    id: 'special-ops-series',
+    title: 'Special OPS',
+    type: 'Series',
+    year: 2020,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.8,
+    genres: ['Action', 'Thriller', 'Crime'],
+    directorOrCreator: 'Neeraj Pandey',
+    cast: ['Kay Kay Menon', 'Karan Tacker', 'Vinay Pathak', 'Saiyami Kher'],
+    synopsis: 'Himmat Singh, a senior Research and Analysis Wing (RAW) officer, leads a highly classified group of five international agents as they hunt down a mastermind behind nineteen years of terror attacks.',
+    criticalAnalysis: 'Neeraj Pandey delivers a highly authentic, fast-paced espionage thriller. Kay Kay Menon is phenomenal, driving the narrative with unmatched grit and poise.',
+    trivia: [
+      'The series was shot across multiple international locations, including Turkey, Azerbaijan, Jordan, and Georgia.',
+      'Kay Kay Menon filmed all of his interrogations in continuous, theatrical single-takes to maintain intensity.',
+      'It was one of the most successful Indian original series ever released on Disney+ Hotstar.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/in/shows/special-ops/1260022813',
+        availableRegions: ['IN', 'US', 'UK'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The crew collaborated with former RAW officers to ensure accurate procedural representations, codes, and operational methods.'
   }
 ];
 
@@ -3253,7 +3949,25 @@ const SAFE_POSTERS: Record<string, string> = {
   'daadi-ki-shaadi': 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop',
   'blast': 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop',
   'dhurandar-1': 'https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=600&auto=format&fit=crop',
-  'dhurandar-2': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop'
+  'dhurandar-2': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
+  'the-witcher-series': 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop',
+  'mindhunter-series': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+  'everything-everywhere': 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop',
+  'fellowship-of-the-ring': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
+  'the-white-lotus': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
+  'chernobyl-series': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop',
+  'all-quiet-western-front': 'https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=600&auto=format&fit=crop',
+  'normal-people': 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop',
+  'the-night-manager': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop',
+  'sacred-games': 'https://images.unsplash.com/photo-1540749003-4d3b07264627?q=80&w=600&auto=format&fit=crop',
+  'jubilee-series': 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop',
+  'kantara-movie': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop',
+  'dahaad-series': 'https://images.unsplash.com/photo-1547483238-f400e65ccd56?q=80&w=600&auto=format&fit=crop',
+  'aarya-series': 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop',
+  'criminal-justice-india': 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop',
+  'jaane-jaan': 'https://images.unsplash.com/photo-1461696114087-397271a7aedc?q=80&w=600&auto=format&fit=crop',
+  'super-deluxe-movie': 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?q=80&w=600&auto=format&fit=crop',
+  'delhi-crime-series': 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=600&auto=format&fit=crop'
 };
 
 const SAFE_BACKDROPS: Record<string, string> = {
@@ -3316,7 +4030,25 @@ const SAFE_BACKDROPS: Record<string, string> = {
   'daadi-ki-shaadi': 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
   'blast': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
   'dhurandar-1': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop',
-  'dhurandar-2': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop'
+  'dhurandar-2': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop',
+  'the-witcher-series': 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop',
+  'mindhunter-series': 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200&auto=format&fit=crop',
+  'everything-everywhere': 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200&auto=format&fit=crop',
+  'fellowship-of-the-ring': 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
+  'the-white-lotus': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop',
+  'chernobyl-series': 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
+  'all-quiet-western-front': 'https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
+  'normal-people': 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=1200&auto=format&fit=crop',
+  'the-night-manager': 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop',
+  'sacred-games': 'https://images.unsplash.com/photo-1540749003-4d3b07264627?q=80&w=1200&auto=format&fit=crop',
+  'jubilee-series': 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop',
+  'kantara-movie': 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop',
+  'dahaad-series': 'https://images.unsplash.com/photo-1547483238-f400e65ccd56?q=80&w=1200&auto=format&fit=crop',
+  'aarya-series': 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=1200&auto=format&fit=crop',
+  'criminal-justice-india': 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
+  'jaane-jaan': 'https://images.unsplash.com/photo-1461696114087-397271a7aedc?q=80&w=1200&auto=format&fit=crop',
+  'super-deluxe-movie': 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?q=80&w=1200&auto=format&fit=crop',
+  'delhi-crime-series': 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=1200&auto=format&fit=crop'
 };
 
 export const CURATED_CATALOG: Movie[] = RAW_CATALOG.map(movie => {

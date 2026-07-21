@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Mail, Lock, User, Globe, ArrowRight, ShieldCheck, Play, Sparkles, Film, Compass, Tv } from 'lucide-react';
 import CineWorldLogo from './CineWorldLogo';
@@ -31,6 +31,16 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
   const [success, setSuccess] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // Suggested sign in bypass for duplicate credentials
+  const [showSignInSuggestion, setShowSignInSuggestion] = useState<boolean>(false);
+  const [suggestedUser, setSuggestedUser] = useState<any>(null);
+
+  // Reset suggestions on text inputs change
+  useEffect(() => {
+    setShowSignInSuggestion(false);
+    setSuggestedUser(null);
+  }, [email, password, isSignUp]);
+
   // Pre-seed some default users if none exist, including user's email for convenience
   React.useEffect(() => {
     const existing = localStorage.getItem('cineworld_registered_users_v1');
@@ -42,7 +52,8 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
           name: 'Zainab Azis',
           selectedAvatar: 'director',
           region: 'US',
-          preferredLanguage: 'en'
+          preferredLanguage: 'en',
+          registeredAt: new Date().toISOString()
         },
         {
           email: 'cinephile@cineworld.vip',
@@ -50,7 +61,8 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
           name: 'Elite Cinephile',
           selectedAvatar: 'critic',
           region: 'US',
-          preferredLanguage: 'en'
+          preferredLanguage: 'en',
+          registeredAt: new Date().toISOString()
         }
       ];
       localStorage.setItem('cineworld_registered_users_v1', JSON.stringify(seedUsers));
@@ -65,12 +77,33 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
     return { label: 'Luxurious / Secure', color: 'bg-[#00D1FF]', percent: 100 };
   };
 
+  const handleSuggestionSignIn = () => {
+    if (!suggestedUser) return;
+    setIsLoading(true);
+    setError('');
+    setSuccess(`Screening pass identified! Signing in as ${suggestedUser.name || 'Cinephile'}...`);
+    
+    setTimeout(() => {
+      setIsLoading(false);
+      onAuthSuccess({
+        isLoggedIn: true,
+        userName: suggestedUser.name,
+        email: suggestedUser.email,
+        password: suggestedUser.password,
+        selectedAvatar: suggestedUser.selectedAvatar || 'scifi',
+        region: suggestedUser.region || region,
+        preferredLanguage: suggestedUser.preferredLanguage || language
+      });
+    }, 1500);
+  };
+
   const handleAuthSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     
     const emailTrimmed = email.trim();
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    // Strict RFC 5322 Email regex
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
     // Basic validations
     if (!emailTrimmed) {
@@ -78,7 +111,7 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
       return;
     }
     if (!emailRegex.test(emailTrimmed)) {
-      setError('Please provide a valid email format (e.g., name@domain.com) with a proper domain extension.');
+      setError('Please provide a valid, well-formed email format (e.g., name@domain.com).');
       return;
     }
     if (!password) {
@@ -86,7 +119,7 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
       return;
     }
     if (password.length < 6) {
-      setError('Passkey must be at least 6 characters long.');
+      setError('Passkey must be at least 6 characters long for security purposes.');
       return;
     }
 
@@ -106,16 +139,27 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
         setError('Please enter your esteemed name.');
         return;
       }
+      if (name.trim().length < 3) {
+        setError('Your name must be at least 3 characters long.');
+        return;
+      }
       if (!agreeTerms) {
         setError('You must accept the CineWorld Luxury terms of private screening to unlock entry.');
         return;
       }
 
       // Check duplicate
-      const emailExists = registeredUsers.some((u: any) => u.email.toLowerCase() === emailTrimmed.toLowerCase());
-      if (emailExists) {
-        setError('This email address is already registered. Please sign in instead.');
-        return;
+      const existingUser = registeredUsers.find((u: any) => u.email.toLowerCase() === emailTrimmed.toLowerCase());
+      if (existingUser) {
+        if (existingUser.password === password) {
+          setError('An active seat is already registered under this email and password. Would you like to sign in instead?');
+          setSuggestedUser(existingUser);
+          setShowSignInSuggestion(true);
+          return;
+        } else {
+          setError('This email address is already registered in our private records. Please switch tabs to Sign In.');
+          return;
+        }
       }
 
       // Register new user
@@ -125,7 +169,8 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
         name: name.trim(),
         selectedAvatar: selectedAvatar,
         region: region,
-        preferredLanguage: language
+        preferredLanguage: language,
+        registeredAt: new Date().toISOString()
       };
 
       registeredUsers.push(matchedUser);
@@ -437,6 +482,31 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
                     className="p-3 bg-emerald-950/50 border border-emerald-500/20 rounded-xl text-xs text-emerald-400 font-medium"
                   >
                     ✨ {success}
+                  </motion.div>
+                )}
+                {showSignInSuggestion && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="p-4 bg-[#00D1FF]/10 border border-[#00D1FF]/30 rounded-xl flex flex-col gap-2.5 text-left"
+                  >
+                    <div className="flex items-start gap-2.5 text-xs text-white/95">
+                      <Sparkles className="w-5 h-5 text-[#00D1FF] shrink-0 mt-0.5" />
+                      <div>
+                        <p className="font-bold text-[#00D1FF]">Matched Screening Pass Found!</p>
+                        <p className="text-white/60 text-[11px] mt-0.5 leading-relaxed">
+                          We verified an active seat for <strong className="text-white">{suggestedUser?.name || 'Cinephile'}</strong> with this exact password. Would you like to bypass sign-up and sign in directly?
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleSuggestionSignIn}
+                      className="w-full py-2 bg-gradient-to-r from-[#00D1FF] to-blue-500 hover:brightness-110 text-black font-mono text-[10px] font-black uppercase tracking-wider rounded-lg transition-all"
+                    >
+                      Yes, Sign Me In Directly &rarr;
+                    </button>
                   </motion.div>
                 )}
               </AnimatePresence>

@@ -26,7 +26,8 @@ import {
   Menu,
   Settings,
   Image as LucideImage,
-  MapPin
+  MapPin,
+  Users
 } from 'lucide-react';
 import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
 import { UPCOMING_RELEASES } from './upcomingData';
@@ -34,6 +35,7 @@ import { Movie, Review, UserState, ChatMessage } from './types';
 import { getSeriesSeasons } from './episodes';
 import { motion, AnimatePresence } from 'motion/react';
 import LazySection from './components/LazySection';
+import UserDatabaseConsole from './components/UserDatabaseConsole';
 
 const ComingSoonSection = lazy(() => import('./components/ComingSoonSection'));
 const KoreanRomanceSection = lazy(() => import('./components/KoreanRomanceSection'));
@@ -1092,6 +1094,7 @@ export default function App() {
   const [reviewerEmail, setReviewerEmail] = useState<string>('cinephile@cineworld.vip');
 
   // Chatbot state
+  const [isUserDatabaseOpen, setIsUserDatabaseOpen] = useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
     return [
@@ -1833,6 +1836,21 @@ export default function App() {
                             <span className={`w-3.5 h-3.5 rounded-full bg-white transition-all absolute ${userState.autoplayTrailers ? 'right-0.5' : 'left-0.5'}`} />
                           </button>
                         </div>
+
+                        {/* Authority Center Access */}
+                        <div className="pt-2 border-t border-white/5">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIsUserDatabaseOpen(true);
+                              setIsHeaderSettingsOpen(false);
+                            }}
+                            className="w-full py-2 bg-[#00D1FF]/10 hover:bg-[#00D1FF]/20 border border-[#00D1FF]/30 hover:border-[#00D1FF]/50 text-[#00D1FF] hover:text-white rounded-xl text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                          >
+                            <Users className="w-4 h-4" />
+                            <span>View User Database</span>
+                          </button>
+                        </div>
                       </div>
                     </motion.div>
                   </>
@@ -2020,8 +2038,22 @@ export default function App() {
                   </div>
                 </div>
 
+                {/* Mobile Admin Center */}
+                <div className="pt-4 border-t border-white/5">
+                  <button
+                    onClick={() => {
+                      setIsUserDatabaseOpen(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full py-3 rounded-xl bg-[#00D1FF]/10 hover:bg-[#00D1FF]/20 border border-[#00D1FF]/30 text-[#00D1FF] hover:text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all min-h-[48px] cursor-pointer"
+                  >
+                    <Users className="w-4 h-4" />
+                    <span>View User Database</span>
+                  </button>
+                </div>
+
                 {/* Profile Display */}
-                <div className="pt-6 border-t border-white/5 flex flex-col gap-3">
+                <div className="pt-4 border-t border-white/5 flex flex-col gap-3">
                   <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-3 rounded-xl min-h-[48px]">
                     <span className="text-lg">
                       {userState.selectedAvatar === 'director' ? '🎬' :
@@ -3973,6 +4005,12 @@ export default function App() {
           style={{ display: 'none', width: 0, height: 0 }}
         />
       )}
+
+      {/* Authority Center User Database Console Modal */}
+      <UserDatabaseConsole 
+        isOpen={isUserDatabaseOpen} 
+        onClose={() => setIsUserDatabaseOpen(false)} 
+      />
 
     </div>
   );

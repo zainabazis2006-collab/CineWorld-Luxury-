@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Hls from 'hls.js';
 import { 
   Play, 
   Pause, 
@@ -33,17 +34,14 @@ interface CinemaPlayerProps {
 }
 
 // Map movies to actual beautiful, stable, high-definition public-domain/creative-commons video streams
-// Highly compressed, optimized, CDN-cached streams that load in under 1 second!
+// Highly compressed, optimized, CDN-cached HLS (.m3u8) streams that load under 1 second with adaptive bitrate support!
 const UNIQUE_STREAMS = [
-  "https://vjs.zencdn.net/v/oceans.mp4", // Ocean clip, super fast VideoJS CDN (~2.2MB)
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4", // Google Cloud CDN optimized loop (~1.8MB)
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", // Google Cloud CDN optimized loop (~1.9MB)
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4", // Google Cloud CDN optimized loop (~1.7MB)
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", // Google Cloud CDN optimized loop (~1.8MB)
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", // Google Cloud CDN optimized loop (~1.6MB)
-  "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", // MDN high-speed flower clip (~0.8MB)
-  "https://www.w3schools.com/html/mov_bbb.mp4", // W3Schools Bunny clip (~1.2MB)
-  "https://www.w3schools.com/html/movie.mp4" // W3Schools Bear clip (~1.4MB)
+  "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", // Big Buck Bunny Adaptive HLS Multi-bitrate (Resolutions: 1080p, 720p, 480p, 360p)
+  "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8", // Sintel Adaptive HLS Multi-bitrate
+  "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8", // Tears of Steel Adaptive HLS Multi-bitrate
+  "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8", // Elephant's Dream Adaptive HLS
+  "https://developer.apple.com/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8", // Apple BipBop Advanced Multi-bitrate HLS
+  "https://vjs.zencdn.net/v/oceans.mp4" // High-speed Ocean MP4 CDN fallback
 ];
 
 const getDeterministicIndex = (str: string, max: number): number => {
@@ -163,23 +161,56 @@ export default function CinemaPlayer({
   const [volume, setVolume] = useState<number>(0.85);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1);
-  const [activeSubtitleLang, setActiveSubtitleLang] = useState<'EN' | 'KR' | 'ES' | 'OFF'>('EN');
-  const [activeQuality, setActiveQuality] = useState<'1080p' | '4K' | '720p'>('1080p');
+  const [activeSubtitleLang, setActiveSubtitleLang] = useState<'EN' | 'HI' | 'KR' | 'ES' | 'OFF'>(() => {
+    try {
+      const saved = localStorage.getItem('cinema_active_subtitle_lang');
+      if (saved === 'EN' || saved === 'HI' || saved === 'KR' || saved === 'ES' || saved === 'OFF') {
+        return saved;
+      }
+    } catch (e) {
+      console.error('Error loading subtitles from localStorage:', e);
+    }
+    return 'EN';
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('cinema_active_subtitle_lang', activeSubtitleLang);
+    } catch (e) {
+      console.error('Error saving subtitles to localStorage:', e);
+    }
+  }, [activeSubtitleLang]);
+  const [activeQuality, setActiveQuality] = useState<string>('Auto');
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [showControls, setShowControls] = useState<boolean>(true);
   const [showSpeedMenu, setShowSpeedMenu] = useState<boolean>(false);
   const [showQualityMenu, setShowQualityMenu] = useState<boolean>(false);
   const [showSubtitleMenu, setShowSubtitleMenu] = useState<boolean>(false);
   const [showServerMenu, setShowServerMenu] = useState<boolean>(false);
+  const [showTracksMenu, setShowTracksMenu] = useState<boolean>(false);
   const [isBuffering, setIsBuffering] = useState<boolean>(false);
   const [showSkipIntro, setShowSkipIntro] = useState<boolean>(true);
   const [playMethod, setPlayMethod] = useState<'netflix' | 'prime' | 'hotstar' | 'archive'>('netflix');
+
+  // HLS.js states
+  const hlsRef = useRef<Hls | null>(null);
+  const [hlsQualities, setHlsQualities] = useState<{ id: number; height: number; width: number; bitrate: number; label: string }[]>([]);
+  const [currentHlsQuality, setCurrentHlsQuality] = useState<number>(-1); // -1 is Auto
 
   // Archive.org Live API states
   const [archiveUrl, setArchiveUrl] = useState<string | null>(null);
   const [archiveTitle, setArchiveTitle] = useState<string | null>(null);
   const [archiveLoading, setArchiveLoading] = useState<boolean>(false);
   const [archiveError, setArchiveError] = useState<string | null>(null);
+
+  // Advanced Public Search states
+  const [archiveSearchQuery, setArchiveSearchQuery] = useState<string>('');
+  const [archiveSearchResults, setArchiveSearchResults] = useState<{ identifier: string; title: string; downloads: number; year: string; runtime: string }[]>([]);
+  const [archiveSearching, setArchiveSearching] = useState<boolean>(false);
+  const [archiveSelectedFiles, setArchiveSelectedFiles] = useState<{ name: string; path: string; url: string }[]>([]);
+  const [showSearchPanel, setShowSearchPanel] = useState<boolean>(false);
+  const [customStreamingUrl, setCustomStreamingUrl] = useState<string | null>(null);
+  const [customStreamingTitle, setCustomStreamingTitle] = useState<string | null>(null);
 
   const getTheme = () => {
     switch (playMethod) {
@@ -247,6 +278,14 @@ export default function CinemaPlayer({
   };
 
   const theme = getTheme();
+
+  // Reset custom archive states when movie, season, or episode changes
+  useEffect(() => {
+    setCustomStreamingUrl(null);
+    setCustomStreamingTitle(null);
+    setArchiveSelectedFiles([]);
+    setShowSearchPanel(false);
+  }, [movie.id, activeSeason, activeEpisode]);
 
   // Automatically fade controls out after 3.5 seconds of inactivity
   useEffect(() => {
@@ -370,6 +409,9 @@ export default function CinemaPlayer({
   const getVideoStreamUrl = () => {
     // If the user explicitly selects the 'archive' method (public-domain / archive.org), return archive links
     if (playMethod === 'archive') {
+      if (customStreamingUrl) {
+        return customStreamingUrl;
+      }
       if (archiveUrl) {
         return archiveUrl;
       }
@@ -404,28 +446,132 @@ export default function CinemaPlayer({
     };
   }, []);
 
-  // Reset states when movie, mode, or episode changes
+  // Initialize player and handle HLS
   useEffect(() => {
-    if (videoRef.current) {
-      setIsBuffering(true); // Signal quick load start
-      videoRef.current.load();
-      if (isPlaying) {
-        videoRef.current.play().catch((err) => {
-          console.warn("Unmuted autoplay blocked, falling back to muted autoplay:", err);
-          if (videoRef.current) {
-            videoRef.current.muted = true;
-            setIsMuted(true);
-            videoRef.current.play().then(() => {
-              setIsPlaying(true);
-            }).catch((mutedErr) => {
-              console.error("Muted autoplay also failed:", mutedErr);
-              setIsPlaying(false);
-            });
+    const video = videoRef.current;
+    if (!video) return;
+
+    setIsBuffering(true);
+
+    // Clean up any existing Hls instance
+    if (hlsRef.current) {
+      hlsRef.current.destroy();
+      hlsRef.current = null;
+    }
+
+    const isHls = videoUrl.includes('.m3u8');
+
+    if (isHls && Hls.isSupported()) {
+      const hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true,
+        backBufferLength: 90
+      });
+      hlsRef.current = hls;
+      hls.loadSource(videoUrl);
+      hls.attachMedia(video);
+
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        // Parse quality levels
+        const levels = hls.levels.map((lvl, index) => ({
+          id: index,
+          height: lvl.height,
+          width: lvl.width,
+          bitrate: lvl.bitrate,
+          label: `${lvl.height}p`
+        }));
+        
+        // Sort quality levels high to low
+        levels.sort((a, b) => b.height - a.height);
+        
+        // Filter duplicates (some streams list duplicate heights with different bitrates)
+        const uniqueLevels: typeof levels = [];
+        const seenHeights = new Set<number>();
+        levels.forEach(l => {
+          if (!seenHeights.has(l.height)) {
+            seenHeights.add(l.height);
+            uniqueLevels.push(l);
           }
         });
+
+        setHlsQualities(uniqueLevels);
+        
+        // Reset quality selection to Auto (-1)
+        setCurrentHlsQuality(-1);
+        setActiveQuality('Auto');
+        setIsBuffering(false);
+
+        // Attempt playback
+        if (isPlaying) {
+          video.play().catch(() => {
+            // Muted fallback if browser blocks unmuted autoplay
+            video.muted = true;
+            setIsMuted(true);
+            video.play().catch(e => console.error("Autoplay completely blocked", e));
+          });
+        }
+      });
+
+      hls.on(Hls.Events.LEVEL_SWITCHED, (event, data) => {
+        // If quality is Auto, dynamically update active quality label
+        if (hlsRef.current && hlsRef.current.currentLevel === -1) {
+          const currentLvl = hlsRef.current.levels[data.level];
+          if (currentLvl) {
+            setActiveQuality(`Auto (${currentLvl.height}p)`);
+          }
+        }
+      });
+
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        if (data.fatal) {
+          switch (data.type) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+              console.warn("HLS network error, recovering...");
+              hls.startLoad();
+              break;
+            case Hls.ErrorTypes.MEDIA_ERROR:
+              console.warn("HLS media error, recovering...");
+              hls.recoverMediaError();
+              break;
+            default:
+              console.error("HLS fatal error, falling back to direct video src...");
+              video.src = videoUrl;
+              break;
+          }
+        }
+      });
+    } else {
+      // Direct playback for MP4 or native HLS (like iOS Safari)
+      video.src = videoUrl;
+      setHlsQualities([]);
+      
+      if (isHls && video.canPlayType('application/vnd.apple.mpegurl')) {
+        setActiveQuality('Native (Adaptive)');
+      } else {
+        setActiveQuality('1080p');
       }
-      setShowSkipIntro(true);
+
+      video.load();
+      setIsBuffering(false);
+
+      if (isPlaying) {
+        video.play().catch((err) => {
+          console.warn("Unmuted direct play blocked, falling back to muted play:", err);
+          video.muted = true;
+          setIsMuted(true);
+          video.play().catch(e => console.error("Muted direct autoplay failed too:", e));
+        });
+      }
     }
+
+    setShowSkipIntro(true);
+
+    return () => {
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
+      }
+    };
   }, [movie.id, streamMode, activeSeason, activeEpisode, videoUrl, youtubeId, playMethod, archiveUrl]);
 
   // Synchronize playback speed
@@ -539,7 +685,17 @@ export default function CinemaPlayer({
 
     if (!matchingBlock) return null;
 
-    // Apply simple translations for Korean or Spanish if selected
+    // Apply simple translations for Korean, Spanish, or Hindi if selected
+    if (activeSubtitleLang === 'HI') {
+      if (matchingBlock.text.includes("Paul Atreides")) return "पॉल एट्रेडीज़: रेगिस्तान अब हमारा घर है। हमें इसके रहस्य सीखने होंगे।";
+      if (matchingBlock.text.includes("Chani")) return "चानी: तुम अराकिस को नहीं जानते। अगर तुम इससे लड़ोगे तो यह तुम्हें खा जाएगा।";
+      if (matchingBlock.text.includes("Oppenheimer")) return "ओपनहाइमर: अब मैं मृत्यु बन गया हूँ, संसारों का संहारक।";
+      if (matchingBlock.text.includes("Joel")) return "जोएल: हम अपना सिर नीचे रखते हैं, जीवित रहते हैं। यही एकमात्र नियम है।";
+      if (matchingBlock.text.includes("Ellie")) return "एली: लेकिन क्या होगा अगर मैं वास्तव में सब कुछ ठीक कर सकूँ?";
+      if (matchingBlock.text.includes("Carmy")) return "कार्मी: सब हाथ ऊपर! मुझे अभी स्टेशन एक पर प्याज की प्यूरी चाहिए!";
+      return `[हिन्दी] ${matchingBlock.text}`;
+    }
+
     if (activeSubtitleLang === 'KR') {
       if (matchingBlock.text.includes("Paul Atreides")) return "폴 아트레이디스: 사막은 이제 우리의 고향이다. 그 비밀을 배워야 한다.";
       if (matchingBlock.text.includes("Chani")) return "챠니: 당신은 아라키스를 모른다. 저항하면 삼켜질 것이다.";
@@ -562,12 +718,156 @@ export default function CinemaPlayer({
     return matchingBlock.text;
   };
 
+  const handleQualityChange = (levelId: number, label: string) => {
+    setCurrentHlsQuality(levelId);
+    setActiveQuality(label);
+    if (hlsRef.current) {
+      hlsRef.current.currentLevel = levelId;
+    }
+    setShowQualityMenu(false);
+  };
+
+  const handleQualityAuto = () => {
+    setCurrentHlsQuality(-1);
+    setActiveQuality('Auto');
+    if (hlsRef.current) {
+      hlsRef.current.currentLevel = -1; // -1 means Auto adaptive bitrate switching
+    }
+    setShowQualityMenu(false);
+  };
+
   const activeSubtitle = getSubtitleText();
+
+  // Live Archive.org Searching
+  const handleArchiveSearch = async (query: string) => {
+    if (!query.trim()) return;
+    setArchiveSearching(true);
+    setArchiveSearchResults([]);
+    try {
+      const cleanQuery = query.replace(/[\:\-\']/g, ' ');
+      const searchUrl = `https://archive.org/advancedsearch.php?q=(${encodeURIComponent(cleanQuery)}) AND mediatype:(movies)&fl[]=identifier,title,downloads,year,runtime&sort[]=downloads desc&rows=15&output=json`;
+      
+      const response = await fetch(searchUrl);
+      if (!response.ok) throw new Error("Search network query failed");
+      const data = await response.json();
+      const docs = data.response?.docs || [];
+      
+      setArchiveSearchResults(docs.map((doc: any) => ({
+        identifier: doc.identifier,
+        title: doc.title || "Untitled Archive Movie",
+        downloads: doc.downloads || 0,
+        year: doc.year || "Classic",
+        runtime: doc.runtime || "N/A"
+      })));
+    } catch (err: any) {
+      console.error("Archive search query error: ", err);
+    } finally {
+      setArchiveSearching(false);
+    }
+  };
+
+  // Select search result
+  const handleSelectArchiveItem = async (identifier: string, title: string) => {
+    setIsBuffering(true);
+    setArchiveLoading(true);
+    try {
+      const detailsUrl = `https://archive.org/details/${identifier}?output=json`;
+      const detailsResponse = await fetch(detailsUrl);
+      if (!detailsResponse.ok) throw new Error("Metadata description request failed");
+      const detailsData = await detailsResponse.json();
+      
+      const files = detailsData.files || {};
+      const mp4Files = Object.keys(files).filter(f => 
+        f.toLowerCase().endsWith('.mp4') && 
+        !f.toLowerCase().includes('sample') && 
+        !f.toLowerCase().includes('trailer') &&
+        !f.toLowerCase().includes('thumb')
+      );
+
+      if (mp4Files.length > 0) {
+        if (mp4Files.length > 1) {
+          setArchiveSelectedFiles(mp4Files.map(f => ({
+            name: f.startsWith('/') ? f.substring(1) : f,
+            path: f,
+            url: `https://archive.org/download/${identifier}${f.startsWith('/') ? f : `/${f}`}`
+          })));
+          
+          const firstFile = mp4Files[0];
+          const cleanFile = firstFile.startsWith('/') ? firstFile : `/${firstFile}`;
+          const finalUrl = `https://archive.org/download/${identifier}${cleanFile}`;
+          setCustomStreamingUrl(finalUrl);
+          setCustomStreamingTitle(title);
+          setPlayMethod('archive');
+          setShowSearchPanel(false);
+        } else {
+          const mp4File = mp4Files[0];
+          const cleanFile = mp4File.startsWith('/') ? mp4File : `/${mp4File}`;
+          const finalUrl = `https://archive.org/download/${identifier}${cleanFile}`;
+          setCustomStreamingUrl(finalUrl);
+          setCustomStreamingTitle(title);
+          setArchiveSelectedFiles([]);
+          setPlayMethod('archive');
+          setShowSearchPanel(false);
+        }
+      } else {
+        alert("This archive item does not have any playable MP4 video files. Please select another classic film.");
+      }
+    } catch (err: any) {
+      console.error("Failed to fetch archive item details: ", err);
+      alert("Failed to load movie stream from Archive.org. Please try again.");
+    } finally {
+      setIsBuffering(false);
+      setArchiveLoading(false);
+    }
+  };
 
   const matchedStreamingLink = movie.streamingLinks?.find(link => 
     (playMethod === 'netflix' && link.platform === 'Netflix') ||
     (playMethod === 'prime' && link.platform === 'Amazon Prime')
   );
+
+  if (streamMode === 'trailer') {
+    return (
+      <div 
+        id="cinema-theater-frame"
+        ref={containerRef}
+        className="w-full aspect-video bg-black rounded-2xl border border-white/10 overflow-hidden relative group select-none transition-all duration-500 shadow-2xl"
+        style={{ boxShadow: `0 0 50px ${theme.glow}` }}
+      >
+        <iframe
+          src={`https://www.youtube.com/embed/${youtubeId || 'Way9Dexny3w'}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3`}
+          className="w-full h-full border-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          referrerPolicy="no-referrer"
+        />
+
+        {/* Floating Telemetry & Stream Details Header for Trailer Mode */}
+        <div className="absolute top-4 left-4 flex items-center gap-2.5 bg-black/85 border border-white/10 p-2 rounded-xl backdrop-blur-md shadow-2xl pointer-events-none">
+          <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></div>
+          <div>
+            <p className="text-[9px] font-mono font-black uppercase text-white/90 tracking-widest flex items-center gap-1">
+              OFFICIAL MOVIE TRAILER ACTIVE
+            </p>
+            <p className={`text-[8px] ${theme.text} font-mono uppercase tracking-wider`}>
+              Streaming Live from YouTube CDN • Muted: {isMuted ? 'YES' : 'NO'}
+            </p>
+          </div>
+        </div>
+
+        {/* Control Panel to let the user Mute/Unmute if needed */}
+        <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-black/80 border border-white/10 p-1.5 rounded-xl backdrop-blur-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
+          <button
+            onClick={() => setIsMuted(!isMuted)}
+            className="p-1.5 text-white hover:text-red-400 transition-colors rounded text-xs flex items-center gap-1 font-mono font-bold"
+          >
+            {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-[#00D1FF]" />}
+            <span className="text-[8px] uppercase tracking-wider">{isMuted ? 'Unmute' : 'Muted'}</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div 
@@ -582,7 +882,7 @@ export default function CinemaPlayer({
         src={videoUrl}
         className="w-full h-full object-contain pointer-events-none"
         preload="auto"
-        loop={streamMode === 'trailer' || playMethod !== 'archive'}
+        loop={playMethod !== 'archive'}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onWaiting={() => setIsBuffering(true)}
@@ -596,6 +896,143 @@ export default function CinemaPlayer({
 
       {/* Ambient Gradient Shadows around player bounds */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
+
+      {/* Live Internet Archive Search Overlay Panel */}
+      {showSearchPanel && (
+        <div className="absolute inset-0 bg-[#07070a]/98 backdrop-blur-md z-40 p-5 md:p-6 flex flex-col overflow-hidden animate-fade-in text-left">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3 shrink-0">
+            <div className="flex items-center gap-2">
+              <span className="p-1.5 bg-amber-500/10 text-amber-400 rounded-lg border border-amber-500/20">
+                <Database className="w-4 h-4" />
+              </span>
+              <div>
+                <h3 className="text-sm font-black uppercase tracking-wider text-white">
+                  Internet Archive Search Engine
+                </h3>
+                <p className="text-[10px] text-white/40 font-mono">
+                  Browse over 50,000+ public-domain movies & series legally without copyright constraints
+                </p>
+              </div>
+            </div>
+            
+            <button
+              onClick={() => setShowSearchPanel(false)}
+              className="text-white/40 hover:text-white px-2.5 py-1 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-[10px] font-mono font-bold uppercase transition-all pointer-events-auto"
+            >
+              ✕ Close Search
+            </button>
+          </div>
+
+          {/* Search Box Deck */}
+          <div className="my-4 flex items-center gap-2.5 shrink-0 pointer-events-auto">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={archiveSearchQuery}
+                onChange={(e) => setArchiveSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleArchiveSearch(archiveSearchQuery);
+                }}
+                placeholder="Search legal public-domain classics, indie shows, or cartoon serials... (e.g. Sherlock Holmes, Charlie Chaplin)"
+                className="w-full bg-black border border-white/10 focus:border-amber-500 rounded-xl px-4 py-2.5 pl-10 text-xs text-white placeholder-white/30 outline-none transition-all font-mono"
+              />
+              <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-white/30" />
+            </div>
+            
+            <button
+              onClick={() => handleArchiveSearch(archiveSearchQuery)}
+              disabled={archiveSearching}
+              className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 disabled:bg-amber-500/50 text-black font-mono text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(240,165,0,0.25)] flex items-center gap-1.5 shrink-0"
+            >
+              {archiveSearching ? 'Searching...' : 'Lookup API'}
+            </button>
+          </div>
+
+          {/* Core scrollable content area */}
+          <div className="flex-1 overflow-y-auto pr-1 space-y-4 scrollbar-thin scrollbar-thumb-white/10 pointer-events-auto">
+            {archiveSearching ? (
+              <div className="h-44 flex flex-col items-center justify-center text-center space-y-3">
+                <span className="w-8 h-8 rounded-full border-2 border-t-amber-500 border-white/10 animate-spin"></span>
+                <p className="text-[10px] font-mono text-amber-400 animate-pulse uppercase tracking-widest">Querying Internet Archive API database...</p>
+              </div>
+            ) : archiveSearchResults.length > 0 ? (
+              <div className="space-y-3">
+                <p className="text-[9px] font-mono text-white/30 uppercase tracking-widest border-b border-white/5 pb-1">
+                  API Matches Found ({archiveSearchResults.length})
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                  {archiveSearchResults.map((item) => (
+                    <div
+                      key={item.identifier}
+                      onClick={() => handleSelectArchiveItem(item.identifier, item.title)}
+                      className="group/item bg-white/[0.02] hover:bg-amber-500/10 border border-white/5 hover:border-amber-500/40 p-3 rounded-xl transition-all cursor-pointer flex flex-col justify-between h-24"
+                    >
+                      <div className="space-y-1 text-left">
+                        <h4 className="text-[11px] font-bold text-white group-hover/item:text-amber-400 truncate uppercase tracking-tight" title={item.title}>
+                          {item.title}
+                        </h4>
+                        <div className="flex items-center gap-2 text-[9px] text-white/40 font-mono">
+                          <span>📅 {item.year}</span>
+                          <span>•</span>
+                          <span>⏱️ {item.runtime}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between border-t border-white/5 pt-1.5 text-[8px] font-mono text-white/30">
+                        <span className="flex items-center gap-1">📥 {item.downloads.toLocaleString()} downloads</span>
+                        <span className="text-amber-500 opacity-0 group-hover/item:opacity-100 transition-opacity flex items-center gap-0.5">Stream ➔</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3 text-left">
+                <div className="flex items-center justify-between border-b border-white/5 pb-1">
+                  <p className="text-[9px] font-mono text-white/30 uppercase tracking-widest">
+                    Curated Public Masterpieces (100% Free & Legal)
+                  </p>
+                  <span className="text-[8px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded uppercase font-mono font-bold">
+                    Safe Streaming Guaranteed
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                  {[
+                    { id: 'night_of_the_living_dead', title: 'Night of the Living Dead (1968)', year: '1968', runtime: '96 min', downloads: '1,254,300', desc: 'The historic zombie masterpiece by George A. Romero.' },
+                    { id: 'charade1963', title: 'Charade (1963)', year: '1963', runtime: '113 min', downloads: '894,200', desc: 'Audrey Hepburn & Cary Grant in an elegant thriller.' },
+                    { id: 'HisGirlFriday1940_201804', title: 'His Girl Friday (1940)', year: '1940', runtime: '92 min', downloads: '743,150', desc: 'The ultra-fast-talking iconic screwball comedy.' },
+                    { id: 'The_General_Buster_Keaton', title: 'The General (1926)', year: '1926', runtime: '78 min', downloads: '612,400', desc: 'Buster Keatons legendary civil war train comedy.' },
+                    { id: 'Nosferatu_1922_706', title: 'Nosferatu (1922)', year: '1922', runtime: '94 min', downloads: '589,000', desc: 'The terrifying German silent vampire landmark.' },
+                    { id: 'HouseOnHauntedHill_772', title: 'House on Haunted Hill (1959)', year: '1959', runtime: '75 min', downloads: '512,800', desc: 'Vincent Price hosts a night of spooky parlor games.' }
+                  ].map((preset) => (
+                    <div
+                      key={preset.id}
+                      onClick={() => handleSelectArchiveItem(preset.id, preset.title)}
+                      className="group/item bg-white/[0.02] hover:bg-amber-500/10 border border-white/5 hover:border-amber-500/40 p-3 rounded-xl transition-all cursor-pointer flex flex-col justify-between h-24"
+                    >
+                      <div className="space-y-1 text-left">
+                        <h4 className="text-[11px] font-bold text-white group-hover/item:text-amber-400 truncate uppercase tracking-tight" title={preset.title}>
+                          {preset.title}
+                        </h4>
+                        <p className="text-[9px] text-white/50 truncate font-sans">{preset.desc}</p>
+                      </div>
+                      
+                      <div className="flex items-center justify-between border-t border-white/5 pt-1.5 text-[8px] font-mono text-white/40 text-left">
+                        <div className="flex items-center gap-2">
+                          <span>📅 {preset.year}</span>
+                          <span>📥 {preset.downloads}</span>
+                        </div>
+                        <span className="text-amber-500 opacity-0 group-hover/item:opacity-100 transition-all font-bold">Play ➔</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Spinner / Buffer / Search loading Indicator */}
       {(isBuffering || (playMethod === 'archive' && archiveLoading)) && (
@@ -767,7 +1204,7 @@ export default function CinemaPlayer({
 
             {/* Currently Playing Status */}
             <p className="text-[10px] font-mono text-white/60 truncate max-w-[200px] hidden md:block">
-              NOW STREAMING: <strong className="text-white">{playMethod === 'archive' && archiveTitle ? archiveTitle : movie.title}</strong>
+              NOW STREAMING: <strong className="text-white">{playMethod === 'archive' ? (customStreamingTitle || archiveTitle || movie.title) : movie.title}</strong>
             </p>
           </div>
 
@@ -791,9 +1228,9 @@ export default function CinemaPlayer({
               </button>
 
               {showSubtitleMenu && (
-                <div className="absolute bottom-10 right-0 bg-[#07070a] border border-white/10 rounded-xl p-2 w-32 space-y-1 shadow-2xl z-30">
+                <div className="absolute bottom-10 right-0 bg-[#07070a] border border-white/10 rounded-xl p-2 w-36 space-y-1 shadow-2xl z-30">
                   <p className="text-[8px] font-mono text-white/30 px-2 py-1 uppercase tracking-wider">Subtitles (CC)</p>
-                  {(['EN', 'KR', 'ES', 'OFF'] as const).map(lang => (
+                  {(['EN', 'HI', 'KR', 'ES', 'OFF'] as const).map(lang => (
                     <button
                       key={lang}
                       onClick={() => {
@@ -802,7 +1239,7 @@ export default function CinemaPlayer({
                       }}
                       className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${activeSubtitleLang === lang ? `${theme.bgAlpha} ${theme.text}` : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
                     >
-                      {lang === 'EN' ? 'English' : lang === 'KR' ? '한국어 (KR)' : lang === 'ES' ? 'Español' : 'Disabled'}
+                      {lang === 'EN' ? 'English' : lang === 'HI' ? 'हिन्दी (HI)' : lang === 'KR' ? '한국어 (KR)' : lang === 'ES' ? 'Español' : 'Disabled'}
                       {activeSubtitleLang === lang && <span className={`w-1.5 h-1.5 rounded-full ${theme.bullet}`}></span>}
                     </button>
                   ))}
@@ -863,24 +1300,121 @@ export default function CinemaPlayer({
               </button>
 
               {showQualityMenu && (
-                <div className="absolute bottom-10 right-0 bg-[#07070a] border border-white/10 rounded-xl p-2 w-32 space-y-1 shadow-2xl z-30">
-                  <p className="text-[8px] font-mono text-white/30 px-2 py-1 uppercase tracking-wider">Format Quality</p>
-                  {(['4K', '1080p', '720p'] as const).map(quality => (
-                    <button
-                      key={quality}
-                      onClick={() => {
-                        setActiveQuality(quality);
-                        setShowQualityMenu(false);
-                      }}
-                      className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${activeQuality === quality ? `${theme.bgAlpha} ${theme.text}` : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
-                    >
-                      {quality === '4K' ? 'Ultra HD 4K' : quality === '1080p' ? 'Full HD 1080p' : 'Standard 720p'}
-                      {activeQuality === quality && <span className={`w-1.5 h-1.5 rounded-full ${theme.bullet}`}></span>}
-                    </button>
-                  ))}
+                <div className="absolute bottom-10 right-0 bg-[#07070a] border border-white/10 rounded-xl p-2 w-44 space-y-1 shadow-2xl z-30">
+                  <p className="text-[8px] font-mono text-white/30 px-2 py-1 uppercase tracking-wider text-left">Format Quality</p>
+                  
+                  {hlsQualities.length > 0 ? (
+                    <>
+                      {/* Auto quality level */}
+                      <button
+                        onClick={handleQualityAuto}
+                        className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${currentHlsQuality === -1 ? `${theme.bgAlpha} ${theme.text}` : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                      >
+                        <div>
+                          <p>Auto (Adaptive)</p>
+                          <p className="text-[8px] font-normal text-white/40">Smooth Bitrate Switching</p>
+                        </div>
+                        {currentHlsQuality === -1 && <span className={`w-1.5 h-1.5 rounded-full ${theme.bullet}`}></span>}
+                      </button>
+
+                      {/* Manual HLS levels */}
+                      {hlsQualities.map((q) => (
+                        <button
+                          key={q.id}
+                          onClick={() => handleQualityChange(q.id, q.label)}
+                          className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${currentHlsQuality === q.id ? `${theme.bgAlpha} ${theme.text}` : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                        >
+                          <div>
+                            <p>{q.label} (HLS Stream)</p>
+                            <p className="text-[8px] font-normal text-white/40">{(q.bitrate / 1000000).toFixed(1)} Mbps Rate</p>
+                          </div>
+                          {currentHlsQuality === q.id && <span className={`w-1.5 h-1.5 rounded-full ${theme.bullet}`}></span>}
+                        </button>
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      {/* Static Fallback (e.g. playing non-HLS streams) */}
+                      {(['1080p', '720p', '480p'] as const).map(quality => (
+                        <button
+                          key={quality}
+                          onClick={() => {
+                            setActiveQuality(quality);
+                            setShowQualityMenu(false);
+                          }}
+                          className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${activeQuality === quality ? `${theme.bgAlpha} ${theme.text}` : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                        >
+                          <span className="text-left">
+                            {quality === '1080p' ? 'Direct CDN (HD)' : quality === '720p' ? 'Standard (720p)' : 'Low Bandwidth (480p)'}
+                          </span>
+                          {activeQuality === quality && <span className={`w-1.5 h-1.5 rounded-full ${theme.bullet}`}></span>}
+                        </button>
+                      ))}
+                    </>
+                  )}
                 </div>
               )}
             </div>
+
+            {/* Archive multi-files track selector */}
+            {playMethod === 'archive' && archiveSelectedFiles.length > 0 && (
+              <div className="relative pointer-events-auto">
+                <button
+                  onClick={() => {
+                    setShowTracksMenu(!showTracksMenu);
+                    setShowSubtitleMenu(false);
+                    setShowSpeedMenu(false);
+                    setShowQualityMenu(false);
+                    setShowServerMenu(false);
+                  }}
+                  className="p-1.5 text-amber-400 hover:text-amber-300 hover:bg-white/5 rounded transition-all text-xs flex items-center gap-1"
+                  title="Select Stream Track / Episode"
+                >
+                  <Layers className="w-4 h-4 animate-pulse" />
+                  <span className="text-[9px] font-mono uppercase font-black">Tracks ({archiveSelectedFiles.length})</span>
+                </button>
+
+                {showTracksMenu && (
+                  <div className="absolute bottom-10 right-0 bg-[#07070a] border border-white/10 rounded-xl p-2 w-64 max-h-56 overflow-y-auto space-y-1 shadow-2xl z-30 scrollbar-thin">
+                    <p className="text-[8px] font-mono text-white/30 px-2 py-1 uppercase tracking-wider text-left font-bold">Select Media Track / Episode</p>
+                    {archiveSelectedFiles.map((file, idx) => {
+                      const isActive = customStreamingUrl === file.url;
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            setCustomStreamingUrl(file.url);
+                            setShowTracksMenu(false);
+                          }}
+                          className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${isActive ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                        >
+                          <span className="truncate max-w-[200px]" title={file.name}>{file.name}</span>
+                          {isActive && <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Archive Search Library Button */}
+            <button
+              onClick={() => {
+                setShowSearchPanel(!showSearchPanel);
+                setPlayMethod('archive');
+                setShowSubtitleMenu(false);
+                setShowSpeedMenu(false);
+                setShowQualityMenu(false);
+                setShowServerMenu(false);
+                setShowTracksMenu(false);
+              }}
+              className={`p-1.5 rounded hover:bg-white/5 transition-all text-xs flex items-center gap-1.5 ${playMethod === 'archive' && showSearchPanel ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' : 'text-white/60 hover:text-white'}`}
+              title="Search Archive.org Public Library"
+            >
+              <Search className="w-4 h-4 text-amber-400 animate-pulse" />
+              <span className="text-[9px] font-mono font-black uppercase tracking-wider hidden sm:inline-block">Free Search</span>
+            </button>
 
             <div className="h-4 w-[1px] bg-white/10"></div>
 
