@@ -283,15 +283,6 @@ export default function ComedySection({
             <div className="absolute inset-0 bg-gradient-to-t from-[#040301] via-transparent to-black/30"></div>
             <div className="absolute inset-0 bg-gradient-to-r from-[#0c0903]/85 via-transparent to-black/40"></div>
 
-            {/* Joy match score */}
-            <div className="absolute top-4 left-4 bg-black/90 border border-amber-950/60 rounded-xl px-3 py-1.5 flex items-center gap-2.5 backdrop-blur-md">
-              <Smile className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
-              <div>
-                <p className="text-[8px] font-mono uppercase text-white/40 leading-none tracking-widest">{localT.joyIndex}</p>
-                <p className="text-sm font-black text-amber-400 font-mono leading-none mt-1">{currentScore}% Match</p>
-              </div>
-            </div>
-
             {/* Streaming platforms badge */}
             <div className="absolute top-4 right-4 flex gap-2">
               {activeMovie.streamingLinks.map(link => (

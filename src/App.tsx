@@ -874,79 +874,6 @@ export default function App() {
     return () => observer.disconnect();
   }, []);
 
-  // Custom requestAnimationFrame-based 'scroll-interpolation' effect for buttery smooth premium scrolling
-  useEffect(() => {
-    let targetScrollY = window.scrollY;
-    let currentScrollY = window.scrollY;
-    let isScrolling = false;
-
-    const handleWheel = (e: WheelEvent) => {
-      // Ignore horizontal trackpad swipes
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-
-      // Ensure we don't interfere with scrolling inside dropdowns, search results, chat messages, or active modal overlay views
-      const target = e.target as HTMLElement;
-      if (target && (
-        target.closest('.overflow-y-auto') || 
-        target.closest('.overflow-x-auto') ||
-        target.closest('textarea') || 
-        target.closest('input') ||
-        target.closest('select') ||
-        target.closest('[role="dialog"]')
-      )) {
-        return;
-      }
-
-      e.preventDefault();
-      // Apply a tuned multiplier for highly responsive but premium momentum feel
-      targetScrollY += e.deltaY * 0.9;
-      
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      targetScrollY = Math.max(0, Math.min(targetScrollY, maxScroll));
-
-      if (!isScrolling) {
-        isScrolling = true;
-        requestAnimationFrame(updateScroll);
-      }
-    };
-
-    const updateScroll = () => {
-      const diff = targetScrollY - currentScrollY;
-      // 0.08 interpolation creates a very luxurious smooth ease-out drag
-      currentScrollY += diff * 0.08;
-
-      if (Math.abs(diff) > 0.3) {
-        window.scrollTo({
-          top: currentScrollY,
-          behavior: 'auto'
-        });
-        requestAnimationFrame(updateScroll);
-      } else {
-        window.scrollTo({
-          top: targetScrollY,
-          behavior: 'auto'
-        });
-        currentScrollY = targetScrollY;
-        isScrolling = false;
-      }
-    };
-
-    // Synchronize targetScrollY with manual native scrolls (e.g., clicking on scrollbar, keyboard keys, or scrollIntoView anchors)
-    const handleScroll = () => {
-      if (!isScrolling) {
-        currentScrollY = window.scrollY;
-        targetScrollY = window.scrollY;
-      }
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
 
   // Talent Info Modal State
   const [infoMovie, setInfoMovie] = useState<Movie | null>(null);
@@ -2204,12 +2131,8 @@ export default function App() {
                   {currentMovie.year}
                 </span>
                 <span className="text-white/40 text-xs font-mono">•</span>
-                <span className="text-white/60 text-xs font-mono">
+                <span className="text-white/40 text-xs font-mono">
                   {currentMovie.runtimeOrSeasons}
-                </span>
-                <span className="text-white/40 text-xs font-mono">•</span>
-                <span className="bg-[#00D1FF]/10 text-[#00D1FF] text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-[#00D1FF]/20 uppercase tracking-wider">
-                  {recommendationMatrix.find(item => item.movie.id === currentMovie.id)?.matchPercentage || 85}% Simulated Fit
                 </span>
                 
                 {/* Regional Streaming Info */}
@@ -2886,11 +2809,6 @@ export default function App() {
                     onClick={() => handleMovieSelect(movie.id)}
                     className="bg-black/50 border border-white/10 hover:border-[#00D1FF]/70 rounded-xl p-5 relative overflow-hidden group cursor-pointer transition-all duration-300"
                   >
-                    {/* Matching score badge */}
-                    <div className="absolute top-4 right-4 bg-[#00D1FF]/10 border border-[#00D1FF]/30 text-[#00D1FF] px-2 py-1 rounded text-xs font-mono font-bold">
-                      {matchPercentage}% Fit
-                    </div>
-
                     <span className="text-[9px] uppercase font-bold text-[#00D1FF]/80 tracking-wider block mb-2">
                       {reason}
                     </span>
@@ -3533,13 +3451,6 @@ export default function App() {
                     🎬 Official Trailer
                   </button>
                 </div>
-
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-white/40 font-mono">Simulated Fit:</span>
-                  <span className="text-xl font-black text-[#00D1FF] font-mono bg-[#00D1FF]/5 px-3 py-1 rounded border border-[#00D1FF]/20">
-                    {matchPercent}%
-                  </span>
-                </div>
               </div>
 
               {/* 16:9 Video Canvas Frame */}
@@ -3812,151 +3723,161 @@ export default function App() {
       })()}
 
       {/* EXCLUSIVE TALENT & MOVIE INFO OVERLAY MODAL */}
-      {infoMovie && (
-        <div 
-          id="talent-info-modal"
-          className="fixed inset-0 z-[140] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-all duration-300"
-          onClick={() => {
-            setInfoMovie(null);
-            setLightboxImageIndex(null);
-          }}
-        >
-          <div 
-            className="bg-[#0b0b12] border border-[#00D1FF]/30 rounded-2xl w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden shadow-[0_0_50px_rgba(0,209,255,0.35)] relative transition-all transform scale-100 animate-fade-in"
-            onClick={(e) => e.stopPropagation()}
+      <AnimatePresence>
+        {infoMovie && (
+          <motion.div 
+            id="talent-info-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[140] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md"
+            onClick={() => {
+              setInfoMovie(null);
+              setLightboxImageIndex(null);
+            }}
           >
-            {/* Ambient luxury visual layers - subtle dark red/cyan gradient glow borders */}
-            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-red-600 via-[#00D1FF] to-blue-600 z-30" />
-            
-            {/* Close button */}
-            <button 
-              onClick={() => {
-                setInfoMovie(null);
-                setLightboxImageIndex(null);
-              }}
-              className="absolute top-4 right-4 text-white/50 hover:text-white bg-white/5 hover:bg-white/10 p-1.5 rounded-full transition-all border border-white/10 z-30 cursor-pointer"
-              title="Close Panel"
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-[#0b0b12] border border-[#00D1FF]/30 rounded-2xl w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden shadow-[0_0_50px_rgba(0,209,255,0.35)] relative"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X className="w-4 h-4" />
-            </button>
+              {/* Ambient luxury visual layers - subtle dark red/cyan gradient glow borders */}
+              <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-red-600 via-[#00D1FF] to-blue-600 z-30" />
+              
+              {/* Close button */}
+              <button 
+                onClick={() => {
+                  setInfoMovie(null);
+                  setLightboxImageIndex(null);
+                }}
+                className="absolute top-4 right-4 text-white/50 hover:text-white bg-white/5 hover:bg-white/10 p-1.5 rounded-full transition-all border border-white/10 z-30 cursor-pointer"
+                title="Close Panel"
+              >
+                <X className="w-4 h-4" />
+              </button>
 
-            {/* Scrollable Modal Content Container */}
-            <div className="p-6 md:p-8 flex-1 overflow-y-auto custom-scrollbar space-y-6">
-              <div className="flex flex-col md:flex-row gap-6">
-                {/* Left Column: Movie Poster */}
-                <div className="w-32 md:w-40 shrink-0 aspect-[2/3] rounded-xl overflow-hidden border border-white/10 relative shadow-2xl mx-auto md:mx-0 bg-black">
-                  <BlurUpImage 
-                    src={infoMovie.posterUrl} 
-                    alt={infoMovie.title} 
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-2 left-2 bg-black/80 text-[#00D1FF] text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded border border-[#00D1FF]/20">
-                    {infoMovie.year}
+              {/* Scrollable Modal Content Container */}
+              <div className="p-6 md:p-8 flex-1 overflow-y-auto custom-scrollbar space-y-6">
+                <div className="flex flex-col md:flex-row gap-6">
+                  {/* Left Column: Movie Poster */}
+                  <div className="w-32 md:w-40 shrink-0 aspect-[2/3] rounded-xl overflow-hidden border border-white/10 relative shadow-2xl mx-auto md:mx-0 bg-black">
+                    <BlurUpImage 
+                      src={infoMovie.posterUrl} 
+                      alt={infoMovie.title} 
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-2 left-2 bg-black/80 text-[#00D1FF] text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded border border-[#00D1FF]/20">
+                      {infoMovie.year}
+                    </div>
                   </div>
-                </div>
 
-                {/* Right Column: Information & Talent Bios */}
-                <div className="flex-1 space-y-4 text-left">
-                  <div>
-                    <span className="text-[10px] font-mono text-[#00D1FF] uppercase tracking-[0.2em] font-black">
-                      {infoMovie.type === 'Movie' ? 'Cinematic Presentation' : 'Exclusive Series'}
-                    </span>
-                    <h4 className="text-xl md:text-2xl font-black uppercase italic tracking-tight text-white mt-1 leading-tight">
-                      {infoMovie.title}
-                    </h4>
-                    <p className="text-[10px] text-white/40 font-mono mt-1">★ {infoMovie.rating} Rating • {infoMovie.runtimeOrSeasons}</p>
-                  </div>
-
-                  <div className="space-y-4 pt-4 border-t border-white/5">
+                  {/* Right Column: Information & Talent Bios */}
+                  <div className="flex-1 space-y-4 text-left">
                     <div>
-                      <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span> Director / Creator
-                      </p>
-                      <p className="text-sm font-bold text-white mt-1">{infoMovie.directorOrCreator}</p>
-                      <p className="text-[11px] text-white/60 leading-relaxed mt-1">
-                        An accomplished visionary maestro orchestrating the aesthetic execution and emotional narrative of this curation.
-                      </p>
+                      <span className="text-[10px] font-mono text-[#00D1FF] uppercase tracking-[0.2em] font-black">
+                        {infoMovie.type === 'Movie' ? 'Cinematic Presentation' : 'Exclusive Series'}
+                      </span>
+                      <h4 className="text-xl md:text-2xl font-black uppercase italic tracking-tight text-white mt-1 leading-tight">
+                        {infoMovie.title}
+                      </h4>
+                      <p className="text-[10px] text-white/40 font-mono mt-1">★ {infoMovie.rating} Rating • {infoMovie.runtimeOrSeasons}</p>
                     </div>
 
-                    <div>
-                      <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span> Starring Cast / Talent
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 mt-2">
-                        {infoMovie.cast.map((actor, idx) => (
-                          <span 
-                            key={idx} 
-                            className="bg-white/5 border border-white/10 hover:border-[#00D1FF]/40 text-white/90 text-[10px] px-2.5 py-1 rounded-md font-medium transition-colors cursor-default"
-                          >
-                            {actor}
-                          </span>
-                        ))}
+                    <div className="space-y-4 pt-4 border-t border-white/5">
+                      <div>
+                        <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span> Director / Creator
+                        </p>
+                        <p className="text-sm font-bold text-white mt-1">{infoMovie.directorOrCreator}</p>
+                        <p className="text-[11px] text-white/60 leading-relaxed mt-1">
+                          An accomplished visionary maestro orchestrating the aesthetic execution and emotional narrative of this curation.
+                        </p>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              {/* Dynamic Atmospheric Cinematography Gallery */}
-              <div className="pt-5 border-t border-white/5 space-y-3 text-left">
-                <div className="flex items-center justify-between">
-                  <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span> Atmospheric Cinematography
-                  </p>
-                  <span className="text-[8px] font-mono text-[#00D1FF]/80 bg-[#00D1FF]/10 px-2 py-0.5 rounded uppercase tracking-wider">
-                    Interactive Stills
-                  </span>
-                </div>
-                
-                {/* 3-Column Grid of Curated Image Stills */}
-                <div className="grid grid-cols-3 gap-2 md:gap-3">
-                  {getMovieStills(infoMovie).map((still, idx) => (
-                    <div 
-                      key={idx}
-                      onClick={() => setLightboxImageIndex(idx)}
-                      className="group aspect-[16/10] bg-zinc-950 rounded-xl overflow-hidden border border-white/10 hover:border-[#00D1FF]/50 transition-all duration-300 relative cursor-pointer shadow-md"
-                    >
-                      <BlurUpImage 
-                        src={still.url}
-                        alt={still.caption}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      {/* Subtle hover overlay and zoom effect */}
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="bg-black/75 border border-[#00D1FF]/30 p-1.5 rounded-full scale-75 group-hover:scale-100 transition-transform duration-300">
-                          <Maximize2 className="w-3.5 h-3.5 text-[#00D1FF]" />
+                      <div>
+                        <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span> Starring Cast / Talent
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {infoMovie.cast.map((actor, idx) => (
+                            <span 
+                              key={idx} 
+                              className="bg-white/5 border border-white/10 hover:border-[#00D1FF]/40 text-white/90 text-[10px] px-2.5 py-1 rounded-md font-medium transition-colors cursor-default"
+                            >
+                              {actor}
+                            </span>
+                          ))}
                         </div>
                       </div>
                     </div>
-                  ))}
+                  </div>
+                </div>
+
+                {/* Dynamic Atmospheric Cinematography Gallery */}
+                <div className="pt-5 border-t border-white/5 space-y-3 text-left">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span> Atmospheric Cinematography
+                    </p>
+                    <span className="text-[8px] font-mono text-[#00D1FF]/80 bg-[#00D1FF]/10 px-2 py-0.5 rounded uppercase tracking-wider">
+                      Interactive Stills
+                    </span>
+                  </div>
+                  
+                  {/* 3-Column Grid of Curated Image Stills */}
+                  <div className="grid grid-cols-3 gap-2 md:gap-3">
+                    {getMovieStills(infoMovie).map((still, idx) => (
+                      <div 
+                        key={idx}
+                        onClick={() => setLightboxImageIndex(idx)}
+                        className="group aspect-[16/10] bg-zinc-950 rounded-xl overflow-hidden border border-white/10 hover:border-[#00D1FF]/50 transition-all duration-300 relative cursor-pointer shadow-md"
+                      >
+                        <BlurUpImage 
+                          src={still.url}
+                          alt={still.caption}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Subtle hover overlay and zoom effect */}
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <div className="bg-black/75 border border-[#00D1FF]/30 p-1.5 rounded-full scale-75 group-hover:scale-100 transition-transform duration-300">
+                            <Maximize2 className="w-3.5 h-3.5 text-[#00D1FF]" />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Footer View Controls - Sticky at bottom */}
-            <div className="bg-black/60 px-6 py-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
-              <div className="text-left w-full sm:max-w-[65%]">
-                <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider">Premise & Core Narrative</p>
-                <p className="text-[11px] text-white/60 italic truncate mt-0.5" title={infoMovie.synopsis}>
-                  "{infoMovie.synopsis}"
-                </p>
+              {/* Footer View Controls - Sticky at bottom */}
+              <div className="bg-black/60 px-6 py-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
+                <div className="text-left w-full sm:max-w-[65%]">
+                  <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider">Premise & Core Narrative</p>
+                  <p className="text-[11px] text-white/60 italic truncate mt-0.5" title={infoMovie.synopsis}>
+                    "{infoMovie.synopsis}"
+                  </p>
+                </div>
+                <button 
+                  onClick={() => {
+                    handleMovieSelect(infoMovie.id);
+                    setInfoMovie(null);
+                    setLightboxImageIndex(null);
+                    document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-[#00D1FF] to-blue-500 hover:from-white hover:to-white text-black font-mono text-[10px] font-black uppercase tracking-[0.15em] rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-[0_0_15px_rgba(0,209,255,0.35)] shrink-0 cursor-pointer"
+                >
+                  <Play className="w-3 h-3 fill-current" />
+                  <span>Stream Film</span>
+                </button>
               </div>
-              <button 
-                onClick={() => {
-                  handleMovieSelect(infoMovie.id);
-                  setInfoMovie(null);
-                  setLightboxImageIndex(null);
-                  document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-[#00D1FF] to-blue-500 hover:from-white hover:to-white text-black font-mono text-[10px] font-black uppercase tracking-[0.15em] rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-[0_0_15px_rgba(0,209,255,0.3)] shrink-0 cursor-pointer"
-              >
-                <Play className="w-3 h-3 fill-current" />
-                <span>Stream Film</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ATMOSPHERIC CINEMA GALLERY LIGHTBOX */}
       {infoMovie && lightboxImageIndex !== null && (() => {

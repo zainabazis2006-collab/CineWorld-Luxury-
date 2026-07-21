@@ -213,15 +213,6 @@ export default function KoreanRomanceSection({
             <div className="absolute inset-0 bg-gradient-to-t from-[#050308] via-transparent to-black/30"></div>
             <div className="absolute inset-0 bg-gradient-to-r from-[#0c050d]/80 via-transparent to-black/40"></div>
 
-            {/* floating In-Yun Affinity score badge */}
-            <div className="absolute top-4 left-4 bg-black/85 border border-pink-500/30 rounded-xl px-3 py-1.5 flex items-center gap-2.5 backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 text-pink-400 animate-spin-slow" />
-              <div>
-                <p className="text-[8px] font-mono uppercase text-white/40 leading-none tracking-widest">{localT.inYunScore}</p>
-                <p className="text-sm font-black text-pink-400 font-mono leading-none mt-1">{currentScore}% Match</p>
-              </div>
-            </div>
-
             {/* Bottom-left title metadata block */}
             <div className="absolute bottom-4 left-6 right-6">
               <div className="flex flex-wrap items-center gap-2 mb-1.5">
