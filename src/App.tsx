@@ -24,7 +24,9 @@ import {
   VolumeX,
   Flame,
   Menu,
-  Settings
+  Settings,
+  Image as LucideImage,
+  MapPin
 } from 'lucide-react';
 import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
 import { UPCOMING_RELEASES } from './upcomingData';
@@ -45,6 +47,294 @@ import CineWorldLogo from './components/CineWorldLogo';
 import CinematicAuth from './components/CinematicAuth';
 import GenreCarousel from './components/GenreCarousel';
 import BlurUpImage from './components/BlurUpImage';
+
+interface CinematicStill {
+  url: string;
+  caption: string;
+  location?: string;
+}
+
+const CINEMATIC_STILLS: Record<string, CinematicStill[]> = {
+  'dune-part-two': [
+    {
+      url: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1000&q=80',
+      caption: 'The sweeping desert landscape of Arrakis under twin suns.',
+      location: "Rub' al Khali Desert"
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1547234935-80c7145ec969?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Fremen legions advancing through high canyon ridges.',
+      location: 'Wadi Rum Sanctuary'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1000&q=80',
+      caption: 'A deep atmospheric sunset illuminating spice clouds.',
+      location: 'Arrakis Outer Basin'
+    }
+  ],
+  'oppenheimer': [
+    {
+      url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80',
+      caption: 'A simulated particle reaction capturing the kinetic fire of Trinity.',
+      location: 'Los Alamos Laboratory'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Theoretical quantum formulas written in high-contrast chalk.',
+      location: 'Princeton University Study'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=80',
+      caption: 'An elegant vintage portrait frame capturing the solemnity of the era.',
+      location: 'Cabinet Hearing Room'
+    }
+  ],
+  'interstellar': [
+    {
+      url: 'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Wormhole curvature warping the surrounding starlight spectrum.',
+      location: 'Deep Space Coordinate Zero'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Ethereal accretion disk emissions of the Gargantua black hole.',
+      location: 'Event Horizon Boundaries'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1000&q=80',
+      caption: "The vast, endless tidal swells of Miller's ocean planet.",
+      location: "Miller's Aquatic Surface"
+    }
+  ],
+  'spider-verse': [
+    {
+      url: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Glitch-heavy chromatic aberrations of a multi-dimensional Brooklyn.',
+      location: 'Brooklyn Earth-1610'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Halftone dot patterns and vibrant street art typography collage.',
+      location: 'Spider-Society Hub'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1000&q=80',
+      caption: 'High-velocity gravity defiance through a neon-lit skyline.',
+      location: 'Nueva York Earth-928'
+    }
+  ],
+  'the-dark-knight': [
+    {
+      url: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=1000&q=80',
+      caption: "A brooding, high-contrast silhouette overlooking Gotham's skyline.",
+      location: 'Wayne Enterprises Tower'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Rain-slicked asphalt reflecting emergency cruiser signals.',
+      location: 'Lower Wacker Drive'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1484156818044-c040038b0719?auto=format&fit=crop&w=1000&q=80',
+      caption: "An eerie, deserted street capturing Gotham's psychological tension.",
+      location: 'GCPD Jurisdiction'
+    }
+  ],
+  'stranger-things': [
+    {
+      url: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Dense, misty woodlands cloaking supernatural gateway energy.',
+      location: 'Hawkins National Forest'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Fluorescent neon signs of an 80s mall cast in deep shadow.',
+      location: 'Starcourt Mall Arcade'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1000&q=80',
+      caption: 'A retro film projector flashing ominous red and blue hues.',
+      location: 'The Upside Down Entrance'
+    }
+  ],
+  'the-crown': [
+    {
+      url: 'https://images.unsplash.com/photo-1581442163989-130a1df27725?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Gilded gold-leaf crown moldings and high historical arches.',
+      location: 'Buckingham Palace'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80',
+      caption: 'A solemn royal mahogany study filled with official dispatches.',
+      location: 'Balmoral Castle Estate'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Imperial gates draped in mist and historical prestige.',
+      location: 'Windsor Sovereign Ground'
+    }
+  ],
+  'black-mirror': [
+    {
+      url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80',
+      caption: 'A glowing surveillance mainframe parsing human emotions into data.',
+      location: 'TCKR Systems Facility'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80',
+      caption: 'User interactive interfaces rendering digital consciousness.',
+      location: 'San Junipero Servers'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Glitch-art feed flickering between analog static and cybernetics.',
+      location: 'Nosedive Social Network'
+    }
+  ],
+  'the-boys': [
+    {
+      url: 'https://images.unsplash.com/photo-1496568818309-53d7c7753022?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Corporate steel monoliths towering over decaying city streets.',
+      location: 'Vought International HQ'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=1000&q=80',
+      caption: 'An energetic high-contrast purple light flare highlighting chaos.',
+      location: 'Flatiron Safehouse'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1524140525287-0155a331100e?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Raw graffiti detailing civilian rebellion against corrupt figures.',
+      location: 'New York Underbelly'
+    }
+  ],
+  'rings-of-power': [
+    {
+      url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&q=80',
+      caption: 'The majestic, cloud-shrouded peaks of legendary alpine ranges.',
+      location: 'Ered Luin Highlands'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1519074069444-1ba4e6664104?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Ancient elven stone pillars moss-draped and untouched by time.',
+      location: 'Lindon Forest Realms'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=80',
+      caption: 'A deep, magical forest canopy glowing with natural luminescence.',
+      location: 'Rhûn Wilderness Border'
+    }
+  ],
+  'fleabag': [
+    {
+      url: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=80',
+      caption: 'A warm, cluttered London cafe capturing everyday eccentricities.',
+      location: 'Guinea Pig Cafe, London'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Warm, intimate interior lighting ideal for breaking the fourth wall.',
+      location: "St. Mary's Confessional"
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Rain-washed brick walls of high-end galleries and residences.',
+      location: 'Exhibition Hallway'
+    }
+  ],
+  'the-mandalorian': [
+    {
+      url: 'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=1000&q=80',
+      caption: 'A remote cosmic system dotted with asteroid belts and dust rings.',
+      location: 'Outer Rim Territories'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=1000&q=80',
+      caption: 'The barren, sun-parched plains of a desolate volcanic planet.',
+      location: 'Nevarro Badlands'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1000&q=80',
+      caption: 'The cold steel cockpit illumination of the Razor Crest vessel.',
+      location: 'Hyperspace Transit'
+    }
+  ],
+  'loki': [
+    {
+      url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80',
+      caption: 'The hyper-complex cosmic tree weaving timeline threads.',
+      location: 'The Temporal Loom'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Retro-futuristic mid-century office corridors cast in deep orange.',
+      location: 'Time Variance Authority'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Vibrant neon purple and blue timeline nexus flares.',
+      location: 'The Citadel at the End of Time'
+    }
+  ],
+  'shogun': [
+    {
+      url: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Misty pine-covered slopes overlooking ancestral castle grounds.',
+      location: 'Osaka Province Borders'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Elegant Japanese shoji screens diffusing natural, soft morning light.',
+      location: 'Council Regents Hall'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1000&q=80',
+      caption: 'A scenic coastline draped in dense forest and heavy ocean fog.',
+      location: 'Anjiro Fishing Village'
+    }
+  ],
+  'squid-game': [
+    {
+      url: 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1000&q=80',
+      caption: 'A colorful, surreal pastel staircase labyrinth defying physical logic.',
+      location: 'The Pastel Stairwells'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=80',
+      caption: 'An eerie, minimalist playground ringed by towering security walls.',
+      location: 'Red Light, Green Light Arena'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Flickering, high-intensity fluorescent neon framing player quarters.',
+      location: 'The Dormitory Complex'
+    }
+  ]
+};
+
+const getMovieStills = (movie: Movie): CinematicStill[] => {
+  if (CINEMATIC_STILLS[movie.id]) {
+    return CINEMATIC_STILLS[movie.id];
+  }
+  const genreKeyword = movie.genres && movie.genres.length > 0 ? movie.genres[0] : 'Cinematic';
+  return [
+    {
+      url: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1000&q=80',
+      caption: `Atmospheric theatrical scene matching ${movie.title}'s ${genreKeyword} theme.`,
+      location: 'Studio Production Lot'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1000&q=80',
+      caption: `Intimate composition emphasizing focal depth and character focus in ${movie.title}.`,
+      location: 'Principal Photography Set'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=1000&q=80',
+      caption: 'Aesthetic, high-contrast visual cue mirroring the emotional tone of this curation.',
+      location: 'Scenic Master Shot'
+    }
+  ];
+};
 
 // Cinematic Official Trailer YouTube Video IDs for every movie & series
 const TRAILER_IDS: Record<string, string> = {
@@ -490,6 +780,9 @@ export default function App() {
         if (!parsed.genreClickHistory) {
           parsed.genreClickHistory = defaultHistory;
         }
+        if (parsed.autoplayTrailers === undefined) {
+          parsed.autoplayTrailers = true;
+        }
         return parsed;
       } catch (e) {}
     }
@@ -501,6 +794,7 @@ export default function App() {
       clicks: {},
       preferredLanguage: 'en',
       region: 'IN',
+      autoplayTrailers: true,
       genreClickHistory: defaultHistory
     };
   });
@@ -562,8 +856,101 @@ export default function App() {
   const [activeSeason, setActiveSeason] = useState<number>(1);
   const [activeEpisode, setActiveEpisode] = useState<number>(1);
 
+  // Track if Hero Showcase is visible to optimize rendering/scrolling performance
+  const [isHeroInView, setIsHeroInView] = useState<boolean>(true);
+
+  useEffect(() => {
+    const heroElement = document.getElementById('hero-showcase');
+    if (!heroElement) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsHeroInView(entry.isIntersecting);
+      },
+      { threshold: 0.02 } // Trigger as soon as the top/bottom 2% of the hero is on screen
+    );
+
+    observer.observe(heroElement);
+    return () => observer.disconnect();
+  }, []);
+
+  // Custom requestAnimationFrame-based 'scroll-interpolation' effect for buttery smooth premium scrolling
+  useEffect(() => {
+    let targetScrollY = window.scrollY;
+    let currentScrollY = window.scrollY;
+    let isScrolling = false;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Ignore horizontal trackpad swipes
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+
+      // Ensure we don't interfere with scrolling inside dropdowns, search results, chat messages, or active modal overlay views
+      const target = e.target as HTMLElement;
+      if (target && (
+        target.closest('.overflow-y-auto') || 
+        target.closest('.overflow-x-auto') ||
+        target.closest('textarea') || 
+        target.closest('input') ||
+        target.closest('select') ||
+        target.closest('[role="dialog"]')
+      )) {
+        return;
+      }
+
+      e.preventDefault();
+      // Apply a tuned multiplier for highly responsive but premium momentum feel
+      targetScrollY += e.deltaY * 0.9;
+      
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      targetScrollY = Math.max(0, Math.min(targetScrollY, maxScroll));
+
+      if (!isScrolling) {
+        isScrolling = true;
+        requestAnimationFrame(updateScroll);
+      }
+    };
+
+    const updateScroll = () => {
+      const diff = targetScrollY - currentScrollY;
+      // 0.08 interpolation creates a very luxurious smooth ease-out drag
+      currentScrollY += diff * 0.08;
+
+      if (Math.abs(diff) > 0.3) {
+        window.scrollTo({
+          top: currentScrollY,
+          behavior: 'auto'
+        });
+        requestAnimationFrame(updateScroll);
+      } else {
+        window.scrollTo({
+          top: targetScrollY,
+          behavior: 'auto'
+        });
+        currentScrollY = targetScrollY;
+        isScrolling = false;
+      }
+    };
+
+    // Synchronize targetScrollY with manual native scrolls (e.g., clicking on scrollbar, keyboard keys, or scrollIntoView anchors)
+    const handleScroll = () => {
+      if (!isScrolling) {
+        currentScrollY = window.scrollY;
+        targetScrollY = window.scrollY;
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   // Talent Info Modal State
   const [infoMovie, setInfoMovie] = useState<Movie | null>(null);
+  const [lightboxImageIndex, setLightboxImageIndex] = useState<number | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [activeType, setActiveType] = useState<string>('All'); // 'All' | 'Movie' | 'Series'
   const [isHeaderSettingsOpen, setIsHeaderSettingsOpen] = useState<boolean>(false);
@@ -1494,6 +1881,32 @@ export default function App() {
                           </select>
                         </div>
                       </div>
+
+                      {/* Auto-play Trailers Toggle */}
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <label className="text-[9px] font-mono text-white/40 uppercase tracking-wider flex items-center gap-1.5">
+                            <Tv className="w-3 h-3 text-[#00D1FF]" /> Auto-play Trailers
+                          </label>
+                          <span className="text-[8px] font-mono text-[#00D1FF] bg-[#00D1FF]/10 px-1 py-0.5 rounded">
+                            Hero Section
+                          </span>
+                        </div>
+                        <div className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 flex items-center justify-between">
+                          <span className="text-xs text-white/70">Enable Trailer Previews</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newValue = !userState.autoplayTrailers;
+                              setUserState(prev => ({ ...prev, autoplayTrailers: newValue }));
+                              pushSystemChatMessage(newValue ? "Auto-play trailers enabled for Hero Showcase." : "Auto-play trailers disabled.");
+                            }}
+                            className={`w-9 h-5 rounded-full transition-colors relative flex items-center focus:outline-none ${userState.autoplayTrailers ? 'bg-[#00D1FF]' : 'bg-white/10'}`}
+                          >
+                            <span className={`w-3.5 h-3.5 rounded-full bg-white transition-all absolute ${userState.autoplayTrailers ? 'right-0.5' : 'left-0.5'}`} />
+                          </button>
+                        </div>
+                      </div>
                     </motion.div>
                   </>
                 )}
@@ -1723,24 +2136,43 @@ export default function App() {
 
       {/* HERO SHOWCASE - Atmospheric Display of Currently Active Movie in Automated Carousel */}
       <section className="relative w-full overflow-hidden border-b border-white/5 z-10" id="hero-showcase">
-        {/* Dynamic High-Fidelity Backdrop image with heavy gradient vignette */}
-        <div className="absolute inset-0 z-0">
+        {/* Dynamic High-Fidelity Backdrop / Auto-play Trailer with heavy gradient vignette */}
+        <div className="absolute inset-0 z-0 bg-black">
           <AnimatePresence mode="wait">
-            <motion.div
-              key={currentMovie.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.3 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.0, ease: "easeInOut" }}
-              className="absolute inset-0 w-full h-full"
-            >
-              <BlurUpImage 
-                src={currentMovie.backdropUrl} 
-                alt={currentMovie.title}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover scale-105 filter saturate-[1.1] contrast-[1.05]"
-              />
-            </motion.div>
+            {userState.autoplayTrailers && isHeroInView ? (
+              <motion.div
+                key={`trailer-${currentMovie.id}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.38 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.0 }}
+                className="absolute inset-0 w-full h-full bg-black overflow-hidden pointer-events-none"
+              >
+                <iframe
+                  src={`https://www.youtube.com/embed/${TRAILER_IDS[currentMovie.id] || currentMovie.trailerYoutubeId || 'Way9Dexny3w'}?autoplay=1&mute=1&controls=0&loop=1&playlist=${TRAILER_IDS[currentMovie.id] || currentMovie.trailerYoutubeId || 'Way9Dexny3w'}&playsinline=1&rel=0&showinfo=0&modestbranding=1&iv_load_policy=3&enablejsapi=1`}
+                  title={`${currentMovie.title} Trailer`}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[125%] h-[125%] pointer-events-none object-cover"
+                  style={{ border: 'none' }}
+                  allow="autoplay; encrypted-media"
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key={`backdrop-${currentMovie.id}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.3 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.0, ease: "easeInOut" }}
+                className="absolute inset-0 w-full h-full"
+              >
+                <BlurUpImage 
+                  src={currentMovie.backdropUrl} 
+                  alt={currentMovie.title}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover scale-105 filter saturate-[1.1] contrast-[1.05]"
+                />
+              </motion.div>
+            )}
           </AnimatePresence>
           <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/85 to-transparent"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-transparent to-[#050508]"></div>
@@ -1753,11 +2185,11 @@ export default function App() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-7xl mx-auto px-6 pt-12 pb-24 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
+            className="max-w-7xl mx-auto px-6 pt-16 pb-28 relative z-10"
           >
             
             {/* Main Hero Metadata Info Box */}
-            <div className="lg:col-span-7 space-y-6">
+            <div className="max-w-3xl space-y-6 text-left">
               
               {/* Metadata Tags */}
               <div className="flex flex-wrap items-center gap-3">
@@ -1774,6 +2206,10 @@ export default function App() {
                 <span className="text-white/40 text-xs font-mono">•</span>
                 <span className="text-white/60 text-xs font-mono">
                   {currentMovie.runtimeOrSeasons}
+                </span>
+                <span className="text-white/40 text-xs font-mono">•</span>
+                <span className="bg-[#00D1FF]/10 text-[#00D1FF] text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-[#00D1FF]/20 uppercase tracking-wider">
+                  {recommendationMatrix.find(item => item.movie.id === currentMovie.id)?.matchPercentage || 85}% Simulated Fit
                 </span>
                 
                 {/* Regional Streaming Info */}
@@ -1799,9 +2235,28 @@ export default function App() {
               </h1>
 
               {/* Synopsis */}
-              <p className="text-sm md:text-base text-white/70 max-w-xl leading-relaxed font-sans">
+              <motion.p 
+                key={currentMovie.id}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="text-sm md:text-base text-white/70 max-w-xl leading-relaxed font-sans"
+              >
                 {currentMovie.synopsis}
-              </p>
+              </motion.p>
+
+              {/* Genre chips */}
+              <div className="flex flex-wrap gap-2 pt-1">
+                {currentMovie.genres.map((g, i) => (
+                  <span 
+                    key={i} 
+                    onClick={() => handleGenreSelect(g)}
+                    className="text-[10px] bg-white/5 hover:bg-[#00D1FF]/20 border border-white/10 hover:border-[#00D1FF]/30 text-white/80 hover:text-[#00D1FF] cursor-pointer font-bold uppercase px-2.5 py-1 rounded transition-colors"
+                  >
+                    {g}
+                  </span>
+                ))}
+              </div>
 
               {/* Interactive Rating Metric System */}
               <div className="bg-white/5 border border-white/10 rounded-xl p-4 max-w-xl backdrop-blur-sm space-y-2">
@@ -1893,80 +2348,19 @@ export default function App() {
                     <MessageSquare className="w-4 h-4" />
                     Read Critic Reports
                   </a>
+
+                  {/* Cast & Crew Info Button */}
+                  <button
+                    type="button"
+                    onClick={() => setInfoMovie(currentMovie)}
+                    className="px-5 py-3 border border-white/10 text-white hover:border-[#00D1FF] hover:text-[#00D1FF] hover:bg-[#00D1FF]/5 transition-all duration-300 text-xs font-bold uppercase tracking-wider rounded flex items-center gap-2 cursor-pointer"
+                  >
+                    <Info className="w-4 h-4 text-[#00D1FF]" />
+                    Cast & Crew Info
+                  </button>
                 </div>
               </div>
 
-            </div>
-
-            {/* Large Poster View / Cinema Lineage Column */}
-            <div className="lg:col-span-5 relative flex justify-center">
-              
-              {/* Ambient Poster Glow container */}
-              <div className="relative group w-full max-w-[340px] aspect-[2/3] bg-white/5 border border-white/10 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 hover:border-[#00D1FF] hover:shadow-[0_0_30px_rgba(0,209,255,0.25)]">
-                
-                {/* Floating Info Button Overlay */}
-                <button
-                  type="button"
-                  onClick={() => setInfoMovie(currentMovie)}
-                  className="absolute top-4 left-4 z-20 p-2 rounded-full bg-black/80 hover:bg-[#00D1FF] border border-white/10 hover:border-[#00D1FF] text-white hover:text-black hover:scale-110 shadow-[0_4px_12px_rgba(0,0,0,0.5)] transition-all cursor-pointer flex items-center justify-center animate-pulse"
-                  title="View Cast & Director Info"
-                >
-                  <Info className="w-4 h-4" />
-                </button>
-
-                {/* Backing image */}
-                <BlurUpImage 
-                  src={currentMovie.posterUrl} 
-                  alt={currentMovie.title}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  fallbackSrc="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop"
-                />
-                
-                {/* Gradient card label overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent flex flex-col justify-end p-6">
-                  
-                  {/* Director details */}
-                  <p className="text-[#00D1FF] text-xs font-bold uppercase tracking-widest mb-1">
-                    {t('creatorLabel')} {currentMovie.directorOrCreator}
-                  </p>
-                  <h3 className="text-xl font-black italic uppercase text-white tracking-tight leading-tight">
-                    {currentMovie.title}
-                  </h3>
-
-                  {/* Genre chips */}
-                  <div className="flex flex-wrap gap-1.5 mt-3">
-                    {currentMovie.genres.map((g, i) => (
-                      <span 
-                        key={i} 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleGenreSelect(g);
-                        }}
-                        className="text-[9px] bg-white/10 hover:bg-[#00D1FF]/20 hover:text-[#00D1FF] cursor-pointer font-semibold uppercase px-2 py-0.5 rounded text-white/70"
-                      >
-                        {g}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Dynamic matching watermark index badge */}
-                <div className="absolute top-4 right-4 bg-black/75 border border-[#00D1FF]/30 backdrop-blur-md rounded-lg px-3 py-1.5 text-center">
-                  <p className="text-[9px] uppercase tracking-wider text-white/40 font-mono">Simulated Fit</p>
-                  <p className="text-lg font-black text-[#00D1FF] font-mono leading-none">
-                    {recommendationMatrix.find(item => item.movie.id === currentMovie.id)?.matchPercentage || 85}%
-                  </p>
-                </div>
-              </div>
-
-              {/* Micro production trivia card behind poster */}
-              <div className="absolute -bottom-6 -right-6 hidden xl:block max-w-[220px] bg-black/80 border border-white/10 backdrop-blur-md rounded-xl p-3 shadow-xl">
-                <span className="text-[9px] text-[#00D1FF] font-bold uppercase tracking-wider block mb-1">PROD TRIVIA</span>
-                <p className="text-[10px] text-white/60 leading-snug font-mono italic">
-                  {currentMovie.productionTrivia || 'Recreations built with pixel-perfect structural accuracy.'}
-                </p>
-              </div>
             </div>
 
           </motion.div>
@@ -1988,6 +2382,26 @@ export default function App() {
             ) : (
               <Play className="w-3 h-3 fill-current text-white/80" />
             )}
+          </button>
+
+          <div className="h-4 w-[1px] bg-white/10"></div>
+
+          {/* Quick Toggle Auto-play Trailers */}
+          <button
+            onClick={() => {
+              const newValue = !userState.autoplayTrailers;
+              setUserState(prev => ({ ...prev, autoplayTrailers: newValue }));
+              pushSystemChatMessage(newValue ? "Auto-play trailers enabled for Hero Showcase." : "Auto-play trailers disabled.");
+            }}
+            className={`transition-all duration-300 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-mono font-black uppercase tracking-wider ${
+              userState.autoplayTrailers 
+                ? 'bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/20 shadow-[0_0_10px_rgba(0,209,255,0.15)]' 
+                : 'bg-white/5 text-white/40 border border-white/5 hover:text-white/70 hover:bg-white/10'
+            }`}
+            title={userState.autoplayTrailers ? "Turn Off Auto-play Trailers" : "Turn On Auto-play Trailers"}
+          >
+            <Tv className="w-3 h-3" />
+            <span>Trailers: {userState.autoplayTrailers ? "ON" : "OFF"}</span>
           </button>
 
           <div className="h-4 w-[1px] bg-white/10"></div>
@@ -3401,82 +3815,126 @@ export default function App() {
       {infoMovie && (
         <div 
           id="talent-info-modal"
-          className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md transition-all duration-300"
-          onClick={() => setInfoMovie(null)}
+          className="fixed inset-0 z-[140] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-all duration-300"
+          onClick={() => {
+            setInfoMovie(null);
+            setLightboxImageIndex(null);
+          }}
         >
           <div 
-            className="bg-[#0b0b12] border border-[#00D1FF]/30 rounded-2xl w-full max-w-xl overflow-hidden shadow-[0_0_50px_rgba(0,209,255,0.35)] relative transition-all transform scale-100 animate-fade-in"
+            className="bg-[#0b0b12] border border-[#00D1FF]/30 rounded-2xl w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden shadow-[0_0_50px_rgba(0,209,255,0.35)] relative transition-all transform scale-100 animate-fade-in"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Ambient luxury visual layers - subtle dark red/cyan gradient glow borders */}
-            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-red-600 via-[#00D1FF] to-blue-600" />
+            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-red-600 via-[#00D1FF] to-blue-600 z-30" />
             
             {/* Close button */}
             <button 
-              onClick={() => setInfoMovie(null)}
-              className="absolute top-4 right-4 text-white/50 hover:text-white bg-white/5 hover:bg-white/10 p-1.5 rounded-full transition-all border border-white/10 z-20 cursor-pointer"
+              onClick={() => {
+                setInfoMovie(null);
+                setLightboxImageIndex(null);
+              }}
+              className="absolute top-4 right-4 text-white/50 hover:text-white bg-white/5 hover:bg-white/10 p-1.5 rounded-full transition-all border border-white/10 z-30 cursor-pointer"
               title="Close Panel"
             >
               <X className="w-4 h-4" />
             </button>
 
-            <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6">
-              {/* Left Column: Movie Poster */}
-              <div className="w-32 md:w-44 shrink-0 aspect-[2/3] rounded-xl overflow-hidden border border-white/10 relative shadow-2xl mx-auto md:mx-0 bg-black">
-                <BlurUpImage 
-                  src={infoMovie.posterUrl} 
-                  alt={infoMovie.title} 
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-2 left-2 bg-black/80 text-[#00D1FF] text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded border border-[#00D1FF]/20">
-                  {infoMovie.year}
-                </div>
-              </div>
-
-              {/* Right Column: Information & Talent Bios */}
-              <div className="flex-1 space-y-4 text-left">
-                <div>
-                  <span className="text-[10px] font-mono text-[#00D1FF] uppercase tracking-[0.2em] font-black">
-                    {infoMovie.type === 'Movie' ? 'Cinematic Presentation' : 'Exclusive Series'}
-                  </span>
-                  <h4 className="text-xl md:text-2xl font-black uppercase italic tracking-tight text-white mt-1 leading-tight">
-                    {infoMovie.title}
-                  </h4>
-                  <p className="text-[10px] text-white/40 font-mono mt-1">★ {infoMovie.rating} Rating • {infoMovie.runtimeOrSeasons}</p>
+            {/* Scrollable Modal Content Container */}
+            <div className="p-6 md:p-8 flex-1 overflow-y-auto custom-scrollbar space-y-6">
+              <div className="flex flex-col md:flex-row gap-6">
+                {/* Left Column: Movie Poster */}
+                <div className="w-32 md:w-40 shrink-0 aspect-[2/3] rounded-xl overflow-hidden border border-white/10 relative shadow-2xl mx-auto md:mx-0 bg-black">
+                  <BlurUpImage 
+                    src={infoMovie.posterUrl} 
+                    alt={infoMovie.title} 
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-2 left-2 bg-black/80 text-[#00D1FF] text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded border border-[#00D1FF]/20">
+                    {infoMovie.year}
+                  </div>
                 </div>
 
-                <div className="space-y-4 pt-4 border-t border-white/5">
+                {/* Right Column: Information & Talent Bios */}
+                <div className="flex-1 space-y-4 text-left">
                   <div>
-                    <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span> Director / Creator
-                    </p>
-                    <p className="text-sm font-bold text-white mt-1">{infoMovie.directorOrCreator}</p>
-                    <p className="text-[11px] text-white/60 leading-relaxed mt-1">
-                      An accomplished visionary maestro orchestrating the aesthetic execution and emotional narrative of this curation.
-                    </p>
+                    <span className="text-[10px] font-mono text-[#00D1FF] uppercase tracking-[0.2em] font-black">
+                      {infoMovie.type === 'Movie' ? 'Cinematic Presentation' : 'Exclusive Series'}
+                    </span>
+                    <h4 className="text-xl md:text-2xl font-black uppercase italic tracking-tight text-white mt-1 leading-tight">
+                      {infoMovie.title}
+                    </h4>
+                    <p className="text-[10px] text-white/40 font-mono mt-1">★ {infoMovie.rating} Rating • {infoMovie.runtimeOrSeasons}</p>
                   </div>
 
-                  <div>
-                    <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span> Starring Cast / Talent
-                    </p>
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {infoMovie.cast.map((actor, idx) => (
-                        <span 
-                          key={idx} 
-                          className="bg-white/5 border border-white/10 hover:border-[#00D1FF]/40 text-white/90 text-[10px] px-2.5 py-1 rounded-md font-medium transition-colors cursor-default"
-                        >
-                          {actor}
-                        </span>
-                      ))}
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <div>
+                      <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span> Director / Creator
+                      </p>
+                      <p className="text-sm font-bold text-white mt-1">{infoMovie.directorOrCreator}</p>
+                      <p className="text-[11px] text-white/60 leading-relaxed mt-1">
+                        An accomplished visionary maestro orchestrating the aesthetic execution and emotional narrative of this curation.
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span> Starring Cast / Talent
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 mt-2">
+                        {infoMovie.cast.map((actor, idx) => (
+                          <span 
+                            key={idx} 
+                            className="bg-white/5 border border-white/10 hover:border-[#00D1FF]/40 text-white/90 text-[10px] px-2.5 py-1 rounded-md font-medium transition-colors cursor-default"
+                          >
+                            {actor}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* Dynamic Atmospheric Cinematography Gallery */}
+              <div className="pt-5 border-t border-white/5 space-y-3 text-left">
+                <div className="flex items-center justify-between">
+                  <p className="text-[10px] font-mono text-white/40 uppercase tracking-widest flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span> Atmospheric Cinematography
+                  </p>
+                  <span className="text-[8px] font-mono text-[#00D1FF]/80 bg-[#00D1FF]/10 px-2 py-0.5 rounded uppercase tracking-wider">
+                    Interactive Stills
+                  </span>
+                </div>
+                
+                {/* 3-Column Grid of Curated Image Stills */}
+                <div className="grid grid-cols-3 gap-2 md:gap-3">
+                  {getMovieStills(infoMovie).map((still, idx) => (
+                    <div 
+                      key={idx}
+                      onClick={() => setLightboxImageIndex(idx)}
+                      className="group aspect-[16/10] bg-zinc-950 rounded-xl overflow-hidden border border-white/10 hover:border-[#00D1FF]/50 transition-all duration-300 relative cursor-pointer shadow-md"
+                    >
+                      <BlurUpImage 
+                        src={still.url}
+                        alt={still.caption}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      {/* Subtle hover overlay and zoom effect */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="bg-black/75 border border-[#00D1FF]/30 p-1.5 rounded-full scale-75 group-hover:scale-100 transition-transform duration-300">
+                          <Maximize2 className="w-3.5 h-3.5 text-[#00D1FF]" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            {/* Footer View Controls */}
-            <div className="bg-black/60 px-6 py-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Footer View Controls - Sticky at bottom */}
+            <div className="bg-black/60 px-6 py-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
               <div className="text-left w-full sm:max-w-[65%]">
                 <p className="text-[10px] text-white/30 font-mono uppercase tracking-wider">Premise & Core Narrative</p>
                 <p className="text-[11px] text-white/60 italic truncate mt-0.5" title={infoMovie.synopsis}>
@@ -3487,6 +3945,7 @@ export default function App() {
                 onClick={() => {
                   handleMovieSelect(infoMovie.id);
                   setInfoMovie(null);
+                  setLightboxImageIndex(null);
                   document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                 }}
                 className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-[#00D1FF] to-blue-500 hover:from-white hover:to-white text-black font-mono text-[10px] font-black uppercase tracking-[0.15em] rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-[0_0_15px_rgba(0,209,255,0.3)] shrink-0 cursor-pointer"
@@ -3498,6 +3957,91 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* ATMOSPHERIC CINEMA GALLERY LIGHTBOX */}
+      {infoMovie && lightboxImageIndex !== null && (() => {
+        const stills = getMovieStills(infoMovie);
+        const currentStill = stills[lightboxImageIndex];
+        if (!currentStill) return null;
+
+        return (
+          <div 
+            className="fixed inset-0 z-[160] flex flex-col items-center justify-center bg-black/95 backdrop-blur-xl p-4 md:p-8 animate-fade-in"
+            onClick={() => setLightboxImageIndex(null)}
+          >
+            {/* Close button */}
+            <button 
+              onClick={() => setLightboxImageIndex(null)}
+              className="absolute top-4 right-4 md:top-8 md:right-8 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 text-white p-2 md:p-3 rounded-full transition-all cursor-pointer z-50 shadow-[0_0_15px_rgba(0,0,0,0.5)]"
+              title="Close Gallery"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Main Stage */}
+            <div 
+              className="relative max-w-4xl w-full aspect-[16/10] md:aspect-[16/9] bg-zinc-950 rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.8)]" 
+              onClick={(e) => e.stopPropagation()}
+            >
+              <BlurUpImage 
+                src={currentStill.url}
+                alt={currentStill.caption}
+                className="w-full h-full object-cover"
+              />
+
+              {/* Navigation Controls */}
+              <div className="absolute inset-y-0 left-0 flex items-center pl-4">
+                <button
+                  onClick={() => setLightboxImageIndex((lightboxImageIndex - 1 + stills.length) % stills.length)}
+                  className="bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[#00D1FF] text-white p-2 rounded-full transition-all cursor-pointer shadow-lg group"
+                >
+                  <span className="sr-only">Previous Still</span>
+                  <svg className="w-5 h-5 text-white/70 group-hover:text-[#00D1FF] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="absolute inset-y-0 right-0 flex items-center pr-4">
+                <button
+                  onClick={() => setLightboxImageIndex((lightboxImageIndex + 1) % stills.length)}
+                  className="bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[#00D1FF] text-white p-2 rounded-full transition-all cursor-pointer shadow-lg group"
+                >
+                  <span className="sr-only">Next Still</span>
+                  <svg className="w-5 h-5 text-white/70 group-hover:text-[#00D1FF] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Image Footer Details */}
+              <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/80 to-transparent p-6 flex flex-col md:flex-row md:items-end justify-between gap-4 pointer-events-none">
+                <div className="text-left space-y-1 max-w-xl">
+                  <p className="text-[9px] font-mono text-white/40 uppercase tracking-widest">Atmospheric Scene Detail</p>
+                  <h5 className="text-white font-bold text-sm md:text-base leading-snug">{currentStill.caption}</h5>
+                </div>
+                {currentStill.location && (
+                  <div className="flex items-center gap-1.5 shrink-0 bg-white/10 border border-white/20 backdrop-blur-md rounded-full px-3 py-1 font-mono text-[9px] text-[#00D1FF]">
+                    <MapPin className="w-3 h-3" />
+                    <span>{currentStill.location}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Bottom thumbnail selector indicator dots */}
+            <div className="flex gap-2.5 mt-6 z-10" onClick={(e) => e.stopPropagation()}>
+              {stills.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setLightboxImageIndex(i)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer ${i === lightboxImageIndex ? 'bg-[#00D1FF] w-6 shadow-[0_0_8px_rgba(0,209,255,0.8)]' : 'bg-white/20 hover:bg-white/40'}`}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Dynamic Invisible Preloader for the Currently Selected Movie/Series Video Stream */}
       {currentMovie && (

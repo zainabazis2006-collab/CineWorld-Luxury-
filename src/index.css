@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Custom utility for the vertical luxury text element */
 .vertical-text {
   writing-mode: vertical-rl;

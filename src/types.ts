@@ -70,6 +70,7 @@ export interface UserState {
   preferredLanguage: string; // 'en' | 'hi' | 'ar' | 'ja' | 'es'
   region: string; // 'US' | 'UK' | 'IN' | 'JP'
   posterSafetyMode?: 'safe' | 'original'; // copyright-safe or original posters
+  autoplayTrailers?: boolean; // toggle auto-play trailers in Hero Showcase
   remindedUpcomingIds?: string[]; // persistent 'Remind Me' subscriptions
   genreClickHistory?: { genre: string; timestamp: number }[]; // historical log of clicks for 24-hour trending
   isLoggedIn?: boolean;
