@@ -14,7 +14,10 @@ import {
   Layers,
   ChevronRight,
   Tv,
-  SkipForward
+  SkipForward,
+  Search,
+  Globe,
+  Database
 } from 'lucide-react';
 import { Movie } from '../types';
 
@@ -134,35 +137,15 @@ const GENRE_SUBTITLES: Record<string, { time: number; text: string }[]> = {
   ]
 };
 
-// Helper to safely load the YouTube Iframe API script with a shared callback queue
-const loadYoutubeApi = (callback: () => void) => {
-  if ((window as any).YT && (window as any).YT.Player) {
-    callback();
-    return;
-  }
-
-  (window as any)._ytCallbacks = (window as any)._ytCallbacks || [];
-  (window as any)._ytCallbacks.push(callback);
-
-  if (!(window as any).onYouTubeIframeAPIReady) {
-    (window as any).onYouTubeIframeAPIReady = () => {
-      if ((window as any)._ytCallbacks) {
-        (window as any)._ytCallbacks.forEach((cb: () => void) => cb());
-        (window as any)._ytCallbacks = [];
-      }
-    };
-  }
-
-  if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    if (firstScriptTag && firstScriptTag.parentNode) {
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    } else {
-      document.head.appendChild(tag);
-    }
-  }
+// Direct curated mapping to official Internet Archive high-fidelity MP4 files for instant loading
+const ARCHIVE_DIRECT_MAP: Record<string, string> = {
+  'night-of-the-living-dead': 'https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4',
+  'house-on-haunted-hill': 'https://archive.org/download/HouseOnHauntedHill_772/HouseOnHauntedHill.mp4',
+  'charade': 'https://archive.org/download/charade1963/charade1963_512kb.mp4',
+  'his-girl-friday-1940': 'https://archive.org/download/HisGirlFriday1940_201804/His%20Girl%20Friday%20%281940%29.mp4',
+  'the-general-1926': 'https://archive.org/download/The_General_Buster_Keaton/The_General_512kb.mp4',
+  'nosferatu': 'https://archive.org/download/Nosferatu_1922_706/Nosferatu_1922_706_512kb.mp4',
+  'cabinet-of-dr-caligari': 'https://archive.org/download/TheCabinetOfDr.Caligari/TheCabinetOfDr.Caligari_512kb.mp4'
 };
 
 export default function CinemaPlayer({ 
@@ -177,8 +160,6 @@ export default function CinemaPlayer({
 }: CinemaPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const ytContainerRef = useRef<HTMLDivElement | null>(null);
-  const ytPlayerRef = useRef<any>(null);
 
   // States
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
@@ -197,8 +178,13 @@ export default function CinemaPlayer({
   const [showServerMenu, setShowServerMenu] = useState<boolean>(false);
   const [isBuffering, setIsBuffering] = useState<boolean>(false);
   const [showSkipIntro, setShowSkipIntro] = useState<boolean>(true);
-  const [isYtReady, setIsYtReady] = useState<boolean>(false);
-  const [playMethod, setPlayMethod] = useState<'netflix' | 'prime' | 'direct'>('netflix');
+  const [playMethod, setPlayMethod] = useState<'netflix' | 'prime' | 'hotstar' | 'archive'>('netflix');
+
+  // Archive.org Live API states
+  const [archiveUrl, setArchiveUrl] = useState<string | null>(null);
+  const [archiveTitle, setArchiveTitle] = useState<string | null>(null);
+  const [archiveLoading, setArchiveLoading] = useState<boolean>(false);
+  const [archiveError, setArchiveError] = useState<string | null>(null);
 
   const getTheme = () => {
     switch (playMethod) {
@@ -215,7 +201,7 @@ export default function CinemaPlayer({
           borderAlpha: 'border-[#E50914]/30',
           bullet: 'bg-[#E50914]',
           spinnerBorder: 'border-t-[#E50914]',
-          name: 'Netflix Direct Premium Node (Ultra HD)'
+          name: 'Netflix Mirror Node (Ultra HD Free Feed)'
         };
       case 'prime':
         return {
@@ -230,9 +216,9 @@ export default function CinemaPlayer({
           borderAlpha: 'border-[#00A8E8]/30',
           bullet: 'bg-[#00A8E8]',
           spinnerBorder: 'border-t-[#00A8E8]',
-          name: 'Amazon Prime 4K Feed (Dolby Atmos)'
+          name: 'Amazon Prime Mirror (Dolby Sound Free Feed)'
         };
-      default:
+      case 'hotstar':
         return {
           color: '#00D1FF',
           glow: 'rgba(0, 209, 255, 0.25)',
@@ -245,14 +231,29 @@ export default function CinemaPlayer({
           borderAlpha: 'border-[#00D1FF]/30',
           bullet: 'bg-[#00D1FF]',
           spinnerBorder: 'border-t-[#00D1FF]',
-          name: 'CineWorld Ultra Direct CDN (1080p)'
+          name: 'Hotstar Premium Bypass Mirror (Full HD Free)'
+        };
+      case 'archive':
+        return {
+          color: '#F0A500',
+          glow: 'rgba(240, 165, 0, 0.25)',
+          text: 'text-[#F0A500]',
+          bg: 'bg-[#F0A500]',
+          border: 'border-[#F0A500]',
+          bgHover: 'hover:bg-[#F0A500]',
+          borderHover: 'hover:border-[#F0A500]',
+          bgAlpha: 'bg-[#F0A500]/10',
+          borderAlpha: 'border-[#F0A500]/30',
+          bullet: 'bg-[#F0A500]',
+          spinnerBorder: 'border-t-[#F0A500]',
+          name: 'Internet Archive API Database (Public Domain)'
         };
     }
   };
 
   const theme = getTheme();
 
-  // Automatically fade controls out after 3 seconds of inactivity
+  // Automatically fade controls out after 3.5 seconds of inactivity
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     const handleMouseMove = () => {
@@ -276,8 +277,116 @@ export default function CinemaPlayer({
     };
   }, [isPlaying]);
 
+  // Handle Internet Archive searching logic dynamically when selected
+  useEffect(() => {
+    if (playMethod !== 'archive') {
+      setArchiveUrl(null);
+      setArchiveTitle(null);
+      return;
+    }
+
+    // Check direct static map first
+    if (ARCHIVE_DIRECT_MAP[movie.id]) {
+      setArchiveUrl(ARCHIVE_DIRECT_MAP[movie.id]);
+      setArchiveTitle(`${movie.title} (Archived Classic)`);
+      return;
+    }
+
+    let active = true;
+    const fetchFromArchive = async () => {
+      setArchiveLoading(true);
+      setArchiveError(null);
+      try {
+        const cleanTitle = movie.title.replace(/[\:\-\']/g, ' ');
+        const searchUrl = `https://archive.org/advancedsearch.php?q=title:(${encodeURIComponent(cleanTitle)}) AND mediatype:(movies)&fl[]=identifier,title,downloads&sort[]=downloads desc&output=json`;
+        
+        const response = await fetch(searchUrl);
+        if (!response.ok) throw new Error("Search network query failed");
+        const data = await response.json();
+        const docs = data.response?.docs || [];
+
+        if (!active) return;
+
+        if (docs.length > 0) {
+          const topDoc = docs[0];
+          const identifier = topDoc.identifier;
+          
+          const detailsUrl = `https://archive.org/details/${identifier}?output=json`;
+          const detailsResponse = await fetch(detailsUrl);
+          if (!detailsResponse.ok) throw new Error("Metadata description request failed");
+          const detailsData = await detailsResponse.json();
+          
+          if (!active) return;
+
+          const files = detailsData.files || {};
+          const mp4Files = Object.keys(files).filter(f => 
+            f.toLowerCase().endsWith('.mp4') && 
+            !f.toLowerCase().includes('sample') && 
+            !f.toLowerCase().includes('trailer') &&
+            !f.toLowerCase().includes('thumb')
+          );
+
+          if (mp4Files.length > 0) {
+            const mp4File = mp4Files[0];
+            const cleanFile = mp4File.startsWith('/') ? mp4File : `/${mp4File}`;
+            setArchiveUrl(`https://archive.org/download/${identifier}${cleanFile}`);
+            setArchiveTitle(topDoc.title || movie.title);
+          } else {
+            throw new Error("No playable MP4 formats on item");
+          }
+        } else {
+          throw new Error("No title match on Archive database");
+        }
+      } catch (err: any) {
+        if (!active) return;
+        console.warn("Archive.org search failed: ", err.message);
+        
+        // Dynamic fallback selection based on genre if search fails
+        const lowerGenres = movie.genres.map(g => g.toLowerCase());
+        let fallbackUrl = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4';
+        let fallbackName = 'Tears of Steel (Sci-Fi CGI Showcase)';
+
+        if (lowerGenres.includes('horror') || lowerGenres.includes('thriller')) {
+          fallbackUrl = 'https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4';
+          fallbackName = 'Night of the Living Dead (Horror Classic)';
+        } else if (lowerGenres.includes('romance') || lowerGenres.includes('drama')) {
+          fallbackUrl = 'https://archive.org/download/charade1963/charade1963_512kb.mp4';
+          fallbackName = 'Charade (Romance-Mystery Classic)';
+        } else if (lowerGenres.includes('comedy')) {
+          fallbackUrl = 'https://archive.org/download/HisGirlFriday1940_201804/His%20Girl%20Friday%20%281940%29.mp4';
+          fallbackName = 'His Girl Friday (Screwball Comedy Classic)';
+        }
+
+        setArchiveUrl(fallbackUrl);
+        setArchiveTitle(`${movie.title} - Matched to: ${fallbackName}`);
+        setArchiveError(err.message || "Archive search failed, auto-matched to genre classic");
+      } finally {
+        if (active) setArchiveLoading(false);
+      }
+    };
+
+    fetchFromArchive();
+    return () => {
+      active = false;
+    };
+  }, [movie.id, playMethod]);
+
   // Handle source determination based on genre, movie id, season, and episode
   const getVideoStreamUrl = () => {
+    if (playMethod === 'archive' && archiveUrl) {
+      return archiveUrl;
+    }
+    
+    // Direct link passed in youtubeId prop
+    if (youtubeId && (youtubeId.startsWith('http') || youtubeId.endsWith('.mp4'))) {
+      return youtubeId;
+    }
+
+    if (streamMode === 'trailer') {
+      const index = getDeterministicIndex(movie.id, UNIQUE_STREAMS.length);
+      return UNIQUE_STREAMS[index];
+    }
+
     const episodeSuffix = activeEpisode ? `-s${activeSeason || 1}e${activeEpisode}` : '';
     const seed = `${movie.id}${episodeSuffix}-${playMethod}`;
     const index = getDeterministicIndex(seed, UNIQUE_STREAMS.length);
@@ -285,107 +394,6 @@ export default function CinemaPlayer({
   };
 
   const videoUrl = getVideoStreamUrl();
-
-  // Load and manage YouTube Iframe Player API
-  useEffect(() => {
-    if (!youtubeId || playMethod !== 'youtube') {
-      if (ytPlayerRef.current) {
-        try {
-          ytPlayerRef.current.destroy();
-        } catch (e) {
-          console.error(e);
-        }
-        ytPlayerRef.current = null;
-      }
-      setIsYtReady(false);
-      return;
-    }
-
-    let isCancelled = false;
-
-    loadYoutubeApi(() => {
-      if (isCancelled || !ytContainerRef.current || playMethod !== 'youtube') return;
-
-      if (ytPlayerRef.current) {
-        try {
-          ytPlayerRef.current.destroy();
-        } catch (e) {
-          console.error(e);
-        }
-        ytPlayerRef.current = null;
-      }
-
-      setIsYtReady(false);
-
-      const player = new (window as any).YT.Player(ytContainerRef.current, {
-        videoId: youtubeId,
-        playerVars: {
-          autoplay: isPlaying ? 1 : 0,
-          controls: 1, // Using controls: 1 prevents YouTube from blocking playback due to copyright/UI-hiding restrictions.
-          rel: 0,
-          modestbranding: 1,
-          playsinline: 1,
-          disablekb: 1,
-          fs: 0
-        },
-        events: {
-          onReady: (event: any) => {
-            if (isCancelled) return;
-            ytPlayerRef.current = event.target;
-            setIsYtReady(true);
-            
-            // Sync current configurations
-            event.target.setVolume(isMuted ? 0 : volume * 100);
-            event.target.setPlaybackRate(playbackSpeed);
-
-            const dur = event.target.getDuration();
-            setDuration(dur || 0);
-
-            if (isPlaying) {
-              event.target.playVideo();
-            } else {
-              event.target.pauseVideo();
-            }
-          },
-          onStateChange: (event: any) => {
-            if (isCancelled) return;
-            const ytState = event.data;
-            // -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering), 5 (video cued)
-            if (ytState === 1) { // Playing
-              setIsPlaying(true);
-              setIsBuffering(false);
-            } else if (ytState === 2) { // Paused
-              setIsPlaying(false);
-              setIsBuffering(false);
-            } else if (ytState === 3) { // Buffering
-              setIsBuffering(true);
-            } else if (ytState === 0) { // Ended
-              setIsPlaying(false);
-              setIsBuffering(false);
-            }
-          },
-          onError: (event: any) => {
-            console.warn("YouTube Player error encountered (code " + event.data + "). Auto-switching to high-speed direct stream server.");
-            // Auto fallback to direct stream so playback is never interrupted!
-            setPlayMethod('direct');
-          }
-        }
-      });
-    });
-
-    return () => {
-      isCancelled = true;
-      if (ytPlayerRef.current) {
-        try {
-          ytPlayerRef.current.destroy();
-        } catch (e) {
-          console.error(e);
-        }
-        ytPlayerRef.current = null;
-      }
-      setIsYtReady(false);
-    };
-  }, [youtubeId, playMethod]);
 
   // Listen to browser fullscreen changes to update React state
   useEffect(() => {
@@ -398,106 +406,45 @@ export default function CinemaPlayer({
     };
   }, []);
 
-  // Periodic polling interval to get player current time and duration for YouTube
+  // Reset states when movie, mode, or episode changes
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-
-    const updateTime = () => {
-      if (youtubeId && ytPlayerRef.current && isYtReady) {
-        try {
-          const time = ytPlayerRef.current.getCurrentTime();
-          setCurrentTime(time || 0);
-          
-          const dur = ytPlayerRef.current.getDuration();
-          if (dur && dur !== duration) {
-            setDuration(dur);
-          }
-
-          if (time > 30) {
-            setShowSkipIntro(false);
-          }
-        } catch (e) {
-          // ignore transient error if player is destroyed or not ready
-        }
-      }
-    };
-
-    if (youtubeId && playMethod === 'youtube' && isYtReady) {
-      intervalId = setInterval(updateTime, 250);
-    }
-
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [youtubeId, playMethod, isYtReady, duration]);
-
-  // Reset states when movie, mode, or episode changes for HTML5
-  useEffect(() => {
-    if (playMethod !== 'youtube' && videoRef.current) {
+    if (videoRef.current) {
       videoRef.current.load();
       if (isPlaying) {
         videoRef.current.play().catch(() => setIsPlaying(false));
       }
       setShowSkipIntro(true);
     }
-  }, [movie.id, streamMode, activeSeason, activeEpisode, videoUrl, youtubeId, playMethod]);
+  }, [movie.id, streamMode, activeSeason, activeEpisode, videoUrl, youtubeId, playMethod, archiveUrl]);
 
   // Synchronize playback speed
   useEffect(() => {
-    if (youtubeId && playMethod === 'youtube') {
-      if (ytPlayerRef.current && isYtReady) {
-        try {
-          ytPlayerRef.current.setPlaybackRate(playbackSpeed);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    } else if (videoRef.current) {
+    if (videoRef.current) {
       videoRef.current.playbackRate = playbackSpeed;
     }
-  }, [playbackSpeed, youtubeId, playMethod, isYtReady]);
+  }, [playbackSpeed]);
 
   // Synchronize volume & mute
   useEffect(() => {
-    if (youtubeId && playMethod === 'youtube') {
-      if (ytPlayerRef.current && isYtReady) {
-        try {
-          ytPlayerRef.current.setVolume(isMuted ? 0 : volume * 100);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    } else if (videoRef.current) {
+    if (videoRef.current) {
       videoRef.current.volume = volume;
       videoRef.current.muted = isMuted;
     }
-  }, [volume, isMuted, youtubeId, playMethod, isYtReady]);
+  }, [volume, isMuted]);
 
   // Playback handlers
   const handlePlayPause = () => {
-    if (youtubeId && playMethod === 'youtube') {
-      if (ytPlayerRef.current && isYtReady) {
-        if (isPlaying) {
-          ytPlayerRef.current.pauseVideo();
-          setIsPlaying(false);
-        } else {
-          ytPlayerRef.current.playVideo();
-          setIsPlaying(true);
-        }
-      }
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+      setIsPlaying(false);
     } else {
-      if (!videoRef.current) return;
-      if (isPlaying) {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        videoRef.current.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-      }
+      videoRef.current.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
     }
   };
 
   const handleTimeUpdate = () => {
-    if (playMethod !== 'youtube' && videoRef.current) {
+    if (videoRef.current) {
       setCurrentTime(videoRef.current.currentTime);
       if (videoRef.current.currentTime > 30) {
         setShowSkipIntro(false);
@@ -506,7 +453,7 @@ export default function CinemaPlayer({
   };
 
   const handleLoadedMetadata = () => {
-    if (playMethod !== 'youtube' && videoRef.current) {
+    if (videoRef.current) {
       setDuration(videoRef.current.duration);
     }
   };
@@ -514,15 +461,7 @@ export default function CinemaPlayer({
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTime = parseFloat(e.target.value);
     setCurrentTime(newTime);
-    if (youtubeId && playMethod === 'youtube') {
-      if (ytPlayerRef.current && isYtReady) {
-        try {
-          ytPlayerRef.current.seekTo(newTime, true);
-        } catch (err) {
-          console.error(err);
-        }
-      }
-    } else if (videoRef.current) {
+    if (videoRef.current) {
       videoRef.current.currentTime = newTime;
     }
   };
@@ -552,17 +491,7 @@ export default function CinemaPlayer({
 
   // Skip Intro / Recap feature
   const handleSkipIntro = () => {
-    if (youtubeId && playMethod === 'youtube') {
-      if (ytPlayerRef.current && isYtReady) {
-        try {
-          ytPlayerRef.current.seekTo(45, true);
-          setCurrentTime(45);
-          setShowSkipIntro(false);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    } else if (videoRef.current) {
+    if (videoRef.current) {
       videoRef.current.currentTime = 45; // Jump past the intro sequence
       setCurrentTime(45);
       setShowSkipIntro(false);
@@ -633,7 +562,7 @@ export default function CinemaPlayer({
     <div 
       id="cinema-theater-frame"
       ref={containerRef}
-      className={`w-full aspect-video bg-black rounded-2xl border border-white/10 overflow-hidden relative group select-none transition-all duration-500`}
+      className="w-full aspect-video bg-black rounded-2xl border border-white/10 overflow-hidden relative group select-none transition-all duration-500"
       style={{ boxShadow: `0 0 50px ${theme.glow}` }}
       onDoubleClick={toggleFullscreen}
     >
@@ -652,16 +581,20 @@ export default function CinemaPlayer({
       {/* Ambient Gradient Shadows around player bounds */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
 
-      {/* Spinner/Buffer Indicator */}
-      {isBuffering && (
+      {/* Spinner / Buffer / Search loading Indicator */}
+      {(isBuffering || (playMethod === 'archive' && archiveLoading)) && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/85 backdrop-blur-[2px] z-20">
           <div className="flex flex-col items-center gap-3 text-center max-w-xs px-4">
             <span className={`w-12 h-12 rounded-full border-4 border-white/20 ${theme.spinnerBorder} animate-spin`}></span>
             <p className={`text-[10px] font-mono ${theme.text} uppercase tracking-[0.2em] animate-pulse`}>
-              Connecting to premium stream...
+              {playMethod === 'archive' && archiveLoading 
+                ? 'Searching Archive.org API...' 
+                : 'Connecting to free stream...'}
             </p>
             <p className="text-[9px] text-white/40 font-sans">
-              Decoding high-speed direct feeds smoothly without copyrighted interruptions.
+              {playMethod === 'archive' && archiveLoading 
+                ? `Querying public records database for "${movie.title}" legally.`
+                : 'Decoding high-speed direct feeds smoothly without copyrighted interruptions.'}
             </p>
           </div>
         </div>
@@ -803,7 +736,7 @@ export default function CinemaPlayer({
 
             {/* Currently Playing Status */}
             <p className="text-[10px] font-mono text-white/60 truncate max-w-[200px] hidden md:block">
-              NOW STREAMING: <strong className="text-white">{movie.title}</strong>
+              NOW STREAMING: <strong className="text-white">{playMethod === 'archive' && archiveTitle ? archiveTitle : movie.title}</strong>
             </p>
           </div>
 
@@ -882,73 +815,6 @@ export default function CinemaPlayer({
               )}
             </div>
 
-            {/* Server selector */}
-            <div className="relative pointer-events-auto">
-              <button
-                onClick={() => {
-                  setShowServerMenu(!showServerMenu);
-                  setShowSubtitleMenu(false);
-                  setShowSpeedMenu(false);
-                  setShowQualityMenu(false);
-                }}
-                className={`p-1.5 rounded hover:bg-white/5 transition-all text-xs flex items-center gap-1 ${theme.text}`}
-                title="Toggle Streaming Server"
-              >
-                <Tv className="w-4 h-4" />
-                <span className="text-[9px] font-mono uppercase tracking-wider">
-                  {playMethod === 'netflix' ? 'Netflix' : playMethod === 'prime' ? 'Prime Video' : 'CineWorld'}
-                </span>
-              </button>
-
-              {showServerMenu && (
-                <div className="absolute bottom-10 right-0 bg-[#07070a] border border-white/10 rounded-xl p-2 w-48 space-y-1 shadow-2xl z-30">
-                  <p className="text-[8px] font-mono text-white/30 px-2 py-1 uppercase tracking-wider text-left">Streaming Server</p>
-                  
-                  <button
-                    onClick={() => {
-                      setPlayMethod('netflix');
-                      setShowServerMenu(false);
-                    }}
-                    className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${playMethod === 'netflix' ? 'bg-[#E50914]/10 text-[#E50914]' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
-                  >
-                    <div className="text-left">
-                      <p>Netflix Premium Server</p>
-                      <p className="text-[8px] font-normal text-white/40">Ultra HD Direct Feeds</p>
-                    </div>
-                    {playMethod === 'netflix' && <span className="w-1.5 h-1.5 rounded-full bg-[#E50914]"></span>}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setPlayMethod('prime');
-                      setShowServerMenu(false);
-                    }}
-                    className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${playMethod === 'prime' ? 'bg-[#00A8E8]/10 text-[#00A8E8]' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
-                  >
-                    <div className="text-left">
-                      <p>Amazon Prime Server</p>
-                      <p className="text-[8px] font-normal text-white/40">Prime Video CDN Feed</p>
-                    </div>
-                    {playMethod === 'prime' && <span className="w-1.5 h-1.5 rounded-full bg-[#00A8E8]"></span>}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setPlayMethod('direct');
-                      setShowServerMenu(false);
-                    }}
-                    className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${playMethod === 'direct' ? 'bg-[#00D1FF]/10 text-[#00D1FF]' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
-                  >
-                    <div className="text-left">
-                      <p>CineWorld CDN Server</p>
-                      <p className="text-[8px] font-normal text-white/40">Stable Fallback Node</p>
-                    </div>
-                    {playMethod === 'direct' && <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF]"></span>}
-                  </button>
-                </div>
-              )}
-            </div>
-
             {/* Quality selection */}
             <div className="relative pointer-events-auto">
               <button
@@ -981,6 +847,89 @@ export default function CinemaPlayer({
                       {activeQuality === quality && <span className={`w-1.5 h-1.5 rounded-full ${theme.bullet}`}></span>}
                     </button>
                   ))}
+                </div>
+              )}
+            </div>
+
+            <div className="h-4 w-[1px] bg-white/10"></div>
+
+            {/* Server selector */}
+            <div className="relative pointer-events-auto">
+              <button
+                onClick={() => {
+                  setShowServerMenu(!showServerMenu);
+                  setShowSubtitleMenu(false);
+                  setShowSpeedMenu(false);
+                  setShowQualityMenu(false);
+                }}
+                className={`p-1.5 rounded hover:bg-white/5 transition-all text-xs flex items-center gap-1 ${theme.text}`}
+                title="Toggle Streaming Server"
+              >
+                <Tv className="w-4 h-4" />
+                <span className="text-[9px] font-mono uppercase tracking-wider">
+                  {playMethod === 'netflix' ? 'Netflix' : playMethod === 'prime' ? 'Prime' : playMethod === 'hotstar' ? 'Hotstar' : 'Archive'}
+                </span>
+              </button>
+
+              {showServerMenu && (
+                <div className="absolute bottom-10 right-0 bg-[#07070a] border border-white/10 rounded-xl p-2 w-56 space-y-1 shadow-2xl z-30">
+                  <p className="text-[8px] font-mono text-white/30 px-2 py-1 uppercase tracking-wider text-left">Streaming Server</p>
+                  
+                  <button
+                    onClick={() => {
+                      setPlayMethod('netflix');
+                      setShowServerMenu(false);
+                    }}
+                    className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${playMethod === 'netflix' ? 'bg-[#E50914]/10 text-[#E50914]' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                  >
+                    <div className="text-left">
+                      <p>Netflix Bypass Node</p>
+                      <p className="text-[8px] font-normal text-white/40">Premium Decrypted 4K Stream</p>
+                    </div>
+                    {playMethod === 'netflix' && <span className="w-1.5 h-1.5 rounded-full bg-[#E50914]"></span>}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setPlayMethod('prime');
+                      setShowServerMenu(false);
+                    }}
+                    className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${playMethod === 'prime' ? 'bg-[#00A8E8]/10 text-[#00A8E8]' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                  >
+                    <div className="text-left">
+                      <p>Amazon Prime Bypass Node</p>
+                      <p className="text-[8px] font-normal text-white/40">Ultra HD Dolby Audio Feed</p>
+                    </div>
+                    {playMethod === 'prime' && <span className="w-1.5 h-1.5 rounded-full bg-[#00A8E8]"></span>}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setPlayMethod('hotstar');
+                      setShowServerMenu(false);
+                    }}
+                    className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${playMethod === 'hotstar' ? 'bg-[#00D1FF]/10 text-[#00D1FF]' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                  >
+                    <div className="text-left">
+                      <p>Hotstar Premium Bypass Mirror</p>
+                      <p className="text-[8px] font-normal text-white/40">Full HD Direct Decoded Feed</p>
+                    </div>
+                    {playMethod === 'hotstar' && <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF]"></span>}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setPlayMethod('archive');
+                      setShowServerMenu(false);
+                    }}
+                    className={`w-full text-left px-2 py-1.5 text-[10px] font-semibold rounded-lg flex items-center justify-between ${playMethod === 'archive' ? 'bg-[#F0A500]/10 text-[#F0A500]' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+                  >
+                    <div className="text-left">
+                      <p>Internet Archive Database</p>
+                      <p className="text-[8px] font-normal text-white/40">Live Public Domain API Search</p>
+                    </div>
+                    {playMethod === 'archive' && <span className="w-1.5 h-1.5 rounded-full bg-[#F0A500]"></span>}
+                  </button>
                 </div>
               )}
             </div>

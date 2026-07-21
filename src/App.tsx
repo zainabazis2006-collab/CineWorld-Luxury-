@@ -2075,12 +2075,25 @@ export default function App() {
                 transition={{ duration: 1.0 }}
                 className="absolute inset-0 w-full h-full bg-black overflow-hidden pointer-events-none"
               >
-                <iframe
-                  src={`https://www.youtube.com/embed/${TRAILER_IDS[currentMovie.id] || currentMovie.trailerYoutubeId || 'Way9Dexny3w'}?autoplay=1&mute=1&controls=0&loop=1&playlist=${TRAILER_IDS[currentMovie.id] || currentMovie.trailerYoutubeId || 'Way9Dexny3w'}&playsinline=1&rel=0&showinfo=0&modestbranding=1&iv_load_policy=3&enablejsapi=1`}
-                  title={`${currentMovie.title} Trailer`}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[125%] h-[125%] pointer-events-none object-cover"
-                  style={{ border: 'none' }}
-                  allow="autoplay; encrypted-media"
+                <video
+                  src={(() => {
+                    const previews = [
+                      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                      "https://vjs.zencdn.net/v/oceans.mp4"
+                    ];
+                    let hash = 0;
+                    for (let i = 0; i < currentMovie.id.length; i++) {
+                      hash = currentMovie.id.charCodeAt(i) + ((hash << 5) - hash);
+                    }
+                    return previews[Math.abs(hash) % previews.length];
+                  })()}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover pointer-events-none"
                 />
               </motion.div>
             ) : (
@@ -3192,85 +3205,70 @@ export default function App() {
         
         // Resolve Copyright-Safe Full-Length free movie/episode ID with rotating backup options
         const getCopyrightSafeFullMovie = (movie: Movie, index: number = 0) => {
-          if (movie.isPublicDomain && movie.fullMovieYoutubeId) {
-            const options = [
-              {
-                id: movie.fullMovieYoutubeId,
-                title: `${movie.title} (Original Full Movie)`,
-                desc: "Authentic, Uncut Public Domain Cinematic Masterpiece",
-                isAlternative: false,
-                altMovieName: movie.title
-              }
-            ];
-            // Add classic backups for extra robustness
-            const lowerGenres = movie.genres.map(g => g.toLowerCase());
-            if (lowerGenres.includes('horror')) {
-              options.push(
-                {
-                  id: 'zZ9W0M-gBwU',
-                  title: 'House on Haunted Hill (1959)',
-                  desc: 'Classic backup gothic horror movie',
-                  isAlternative: true,
-                  altMovieName: 'House on Haunted Hill'
-                },
-                {
-                  id: 'h8s8P9LCHV8',
-                  title: 'Night of the Living Dead (1968)',
-                  desc: 'Classic backup zombie horror movie',
-                  isAlternative: true,
-                  altMovieName: 'Night of the Living Dead'
-                }
-              );
-            } else {
-              options.push(
-                {
-                  id: 'W3i60M-k2wY',
-                  title: 'Charade (1963)',
-                  desc: 'Classic backup romantic thriller/comedy movie',
-                  isAlternative: true,
-                  altMovieName: 'Charade'
-                },
-                {
-                  id: '9eB3N6e0Sdg',
-                  title: 'His Girl Friday (1940)',
-                  desc: 'Classic backup fast screwball comedy movie',
-                  isAlternative: true,
-                  altMovieName: 'His Girl Friday'
-                }
-              );
-            }
-            return options[index % options.length] || options[0];
-          }
-
-          // Modern movies/series mapped to gorgeous, 100% legal, free-to-stream full movie equivalents
           const lowerGenres = movie.genres.map(g => g.toLowerCase());
           const streams: { id: string; title: string; desc: string; isAlternative: boolean; altMovieName: string; }[] = [];
+
+          if (movie.isPublicDomain) {
+            if (movie.id === 'charade' || movie.fullMovieYoutubeId === 'W3i60M-k2wY') {
+              streams.push({
+                id: 'https://archive.org/download/charade1963/charade1963_512kb.mp4',
+                title: `${movie.title} (Original Full Movie)`,
+                desc: 'Authentic, Uncut Public Domain Cinematic Masterpiece on Archive.org',
+                isAlternative: false,
+                altMovieName: movie.title
+              });
+            } else if (movie.id === 'night-of-the-living-dead' || movie.fullMovieYoutubeId === 'h8s8P9LCHV8') {
+              streams.push({
+                id: 'https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4',
+                title: `${movie.title} (Original Full Movie)`,
+                desc: 'Authentic, Uncut Public Domain Cinematic Masterpiece on Archive.org',
+                isAlternative: false,
+                altMovieName: movie.title
+              });
+            } else if (movie.id === 'the-general-1926' || movie.fullMovieYoutubeId === 'iH7H8wYp_D8') {
+              streams.push({
+                id: 'https://archive.org/download/The_General_Buster_Keaton/The_General_512kb.mp4',
+                title: `${movie.title} (Original Full Movie)`,
+                desc: 'Authentic, Uncut Public Domain Cinematic Masterpiece on Archive.org',
+                isAlternative: false,
+                altMovieName: movie.title
+              });
+            } else if (movie.id === 'his-girl-friday-1940' || movie.fullMovieYoutubeId === '9eB3N6e0Sdg') {
+              streams.push({
+                id: 'https://archive.org/download/HisGirlFriday1940_201804/His%20Girl%20Friday%20%281940%29.mp4',
+                title: `${movie.title} (Original Full Movie)`,
+                desc: 'Authentic, Uncut Public Domain Cinematic Masterpiece on Archive.org',
+                isAlternative: false,
+                altMovieName: movie.title
+              });
+            }
+          }
 
           if (lowerGenres.includes('horror') || lowerGenres.includes('thriller') || lowerGenres.includes('mystery')) {
             streams.push(
               {
-                id: 'h8s8P9LCHV8',
+                id: 'https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4',
                 title: 'Night of the Living Dead (1968)',
                 desc: 'Matched as a 100% legal, copyright-safe, free full-length horror masterpiece.',
                 isAlternative: true,
                 altMovieName: 'Night of the Living Dead'
               },
               {
-                id: 'zZ9W0M-gBwU',
+                id: 'https://archive.org/download/HouseOnHauntedHill_772/HouseOnHauntedHill.mp4',
                 title: 'House on Haunted Hill (1959)',
                 desc: 'Matched as a 100% legal, copyright-safe, free full-length gothic horror masterpiece.',
                 isAlternative: true,
                 altMovieName: 'House on Haunted Hill'
               },
               {
-                id: 'Y70vsh_N_P4',
+                id: 'https://archive.org/download/TheCabinetOfDr.Caligari/TheCabinetOfDr.Caligari_512kb.mp4',
                 title: 'The Cabinet of Dr. Caligari (1920)',
                 desc: 'Matched as a 100% legal, copyright-safe, silent German Expressionist horror classic.',
                 isAlternative: true,
                 altMovieName: 'The Cabinet of Dr. Caligari'
               },
               {
-                id: 'fS_j7w2C_9k',
+                id: 'https://archive.org/download/Nosferatu_1922_706/Nosferatu_1922_706_512kb.mp4',
                 title: 'Nosferatu (1922)',
                 desc: 'Matched as a 100% legal, copyright-safe, silent vampire horror masterpiece.',
                 isAlternative: true,
@@ -3280,28 +3278,28 @@ export default function App() {
           } else if (lowerGenres.includes('romance') || lowerGenres.includes('korean') || lowerGenres.includes('drama') || movie.id === 'the-crown') {
             streams.push(
               {
-                id: 'W3i60M-k2wY',
+                id: 'https://archive.org/download/charade1963/charade1963_512kb.mp4',
                 title: 'Charade (1963)',
                 desc: 'Matched as a 100% legal, copyright-safe, free full-length romantic mystery comedy masterpiece.',
                 isAlternative: true,
                 altMovieName: 'Charade'
               },
               {
-                id: 'aI8P62qGj-A',
+                id: 'https://archive.org/download/royal_wedding/royal_wedding_512kb.mp4',
                 title: 'Royal Wedding (1951)',
                 desc: 'Matched as a 100% legal, copyright-safe, free full-length musical romance classic.',
                 isAlternative: true,
                 altMovieName: 'Royal Wedding'
               },
               {
-                id: 'S7pP42X_6uY',
+                id: 'https://archive.org/download/TheLastTimeISawParis1954_201802/The%20Last%20Time%20I%20Saw%20Paris%20%281954%29.mp4',
                 title: 'The Last Time I Saw Paris (1954)',
                 desc: 'Matched as a 100% legal, copyright-safe, romantic drama starring Elizabeth Taylor.',
                 isAlternative: true,
                 altMovieName: 'The Last Time I Saw Paris'
               },
               {
-                id: 'W47O7L8L_h0',
+                id: 'https://archive.org/download/LoveAffair1939_201708/Love%20Affair%20%281939%29.mp4',
                 title: 'Love Affair (1939)',
                 desc: 'Matched as a 100% legal, copyright-safe, classic romance tragedy film.',
                 isAlternative: true,
@@ -3311,21 +3309,21 @@ export default function App() {
           } else if (lowerGenres.includes('comedy') || lowerGenres.includes('crime') || movie.id === 'fleabag' || movie.id === 'the-bear' || movie.id === 'succession') {
             streams.push(
               {
-                id: '9eB3N6e0Sdg',
+                id: 'https://archive.org/download/HisGirlFriday1940_201804/His%20Girl%20Friday%20%281940%29.mp4',
                 title: 'His Girl Friday (1940)',
                 desc: 'Matched as a 100% legal, copyright-safe, fast screwball romance comedy classic.',
                 isAlternative: true,
                 altMovieName: 'His Girl Friday'
               },
               {
-                id: 'k-Fp_8AasgU',
+                id: 'https://archive.org/download/MeetJohnDoe1941_201708/Meet%20John%20Doe%20%281941%29.mp4',
                 title: 'Meet John Doe (1941)',
                 desc: 'Matched as a 100% legal, copyright-safe, Frank Capra comedy-drama classic.',
                 isAlternative: true,
                 altMovieName: 'Meet John Doe'
               },
               {
-                id: 'WJ_rGzL8pGg',
+                id: 'https://archive.org/download/SteamboatBillJr.1928/Steamboat%20Bill%20Jr.%20%281928%29.mp4',
                 title: 'Steamboat Bill Jr. (1928)',
                 desc: 'Matched as a 100% legal, copyright-safe, physical comedy masterpiece by Buster Keaton.',
                 isAlternative: true,
@@ -3336,28 +3334,28 @@ export default function App() {
             // Default Sci-Fi / Action / Adventure / Fantasy
             streams.push(
               {
-                id: 'R6MlUcmg5sg',
+                id: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
                 title: 'Tears of Steel (2012)',
                 desc: 'Matched as a 100% legal, copyright-safe, open-source science fiction cinematic CGI showcase.',
                 isAlternative: true,
                 altMovieName: 'Tears of Steel'
               },
               {
-                id: 'eRsGyyHalQA',
+                id: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
                 title: 'Sintel (2010)',
                 desc: 'Matched as a 100% legal, copyright-safe, open-source fantasy drama animated masterpiece.',
                 isAlternative: true,
                 altMovieName: 'Sintel'
               },
               {
-                id: 'iH7H8wYp_D8',
+                id: 'https://archive.org/download/The_General_Buster_Keaton/The_General_512kb.mp4',
                 title: 'The General (1926)',
                 desc: 'Matched as a 100% legal, copyright-safe, silent action-adventure train chase masterpiece.',
                 isAlternative: true,
                 altMovieName: 'The General'
               },
               {
-                id: 'g_wE_bQe-xM',
+                id: 'https://archive.org/download/Metropolis_1927_1080p/Metropolis_1927_1080p_512kb.mp4',
                 title: 'Metropolis (1927)',
                 desc: 'Matched as a 100% legal, copyright-safe, monumental silent sci-fi dystopia classic.',
                 isAlternative: true,
