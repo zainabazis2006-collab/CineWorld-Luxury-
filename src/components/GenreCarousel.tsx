@@ -135,10 +135,10 @@ export default function GenreCarousel({
                       : 'border-white/10 hover:border-[#00D1FF]/40'
                   }`}
                 >
-                  <div className="absolute top-0 left-0 h-1 bg-[#00D1FF] transition-all" style={{ width: isSelected ? '100%' : '20%' }} />
+                  <div className="absolute top-0 left-0 h-1 bg-[#00D1FF] transition-all duration-300" style={{ width: isSelected ? '100%' : '0%' }} />
 
                   {/* Image Frame */}
-                  <div className="h-44 sm:h-48 overflow-hidden relative">
+                  <div className="h-48 sm:h-52 overflow-hidden relative">
                     {/* Floating Info Button */}
                     {onShowInfo && (
                       <button
@@ -147,7 +147,7 @@ export default function GenreCarousel({
                           e.stopPropagation();
                           onShowInfo(movie);
                         }}
-                        className="absolute top-3 left-3 z-30 p-1.5 rounded-full bg-black/85 hover:bg-[#00D1FF] border border-white/15 hover:border-[#00D1FF] text-white/80 hover:text-black hover:scale-110 shadow-[0_2px_8px_rgba(0,0,0,0.5)] transition-all cursor-pointer flex items-center justify-center"
+                        className="absolute top-3 left-3 z-30 p-2 rounded-full bg-black/80 hover:bg-[#00D1FF] border border-white/20 hover:border-[#00D1FF] text-white/90 hover:text-black hover:scale-110 shadow-lg transition-all cursor-pointer flex items-center justify-center backdrop-blur-md"
                         title="View Cast & Director"
                       >
                         <Info className="w-3.5 h-3.5" />
@@ -158,27 +158,30 @@ export default function GenreCarousel({
                       src={movie.posterUrl} 
                       alt={movie.title}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-[#0b0b12]/30 to-transparent" />
 
                     {/* Hover Play Button Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50 backdrop-blur-[1px]">
-                      <div className="bg-[#00D1FF] text-black w-10 h-10 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(0,209,255,0.6)] transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                        <Play className="w-4 h-4 fill-current ml-0.5" />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+                      <div className="bg-[#00D1FF] text-black w-12 h-12 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,209,255,0.7)] transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                        <Play className="w-5 h-5 fill-current ml-0.5" />
                       </div>
                     </div>
 
-                    {/* Top Floating Match Badge */}
-                    <div className="absolute top-3 right-3 flex gap-1.5">
-                      <span className="bg-black/85 text-[#00D1FF] text-[9px] font-mono font-bold px-2 py-0.5 rounded border border-[#00D1FF]/30">
+                    {/* Top Floating Badges */}
+                    <div className="absolute top-3 right-3 flex flex-col items-end gap-1">
+                      <span className="bg-black/80 backdrop-blur-md text-[#00D1FF] text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-full border border-[#00D1FF]/40 shadow-sm">
                         {matchPercent}% Match
+                      </span>
+                      <span className="bg-emerald-500/20 text-emerald-400 text-[8px] font-mono font-bold px-2 py-0.5 rounded-full border border-emerald-500/30 backdrop-blur-md">
+                        FREE STREAM
                       </span>
                     </div>
 
                     {/* Genres tag */}
                     <div className="absolute bottom-3 left-4">
-                      <p className="text-[9px] font-bold text-[#00D1FF] uppercase tracking-widest">
+                      <p className="text-[9px] font-bold text-[#00D1FF] uppercase tracking-widest bg-black/60 px-2 py-0.5 rounded backdrop-blur-md border border-white/10">
                         {movie.genres.slice(0, 2).join(' / ')}
                       </p>
                     </div>
@@ -186,29 +189,29 @@ export default function GenreCarousel({
 
                   {/* Movie Info */}
                   <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
-                    <div className="space-y-1">
+                    <div className="space-y-1.5">
                       <div className="flex items-center justify-between gap-2">
-                        <h5 className="text-sm sm:text-base font-black italic uppercase text-white truncate max-w-[75%] group-hover:text-[#00D1FF] transition-colors">
+                        <h5 className="text-sm sm:text-base font-black italic uppercase text-white truncate max-w-[78%] group-hover:text-[#00D1FF] transition-colors">
                           {movie.title}
                         </h5>
-                        <span className="text-xs text-white/40 font-mono shrink-0">{movie.year}</span>
+                        <span className="text-xs text-white/50 font-mono font-bold shrink-0">{movie.year}</span>
                       </div>
-                      <p className="text-xs text-white/50 line-clamp-2 leading-relaxed h-8">
+                      <p className="text-xs text-white/60 line-clamp-2 leading-relaxed h-8">
                         {movie.synopsis}
                       </p>
                     </div>
 
                     <div className="space-y-3">
-                      <div className="pt-2.5 border-t border-white/5 flex flex-col gap-1 text-[9px] font-mono text-white/40 uppercase">
+                      <div className="pt-2.5 border-t border-white/10 flex flex-col gap-1 text-[9px] font-mono text-white/40 uppercase">
                         <div className="flex items-center justify-between">
                           <span className="truncate max-w-[150px]">
-                            By: <strong className="text-white/60">{movie.directorOrCreator}</strong>
+                            By: <strong className="text-white/70">{movie.directorOrCreator}</strong>
                           </span>
-                          <span>{movie.runtimeOrSeasons}</span>
+                          <span className="text-white/60">{movie.runtimeOrSeasons}</span>
                         </div>
                         {exploreByTalent && (
                           <div className="text-[8.5px] text-[#00D1FF] truncate normal-case font-medium">
-                            Cast: <span className="text-white/70">{movie.cast.join(', ')}</span>
+                            Cast: <span className="text-white/80">{movie.cast.join(', ')}</span>
                           </div>
                         )}
                       </div>
@@ -219,10 +222,10 @@ export default function GenreCarousel({
                           handleMovieSelect(movie.id);
                           document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                         }}
-                        className="w-full py-2 bg-gradient-to-r from-[#00D1FF]/10 to-[#00D1FF]/20 hover:from-[#00D1FF] hover:to-[#00D1FF] border border-[#00D1FF]/30 hover:border-[#00D1FF] text-[#00D1FF] hover:text-black font-mono text-[9px] font-black uppercase tracking-widest rounded-lg flex items-center justify-center gap-1.5 transition-all duration-300"
+                        className="w-full py-2.5 bg-gradient-to-r from-[#00D1FF]/15 to-[#00D1FF]/25 hover:from-[#00D1FF] hover:to-[#00D1FF] border border-[#00D1FF]/40 hover:border-[#00D1FF] text-[#00D1FF] hover:text-black font-mono text-[9px] font-black uppercase tracking-widest rounded-full flex items-center justify-center gap-1.5 transition-all duration-300 shadow-sm"
                       >
-                        <Play className="w-2.5 h-2.5 fill-current" />
-                        <span>{movie.type === 'Movie' ? (movie.isPublicDomain ? 'Play Free' : 'Play Movie') : 'Play Episode'}</span>
+                        <Play className="w-3 h-3 fill-current" />
+                        <span>{movie.type === 'Movie' ? 'Stream Free Movie' : 'Stream Free Series'}</span>
                       </button>
                     </div>
                   </div>

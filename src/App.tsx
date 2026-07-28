@@ -49,6 +49,7 @@ import CineWorldLogo from './components/CineWorldLogo';
 import CinematicAuth from './components/CinematicAuth';
 import GenreCarousel from './components/GenreCarousel';
 import BlurUpImage from './components/BlurUpImage';
+import InteractiveGenreVault from './components/InteractiveGenreVault';
 
 interface CinematicStill {
   url: string;
@@ -884,6 +885,11 @@ export default function App() {
   const [activeType, setActiveType] = useState<string>('All'); // 'All' | 'Movie' | 'Series'
   const [isHeaderSettingsOpen, setIsHeaderSettingsOpen] = useState<boolean>(false);
 
+  // Interactive Dashboard Layout & View Mode States
+  const [activeLayoutTab, setActiveLayoutTab] = useState<'all' | 'genres' | 'catalog' | 'collections' | 'trending' | 'community'>('all');
+  const [activeCollectionTab, setActiveCollectionTab] = useState<'all' | 'korean' | 'horror' | 'comedy' | 'action' | 'upcoming'>('all');
+  const [catalogDisplayMode, setCatalogDisplayMode] = useState<'grid' | 'carousel'>('grid');
+
   // Dynamic images state resolved from our custom proxy API
   const [resolvedImages, setResolvedImages] = useState<Record<string, { posterUrl: string; backdropUrl: string }>>(() => {
     try {
@@ -1556,20 +1562,20 @@ export default function App() {
       <div className="absolute top-[50%] left-[30%] w-[400px] h-[400px] rounded-full bg-blue-900/10 blur-[130px] pointer-events-none z-0"></div>
 
       {/* Luxury Decorative Top Banner / Status Indicator */}
-      <div className="relative z-30 bg-black/40 border-b border-white/5 text-[10px] md:text-[11px] uppercase tracking-[0.15em] md:tracking-[0.25em] text-white/40 px-4 md:px-6 py-2.5 flex flex-col sm:flex-row gap-2 justify-between items-center text-center sm:text-left">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span>
-            CineWorld Authority Server: Connected
+      <div className="relative z-30 bg-[#07070d]/80 border-b border-white/10 backdrop-blur-md text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-white/50 px-4 md:px-8 py-2.5 flex flex-col sm:flex-row gap-2 justify-between items-center">
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-2 bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/20 px-2.5 py-0.5 rounded-full font-mono text-[9px] font-bold">
+            <span className="w-2 h-2 rounded-full bg-[#00D1FF] animate-pulse"></span>
+            LIVE STREAM SERVER ONLINE
           </span>
           <span className="hidden md:inline text-white/20">|</span>
-          <span className="hidden md:inline">Precision Metadata Feed v2.4</span>
+          <span className="hidden md:inline text-white/40 font-mono">100% Free • Unlimited HD Movies & Series</span>
         </div>
-        <div className="flex items-center gap-4 flex-wrap sm:flex-nowrap">
+        <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
           <CineWorldLogo showText={false} size="sm" onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); }} />
           
           {/* User Profile Avatar badge & Email */}
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+          <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-full hover:border-[#00D1FF]/40 transition-all cursor-pointer">
             <span className="text-xs sm:text-sm">
               {userState.selectedAvatar === 'director' ? '🎬' :
                userState.selectedAvatar === 'critic' ? '🧐' :
@@ -1578,18 +1584,18 @@ export default function App() {
                userState.selectedAvatar === 'romance' ? '💖' :
                userState.selectedAvatar === 'action' ? '💥' : '👤'}
             </span>
-            <span className="text-white/80 font-semibold text-xs capitalize hidden sm:inline truncate max-w-[100px]">
+            <span className="text-white/90 font-bold text-xs capitalize hidden sm:inline truncate max-w-[100px]">
               {userState.userName || 'Cinephile'}
             </span>
-            <span className="text-white/40 font-mono text-[10px] hidden md:inline">
-              ({userState.email || 'zainab.azis2006@gmail.com'})
+            <span className="text-[#00D1FF] font-mono text-[9px] hidden md:inline">
+              [PRO MEMBER]
             </span>
           </div>
 
           {/* Logout Action */}
           <button 
             onClick={() => setUserState(prev => ({ ...prev, isLoggedIn: false }))}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#d03050]/10 hover:bg-[#d03050]/25 border border-[#d03050]/25 text-[#ff4c6c] hover:text-[#ff6a85] text-xs font-bold uppercase tracking-wider transition-all cursor-pointer active:scale-95 shrink-0"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer active:scale-95 shrink-0"
             title="Exit Screening Session"
           >
             <span>Exit Theater</span>
@@ -1598,67 +1604,87 @@ export default function App() {
       </div>
 
       {/* Top Header Navigation bar */}
-      <header className="sticky top-0 z-40 border-b border-white/5 bg-black/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3 md:gap-4">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#06060c]/85 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3 md:gap-6">
           <div className="flex items-center gap-4 lg:gap-8 flex-shrink-0">
             <CineWorldLogo 
               size="md" 
               onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); setActiveType('All'); }} 
             />
             
-            {/* Quick-Filter Navigation (Movies & Series) */}
-            <nav className="hidden lg:flex items-center gap-6 text-xs font-semibold uppercase tracking-widest text-white/60">
+            {/* Quick-Filter Navigation Tabs */}
+            <nav className="hidden lg:flex items-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-full">
               <button 
                 onClick={() => { 
-                  setActiveType(activeType === 'Movie' ? 'All' : 'Movie'); 
+                  setActiveType('All'); 
                   setActiveGenre('All'); 
                   setActivePlatform('All'); 
                 }} 
-                className={`transition-colors duration-200 hover:text-white pb-1 border-b-2 ${activeType === 'Movie' ? 'text-[#00D1FF] border-[#00D1FF]' : 'border-transparent'}`}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${activeType === 'All' && activePlatform === 'All' ? 'bg-[#00D1FF] text-black shadow-[0_0_12px_rgba(0,209,255,0.4)]' : 'text-white/70 hover:text-white hover:bg-white/10'}`}
+              >
+                All Content
+              </button>
+              <button 
+                onClick={() => { 
+                  setActiveType('Movie'); 
+                  setActiveGenre('All'); 
+                  setActivePlatform('All'); 
+                }} 
+                className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${activeType === 'Movie' ? 'bg-[#00D1FF] text-black shadow-[0_0_12px_rgba(0,209,255,0.4)]' : 'text-white/70 hover:text-white hover:bg-white/10'}`}
               >
                 Movies
               </button>
               <button 
                 onClick={() => { 
-                  setActiveType(activeType === 'Series' ? 'All' : 'Series'); 
+                  setActiveType('Series'); 
                   setActiveGenre('All'); 
                   setActivePlatform('All'); 
                 }} 
-                className={`transition-colors duration-200 hover:text-white pb-1 border-b-2 ${activeType === 'Series' ? 'text-[#00D1FF] border-[#00D1FF]' : 'border-transparent'}`}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${activeType === 'Series' ? 'bg-[#00D1FF] text-black shadow-[0_0_12px_rgba(0,209,255,0.4)]' : 'text-white/70 hover:text-white hover:bg-white/10'}`}
               >
                 Series
+              </button>
+              <button 
+                onClick={() => { 
+                  setActivePlatform('Free Cinema'); 
+                  setActiveGenre('All'); 
+                }} 
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-1 ${activePlatform === 'Free Cinema' ? 'bg-amber-400 text-black shadow-[0_0_12px_rgba(251,191,36,0.4)]' : 'text-amber-400/90 hover:text-amber-300 hover:bg-white/10'}`}
+              >
+                <span>🍿</span>
+                <span>Free Full Movies</span>
               </button>
             </nav>
           </div>
 
-          {/* Premium Header Search bar (Increased length) */}
-          <div className="flex-grow max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-1 sm:mx-4 relative group z-30">
+          {/* Premium Header Search bar */}
+          <div className="flex-grow max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-1 sm:mx-2 relative group z-30">
             <div className="relative">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={exploreByTalent ? t('talentSearchPlaceholder') : t('searchPlaceholder')}
-                className="w-full bg-white/5 border border-white/10 hover:border-white/20 focus:border-[#00D1FF] focus:bg-black/80 rounded-xl px-3 sm:px-4 py-2 pl-8 sm:pl-10 pr-12 sm:pr-20 text-[11px] sm:text-xs text-white placeholder-white/30 outline-none transition-all duration-300"
+                className="w-full bg-white/5 border border-white/10 hover:border-white/25 focus:border-[#00D1FF] focus:bg-black/90 rounded-full px-4 py-2.5 pl-10 pr-20 text-xs text-white placeholder-white/40 outline-none transition-all duration-300 shadow-inner"
               />
-              <Compass className="absolute left-2.5 sm:left-3.5 top-2.5 w-3 h-3 sm:w-3.5 sm:h-3.5 text-white/30 group-focus-within:text-[#00D1FF] transition-colors" />
+              <Compass className="absolute left-3.5 top-3 w-4 h-4 text-white/40 group-focus-within:text-[#00D1FF] transition-colors" />
               
-              <div className="absolute right-1 sm:right-2 top-1.5 flex items-center gap-1.5">
+              <div className="absolute right-2 top-2 flex items-center gap-1.5">
                 {isSearchLoading && (
                   <span className="w-3.5 h-3.5 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="TMDB API searching..." />
                 )}
                 {searchQuery && !isSearchLoading && (
                   <button 
                     onClick={() => setSearchQuery('')}
-                    className="text-white/40 hover:text-white p-0.5"
+                    className="text-white/40 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
                     title="Clear search"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 )}
                 <button
                   onClick={() => setExploreByTalent(!exploreByTalent)}
-                  className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider transition-all duration-300 ${
+                  className={`px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider transition-all duration-300 ${
                     exploreByTalent 
                       ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black shadow-[0_0_12px_rgba(0,209,255,0.4)]' 
                       : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
@@ -2164,39 +2190,31 @@ export default function App() {
             <div className="max-w-3xl space-y-6 text-left">
               
               {/* Metadata Tags */}
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="px-3 py-1 bg-[#00D1FF]/20 text-[#00D1FF] text-[10px] font-black uppercase tracking-widest rounded border border-[#00D1FF]/30">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <span className="px-3 py-1 bg-[#00D1FF] text-black text-[10px] font-black uppercase tracking-widest rounded-full shadow-[0_0_15px_rgba(0,209,255,0.4)]">
                   {currentMovie.type}
                 </span>
-                <span className="text-white/40 text-xs font-mono">
+                <span className="px-2.5 py-1 bg-white/10 text-white text-[10px] font-mono font-bold rounded-full border border-white/10 flex items-center gap-1">
+                  <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
                   IMDb {currentMovie.rating}
                 </span>
-                <span className="text-white/40 text-xs font-mono">•</span>
-                <span className="text-white/40 text-xs font-mono">
+                <span className="px-2.5 py-1 bg-white/5 text-white/70 text-[10px] font-mono rounded-full border border-white/10">
                   {currentMovie.year}
                 </span>
-                <span className="text-white/40 text-xs font-mono">•</span>
-                <span className="text-white/40 text-xs font-mono">
+                <span className="px-2.5 py-1 bg-white/5 text-white/70 text-[10px] font-mono rounded-full border border-white/10">
                   {currentMovie.runtimeOrSeasons}
                 </span>
-                
-                {/* Regional Streaming Info */}
-                {currentMovie.streamingLinks.some(link => link.availableRegions.includes(userState.region)) ? (
-                  <span className="ml-auto px-2 py-0.5 bg-green-500/10 border border-green-500/30 text-green-400 text-[9px] font-mono rounded tracking-wider uppercase">
-                    Available in Your Geolocation
-                  </span>
-                ) : (
-                  <span className="ml-auto px-2 py-0.5 bg-red-500/10 border border-red-500/20 text-red-400 text-[9px] font-mono rounded tracking-wider uppercase">
-                    {t('noStreamRegion')}
-                  </span>
-                )}
+                <span className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold rounded-full uppercase tracking-wider flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  100% Free Stream
+                </span>
               </div>
 
               {/* Title display */}
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black italic uppercase leading-[0.85] tracking-tighter">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black italic uppercase leading-[0.88] tracking-tight drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
                 {currentMovie.title.split(': ')[0]} <br />
                 {currentMovie.title.split(': ')[1] && (
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-white/30 font-black">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D1FF] via-white to-white/60 font-black">
                     {currentMovie.title.split(': ')[1]}
                   </span>
                 )}
@@ -2208,7 +2226,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="text-sm md:text-base text-white/70 max-w-xl leading-relaxed font-sans"
+                className="text-sm md:text-base text-white/80 max-w-2xl leading-relaxed font-sans backdrop-blur-sm bg-black/20 p-3 rounded-xl border border-white/5"
               >
                 {currentMovie.synopsis}
               </motion.p>
@@ -2219,7 +2237,7 @@ export default function App() {
                   <span 
                     key={i} 
                     onClick={() => handleGenreSelect(g)}
-                    className="text-[10px] bg-white/5 hover:bg-[#00D1FF]/20 border border-white/10 hover:border-[#00D1FF]/30 text-white/80 hover:text-[#00D1FF] cursor-pointer font-bold uppercase px-2.5 py-1 rounded transition-colors"
+                    className="text-[10px] bg-white/5 hover:bg-[#00D1FF]/20 border border-white/10 hover:border-[#00D1FF]/40 text-white/80 hover:text-[#00D1FF] cursor-pointer font-bold uppercase px-3 py-1 rounded-full transition-all duration-200"
                   >
                     {g}
                   </span>
@@ -2227,15 +2245,15 @@ export default function App() {
               </div>
 
               {/* Interactive Rating Metric System */}
-              <div className="bg-white/5 border border-white/10 rounded-xl p-4 max-w-xl backdrop-blur-sm space-y-2">
+              <div className="bg-black/40 border border-white/10 rounded-2xl p-4 max-w-xl backdrop-blur-md space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-wider text-white/40 font-bold">{t('personalizedMatrix')}</span>
-                  <span className="text-[11px] font-mono text-[#00D1FF]">
-                    {userState.ratings[currentMovie.id] ? `Your Star Grade: ${userState.ratings[currentMovie.id]}/5` : 'Rate to synchronize recommendations'}
+                  <span className="text-xs uppercase tracking-wider text-white/50 font-bold">{t('personalizedMatrix')}</span>
+                  <span className="text-[11px] font-mono text-[#00D1FF] font-bold">
+                    {userState.ratings[currentMovie.id] ? `Your Star Grade: ${userState.ratings[currentMovie.id]}/5` : 'Rate title'}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
                         key={star}
@@ -2249,7 +2267,7 @@ export default function App() {
                         <Star 
                           className={`w-6 h-6 transition-all duration-200 ${
                             star <= (userState.ratings[currentMovie.id] || 0) 
-                              ? 'text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.5)]' 
+                              ? 'text-yellow-400 fill-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.6)]' 
                               : 'text-white/20 group-hover:text-yellow-400/50'
                           }`} 
                         />
@@ -2260,9 +2278,8 @@ export default function App() {
               </div>
 
               {/* Action Buttons & Streaming Integration Hub */}
-              <div className="space-y-4">
-                <div className="text-xs uppercase tracking-widest text-white/40 font-bold">{t('streamingHub')}</div>
-                <div className="flex flex-wrap gap-4">
+              <div className="space-y-3 pt-2">
+                <div className="flex flex-wrap gap-3.5">
                   
                   {/* Play Now Button */}
                   <button
@@ -2271,61 +2288,29 @@ export default function App() {
                       setBackupIndex(0);
                       setTheaterMovieId(currentMovie.id);
                     }}
-                    className="px-5 py-3 rounded border font-bold uppercase text-xs tracking-wider transition-all duration-300 flex items-center gap-2.5 bg-emerald-500/20 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500 hover:text-black hover:border-emerald-500 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+                    className="px-6 py-3.5 rounded-full font-black uppercase text-xs tracking-wider transition-all duration-300 flex items-center gap-2.5 bg-[#00D1FF] text-black hover:bg-white hover:scale-105 shadow-[0_0_25px_rgba(0,209,255,0.5)] cursor-pointer"
                   >
                     <Play className="w-4 h-4 fill-current animate-pulse" />
-                    {currentMovie.type === 'Series' ? '🍿 Play Season 1 Ep 1' : (currentMovie.isPublicDomain ? '🍿 Play Free Movie' : '🎬 Play Now (Free Full Match)')}
+                    <span>{currentMovie.type === 'Series' ? '🍿 Stream Season 1 Ep 1' : '🍿 Stream Free Full Movie'}</span>
                   </button>
-
-                  {/* Launch Links */}
-                  {currentMovie.streamingLinks
-                    .filter(link => link.platform !== 'Free Cinema')
-                    .map((link, idx) => {
-                      const isAvailable = link.availableRegions.includes(userState.region);
-                      return (
-                        <a
-                          key={idx}
-                          href={isAvailable ? link.url : '#'}
-                          target={isAvailable ? "_blank" : undefined}
-                          rel="noopener noreferrer"
-                          className={`px-5 py-3 rounded border font-bold uppercase text-xs tracking-wider transition-all duration-300 flex items-center gap-2.5 ${
-                            isAvailable 
-                              ? 'bg-[#00D1FF] text-black border-[#00D1FF] shadow-[0_0_15px_rgba(0,209,255,0.4)] hover:bg-white hover:border-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.6)]'
-                              : 'bg-white/5 text-white/30 border-white/5 cursor-not-allowed'
-                          }`}
-                          onClick={(e) => {
-                            if (!isAvailable) {
-                              e.preventDefault();
-                              alert("This streaming link is restricted for your selected Geolocation Telemetry region.");
-                            }
-                          }}
-                        >
-                          <Play className="w-4 h-4 fill-current" />
-                          {`${t('streamBadgeLabel')} on ${link.platform}`}
-                          <span className="text-[9px] px-1 py-0.5 rounded bg-black/20">
-                            {link.priceTier || 'Included'}
-                          </span>
-                        </a>
-                      );
-                    })}
-
-                  <a 
-                    href="#critic-hub"
-                    className="px-5 py-3 border border-white/10 text-white hover:border-[#00D1FF] hover:text-[#00D1FF] hover:bg-[#00D1FF]/5 transition-all duration-300 text-xs font-bold uppercase tracking-wider rounded flex items-center gap-2"
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    Read Critic Reports
-                  </a>
 
                   {/* Cast & Crew Info Button */}
                   <button
                     type="button"
                     onClick={() => setInfoMovie(currentMovie)}
-                    className="px-5 py-3 border border-white/10 text-white hover:border-[#00D1FF] hover:text-[#00D1FF] hover:bg-[#00D1FF]/5 transition-all duration-300 text-xs font-bold uppercase tracking-wider rounded flex items-center gap-2 cursor-pointer"
+                    className="px-5 py-3.5 border border-white/20 bg-white/5 hover:bg-white/10 text-white hover:border-[#00D1FF] hover:text-[#00D1FF] transition-all duration-300 text-xs font-bold uppercase tracking-wider rounded-full flex items-center gap-2 cursor-pointer backdrop-blur-md"
                   >
                     <Info className="w-4 h-4 text-[#00D1FF]" />
                     Cast & Crew Info
                   </button>
+
+                  <a 
+                    href="#critic-hub"
+                    className="px-5 py-3.5 border border-white/10 bg-black/40 text-white/80 hover:text-white hover:border-white/30 transition-all duration-300 text-xs font-bold uppercase tracking-wider rounded-full flex items-center gap-2"
+                  >
+                    <MessageSquare className="w-4 h-4 text-white/50" />
+                    Critics & Reviews
+                  </a>
                 </div>
               </div>
 
@@ -2489,471 +2474,808 @@ export default function App() {
         </section>
       )}
 
-      {/* SEARCH AND BROWSE CONTROL DECK */}
-      <section className="relative z-20 max-w-7xl mx-auto px-6 py-10">
-        
-        {/* Row 1: Search and voice microphone */}
-        <div className="flex flex-col md:flex-row gap-6 items-center justify-between bg-black/30 border border-white/5 rounded-2xl p-6 backdrop-blur-sm">
+      {/* INTERACTIVE NAVIGATION LAYOUT SWITCHER BAR */}
+      <section className="sticky top-20 z-30 bg-[#06060c]/90 backdrop-blur-xl border-y border-white/10 py-3.5 px-4 sm:px-8 shadow-2xl my-4">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
+            <span className="text-[10px] uppercase font-mono tracking-widest text-white/40 mr-1 hidden lg:inline">Layout View:</span>
+            <button
+              onClick={() => setActiveLayoutTab('all')}
+              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+                activeLayoutTab === 'all' 
+                  ? 'bg-[#00D1FF] text-black shadow-[0_0_15px_rgba(0,209,255,0.4)] font-black' 
+                  : 'bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>🌟 All Content Hub</span>
+            </button>
+            <button
+              onClick={() => setActiveLayoutTab('genres')}
+              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+                activeLayoutTab === 'genres' 
+                  ? 'bg-gradient-to-r from-[#00D1FF] to-cyan-400 text-black shadow-[0_0_15px_rgba(0,209,255,0.5)] font-black' 
+                  : 'bg-white/5 text-[#00D1FF] hover:bg-white/10 border border-[#00D1FF]/30'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5" />
+              <span>🏛️ Genre Pavilions</span>
+            </button>
+            <button
+              onClick={() => setActiveLayoutTab('catalog')}
+              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+                activeLayoutTab === 'catalog' 
+                  ? 'bg-[#00D1FF] text-black shadow-[0_0_15px_rgba(0,209,255,0.4)] font-black' 
+                  : 'bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10'
+              }`}
+            >
+              <Play className="w-3.5 h-3.5 fill-current" />
+              <span>🍿 Free Stream Library</span>
+            </button>
+            <button
+              onClick={() => setActiveLayoutTab('collections')}
+              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+                activeLayoutTab === 'collections' 
+                  ? 'bg-amber-400 text-black shadow-[0_0_15px_rgba(251,191,36,0.4)] font-black' 
+                  : 'bg-white/5 text-amber-400/90 hover:text-amber-300 hover:bg-white/10 border border-white/10'
+              }`}
+            >
+              <Flame className="w-3.5 h-3.5 fill-current" />
+              <span>🎭 Curated Collections</span>
+            </button>
+            <button
+              onClick={() => setActiveLayoutTab('trending')}
+              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+                activeLayoutTab === 'trending' 
+                  ? 'bg-rose-500 text-white shadow-[0_0_15px_rgba(244,63,94,0.4)] font-black' 
+                  : 'bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5" />
+              <span>⚡ Trends & Premieres</span>
+            </button>
+            <button
+              onClick={() => setActiveLayoutTab('community')}
+              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+                activeLayoutTab === 'community' 
+                  ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.4)] font-black' 
+                  : 'bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10'
+              }`}
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              <span>💬 Reviews & Watchlist</span>
+            </button>
+          </div>
+
+          <div className="flex items-center gap-3 self-end md:self-center">
+            <span className="text-[10px] text-emerald-400 font-mono font-bold bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              {filteredCatalog.length} Titles Available Free
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* INTERACTIVE GENRE PAVILIONS VAULT */}
+      {(activeLayoutTab === 'all' || activeLayoutTab === 'genres') && (
+        <section className="relative z-20 max-w-7xl mx-auto px-6 py-4">
+          <InteractiveGenreVault
+            catalog={displayCatalog}
+            userState={userState}
+            selectedMovieId={selectedMovieId}
+            handleMovieSelect={handleMovieSelect}
+            toggleWatchlist={toggleWatchlist}
+            onShowInfo={setInfoMovie}
+            setTheaterMovieId={setTheaterMovieId}
+          />
+        </section>
+      )}
+
+      {/* VIEW SECTION 1: SEARCH, FILTERS & FREE STREAM LIBRARY */}
+      {(activeLayoutTab === 'all' || activeLayoutTab === 'catalog') && (
+        <section className="relative z-20 max-w-7xl mx-auto px-6 py-6">
           
-          <div className="w-full md:w-1/2 space-y-3">
-            <label className="text-xs font-black uppercase tracking-widest text-[#00D1FF]/70 block">
-              {t('allShows')}
-            </label>
+          {/* Row 1: Search and voice microphone */}
+          <div className="flex flex-col md:flex-row gap-6 items-center justify-between bg-black/40 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
             
-            {/* Search Input field */}
-            <div className="relative w-full">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={exploreByTalent ? t('talentSearchPlaceholder') : t('searchPlaceholder')}
-                className="w-full bg-[#050508] border border-white/10 focus:border-[#00D1FF] rounded-xl px-4 py-3 pl-11 text-sm text-white placeholder-white/30 outline-none transition-all"
-              />
-              <Compass className="absolute left-4 top-3.5 w-4.5 h-4.5 text-white/30" />
+            <div className="w-full md:w-1/2 space-y-3">
+              <label className="text-xs font-black uppercase tracking-widest text-[#00D1FF] block flex items-center gap-1.5">
+                <Compass className="w-4 h-4" />
+                {t('allShows')}
+              </label>
               
-              {isSearchLoading ? (
-                <span className="absolute right-4 top-3.5 w-4 h-4 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="TMDB API searching..." />
-              ) : searchQuery ? (
-                <button 
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-4 top-3.5 text-white/40 hover:text-white"
+              {/* Search Input field */}
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={exploreByTalent ? t('talentSearchPlaceholder') : t('searchPlaceholder')}
+                  className="w-full bg-[#050508] border border-white/15 focus:border-[#00D1FF] rounded-xl px-4 py-3 pl-11 text-sm text-white placeholder-white/40 outline-none transition-all shadow-inner"
+                />
+                <Compass className="absolute left-4 top-3.5 w-4.5 h-4.5 text-white/40" />
+                
+                {isSearchLoading ? (
+                  <span className="absolute right-4 top-3.5 w-4 h-4 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="TMDB API searching..." />
+                ) : searchQuery ? (
+                  <button 
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-4 top-3.5 text-white/40 hover:text-white"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                ) : null}
+              </div>
+
+              {/* Dedicated Explore by Talent Search Mode Toggles */}
+              <div className="flex flex-wrap gap-2 pt-1">
+                <button
+                  onClick={() => setExploreByTalent(false)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer ${
+                    !exploreByTalent 
+                      ? 'bg-[#00D1FF]/15 text-[#00D1FF] border-[#00D1FF]/40' 
+                      : 'bg-transparent text-white/50 border-white/10 hover:text-white hover:bg-white/5'
+                  }`}
                 >
-                  <X className="w-4 h-4" />
+                  <Compass className="w-3.5 h-3.5" />
+                  {t('allInOneSearch')}
                 </button>
-              ) : null}
-            </div>
-
-            {/* Dedicated Explore by Talent Search Mode Toggles */}
-            <div className="flex flex-wrap gap-2 pt-1">
-              <button
-                onClick={() => setExploreByTalent(false)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 border ${
-                  !exploreByTalent 
-                    ? 'bg-[#00D1FF]/10 text-[#00D1FF] border-[#00D1FF]/30' 
-                    : 'bg-transparent text-white/50 border-white/5 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <Compass className="w-3.5 h-3.5" />
-                {t('allInOneSearch')}
-              </button>
-              <button
-                onClick={() => setExploreByTalent(true)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 border ${
-                  exploreByTalent 
-                    ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black border-transparent shadow-[0_0_15px_rgba(0,209,255,0.25)]' 
-                    : 'bg-transparent text-white/50 border-white/5 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <User className="w-3.5 h-3.5" />
-                {t('exploreByTalent')}
-              </button>
-            </div>
-          </div>
-
-          {/* Native Web Speech API Microphone component */}
-          <div className="w-full md:w-auto flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-3 justify-between md:justify-start">
-            <div className="space-y-0.5">
-              <p className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                <span className={`w-2 h-2 rounded-full ${isListening ? 'bg-red-500 animate-ping' : 'bg-[#00D1FF]'}`}></span>
-                Voice Command System
-              </p>
-              <p className="text-[10px] text-white/40 font-mono">
-                {isListening ? t('voiceActive') : 'Click mic to command catalog'}
-              </p>
-            </div>
-            
-            <button
-              onClick={handleVoiceListen}
-              className={`p-3 rounded-xl transition-all duration-200 ${
-                isListening 
-                  ? 'bg-red-600 hover:bg-red-700 text-white shadow-[0_0_15px_rgba(239,68,68,0.5)]' 
-                  : 'bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/20 hover:bg-[#00D1FF]/20'
-              }`}
-              title={t('speakTooltip')}
-            >
-              {isListening ? <MicOff className="w-5 h-5 animate-bounce" /> : <Mic className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Voice transcript display */}
-        {voiceTranscript && (
-          <div className="mt-3 bg-[#00D1FF]/5 border border-[#00D1FF]/20 rounded-lg p-3 text-xs text-white/80 font-mono text-center">
-            🎤 Transcript heard: <span className="text-[#00D1FF] font-bold">"{voiceTranscript}"</span>
-          </div>
-        )}
-
-        {/* Interactive Filter Pills */}
-        <div className="flex flex-wrap gap-2.5 mt-8 items-center">
-          <div className="flex items-center gap-2 mr-2">
-            <span className="text-xs uppercase tracking-widest text-white/40 font-bold">Genres:</span>
-            <div className="group relative">
-              <span className="cursor-help text-[10px] text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20 font-sans tracking-wide transition-colors hover:bg-amber-400/20">
-                🔥 24h Trends
-              </span>
-              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-30 w-64 p-3 bg-zinc-900 border border-white/10 rounded-xl text-[11px] text-white/80 shadow-2xl leading-relaxed">
-                <p className="font-bold text-amber-400 mb-1 flex items-center gap-1">
-                  <Flame className="w-3.5 h-3.5 fill-amber-400 animate-pulse" />
-                  24-Hour Trending Genres
-                </p>
-                Genres with <span className="text-[#00D1FF] font-semibold">3+ interactions</span> (direct filter clicks or selected/played movie genres) in the last 24 hours are highlighted. Click genres to trigger!
+                <button
+                  onClick={() => setExploreByTalent(true)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer ${
+                    exploreByTalent 
+                      ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black border-transparent shadow-[0_0_15px_rgba(0,209,255,0.25)]' 
+                      : 'bg-transparent text-white/50 border-white/10 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <User className="w-3.5 h-3.5" />
+                  {t('exploreByTalent')}
+                </button>
               </div>
             </div>
-          </div>
-          {allGenres.map((genre) => (
-            <button
-              key={genre}
-              onClick={() => handleGenreSelect(genre)}
-              className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full transition-all flex items-center gap-1.5 ${
-                activeGenre === genre
-                  ? 'bg-[#00D1FF] text-black font-black'
-                  : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/5'
-              }`}
-            >
-              <span>{genre}</span>
-              {trendingGenres.includes(genre) && (
-                <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-black tracking-tight ${
-                  activeGenre === genre 
-                    ? 'bg-black/10 text-black border border-black/20' 
-                    : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                }`}>
-                  <Flame className="w-2.5 h-2.5 fill-current animate-pulse" />
-                  <span>Trending</span>
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
 
-        {/* Interactive Platform Filter */}
-        <div className="flex flex-wrap gap-2.5 mt-4 items-center">
-          <span className="text-xs uppercase tracking-widest text-white/40 font-bold mr-2">Streaming On:</span>
-          {['All', 'Netflix', 'Amazon Prime', 'Disney+ Hotstar', 'Free Cinema'].map((platform) => (
-            <button
-              key={platform}
-              onClick={() => setActivePlatform(platform)}
-              className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full transition-all ${
-                activePlatform === platform
-                  ? 'bg-red-700 text-white font-black border border-red-600'
-                  : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white border border-white/5'
-              }`}
-            >
-              {platform === 'Free Cinema' ? '🍿 Free Full Movies' : platform}
-            </button>
-          ))}
-        </div>
-
-        {/* MASTER GRID - MOVIES & SERIES SECTIONS */}
-        <div className="mt-10 space-y-16">
-          
-          {/* Movies Section */}
-          {filteredCatalog.some(m => m.type === 'Movie') && (
-            <div>
-              <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
-                <div className="flex items-center gap-3">
-                  <span className="p-1.5 bg-[#00D1FF]/10 text-[#00D1FF] rounded-lg border border-[#00D1FF]/20 flex items-center justify-center">
-                    <Play className="w-3.5 h-3.5 fill-current text-[#00D1FF]" />
-                  </span>
-                  <div>
-                    <h3 className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-white">
-                      Premium Cinematic Movies
-                    </h3>
-                    <p className="text-[10px] text-white/40 font-mono">Curated feature masterpieces and blockbuster titles organized by genre</p>
-                  </div>
+            {/* Voice Command & Layout View Switcher */}
+            <div className="w-full md:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              
+              {/* Native Web Speech API Microphone component */}
+              <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-3.5 justify-between">
+                <div className="space-y-0.5">
+                  <p className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                    <span className={`w-2 h-2 rounded-full ${isListening ? 'bg-red-500 animate-ping' : 'bg-[#00D1FF]'}`}></span>
+                    Voice Commands
+                  </p>
+                  <p className="text-[10px] text-white/40 font-mono">
+                    {isListening ? t('voiceActive') : 'Tap mic to speak title'}
+                  </p>
                 </div>
-                <span className="text-[10px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-white/60 font-mono">
-                  {filteredCatalog.filter(m => m.type === 'Movie').length} titles
-                </span>
+                
+                <button
+                  onClick={handleVoiceListen}
+                  className={`p-3 rounded-xl transition-all duration-200 cursor-pointer ${
+                    isListening 
+                      ? 'bg-red-600 hover:bg-red-700 text-white shadow-[0_0_15px_rgba(239,68,68,0.5)]' 
+                      : 'bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/30 hover:bg-[#00D1FF]/20'
+                  }`}
+                  title={t('speakTooltip')}
+                >
+                  {isListening ? <MicOff className="w-5 h-5 animate-bounce" /> : <Mic className="w-5 h-5" />}
+                </button>
               </div>
 
-              {/* Genre-based Carousels */}
-              <div className="space-y-4">
-                {(activeGenre === 'All'
-                  ? Array.from(new Set(filteredCatalog.filter(m => m.type === 'Movie').flatMap(m => m.genres)))
-                  : [activeGenre]
-                ).map((genre) => {
-                  const genreMovies = filteredCatalog.filter(m => m.type === 'Movie' && m.genres.includes(genre));
-                  if (genreMovies.length === 0) return null;
-                  
+              {/* Layout Mode Toggle (Grid Matrix vs Rows) */}
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-2 flex items-center justify-center gap-1">
+                <button
+                  onClick={() => setCatalogDisplayMode('grid')}
+                  className={`px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+                    catalogDisplayMode === 'grid'
+                      ? 'bg-[#00D1FF] text-black shadow-md'
+                      : 'text-white/60 hover:text-white hover:bg-white/10'
+                  }`}
+                  title="Display as Bento Matrix Grid"
+                >
+                  <span className="text-sm">📱</span>
+                  <span>Grid Matrix</span>
+                </button>
+                <button
+                  onClick={() => setCatalogDisplayMode('carousel')}
+                  className={`px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+                    catalogDisplayMode === 'carousel'
+                      ? 'bg-[#00D1FF] text-black shadow-md'
+                      : 'text-white/60 hover:text-white hover:bg-white/10'
+                  }`}
+                  title="Display as Genre Carousels"
+                >
+                  <span className="text-sm">🎞️</span>
+                  <span>Genre Rows</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Voice transcript display */}
+          {voiceTranscript && (
+            <div className="mt-3 bg-[#00D1FF]/5 border border-[#00D1FF]/20 rounded-xl p-3 text-xs text-white/80 font-mono text-center">
+              🎤 Transcript heard: <span className="text-[#00D1FF] font-bold">"{voiceTranscript}"</span>
+            </div>
+          )}
+
+          {/* Interactive Filter Pills */}
+          <div className="flex flex-wrap gap-2.5 mt-6 items-center">
+            <div className="flex items-center gap-2 mr-2">
+              <span className="text-xs uppercase tracking-widest text-white/50 font-bold">Genres:</span>
+              <div className="group relative">
+                <span className="cursor-help text-[10px] text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30 font-sans tracking-wide transition-colors hover:bg-amber-400/20 font-bold">
+                  🔥 24h Trends
+                </span>
+                <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-30 w-64 p-3 bg-zinc-900 border border-white/10 rounded-xl text-[11px] text-white/80 shadow-2xl leading-relaxed">
+                  <p className="font-bold text-amber-400 mb-1 flex items-center gap-1">
+                    <Flame className="w-3.5 h-3.5 fill-amber-400 animate-pulse" />
+                    24-Hour Trending Genres
+                  </p>
+                  Genres with <span className="text-[#00D1FF] font-semibold">3+ interactions</span> in the last 24 hours are highlighted!
+                </div>
+              </div>
+            </div>
+            {allGenres.map((genre) => (
+              <button
+                key={genre}
+                onClick={() => handleGenreSelect(genre)}
+                className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-all flex items-center gap-1.5 cursor-pointer ${
+                  activeGenre === genre
+                    ? 'bg-[#00D1FF] text-black font-black shadow-[0_0_15px_rgba(0,209,255,0.4)]'
+                    : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
+                }`}
+              >
+                <span>{genre}</span>
+                {trendingGenres.includes(genre) && (
+                  <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-black tracking-tight ${
+                    activeGenre === genre 
+                      ? 'bg-black/15 text-black' 
+                      : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                  }`}>
+                    <Flame className="w-2.5 h-2.5 fill-current animate-pulse" />
+                    <span>Hot</span>
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Interactive Platform Filter */}
+          <div className="flex flex-wrap gap-2.5 mt-4 items-center">
+            <span className="text-xs uppercase tracking-widest text-white/50 font-bold mr-2">Streaming On:</span>
+            {['All', 'Netflix', 'Amazon Prime', 'Disney+ Hotstar', 'Free Cinema'].map((platform) => (
+              <button
+                key={platform}
+                onClick={() => setActivePlatform(platform)}
+                className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-all cursor-pointer ${
+                  activePlatform === platform
+                    ? 'bg-gradient-to-r from-red-600 to-rose-700 text-white font-black shadow-[0_0_15px_rgba(225,29,72,0.4)] border border-red-500'
+                    : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
+                }`}
+              >
+                {platform === 'Free Cinema' ? '🍿 Free Full Movies' : platform}
+              </button>
+            ))}
+          </div>
+
+          {/* CATALOG DISPLAY MODE 1: BENTO MATRIX GRID */}
+          {catalogDisplayMode === 'grid' && (
+            <div className="mt-8">
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/10">
+                <h3 className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
+                  <Play className="w-4 h-4 text-[#00D1FF] fill-[#00D1FF]" />
+                  Free Streaming Catalog ({filteredCatalog.length} Titles)
+                </h3>
+                <span className="text-xs font-mono text-[#00D1FF]">100% Unlimited Free Play</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {filteredCatalog.map((movie) => {
+                  const isSelected = movie.id === selectedMovieId;
                   return (
-                    <GenreCarousel
-                      key={genre}
-                      genre={genre}
-                      movies={genreMovies}
-                      selectedMovieId={selectedMovieId}
-                      handleMovieSelect={handleMovieSelect}
-                      recommendationMatrix={recommendationMatrix}
-                      exploreByTalent={exploreByTalent}
-                      onShowInfo={setInfoMovie}
-                    />
+                    <motion.div
+                      key={movie.id}
+                      whileHover={{ y: -8, scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                      className={`bg-[#0b0b12] border rounded-2xl overflow-hidden group cursor-pointer flex flex-col justify-between shadow-xl transition-all duration-300 ${
+                        isSelected ? 'border-[#00D1FF] shadow-[0_0_25px_rgba(0,209,255,0.3)]' : 'border-white/10 hover:border-[#00D1FF]/50'
+                      }`}
+                      onClick={() => handleMovieSelect(movie.id)}
+                    >
+                      <div>
+                        {/* Poster Frame */}
+                        <div className="h-64 sm:h-72 relative overflow-hidden">
+                          <BlurUpImage
+                            src={movie.posterUrl}
+                            alt={movie.title}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-[#0b0b12]/20 to-transparent"></div>
+
+                          {/* Top Badges */}
+                          <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-10">
+                            <span className="px-2.5 py-1 bg-black/80 backdrop-blur-md border border-white/20 text-[#00D1FF] text-[10px] font-mono font-bold rounded-full">
+                              ★ {movie.rating}
+                            </span>
+                            <span className="px-2.5 py-1 bg-emerald-500/20 backdrop-blur-md border border-emerald-500/30 text-emerald-400 text-[9px] font-mono font-bold rounded-full uppercase tracking-wider">
+                              FREE
+                            </span>
+                          </div>
+
+                          {/* Hover Play Icon */}
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
+                            <div className="w-14 h-14 rounded-full bg-[#00D1FF] text-black flex items-center justify-center shadow-[0_0_20px_rgba(0,209,255,0.8)] transform scale-75 group-hover:scale-100 transition-transform">
+                              <Play className="w-6 h-6 fill-current ml-0.5" />
+                            </div>
+                          </div>
+
+                          {/* Genre tag */}
+                          <div className="absolute bottom-3 left-3 z-10">
+                            <span className="px-2 py-0.5 bg-black/70 backdrop-blur-md text-[9px] font-bold text-[#00D1FF] rounded border border-white/10">
+                              {movie.genres.slice(0, 2).join(' • ')}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Title & Info */}
+                        <div className="p-4 space-y-2">
+                          <div className="flex items-center justify-between gap-2">
+                            <h4 className="text-sm font-black italic uppercase text-white group-hover:text-[#00D1FF] transition-colors truncate">
+                              {movie.title}
+                            </h4>
+                            <span className="text-xs font-mono text-white/50 shrink-0">{movie.year}</span>
+                          </div>
+                          
+                          <p className="text-xs text-white/60 line-clamp-2 leading-relaxed">
+                            {movie.synopsis}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Stream Action Button */}
+                      <div className="p-4 pt-0">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleMovieSelect(movie.id);
+                            setTheaterMovieId(movie.id);
+                          }}
+                          className="w-full py-2.5 bg-[#00D1FF]/15 hover:bg-[#00D1FF] border border-[#00D1FF]/40 hover:border-[#00D1FF] text-[#00D1FF] hover:text-black font-mono text-[10px] font-black uppercase tracking-widest rounded-full flex items-center justify-center gap-2 transition-all duration-300 shadow-sm cursor-pointer"
+                        >
+                          <Play className="w-3.5 h-3.5 fill-current" />
+                          <span>{movie.type === 'Movie' ? 'Stream Free Movie' : 'Stream Free Series'}</span>
+                        </button>
+                      </div>
+                    </motion.div>
                   );
                 })}
               </div>
             </div>
           )}
 
-          {/* Series Section */}
-          {filteredCatalog.some(m => m.type === 'Series') && (
-            <div>
-              <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
-                <div className="flex items-center gap-3">
-                  <span className="p-1.5 bg-[#00D1FF]/10 text-[#00D1FF] rounded-lg border border-[#00D1FF]/20 flex items-center justify-center">
-                    <Compass className="w-3.5 h-3.5 text-[#00D1FF]" />
-                  </span>
-                  <div>
-                    <h3 className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-white">
-                      Exclusive Prestige Series
-                    </h3>
-                    <p className="text-[10px] text-white/40 font-mono">Award-winning television series, premium anthologies, and high-fidelity series</p>
+          {/* CATALOG DISPLAY MODE 2: GENRE CAROUSEL ROWS */}
+          {catalogDisplayMode === 'carousel' && (
+            <div className="mt-8 space-y-16">
+              
+              {/* Movies Section */}
+              {filteredCatalog.some(m => m.type === 'Movie') && (
+                <div>
+                  <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
+                    <div className="flex items-center gap-3">
+                      <span className="p-1.5 bg-[#00D1FF]/10 text-[#00D1FF] rounded-lg border border-[#00D1FF]/20 flex items-center justify-center">
+                        <Play className="w-3.5 h-3.5 fill-current text-[#00D1FF]" />
+                      </span>
+                      <div>
+                        <h3 className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-white">
+                          Premium Cinematic Movies
+                        </h3>
+                        <p className="text-[10px] text-white/40 font-mono">Curated feature masterpieces and blockbuster titles organized by genre</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-white/60 font-mono">
+                      {filteredCatalog.filter(m => m.type === 'Movie').length} titles
+                    </span>
+                  </div>
+
+                  {/* Genre-based Carousels */}
+                  <div className="space-y-4">
+                    {(activeGenre === 'All'
+                      ? Array.from(new Set(filteredCatalog.filter(m => m.type === 'Movie').flatMap(m => m.genres)))
+                      : [activeGenre]
+                    ).map((genre) => {
+                      const genreMovies = filteredCatalog.filter(m => m.type === 'Movie' && m.genres.includes(genre));
+                      if (genreMovies.length === 0) return null;
+                      
+                      return (
+                        <GenreCarousel
+                          key={genre}
+                          genre={genre}
+                          movies={genreMovies}
+                          selectedMovieId={selectedMovieId}
+                          handleMovieSelect={handleMovieSelect}
+                          recommendationMatrix={recommendationMatrix}
+                          exploreByTalent={exploreByTalent}
+                          onShowInfo={setInfoMovie}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
-                <span className="text-[10px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-white/60 font-mono">
-                  {filteredCatalog.filter(m => m.type === 'Series').length} titles
-                </span>
-              </div>
+              )}
 
-              {/* Genre-based Carousels */}
-              <div className="space-y-4">
-                {(activeGenre === 'All'
-                  ? Array.from(new Set(filteredCatalog.filter(m => m.type === 'Series').flatMap(m => m.genres)))
-                  : [activeGenre]
-                ).map((genre) => {
-                  const genreSeries = filteredCatalog.filter(m => m.type === 'Series' && m.genres.includes(genre));
-                  if (genreSeries.length === 0) return null;
-                  
-                  return (
-                    <GenreCarousel
-                      key={genre}
-                      genre={genre}
-                      movies={genreSeries}
-                      selectedMovieId={selectedMovieId}
-                      handleMovieSelect={handleMovieSelect}
-                      recommendationMatrix={recommendationMatrix}
-                      exploreByTalent={exploreByTalent}
-                      onShowInfo={setInfoMovie}
-                    />
-                  );
-                })}
-              </div>
+              {/* Series Section */}
+              {filteredCatalog.some(m => m.type === 'Series') && (
+                <div>
+                  <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
+                    <div className="flex items-center gap-3">
+                      <span className="p-1.5 bg-[#00D1FF]/10 text-[#00D1FF] rounded-lg border border-[#00D1FF]/20 flex items-center justify-center">
+                        <Compass className="w-3.5 h-3.5 text-[#00D1FF]" />
+                      </span>
+                      <div>
+                        <h3 className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-white">
+                          Exclusive Prestige Series
+                        </h3>
+                        <p className="text-[10px] text-white/40 font-mono">Award-winning television series, premium anthologies, and high-fidelity series</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-white/60 font-mono">
+                      {filteredCatalog.filter(m => m.type === 'Series').length} titles
+                    </span>
+                  </div>
+
+                  {/* Genre-based Carousels */}
+                  <div className="space-y-4">
+                    {(activeGenre === 'All'
+                      ? Array.from(new Set(filteredCatalog.filter(m => m.type === 'Series').flatMap(m => m.genres)))
+                      : [activeGenre]
+                    ).map((genre) => {
+                      const genreSeries = filteredCatalog.filter(m => m.type === 'Series' && m.genres.includes(genre));
+                      if (genreSeries.length === 0) return null;
+                      
+                      return (
+                        <GenreCarousel
+                          key={genre}
+                          genre={genre}
+                          movies={genreSeries}
+                          selectedMovieId={selectedMovieId}
+                          handleMovieSelect={handleMovieSelect}
+                          recommendationMatrix={recommendationMatrix}
+                          exploreByTalent={exploreByTalent}
+                          onShowInfo={setInfoMovie}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
             </div>
           )}
 
           {/* Global Empty State */}
           {filteredCatalog.length === 0 && (
-            <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/5 animate-fade-in">
+            <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/5 animate-fade-in my-8">
               <Compass className="w-12 h-12 text-white/20 mx-auto mb-4 animate-spin" />
               <p className="text-white/60 font-semibold uppercase tracking-wider">No matching cinematic masterpieces found.</p>
               <button 
                 onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); }}
-                className="mt-4 px-4 py-2 bg-white/10 text-white rounded-full hover:bg-white/20 text-xs font-bold uppercase tracking-wider transition-all"
+                className="mt-4 px-4 py-2 bg-white/10 text-white rounded-full hover:bg-white/20 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
               >
                 Reset Filter Parameters
               </button>
             </div>
           )}
 
-        </div>
-      </section>
-
-      {/* COMING SOON / ANTICIPATION SECTION */}
-      <LazySection height="250px">
-        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-          <ComingSoonSection userState={userState} setUserState={setUserState} upcomingCatalog={displayUpcomingCatalog} />
-        </Suspense>
-      </LazySection>
-
-      {/* KOREAN ROMANCE SPECIALTY SECTION */}
-      <LazySection height="350px">
-        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-          <KoreanRomanceSection 
-            catalog={displayCatalog} 
-            userState={userState} 
-            handleMovieSelect={handleMovieSelect} 
-            toggleWatchlist={toggleWatchlist} 
-          />
-        </Suspense>
-      </LazySection>
-
-      {/* HORROR SHOWCASE SECTION */}
-      <LazySection height="350px">
-        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-          <HorrorShowcaseSection 
-            catalog={displayCatalog} 
-            userState={userState} 
-            handleMovieSelect={handleMovieSelect} 
-            toggleWatchlist={toggleWatchlist} 
-          />
-        </Suspense>
-      </LazySection>
-
-      {/* COMEDY SHOWCASE SECTION */}
-      <LazySection height="350px">
-        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-          <ComedySection 
-            catalog={displayCatalog} 
-            userState={userState} 
-            handleMovieSelect={handleMovieSelect} 
-            toggleWatchlist={toggleWatchlist} 
-          />
-        </Suspense>
-      </LazySection>
-
-      {/* ACTION SHOWCASE SECTION */}
-      <LazySection height="350px">
-        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-          <ActionSection 
-            catalog={displayCatalog} 
-            userState={userState} 
-            handleMovieSelect={handleMovieSelect} 
-            toggleWatchlist={toggleWatchlist} 
-          />
-        </Suspense>
-      </LazySection>
-
-      {/* TRENDING NOW TELEMETRY CHART */}
-      <LazySection height="300px">
-        <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-          <TrendingChart 
-            catalog={displayCatalog} 
-            userState={userState} 
-            handleMovieSelect={handleMovieSelect} 
-          />
-        </Suspense>
-      </LazySection>
-
-      {/* SPECIAL PERSONALIZATION & SUGGESTED MATRIX BAR (Durable recommendation engine) */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-8 border-t border-white/5">
-        <div className="bg-gradient-to-r from-blue-950/20 via-black/40 to-red-950/20 border border-[#00D1FF]/20 rounded-2xl p-6 md:p-8 backdrop-blur-sm">
-          
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-            <div className="space-y-1">
-              <h2 className="text-2xl font-black uppercase tracking-wider text-white flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-[#00D1FF]" />
-                {t('suggestedForYou')}
-              </h2>
-              <p className="text-xs text-white/50 leading-relaxed font-sans max-w-2xl">
-                Our luxury on-device AI tracks your specific star grades, watchlist additions, and genre navigation behaviors to formulate real-time mathematical correlation coefficients.
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-3 h-3 rounded-full bg-[#00D1FF] animate-ping"></div>
-              <span className="text-xs text-[#00D1FF] uppercase tracking-widest font-mono">Dynamic Rec Matrix Active</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {recommendationMatrix
-              .filter(item => item.movie.id !== selectedMovieId)
-              .slice(0, 3)
-              .map(({ movie, matchPercentage, reason }) => {
-                const inWatchlist = userState.watchlist.includes(movie.id);
-                
-                return (
-                  <div 
-                    key={movie.id}
-                    onClick={() => handleMovieSelect(movie.id)}
-                    className="bg-black/50 border border-white/10 hover:border-[#00D1FF]/70 rounded-xl p-5 relative overflow-hidden group cursor-pointer transition-all duration-300"
-                  >
-                    <span className="text-[9px] uppercase font-bold text-[#00D1FF]/80 tracking-wider block mb-2">
-                      {reason}
-                    </span>
-
-                  <h3 className="text-lg font-black italic uppercase text-white mb-2 group-hover:text-[#00D1FF] transition-colors">
-                    {movie.title}
-                  </h3>
-
-                  <p className="text-xs text-white/60 line-clamp-2 leading-relaxed mb-4">
-                    {movie.synopsis}
-                  </p>
-
-                  <div className="flex items-center justify-between text-[11px] text-white/40 font-mono pt-3 border-t border-white/5">
-                    <span>{movie.year} • {movie.runtimeOrSeasons}</span>
-                    <span className="text-[#00D1FF] font-bold uppercase tracking-wider group-hover:underline flex items-center gap-1">
-                      Explore Details &rarr;
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Micro Telemetry Graph depicting genre clicking behaviors */}
-          <div className="mt-8 pt-6 border-t border-white/5">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-3">Your Genre Interaction Matrix</h4>
-            <div className="flex flex-wrap gap-4 items-center">
-              {Object.entries(userState.genreClicks).length === 0 ? (
-                <p className="text-xs text-white/40 italic">No interaction metrics collected yet. Browse the catalog to feed telemetry.</p>
-              ) : (
-                Object.entries(userState.genreClicks).map(([genre, count]) => {
-                  const numCount = Number(count);
-                  const barWidth = Math.min(100, numCount * 20);
-                  return (
-                    <div key={genre} className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 flex items-center gap-3">
-                      <span className="text-[10px] text-white/70 font-mono uppercase">{genre}</span>
-                      <div className="w-16 h-1.5 bg-black rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-[#00D1FF] to-blue-500 rounded-full" style={{ width: `${barWidth}%` }}></div>
-                      </div>
-                      <span className="text-[9px] text-[#00D1FF] font-mono">{numCount} clicks</span>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* WATCHLIST DRAWER SECTION */}
-      {userState.watchlist.length > 0 && (
-        <section className="relative z-10 max-w-7xl mx-auto px-6 py-8">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-sm font-black uppercase tracking-[0.3em] text-white/40">
-              {t('watchlist')} ({userState.watchlist.length})
-            </h3>
-            <button 
-              onClick={() => setUserState(prev => ({ ...prev, watchlist: [] }))}
-              className="text-xs text-white/30 hover:text-red-400 font-bold uppercase tracking-widest flex items-center gap-1 transition-colors"
-            >
-              <Trash2 className="w-3 h-3" /> Clear Queue
-            </button>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {displayCatalog.filter(m => userState.watchlist.includes(m.id)).map(movie => (
-              <div 
-                key={movie.id}
-                onClick={() => handleMovieSelect(movie.id)}
-                className="bg-[#0b0b12] border border-white/5 hover:border-red-500/50 rounded-xl overflow-hidden cursor-pointer group relative transition-all"
-              >
-                <div className="h-28 overflow-hidden relative">
-                  <BlurUpImage src={movie.posterUrl} alt={movie.title} referrerPolicy="no-referrer" className="w-full h-full object-cover transition-transform group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                  
-                  {/* Delete button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleWatchlist(movie.id);
-                    }}
-                    className="absolute top-2 right-2 bg-black/85 p-1 rounded-full text-white/40 hover:text-red-400 border border-white/10"
-                    title="Remove from queue"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-                <div className="p-3">
-                  <h4 className="text-xs font-black uppercase italic text-white truncate">{movie.title}</h4>
-                  <p className="text-[10px] text-[#00D1FF] font-mono mt-0.5">{movie.runtimeOrSeasons}</p>
-                </div>
-              </div>
-            ))}
-          </div>
         </section>
       )}
 
+      {/* VIEW SECTION 2: SPECIALTY CURATED SHOWCASE COLLECTIONS */}
+      {(activeLayoutTab === 'all' || activeLayoutTab === 'collections') && (
+        <section className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10">
+          
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+              <div className="flex items-center gap-2">
+                <Flame className="w-5 h-5 text-amber-400 fill-amber-400" />
+                <h2 className="text-xl md:text-2xl font-black uppercase italic tracking-wider text-white">
+                  Curated Specialty Collections
+                </h2>
+              </div>
+              <p className="text-xs text-white/50 font-mono mt-1">
+                Select a collection tab to focus your screening experience
+              </p>
+            </div>
+
+            {/* Collection Category Selector Tabs */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+              <button
+                onClick={() => setActiveCollectionTab('all')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+                  activeCollectionTab === 'all' 
+                    ? 'bg-amber-400 text-black shadow-md' 
+                    : 'bg-white/5 text-white/70 hover:bg-white/10'
+                }`}
+              >
+                ✨ All Showcases
+              </button>
+              <button
+                onClick={() => setActiveCollectionTab('korean')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+                  activeCollectionTab === 'korean' 
+                    ? 'bg-pink-500 text-white shadow-md' 
+                    : 'bg-white/5 text-white/70 hover:bg-white/10'
+                }`}
+              >
+                💖 K-Romance
+              </button>
+              <button
+                onClick={() => setActiveCollectionTab('horror')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+                  activeCollectionTab === 'horror' 
+                    ? 'bg-purple-600 text-white shadow-md' 
+                    : 'bg-white/5 text-white/70 hover:bg-white/10'
+                }`}
+              >
+                👻 Horror Cinema
+              </button>
+              <button
+                onClick={() => setActiveCollectionTab('comedy')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+                  activeCollectionTab === 'comedy' 
+                    ? 'bg-yellow-400 text-black shadow-md' 
+                    : 'bg-white/5 text-white/70 hover:bg-white/10'
+                }`}
+              >
+                😂 Comedy Special
+              </button>
+              <button
+                onClick={() => setActiveCollectionTab('action')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+                  activeCollectionTab === 'action' 
+                    ? 'bg-red-500 text-white shadow-md' 
+                    : 'bg-white/5 text-white/70 hover:bg-white/10'
+                }`}
+              >
+                💥 Action Thrillers
+              </button>
+              <button
+                onClick={() => setActiveCollectionTab('upcoming')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
+                  activeCollectionTab === 'upcoming' 
+                    ? 'bg-[#00D1FF] text-black shadow-md' 
+                    : 'bg-white/5 text-white/70 hover:bg-white/10'
+                }`}
+              >
+                🔮 Coming Soon
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-12">
+            {/* KOREAN ROMANCE */}
+            {(activeCollectionTab === 'all' || activeCollectionTab === 'korean') && (
+              <LazySection height="350px">
+                <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+                  <KoreanRomanceSection 
+                    catalog={displayCatalog} 
+                    userState={userState} 
+                    handleMovieSelect={handleMovieSelect} 
+                    toggleWatchlist={toggleWatchlist} 
+                  />
+                </Suspense>
+              </LazySection>
+            )}
+
+            {/* HORROR SHOWCASE */}
+            {(activeCollectionTab === 'all' || activeCollectionTab === 'horror') && (
+              <LazySection height="350px">
+                <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+                  <HorrorShowcaseSection 
+                    catalog={displayCatalog} 
+                    userState={userState} 
+                    handleMovieSelect={handleMovieSelect} 
+                    toggleWatchlist={toggleWatchlist} 
+                  />
+                </Suspense>
+              </LazySection>
+            )}
+
+            {/* COMEDY SHOWCASE */}
+            {(activeCollectionTab === 'all' || activeCollectionTab === 'comedy') && (
+              <LazySection height="350px">
+                <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+                  <ComedySection 
+                    catalog={displayCatalog} 
+                    userState={userState} 
+                    handleMovieSelect={handleMovieSelect} 
+                    toggleWatchlist={toggleWatchlist} 
+                  />
+                </Suspense>
+              </LazySection>
+            )}
+
+            {/* ACTION SHOWCASE */}
+            {(activeCollectionTab === 'all' || activeCollectionTab === 'action') && (
+              <LazySection height="350px">
+                <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+                  <ActionSection 
+                    catalog={displayCatalog} 
+                    userState={userState} 
+                    handleMovieSelect={handleMovieSelect} 
+                    toggleWatchlist={toggleWatchlist} 
+                  />
+                </Suspense>
+              </LazySection>
+            )}
+
+            {/* COMING SOON / ANTICIPATION SECTION */}
+            {(activeCollectionTab === 'all' || activeCollectionTab === 'upcoming') && (
+              <LazySection height="250px">
+                <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+                  <ComingSoonSection userState={userState} setUserState={setUserState} upcomingCatalog={displayUpcomingCatalog} />
+                </Suspense>
+              </LazySection>
+            )}
+          </div>
+
+        </section>
+      )}
+
+      {/* VIEW SECTION 3: TRENDS, TELEMETRY & AI RECOMMENDATIONS */}
+      {(activeLayoutTab === 'all' || activeLayoutTab === 'trending') && (
+        <section className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10 space-y-12">
+          
+          {/* TRENDING NOW TELEMETRY CHART */}
+          <LazySection height="300px">
+            <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+              <TrendingChart 
+                catalog={displayCatalog} 
+                userState={userState} 
+                handleMovieSelect={handleMovieSelect} 
+              />
+            </Suspense>
+          </LazySection>
+
+          {/* SPECIAL PERSONALIZATION & SUGGESTED MATRIX BAR */}
+          <div className="bg-gradient-to-r from-blue-950/30 via-black/50 to-purple-950/30 border border-[#00D1FF]/30 rounded-2xl p-6 md:p-8 backdrop-blur-md">
+            
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+              <div className="space-y-1">
+                <h2 className="text-2xl font-black uppercase tracking-wider text-white flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-[#00D1FF]" />
+                  {t('suggestedForYou')}
+                </h2>
+                <p className="text-xs text-white/60 leading-relaxed font-sans max-w-2xl">
+                  Our luxury on-device AI tracks your specific star grades, watchlist additions, and genre navigation behaviors to formulate real-time mathematical correlation coefficients.
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 rounded-full bg-[#00D1FF] animate-ping"></div>
+                <span className="text-xs text-[#00D1FF] uppercase tracking-widest font-mono font-bold">Dynamic Rec Matrix Active</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {recommendationMatrix
+                .filter(item => item.movie.id !== selectedMovieId)
+                .slice(0, 3)
+                .map(({ movie, matchPercentage, reason }) => {
+                  return (
+                    <div 
+                      key={movie.id}
+                      onClick={() => handleMovieSelect(movie.id)}
+                      className="bg-black/60 border border-white/10 hover:border-[#00D1FF]/70 rounded-2xl p-5 relative overflow-hidden group cursor-pointer transition-all duration-300 shadow-lg"
+                    >
+                      <span className="text-[9px] uppercase font-bold text-[#00D1FF] tracking-wider block mb-2 font-mono">
+                        {reason} ({matchPercentage}% Match)
+                      </span>
+
+                      <h3 className="text-lg font-black italic uppercase text-white mb-2 group-hover:text-[#00D1FF] transition-colors">
+                        {movie.title}
+                      </h3>
+
+                      <p className="text-xs text-white/60 line-clamp-2 leading-relaxed mb-4">
+                        {movie.synopsis}
+                      </p>
+
+                      <div className="flex items-center justify-between text-[11px] text-white/50 font-mono pt-3 border-t border-white/10">
+                        <span>{movie.year} • {movie.runtimeOrSeasons}</span>
+                        <span className="text-[#00D1FF] font-bold uppercase tracking-wider group-hover:underline flex items-center gap-1">
+                          Stream Details &rarr;
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+
+            {/* Micro Telemetry Graph depicting genre clicking behaviors */}
+            <div className="mt-8 pt-6 border-t border-white/10">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-white/50 mb-3">Your Genre Interaction Matrix</h4>
+              <div className="flex flex-wrap gap-4 items-center">
+                {Object.entries(userState.genreClicks).length === 0 ? (
+                  <p className="text-xs text-white/40 italic">No interaction metrics collected yet. Browse the catalog to feed telemetry.</p>
+                ) : (
+                  Object.entries(userState.genreClicks).map(([genre, count]) => {
+                    const numCount = Number(count);
+                    const barWidth = Math.min(100, numCount * 20);
+                    return (
+                      <div key={genre} className="bg-white/5 border border-white/10 rounded-full px-4 py-1.5 flex items-center gap-3">
+                        <span className="text-[10px] text-white/80 font-mono uppercase font-bold">{genre}</span>
+                        <div className="w-16 h-1.5 bg-black rounded-full overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-[#00D1FF] to-blue-500 rounded-full" style={{ width: `${barWidth}%` }}></div>
+                        </div>
+                        <span className="text-[9px] text-[#00D1FF] font-mono font-bold">{numCount} clicks</span>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+      )}
+
+      {/* VIEW SECTION 4: REVIEWS & WATCHLIST */}
+      {(activeLayoutTab === 'all' || activeLayoutTab === 'community') && (
+        <section className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10 space-y-12">
+          
+          {/* WATCHLIST DRAWER SECTION */}
+          {userState.watchlist.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-sm font-black uppercase tracking-[0.3em] text-white/60 flex items-center gap-2">
+                  <Play className="w-4 h-4 text-[#00D1FF]" />
+                  {t('watchlist')} ({userState.watchlist.length})
+                </h3>
+                <button 
+                  onClick={() => setUserState(prev => ({ ...prev, watchlist: [] }))}
+                  className="text-xs text-white/40 hover:text-red-400 font-bold uppercase tracking-widest flex items-center gap-1 transition-colors cursor-pointer"
+                >
+                  <Trash2 className="w-3.5 h-3.5" /> Clear Queue
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                {displayCatalog.filter(m => userState.watchlist.includes(m.id)).map(movie => (
+                  <div 
+                    key={movie.id}
+                    onClick={() => handleMovieSelect(movie.id)}
+                    className="bg-[#0b0b12] border border-white/10 hover:border-[#00D1FF] rounded-2xl overflow-hidden cursor-pointer group relative transition-all shadow-md"
+                  >
+                    <div className="h-32 overflow-hidden relative">
+                      <BlurUpImage src={movie.posterUrl} alt={movie.title} referrerPolicy="no-referrer" className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                      
+                      {/* Delete button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleWatchlist(movie.id);
+                        }}
+                        className="absolute top-2 right-2 bg-black/80 p-1.5 rounded-full text-white/60 hover:text-red-400 border border-white/10 cursor-pointer"
+                        title="Remove from queue"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <div className="p-3">
+                      <h4 className="text-xs font-black uppercase italic text-white truncate">{movie.title}</h4>
+                      <p className="text-[10px] text-[#00D1FF] font-mono mt-0.5">{movie.runtimeOrSeasons}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
       {/* CRITICAL REVIEWS & INTELLECTUAL LEDGER */}
-      <section className="relative z-10 max-w-7xl mx-auto px-6 py-12 border-t border-white/5" id="critic-hub">
+      <div className="relative z-10 py-8 border-t border-white/5" id="critic-hub">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
           {/* Write a critique form */}
@@ -3072,7 +3394,9 @@ export default function App() {
           </div>
 
         </div>
-      </section>
+      </div>
+        </section>
+      )}
 
       {/* FOOTER */}
       <footer className="relative z-20 border-t border-white/5 bg-black/60 backdrop-blur-md mt-auto">
