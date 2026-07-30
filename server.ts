@@ -337,11 +337,12 @@ app.get('/api/media-images', async (req, res) => {
 
     let posterUrl = '';
     let backdropUrl = '';
+    let youtubeId = '';
 
     const searchTerm = cleanSearchTitle(title);
     const isSeries = type === 'Series';
 
-    // 1. Try TMDB Multi-Search (allows both movies and TV shows simultaneously, perfect for cross-type matching)
+    // 1. Try TMDB Multi-Search (allows both movies and TV shows simultaneously)
     try {
       const tmdbMultiUrl = `https://api.themoviedb.org/3/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(searchTerm)}`;
       const response = await fetch(tmdbMultiUrl);
@@ -349,7 +350,6 @@ app.get('/api/media-images', async (req, res) => {
         const data = await response.json() as any;
         const results = data?.results || [];
         if (results.length > 0) {
-          // Find first result that has a poster_path and is either tv or movie
           const bestResult = results.find((r: any) => (r.media_type === 'movie' || r.media_type === 'tv') && r.poster_path) || results[0];
           const posterPath = bestResult.poster_path;
           const backdropPath = bestResult.backdrop_path;
@@ -364,6 +364,26 @@ app.get('/api/media-images', async (req, res) => {
           } else if (posterPath) {
             const normPath = posterPath.startsWith('/') ? posterPath : `/${posterPath}`;
             backdropUrl = `https://image.tmdb.org/t/p/w1280${normPath}`;
+          }
+
+          // Fetch official YouTube trailer video key if available
+          if (bestResult.id && (bestResult.media_type === 'movie' || bestResult.media_type === 'tv')) {
+            try {
+              const videoUrl = `https://api.themoviedb.org/3/${bestResult.media_type}/${bestResult.id}/videos?api_key=${TMDB_API_KEY}`;
+              const vRes = await fetch(videoUrl);
+              if (vRes.ok) {
+                const vData = await vRes.json() as any;
+                const vResults = vData.results || [];
+                const trailer = vResults.find((v: any) => v.site === 'YouTube' && v.type === 'Trailer') ||
+                                vResults.find((v: any) => v.site === 'YouTube' && v.type === 'Teaser') ||
+                                vResults.find((v: any) => v.site === 'YouTube');
+                if (trailer && trailer.key) {
+                  youtubeId = trailer.key;
+                }
+              }
+            } catch (vErr) {
+              console.error(`Failed to fetch TMDB video for ${title}:`, vErr);
+            }
           }
         }
       }
@@ -427,7 +447,7 @@ app.get('/api/media-images', async (req, res) => {
       backdropUrl = 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop';
     }
 
-    const result = { posterUrl, backdropUrl };
+    const result = { posterUrl, backdropUrl, youtubeId: youtubeId || undefined };
     mediaImageCache.set(cacheKey, result);
     res.json(result);
   } catch (error: any) {

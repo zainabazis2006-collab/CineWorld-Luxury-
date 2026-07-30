@@ -1,4 +1,4 @@
-export type StreamingPlatform = 'Netflix' | 'Amazon Prime' | 'Disney+ Hotstar' | 'Free Cinema';
+export type StreamingPlatform = 'Netflix' | 'Amazon Prime' | 'Disney+ Hotstar' | 'Apple TV+' | 'HBO Max' | 'Free Cinema';
 
 export interface StreamingLink {
   platform: StreamingPlatform;
@@ -37,6 +37,7 @@ export interface Movie {
   productionTrivia?: string;
   seasonsCount?: number;
   trailerYoutubeId?: string;
+  youtubeId?: string;
   isPublicDomain?: boolean;
   fullMovieYoutubeId?: string;
 }
@@ -58,6 +59,7 @@ export interface UpcomingMovie {
   posterUrl: string;
   safePosterUrl?: string;
   safeBackdropUrl?: string;
+  youtubeId?: string;
   behindTheScenesSecrets: string[];
 }
 

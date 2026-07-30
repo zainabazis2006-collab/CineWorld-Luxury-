@@ -639,6 +639,209 @@ const RAW_CATALOG: Movie[] = [
     productionTrivia: 'The film utilized state-of-the-art virtual production LED stages alongside real-world cavern recreations to capture authentic flame illumination.'
   },
   {
+    id: 'severance',
+    title: 'Severance',
+    type: 'Series',
+    year: 2024,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.9,
+    genres: ['Sci-Fi', 'Thriller', 'Mystery'],
+    directorOrCreator: 'Ben Stiller',
+    cast: ['Adam Scott', 'Patricia Arquette', 'John Turturro', 'Christopher Walken', 'Britt Lower'],
+    synopsis: 'Mark leads a team of office workers whose memories have been surgically divided between their work and personal lives. When a mysterious colleague appears outside of work, it begins a journey to discover the truth about their jobs.',
+    criticalAnalysis: 'A terrifyingly precise, surreal corporate allegory. Severance combines sterile mid-century aesthetic design with existential horror, posing fundamental questions about identity, trauma, and labor exploitation.',
+    trivia: [
+      'Ben Stiller spent over five years developing the visual aesthetic of the subterranean Lumon Industries office.',
+      'The iconic sterile white hallway set was built to feel infinitely disorienting with zero visible natural light.',
+      'Adam Scott practiced walking with two completely distinct postures to differentiate his Innie and Outie personalities.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/7/7b/Severance_Apple_TV_plus_poster.png',
+    streamingLinks: [
+      {
+        platform: 'Apple TV+',
+        url: 'https://tv.apple.com/us/show/severance/umc.cmc.1sr93cb23z12133a8ij4z0gg2',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Shot on vintage anamorphic lenses with ultra-flat color grading to reinforce the soul-crushing corporate monotony.'
+  },
+  {
+    id: 'arcane',
+    title: 'Arcane',
+    type: 'Series',
+    year: 2024,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.9,
+    genres: ['Sci-Fi', 'Action', 'Animation'],
+    directorOrCreator: 'Christian Linke & Alex Yee',
+    cast: ['Hailee Steinfeld', 'Ella Purnell', 'Kevin Alejandro', 'Katie Leung'],
+    synopsis: 'Set in the utopian city of Piltover and the oppressed underground of Zaun, two sisters fight on opposite sides of a war between rival technologies and radical convictions.',
+    criticalAnalysis: 'A milestone in hand-painted digital animation. Fortiche Production seamlessly blends 2D brushwork with 3D models, crafting an emotionally devastating tragedy of sisterhood and class struggle.',
+    trivia: [
+      'Each frame of animation was individually hand-painted with digital brushes to look like concept art in motion.',
+      'The score blends symphonic orchestral arrangements with heavy 808 bass, hip-hop, and industrial punk.',
+      'Took over six years to animate season one alone due to the meticulous detail in every character expression.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/7/78/Arcane_League_of_Legends_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81435684',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Developed custom 2D smoke and fire particle simulation passes that were hand-drawn over 3D physics engines.'
+  },
+  {
+    id: 'the-last-of-us',
+    title: 'The Last of Us',
+    type: 'Series',
+    year: 2023,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.8,
+    genres: ['Drama', 'Horror', 'Sci-Fi'],
+    directorOrCreator: 'Craig Mazin & Neil Druckmann',
+    cast: ['Pedro Pascal', 'Bella Ramsey', 'Gabriel Luna', 'Anna Torv'],
+    synopsis: 'After a global pandemic destroys civilization, a hardened survivor takes charge of a 14-year-old girl who may be humanity\'s last hope.',
+    criticalAnalysis: 'A heartbreaking, grounded post-apocalyptic narrative that prioritizes human intimacy, grief, and love over simple creature survival.',
+    trivia: [
+      'The iconic Clicker costumes were created using physical practical prosthetics requiring hours of makeup daily.',
+      'Episode 3 ("Long, Long Time") starring Nick Offerman and Murray Bartlett received overwhelming critical acclaim as one of the best TV episodes of the decade.',
+      'Pedro Pascal was instructed not to play the original video game to ensure his performance felt organic.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b3/The_Last_of_Us_TV_series_poster.png',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/in/shows/the-last-of-us/1260128911',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Over 180 square blocks of downtown Calgary were transformed into overgrown, decaying Boston ruins.'
+  },
+  {
+    id: 'eeao',
+    title: 'Everything Everywhere All at Once',
+    type: 'Movie',
+    year: 2022,
+    runtimeOrSeasons: '139 min',
+    rating: 4.9,
+    genres: ['Sci-Fi', 'Comedy', 'Action'],
+    directorOrCreator: 'Daniel Kwan & Daniel Scheinert',
+    cast: ['Michelle Yeoh', 'Ke Huy Quan', 'Stephanie Hsu', 'Jamie Lee Curtis'],
+    synopsis: 'A middle-aged Chinese immigrant is swept up into an insane adventure in which she alone can save existence by exploring other universes and connecting with the lives she could have led.',
+    criticalAnalysis: 'An audacious, genre-defying explosion of existential empathy, absurd humor, and multiverse martial arts that won 7 Academy Awards including Best Picture.',
+    trivia: [
+      'The visual effects were created by a core team of only 5 self-taught animators working out of their bedrooms during lockdown.',
+      'Ke Huy Quan returned to acting after a 20-year hiatus specifically for the role of Waymond Wang.',
+      'The entire movie was shot in just 38 days in an abandoned office building in Simi Valley.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1e/Everything_Everywhere_All_at_Once.jpg',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/eeao',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Used custom speed-ramping camera rigs and martial arts choreography designed by former Jackie Chan Stunt Team members.'
+  },
+  {
+    id: 'cyberpunk-edgerunners',
+    title: 'Cyberpunk: Edgerunners',
+    type: 'Series',
+    year: 2022,
+    runtimeOrSeasons: '1 Season',
+    rating: 4.8,
+    genres: ['Sci-Fi', 'Action', 'Animation'],
+    directorOrCreator: 'Hiroyuki Imaishi',
+    cast: ['KENN', 'Aoi Yuuki', 'Achiya Hiroki', 'Tomoyo Kurosawa'],
+    synopsis: 'A street kid trying to survive in a technology and body modification-obsessed city of the future chooses to stay alive by becoming an edgerunner: a mercenary outlaw.',
+    criticalAnalysis: 'A hyper-kinetic, neon-drenched cyberpunk tragedy crafted by Studio Trigger. It combines explosive hyper-stylized action with an emotionally gut-wrenching tale of human burnout.',
+    trivia: [
+      'Studio Trigger refused to censor the hyper-violent visual style requested by CD Projekt Red, insisting on absolute artistic freedom.',
+      'The song "I Really Want to Stay at Your House" became a global viral hit following the show\'s release.',
+      'Hiroyuki Imaishi used extreme optical speed-lines and vibrant neon color contrast to replicate the feeling of cyberware adrenaline.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/91/Cyberpunk_Edgerunners_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81054853',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Every cyberware glitch and optic artifact was hand-drawn in classic anime cell animation style.'
+  },
+  {
+    id: 'godzilla-minus-one',
+    title: 'Godzilla Minus One',
+    type: 'Movie',
+    year: 2023,
+    runtimeOrSeasons: '125 min',
+    rating: 4.9,
+    genres: ['Action', 'Sci-Fi', 'Drama'],
+    directorOrCreator: 'Takashi Yamazaki',
+    cast: ['Ryunosuke Kamiki', 'Minami Hamabe', 'Yuki Yamada', 'Munetaka Aoki'],
+    synopsis: 'Post-war Japan is at its lowest point when a new crisis emerges in the form of a giant monster, baptized in the atomic power of nuclear testing.',
+    criticalAnalysis: 'A phenomenal cinematic accomplishment that won the Academy Award for Best Visual Effects with a micro-budget. It delivers deep historical grief, survivor guilt, and awe-inspiring creature terror.',
+    trivia: [
+      'Director Takashi Yamazaki personally led the 35-person visual effects team, personally tweaking over 600 VFX shots.',
+      'The atomic heat ray sequence was engineered with realistic shockwave physics and blinding blue light emission.',
+      'It became the highest-grossing Japanese live-action film in North American box office history.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/4/4b/Godzilla_Minus_One_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/81728258',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Utilized ocean wave fluid simulation engines that ran for weeks to match the real water displacement of the destroyers.'
+  },
+  {
+    id: 'white-lotus',
+    title: 'The White Lotus',
+    type: 'Series',
+    year: 2022,
+    runtimeOrSeasons: '2 Seasons',
+    rating: 4.8,
+    genres: ['Comedy', 'Drama', 'Mystery'],
+    directorOrCreator: 'Mike White',
+    cast: ['Jennifer Coolidge', 'Aubrey Plaza', 'Sydney Sweeney', 'Theo James'],
+    synopsis: 'A sharp social satire following the exploits of various employees and guests at an exclusive Hawaiian and Sicilian resort over the span of one highly eventful week.',
+    criticalAnalysis: 'A deliciously uncomfortable, beautifully shot dark satire. Mike White exposes the hidden neurosis, entitlement, and transactional nature of elite privilege against opulent tropical backdrops.',
+    trivia: [
+      'Season one was filmed entirely inside a quarantined Four Seasons resort in Maui during early 2021.',
+      'Cristobal Tapia de Veer created the iconic operatic, chaotic vocal score that mimics tropical bird calls and anxiety.',
+      'Jennifer Coolidge was given complete freedom to improvise many of Tanya\'s unhinged monologue moments.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1a/The_White_Lotus_season_2_poster.jpg',
+    streamingLinks: [
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/in/shows/the-white-lotus/1260064333',
+        availableRegions: ['US', 'UK', 'IN', 'JP'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Captured using vintage Cooke Anamorphic lenses to wrap tropical sunlight with warm, golden edge distortions.'
+  },
+  {
     id: 'enola-holmes-1',
     title: 'Enola Holmes',
     type: 'Movie',

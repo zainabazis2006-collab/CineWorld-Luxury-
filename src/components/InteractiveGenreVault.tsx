@@ -176,17 +176,15 @@ export default function InteractiveGenreVault({
   // Scroll smoothly to a genre section ID
   const scrollToGenre = (genre: string) => {
     setSelectedGenreTab(genre);
-    if (viewMode === 'pavilions') {
-      const element = document.getElementById(`genre-pavilion-${genre}`);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+    const element = document.getElementById(`genre-pavilion-${genre}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
-  const displayedGenres = selectedGenreTab === 'All' 
-    ? availableGenres 
-    : [selectedGenreTab];
+  const displayedGenres = (viewMode === 'single' && selectedGenreTab !== 'All')
+    ? [selectedGenreTab]
+    : availableGenres;
 
   return (
     <div className="space-y-12 my-8">

@@ -50,6 +50,7 @@ import CinematicAuth from './components/CinematicAuth';
 import GenreCarousel from './components/GenreCarousel';
 import BlurUpImage from './components/BlurUpImage';
 import InteractiveGenreVault from './components/InteractiveGenreVault';
+import { LuxuryScrollProgressAndElevator } from './components/LuxuryScrollProgressAndElevator';
 
 interface CinematicStill {
   url: string;
@@ -890,8 +891,8 @@ export default function App() {
   const [activeCollectionTab, setActiveCollectionTab] = useState<'all' | 'korean' | 'horror' | 'comedy' | 'action' | 'upcoming'>('all');
   const [catalogDisplayMode, setCatalogDisplayMode] = useState<'grid' | 'carousel'>('grid');
 
-  // Dynamic images state resolved from our custom proxy API
-  const [resolvedImages, setResolvedImages] = useState<Record<string, { posterUrl: string; backdropUrl: string }>>(() => {
+  // Dynamic images & media state resolved from our custom proxy API
+  const [resolvedImages, setResolvedImages] = useState<Record<string, { posterUrl?: string; backdropUrl?: string; youtubeId?: string }>>(() => {
     try {
       const saved = localStorage.getItem('cineworld_resolved_images_v10');
       return saved ? JSON.parse(saved) : {};
@@ -907,7 +908,7 @@ export default function App() {
 
   // Prioritize active selected movie resolution
   useEffect(() => {
-    if (!selectedMovieId || (resolvedImages[selectedMovieId]?.posterUrl && resolvedImages[selectedMovieId]?.backdropUrl)) return;
+    if (!selectedMovieId || (resolvedImages[selectedMovieId]?.posterUrl && resolvedImages[selectedMovieId]?.backdropUrl && resolvedImages[selectedMovieId]?.youtubeId)) return;
     const movie = CURATED_CATALOG.find(m => m.id === selectedMovieId);
     if (!movie) return;
 
@@ -927,12 +928,13 @@ export default function App() {
           data = await fetchMediaImagesDirectly(movie.title, movie.type, movie.posterUrl, movie.backdropUrl);
         }
 
-        if (active && data && (data.posterUrl || data.backdropUrl)) {
+        if (active && data && (data.posterUrl || data.backdropUrl || data.youtubeId)) {
           setResolvedImages(prev => ({
             ...prev,
             [movie.id]: {
               posterUrl: data.posterUrl || prev[movie.id]?.posterUrl || movie.posterUrl,
-              backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl
+              backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl,
+              youtubeId: data.youtubeId || prev[movie.id]?.youtubeId || movie.youtubeId
             }
           }));
         }
@@ -973,12 +975,13 @@ export default function App() {
               data = await fetchMediaImagesDirectly(movie.title, movie.type, movie.posterUrl, movie.backdropUrl);
             }
 
-            if (active && data && (data.posterUrl || data.backdropUrl)) {
+            if (active && data && (data.posterUrl || data.backdropUrl || data.youtubeId)) {
               setResolvedImages(prev => ({
                 ...prev,
                 [movie.id]: {
                   posterUrl: data.posterUrl || prev[movie.id]?.posterUrl || movie.posterUrl,
-                  backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl
+                  backdropUrl: data.backdropUrl || prev[movie.id]?.backdropUrl || movie.backdropUrl,
+                  youtubeId: data.youtubeId || prev[movie.id]?.youtubeId || movie.youtubeId
                 }
               }));
             }
@@ -1018,7 +1021,8 @@ export default function App() {
     return {
       ...movie,
       posterUrl: poster,
-      backdropUrl: backdrop
+      backdropUrl: backdrop,
+      youtubeId: resolved?.youtubeId || movie.youtubeId
     };
   });
 
@@ -1034,7 +1038,8 @@ export default function App() {
     return {
       ...movie,
       posterUrl: poster,
-      backdropUrl: backdrop
+      backdropUrl: backdrop,
+      youtubeId: resolved?.youtubeId || movie.youtubeId
     };
   });
 
@@ -1389,6 +1394,20 @@ export default function App() {
     ]);
   };
 
+  const navigateToSection = (sectionId: string, requiredLayoutTab?: string) => {
+    if (requiredLayoutTab && activeLayoutTab !== 'all' && activeLayoutTab !== requiredLayoutTab) {
+      setActiveLayoutTab('all');
+    }
+    setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 60);
+  };
+
   const pushUserChatMessage = async (text: string) => {
     if (!text.trim()) return;
 
@@ -1556,6 +1575,13 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#050508] text-[#F5F5F5] font-sans relative overflow-x-hidden flex flex-col selection:bg-[#00D1FF]/30 selection:text-white">
       
+      {/* FLOATING LUXURY ELEVATOR NAVIGATOR & SCROLL PROGRESS */}
+      <LuxuryScrollProgressAndElevator 
+        totalMovies={filteredCatalog.length} 
+        onRandomPick={handleMovieSelect} 
+        catalog={CURATED_CATALOG} 
+      />
+      
       {/* Immersive Atmospheric Ambient Glows */}
       <div className="absolute top-[-150px] right-[-100px] w-[600px] h-[600px] rounded-full bg-[#1A3A5F] blur-[150px] opacity-35 animate-pulse-glow-1 pointer-events-none z-0"></div>
       <div className="absolute bottom-[-150px] left-[-150px] w-[700px] h-[700px] rounded-full bg-[#4A1D2C] blur-[180px] opacity-25 animate-pulse-glow-2 pointer-events-none z-0"></div>
@@ -1716,7 +1742,7 @@ export default function App() {
                         handleMovieSelect(movie.id);
                         setSearchQuery('');
                         // Smoothly scroll to player showcase
-                        document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
+                        navigateToSection('hero-showcase');
                       }}
                       className="w-full text-left flex items-center gap-3 p-2 rounded-lg hover:bg-[#00D1FF]/10 text-white transition-all group"
                     >
@@ -1887,9 +1913,9 @@ export default function App() {
             {/* Watchlist Counter Badge */}
             <button 
               onClick={() => {
-                document.getElementById("watchlist-section")?.scrollIntoView({ behavior: 'smooth' });
+                navigateToSection("watchlist-section", "community");
               }}
-              className="relative bg-white/5 p-2 rounded-full border border-white/10 hover:bg-white/10 hover:text-white transition-all"
+              className="relative bg-white/5 p-2 rounded-full border border-white/10 hover:bg-white/10 hover:text-white transition-all cursor-pointer"
               title="View Watchlist"
             >
               <Bookmark className="w-4 h-4 text-white/70" />
@@ -1906,14 +1932,9 @@ export default function App() {
             {/* Mobile Watchlist trigger */}
             <button 
               onClick={() => {
-                const watchlistEl = document.getElementById("watchlist-section");
-                if (watchlistEl) {
-                  watchlistEl.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  setIsMobileMenuOpen(true);
-                }
+                navigateToSection("watchlist-section", "community");
               }}
-              className="relative bg-white/5 text-white/70 hover:text-white border border-white/10 rounded-full min-w-[48px] min-h-[48px] flex items-center justify-center active:scale-95 transition-all"
+              className="relative bg-white/5 text-white/70 hover:text-white border border-white/10 rounded-full min-w-[48px] min-h-[48px] flex items-center justify-center active:scale-95 transition-all cursor-pointer"
               title="View Watchlist"
             >
               <Bookmark className="w-4.5 h-4.5" />
@@ -2480,7 +2501,7 @@ export default function App() {
           <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 no-scrollbar">
             <span className="text-[10px] uppercase font-mono tracking-widest text-white/40 mr-1 hidden lg:inline">Layout View:</span>
             <button
-              onClick={() => setActiveLayoutTab('all')}
+              onClick={() => { setActiveLayoutTab('all'); navigateToSection('interactive-genre-vault', 'all'); }}
               className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
                 activeLayoutTab === 'all' 
                   ? 'bg-[#00D1FF] text-black shadow-[0_0_15px_rgba(0,209,255,0.4)] font-black' 
@@ -2491,7 +2512,7 @@ export default function App() {
               <span>🌟 All Content Hub</span>
             </button>
             <button
-              onClick={() => setActiveLayoutTab('genres')}
+              onClick={() => { setActiveLayoutTab('genres'); navigateToSection('interactive-genre-vault', 'genres'); }}
               className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
                 activeLayoutTab === 'genres' 
                   ? 'bg-gradient-to-r from-[#00D1FF] to-cyan-400 text-black shadow-[0_0_15px_rgba(0,209,255,0.5)] font-black' 
@@ -2502,18 +2523,7 @@ export default function App() {
               <span>🏛️ Genre Pavilions</span>
             </button>
             <button
-              onClick={() => setActiveLayoutTab('catalog')}
-              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
-                activeLayoutTab === 'catalog' 
-                  ? 'bg-[#00D1FF] text-black shadow-[0_0_15px_rgba(0,209,255,0.4)] font-black' 
-                  : 'bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10'
-              }`}
-            >
-              <Play className="w-3.5 h-3.5 fill-current" />
-              <span>🍿 Free Stream Library</span>
-            </button>
-            <button
-              onClick={() => setActiveLayoutTab('collections')}
+              onClick={() => { setActiveLayoutTab('collections'); navigateToSection('collections-section', 'collections'); }}
               className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
                 activeLayoutTab === 'collections' 
                   ? 'bg-amber-400 text-black shadow-[0_0_15px_rgba(251,191,36,0.4)] font-black' 
@@ -2524,7 +2534,7 @@ export default function App() {
               <span>🎭 Curated Collections</span>
             </button>
             <button
-              onClick={() => setActiveLayoutTab('trending')}
+              onClick={() => { setActiveLayoutTab('trending'); navigateToSection('trending-section', 'trending'); }}
               className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
                 activeLayoutTab === 'trending' 
                   ? 'bg-rose-500 text-white shadow-[0_0_15px_rgba(244,63,94,0.4)] font-black' 
@@ -2535,7 +2545,7 @@ export default function App() {
               <span>⚡ Trends & Premieres</span>
             </button>
             <button
-              onClick={() => setActiveLayoutTab('community')}
+              onClick={() => { setActiveLayoutTab('community'); navigateToSection('community-section', 'community'); }}
               className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
                 activeLayoutTab === 'community' 
                   ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.4)] font-black' 
@@ -2558,7 +2568,7 @@ export default function App() {
 
       {/* INTERACTIVE GENRE PAVILIONS VAULT */}
       {(activeLayoutTab === 'all' || activeLayoutTab === 'genres') && (
-        <section className="relative z-20 max-w-7xl mx-auto px-6 py-4">
+        <section id="interactive-genre-vault" className="relative z-20 max-w-7xl mx-auto px-6 py-4 scroll-mt-28">
           <InteractiveGenreVault
             catalog={displayCatalog}
             userState={userState}
@@ -2573,7 +2583,7 @@ export default function App() {
 
       {/* VIEW SECTION 1: SEARCH, FILTERS & FREE STREAM LIBRARY */}
       {(activeLayoutTab === 'all' || activeLayoutTab === 'catalog') && (
-        <section className="relative z-20 max-w-7xl mx-auto px-6 py-6">
+        <section id="catalog-library" className="relative z-20 max-w-7xl mx-auto px-6 py-6 scroll-mt-28">
           
           {/* Row 1: Search and voice microphone */}
           <div className="flex flex-col md:flex-row gap-6 items-center justify-between bg-black/40 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
@@ -2974,7 +2984,7 @@ export default function App() {
 
       {/* VIEW SECTION 2: SPECIALTY CURATED SHOWCASE COLLECTIONS */}
       {(activeLayoutTab === 'all' || activeLayoutTab === 'collections') && (
-        <section className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10">
+        <section id="collections-section" className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10 scroll-mt-28">
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div>
@@ -3126,7 +3136,7 @@ export default function App() {
 
       {/* VIEW SECTION 3: TRENDS, TELEMETRY & AI RECOMMENDATIONS */}
       {(activeLayoutTab === 'all' || activeLayoutTab === 'trending') && (
-        <section className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10 space-y-12">
+        <section id="trending-section" className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10 space-y-12 scroll-mt-28">
           
           {/* TRENDING NOW TELEMETRY CHART */}
           <LazySection height="300px">
@@ -3223,11 +3233,12 @@ export default function App() {
 
       {/* VIEW SECTION 4: REVIEWS & WATCHLIST */}
       {(activeLayoutTab === 'all' || activeLayoutTab === 'community') && (
-        <section className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10 space-y-12">
+        <section id="community-section" className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10 space-y-12 scroll-mt-28">
           
           {/* WATCHLIST DRAWER SECTION */}
-          {userState.watchlist.length > 0 && (
-            <div>
+          <div id="watchlist-section" className="scroll-mt-28">
+            {userState.watchlist.length > 0 && (
+              <div>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-sm font-black uppercase tracking-[0.3em] text-white/60 flex items-center gap-2">
                   <Play className="w-4 h-4 text-[#00D1FF]" />
@@ -3273,6 +3284,7 @@ export default function App() {
               </div>
             </div>
           )}
+          </div>
 
       {/* CRITICAL REVIEWS & INTELLECTUAL LEDGER */}
       <div className="relative z-10 py-8 border-t border-white/5" id="critic-hub">
