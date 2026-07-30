@@ -1248,35 +1248,6 @@ const RAW_CATALOG: Movie[] = [
     productionTrivia: 'Leveraged high-contrast, shadow-rich red and amber lighting schemes on set to symbolize the insidious, hot-blooded nature of the black magic possession.'
   },
   {
-    id: 'the-last-of-us',
-    title: 'The Last of Us',
-    type: 'Series',
-    year: 2023,
-    runtimeOrSeasons: '1 Season',
-    rating: 4.8,
-    genres: ['Horror', 'Action', 'Drama', 'Sci-Fi'],
-    directorOrCreator: 'Craig Mazin & Neil Druckmann',
-    cast: ['Pedro Pascal', 'Bella Ramsey', 'Gabriel Luna', 'Anna Torv'],
-    synopsis: 'After a global pandemic destroys civilization, a hardened survivor takes charge of a 14-year-old girl who may be humanity\'s last hope.',
-    criticalAnalysis: 'Widely considered the greatest video game adaptation ever made. Pedro Pascal and Bella Ramsey provide stunning emotional depth, supported by unmatched practical makeup and a hauntingly beautiful cello soundtrack by Gustavo Santaolalla.',
-    trivia: [
-      'The infected Clickers were performed by real contortionists and dancers who spent weeks practicing jerky, non-human movements.',
-      'To recreate the post-apocalyptic, overgrown cityscapes, the production team used millions of dollars worth of real flora placed across locations in Alberta.',
-      'The third episode, "Long, Long Time", was hailed by critics as one of the finest hours of television drama in the last decade.'
-    ],
-    backdropUrl: 'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/c/c5/The_Last_of_Us_Season_1_poster.png',
-    streamingLinks: [
-      {
-        platform: 'Disney+ Hotstar',
-        url: 'https://www.hotstar.com',
-        availableRegions: ['US', 'UK', 'IN', 'JP'],
-        priceTier: 'Included'
-      }
-    ],
-    productionTrivia: 'The sound team blended recordings of clicking dolphins and ancient door hinges to create the signature sound of the Clickers.'
-  },
-  {
     id: 'the-conjuring',
     title: 'The Conjuring',
     type: 'Movie',

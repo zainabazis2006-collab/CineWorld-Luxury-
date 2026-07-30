@@ -38,11 +38,7 @@ import LazySection from './components/LazySection';
 import UserDatabaseConsole from './components/UserDatabaseConsole';
 
 const ComingSoonSection = lazy(() => import('./components/ComingSoonSection'));
-const KoreanRomanceSection = lazy(() => import('./components/KoreanRomanceSection'));
 const TrendingChart = lazy(() => import('./components/TrendingChart'));
-const HorrorShowcaseSection = lazy(() => import('./components/HorrorShowcaseSection'));
-const ComedySection = lazy(() => import('./components/ComedySection'));
-const ActionSection = lazy(() => import('./components/ActionSection'));
 import TiltCard from './components/TiltCard';
 const CinemaPlayer = lazy(() => import('./components/CinemaPlayer'));
 import CineWorldLogo from './components/CineWorldLogo';
@@ -887,8 +883,7 @@ export default function App() {
   const [isHeaderSettingsOpen, setIsHeaderSettingsOpen] = useState<boolean>(false);
 
   // Interactive Dashboard Layout & View Mode States
-  const [activeLayoutTab, setActiveLayoutTab] = useState<'all' | 'genres' | 'catalog' | 'collections' | 'trending' | 'community'>('all');
-  const [activeCollectionTab, setActiveCollectionTab] = useState<'all' | 'korean' | 'horror' | 'comedy' | 'action' | 'upcoming'>('all');
+  const [activeLayoutTab, setActiveLayoutTab] = useState<'all' | 'genres' | 'catalog' | 'trending' | 'community'>('all');
   const [catalogDisplayMode, setCatalogDisplayMode] = useState<'grid' | 'carousel'>('grid');
 
   // Dynamic images & media state resolved from our custom proxy API
@@ -2520,18 +2515,18 @@ export default function App() {
               }`}
             >
               <Compass className="w-3.5 h-3.5" />
-              <span>🏛️ Genre Pavilions</span>
+              <span>🏛️ Cinematic Genre Hub</span>
             </button>
             <button
-              onClick={() => { setActiveLayoutTab('collections'); navigateToSection('collections-section', 'collections'); }}
+              onClick={() => { setActiveLayoutTab('catalog'); navigateToSection('catalog-library', 'catalog'); }}
               className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
-                activeLayoutTab === 'collections' 
+                activeLayoutTab === 'catalog' 
                   ? 'bg-amber-400 text-black shadow-[0_0_15px_rgba(251,191,36,0.4)] font-black' 
                   : 'bg-white/5 text-amber-400/90 hover:text-amber-300 hover:bg-white/10 border border-white/10'
               }`}
             >
-              <Flame className="w-3.5 h-3.5 fill-current" />
-              <span>🎭 Curated Collections</span>
+              <Globe className="w-3.5 h-3.5" />
+              <span>🍿 Free Stream Library</span>
             </button>
             <button
               onClick={() => { setActiveLayoutTab('trending'); navigateToSection('trending-section', 'trending'); }}
@@ -2541,7 +2536,7 @@ export default function App() {
                   : 'bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10'
               }`}
             >
-              <Compass className="w-3.5 h-3.5" />
+              <Flame className="w-3.5 h-3.5 fill-current" />
               <span>⚡ Trends & Premieres</span>
             </button>
             <button
@@ -2982,158 +2977,6 @@ export default function App() {
         </section>
       )}
 
-      {/* VIEW SECTION 2: SPECIALTY CURATED SHOWCASE COLLECTIONS */}
-      {(activeLayoutTab === 'all' || activeLayoutTab === 'collections') && (
-        <section id="collections-section" className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10 scroll-mt-28">
-          
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-            <div>
-              <div className="flex items-center gap-2">
-                <Flame className="w-5 h-5 text-amber-400 fill-amber-400" />
-                <h2 className="text-xl md:text-2xl font-black uppercase italic tracking-wider text-white">
-                  Curated Specialty Collections
-                </h2>
-              </div>
-              <p className="text-xs text-white/50 font-mono mt-1">
-                Select a collection tab to focus your screening experience
-              </p>
-            </div>
-
-            {/* Collection Category Selector Tabs */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-              <button
-                onClick={() => setActiveCollectionTab('all')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
-                  activeCollectionTab === 'all' 
-                    ? 'bg-amber-400 text-black shadow-md' 
-                    : 'bg-white/5 text-white/70 hover:bg-white/10'
-                }`}
-              >
-                ✨ All Showcases
-              </button>
-              <button
-                onClick={() => setActiveCollectionTab('korean')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
-                  activeCollectionTab === 'korean' 
-                    ? 'bg-pink-500 text-white shadow-md' 
-                    : 'bg-white/5 text-white/70 hover:bg-white/10'
-                }`}
-              >
-                💖 K-Romance
-              </button>
-              <button
-                onClick={() => setActiveCollectionTab('horror')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
-                  activeCollectionTab === 'horror' 
-                    ? 'bg-purple-600 text-white shadow-md' 
-                    : 'bg-white/5 text-white/70 hover:bg-white/10'
-                }`}
-              >
-                👻 Horror Cinema
-              </button>
-              <button
-                onClick={() => setActiveCollectionTab('comedy')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
-                  activeCollectionTab === 'comedy' 
-                    ? 'bg-yellow-400 text-black shadow-md' 
-                    : 'bg-white/5 text-white/70 hover:bg-white/10'
-                }`}
-              >
-                😂 Comedy Special
-              </button>
-              <button
-                onClick={() => setActiveCollectionTab('action')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
-                  activeCollectionTab === 'action' 
-                    ? 'bg-red-500 text-white shadow-md' 
-                    : 'bg-white/5 text-white/70 hover:bg-white/10'
-                }`}
-              >
-                💥 Action Thrillers
-              </button>
-              <button
-                onClick={() => setActiveCollectionTab('upcoming')}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
-                  activeCollectionTab === 'upcoming' 
-                    ? 'bg-[#00D1FF] text-black shadow-md' 
-                    : 'bg-white/5 text-white/70 hover:bg-white/10'
-                }`}
-              >
-                🔮 Coming Soon
-              </button>
-            </div>
-          </div>
-
-          <div className="space-y-12">
-            {/* KOREAN ROMANCE */}
-            {(activeCollectionTab === 'all' || activeCollectionTab === 'korean') && (
-              <LazySection height="350px">
-                <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-                  <KoreanRomanceSection 
-                    catalog={displayCatalog} 
-                    userState={userState} 
-                    handleMovieSelect={handleMovieSelect} 
-                    toggleWatchlist={toggleWatchlist} 
-                  />
-                </Suspense>
-              </LazySection>
-            )}
-
-            {/* HORROR SHOWCASE */}
-            {(activeCollectionTab === 'all' || activeCollectionTab === 'horror') && (
-              <LazySection height="350px">
-                <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-                  <HorrorShowcaseSection 
-                    catalog={displayCatalog} 
-                    userState={userState} 
-                    handleMovieSelect={handleMovieSelect} 
-                    toggleWatchlist={toggleWatchlist} 
-                  />
-                </Suspense>
-              </LazySection>
-            )}
-
-            {/* COMEDY SHOWCASE */}
-            {(activeCollectionTab === 'all' || activeCollectionTab === 'comedy') && (
-              <LazySection height="350px">
-                <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-                  <ComedySection 
-                    catalog={displayCatalog} 
-                    userState={userState} 
-                    handleMovieSelect={handleMovieSelect} 
-                    toggleWatchlist={toggleWatchlist} 
-                  />
-                </Suspense>
-              </LazySection>
-            )}
-
-            {/* ACTION SHOWCASE */}
-            {(activeCollectionTab === 'all' || activeCollectionTab === 'action') && (
-              <LazySection height="350px">
-                <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-                  <ActionSection 
-                    catalog={displayCatalog} 
-                    userState={userState} 
-                    handleMovieSelect={handleMovieSelect} 
-                    toggleWatchlist={toggleWatchlist} 
-                  />
-                </Suspense>
-              </LazySection>
-            )}
-
-            {/* COMING SOON / ANTICIPATION SECTION */}
-            {(activeCollectionTab === 'all' || activeCollectionTab === 'upcoming') && (
-              <LazySection height="250px">
-                <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-                  <ComingSoonSection userState={userState} setUserState={setUserState} upcomingCatalog={displayUpcomingCatalog} />
-                </Suspense>
-              </LazySection>
-            )}
-          </div>
-
-        </section>
-      )}
-
       {/* VIEW SECTION 3: TRENDS, TELEMETRY & AI RECOMMENDATIONS */}
       {(activeLayoutTab === 'all' || activeLayoutTab === 'trending') && (
         <section id="trending-section" className="relative z-20 max-w-7xl mx-auto px-6 py-8 border-t border-white/10 space-y-12 scroll-mt-28">
@@ -3146,6 +2989,13 @@ export default function App() {
                 userState={userState} 
                 handleMovieSelect={handleMovieSelect} 
               />
+            </Suspense>
+          </LazySection>
+
+          {/* COMING SOON / ANTICIPATION SECTION */}
+          <LazySection height="250px">
+            <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
+              <ComingSoonSection userState={userState} setUserState={setUserState} upcomingCatalog={displayUpcomingCatalog} />
             </Suspense>
           </LazySection>
 
