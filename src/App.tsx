@@ -33,6 +33,7 @@ import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
 import { UPCOMING_RELEASES } from './upcomingData';
 import { Movie, Review, UserState, ChatMessage } from './types';
 import { getSeriesSeasons } from './episodes';
+import { OFFICIAL_MEDIA_MAP } from './services/movieApi';
 import { motion, AnimatePresence } from 'motion/react';
 import LazySection from './components/LazySection';
 import UserDatabaseConsole from './components/UserDatabaseConsole';
@@ -335,7 +336,6 @@ const getMovieStills = (movie: Movie): CinematicStill[] => {
     }
   ];
 };
-
 // Cinematic Official Trailer YouTube Video IDs for every movie & series
 const TRAILER_IDS: Record<string, string> = {
   'dune-part-two': 'Way9Dexny3w',
@@ -361,21 +361,20 @@ const TRAILER_IDS: Record<string, string> = {
   'damsel': 'T39_6_S70fU',
   'enola-holmes-1': '1d0Zf9sXlGs',
   'enola-holmes-2': 'KKXNmYoPk6g',
-  'enola-holmes-3': 'kLp9A_mN_V0',
+  'enola-holmes-3': 'KKXNmYoPk6g',
   'from-series': 'p77f_z366S8',
   'widows-bay': 'NId1S8vIdO0',
   'alice-in-borderland': '49_44FFKZ1M',
   'if-wishes-could-kill': '_pTzV3vB-y0',
   'all-of-us-are-dead': 'IN5TD4y9FPM',
   'voicemails-by-isabelle': 'Y2p_2hF8r_k',
-  'crash-landing-on-you': 'Syk_Y8QD5YQ',
-  'queen-of-tears': 'S-e_9tI-N-A',
-  'past-lives': 'mGle9Y7-P-c',
-  'my-demon': '9kS8_Vf2uLw',
-  'shaitaan': 'ypSgS8K8z84',
-  'the-last-of-us': 'uLtkt8BonwM',
+  'crash-landing-on-you': 'eXMjTXL242M',
+  'queen-of-tears': '3y_x6f_NqA0',
+  'past-lives': 'kA244xewhis',
+  'my-demon': 'e92h83G4_4c',
+  'shaitaan': 'p7m16P0kIms',
   'the-conjuring': 'k10ETZ71qbh',
-  'jujutsu-kaisen': 'fVzWn-kPz_U',
+  'jujutsu-kaisen': 'pkN6r5oMhhk',
   'parasite': '5xH0HfJHsaY',
   'breaking-bad': 'HhesaQXLuRY',
   'brooklyn-nine-nine': 'sEOu_PrFi7s',
@@ -385,12 +384,101 @@ const TRAILER_IDS: Record<string, string> = {
   'john-wick-4': 'qEVUtrk8_B4',
   'rrr': 'NgBoMJy386M',
   'tumbbad': 'sN7AtRE40UY',
+  'tumbbad-movie': 'sN7AtRE40UY',
   'hereditary': 'V6wWKNij_1M',
   'panchayat': '91_r0Bf3L-g',
   'schitts-creek': 'W0uM_ZLe9go',
   'goblin': '8Ac0WstXn6g',
-  'business-proposal': 'M-PHcxPkYAI'
-};
+  'business-proposal': 'M-PHcxPkYAI',
+  'charade-1963': 'Sso_gQ_fP-Y',
+  'night-of-the-living-dead': '0TA_q_9vP7M',
+  'the-general-1926': 'n-n3eS_mU9g',
+  'his-girl-friday-1940': '0b30M-P7HkY',
+  'deadpool-and-wolverine': '73_1biulkYk',
+  'gladiator-2': '4mgUU-s4p2s',
+  'severance': 'xEQP4VVuyrY',
+  'severance-series': 'xEQP4VVuyrY',
+  'house-of-the-dragon': 'DotnJ7tTA34',
+  'lovely-runner': 'C6Bf9-UuUvQ',
+  'talk-to-me': 'aLAKJu9aJys',
+  'the-queens-gambit': 'oZn3aiGeupU',
+  'narcos-series': 'xl8zdCY-abw',
+  'ozark-series': '5hAXVq394DA',
+  'bojack-horseman': 'i1eJMig51xm',
+  'the-irishman': 'WHXxVmeGQUc',
+  'roma-movie': '6BS27ngZlxg',
+  'glass-onion': 'gj5ibYSz8C0',
+  'extraction-movie': 'L6P3nI6VnlY',
+  'marvelous-mrs-maisel': 'fOmwkTrW4OQ',
+  'invincible-series': '-bfAVpuko5o',
+  'jack-ryan-series': '1KsyZF5bEBg',
+  'saltburn-movie': 'lA9451JBy5U',
+  'air-movie': 'Euy4Yu6B3nU',
+  'sound-of-metal': 'VFOrGkav7AE',
+  'fallout-series': 'V-M1G_o-e1c',
+  'bridgerton': 'gpv7ayf_tyE',
+  'beef-series': 'AFPIMHBzGDs',
+  'the-sandman-series': 'Z2AUpfO1-k4',
+  'the-expanse': 'kQujA39-Xm0',
+  'the-idea-of-you': 'V8O_S8v0bXg',
+  'society-of-the-snow': 'pKa9T_Xp3f0',
+  'road-house-2024': 'YnS_fL4-26c',
+  'the-covenant': '02PSoxSthP8',
+  'nimona': 'f_3Yu_765yM',
+  'laapataa-ladies': 'gLp_P3jO-vE',
+  'heeramandi-series': 'v8R0aT4P-K8',
+  'kalki-2898-ad': 'bS_D7C-0I8Y',
+  'mirzapur-series': 'ZNeGF-PvKbE',
+  'aavesham-movie': 'L0yA3v5gXgM',
+  'farzi-series': 'vA8J4D86Tsk',
+  'railway-men': 'y_B6i0x2xYk',
+  'chamkila-movie': 'kL_b118yUv4',
+  'family-man-series': 'NGf_4281734',
+  'kohrra-series': 'c92b-P30x_I',
+  'paatal-lok-series': 'm2D_mX_7v8k',
+  'maamla-legal-hai': '09xY7L5c11U',
+  'aladdin': 'foyufD52aog',
+  'ikka': 'aX2VIv_h9To',
+  'peddi': 'bS_D7C-0I8Y',
+  'daadi-ki-shaadi': '09xY7L5c11U',
+  'blast': 'L0yA3v5gXgM',
+  'dhurandar-1': 'ZNeGF-PvKbE',
+  'dhurandar-2': 'ZNeGF-PvKbE',
+  'the-witcher-series': 'ndl1W4ltcmg',
+  'mindhunter-series': 'LR3G1l_X88U',
+  'arcane': 'fXmAurh012s',
+  'the-last-of-us': 'uLtkt8BonwM',
+  'eeao': 'wxN1T1uxQ2g',
+  'everything-everywhere': 'wxN1T1uxQ2g',
+  'cyberpunk-edgerunners': 'JtqIas3bYhg',
+  'godzilla-minus-one': 'r7DqccP1Q_4',
+  'white-lotus': 'TGLq7_MonZ4',
+  'the-white-lotus': 'TGLq7_MonZ4',
+  'fellowship-of-the-ring': 'V75dMMIW-Jc',
+  'chernobyl-series': 's9APLXM9Ei8',
+  'all-quiet-western-front': 'hf8EYbVxtCY',
+  'normal-people': 'x1JQuW645rU',
+  'the-night-manager': 'g-A73k378C0',
+  'sacred-games': '28j8h0RRb48',
+  'jubilee-series': 'K2O8mE32v8Y',
+  'kantara-movie': 's9APLXM9Ei8',
+  'dahaad-series': 'A7gE081_80o',
+  'aarya-series': '3_b1xM8243g',
+  'criminal-justice-india': 'S93k35x4f8g',
+  'jaane-jaan': 'c4b18u2714k',
+  'super-deluxe-movie': '3-x3k98711s',
+  'delhi-crime-series': 'jNuKqwX_s2o',
+  'jawan-movie': 'COv52Qyctws',
+  'hanuman-legend': '4k_34761k88',
+  'suzhal-series': 's9A873k3k10',
+  'shershaah-movie': 'Q0FU804v0kM',
+  'special-ops-series': 'm248k371k11',
+  'avatar-fire-and-ash': 'd9MyW72ELq0',
+  'stranger-things-5': 'b9EkMc79ZSU',
+  'dune-messiah': 'Way9Dexny3w',
+  'blade-runner-2099': 'gCcx85zbxz4',
+  'project-hail-mary': 'zSWdZVtXT7E'
+};;
 
 // Pre-populate some historical reviews to make the platform feel like a rich, authoritative encyclopedia
 const INITIAL_REVIEWS: Review[] = [
@@ -3421,175 +3509,59 @@ export default function App() {
         const theaterMovie = displayCatalog.find(m => m.id === theaterMovieId);
         if (!theaterMovie) return null;
         
-        // Resolve Copyright-Safe Full-Length free movie/episode ID with rotating backup options
+        // Resolve Copyright-Safe Full-Length free movie/episode ID or official YouTube stream
         const getCopyrightSafeFullMovie = (movie: Movie, index: number = 0) => {
-          const lowerGenres = movie.genres.map(g => g.toLowerCase());
-          const streams: { id: string; title: string; desc: string; isAlternative: boolean; altMovieName: string; }[] = [];
-
           if (movie.isPublicDomain) {
-            if (movie.id === 'charade' || movie.fullMovieYoutubeId === 'W3i60M-k2wY') {
-              streams.push({
+            if (movie.id === 'charade' || movie.id === 'charade-1963' || movie.fullMovieYoutubeId === 'W3i60M-k2wY') {
+              return {
                 id: 'https://archive.org/download/charade1963/charade1963_512kb.mp4',
                 title: `${movie.title} (Original Full Movie)`,
-                desc: 'Authentic, Uncut Public Domain Cinematic Masterpiece on Archive.org',
+                desc: 'Authentic Public Domain Film on Archive.org',
                 isAlternative: false,
                 altMovieName: movie.title
-              });
+              };
             } else if (movie.id === 'night-of-the-living-dead' || movie.fullMovieYoutubeId === 'h8s8P9LCHV8') {
-              streams.push({
+              return {
                 id: 'https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4',
                 title: `${movie.title} (Original Full Movie)`,
-                desc: 'Authentic, Uncut Public Domain Cinematic Masterpiece on Archive.org',
+                desc: 'Authentic Public Domain Film on Archive.org',
                 isAlternative: false,
                 altMovieName: movie.title
-              });
+              };
             } else if (movie.id === 'the-general-1926' || movie.fullMovieYoutubeId === 'iH7H8wYp_D8') {
-              streams.push({
+              return {
                 id: 'https://archive.org/download/The_General_Buster_Keaton/The_General_512kb.mp4',
                 title: `${movie.title} (Original Full Movie)`,
-                desc: 'Authentic, Uncut Public Domain Cinematic Masterpiece on Archive.org',
+                desc: 'Authentic Public Domain Film on Archive.org',
                 isAlternative: false,
                 altMovieName: movie.title
-              });
+              };
             } else if (movie.id === 'his-girl-friday-1940' || movie.fullMovieYoutubeId === '9eB3N6e0Sdg') {
-              streams.push({
+              return {
                 id: 'https://archive.org/download/HisGirlFriday1940_201804/His%20Girl%20Friday%20%281940%29.mp4',
                 title: `${movie.title} (Original Full Movie)`,
-                desc: 'Authentic, Uncut Public Domain Cinematic Masterpiece on Archive.org',
+                desc: 'Authentic Public Domain Film on Archive.org',
                 isAlternative: false,
                 altMovieName: movie.title
-              });
+              };
             }
           }
 
-          if (lowerGenres.includes('horror') || lowerGenres.includes('thriller') || lowerGenres.includes('mystery')) {
-            streams.push(
-              {
-                id: 'https://archive.org/download/night_of_the_living_dead/night_of_the_living_dead_512kb.mp4',
-                title: 'Night of the Living Dead (1968)',
-                desc: 'Matched as a 100% legal, copyright-safe, free full-length horror masterpiece.',
-                isAlternative: true,
-                altMovieName: 'Night of the Living Dead'
-              },
-              {
-                id: 'https://archive.org/download/HouseOnHauntedHill_772/HouseOnHauntedHill.mp4',
-                title: 'House on Haunted Hill (1959)',
-                desc: 'Matched as a 100% legal, copyright-safe, free full-length gothic horror masterpiece.',
-                isAlternative: true,
-                altMovieName: 'House on Haunted Hill'
-              },
-              {
-                id: 'https://archive.org/download/TheCabinetOfDr.Caligari/TheCabinetOfDr.Caligari_512kb.mp4',
-                title: 'The Cabinet of Dr. Caligari (1920)',
-                desc: 'Matched as a 100% legal, copyright-safe, silent German Expressionist horror classic.',
-                isAlternative: true,
-                altMovieName: 'The Cabinet of Dr. Caligari'
-              },
-              {
-                id: 'https://archive.org/download/Nosferatu_1922_706/Nosferatu_1922_706_512kb.mp4',
-                title: 'Nosferatu (1922)',
-                desc: 'Matched as a 100% legal, copyright-safe, silent vampire horror masterpiece.',
-                isAlternative: true,
-                altMovieName: 'Nosferatu'
-              }
-            );
-          } else if (lowerGenres.includes('romance') || lowerGenres.includes('korean') || lowerGenres.includes('drama') || movie.id === 'the-crown') {
-            streams.push(
-              {
-                id: 'https://archive.org/download/charade1963/charade1963_512kb.mp4',
-                title: 'Charade (1963)',
-                desc: 'Matched as a 100% legal, copyright-safe, free full-length romantic mystery comedy masterpiece.',
-                isAlternative: true,
-                altMovieName: 'Charade'
-              },
-              {
-                id: 'https://archive.org/download/royal_wedding/royal_wedding_512kb.mp4',
-                title: 'Royal Wedding (1951)',
-                desc: 'Matched as a 100% legal, copyright-safe, free full-length musical romance classic.',
-                isAlternative: true,
-                altMovieName: 'Royal Wedding'
-              },
-              {
-                id: 'https://archive.org/download/TheLastTimeISawParis1954_201802/The%20Last%20Time%20I%20Saw%20Paris%20%281954%29.mp4',
-                title: 'The Last Time I Saw Paris (1954)',
-                desc: 'Matched as a 100% legal, copyright-safe, romantic drama starring Elizabeth Taylor.',
-                isAlternative: true,
-                altMovieName: 'The Last Time I Saw Paris'
-              },
-              {
-                id: 'https://archive.org/download/LoveAffair1939_201708/Love%20Affair%20%281939%29.mp4',
-                title: 'Love Affair (1939)',
-                desc: 'Matched as a 100% legal, copyright-safe, classic romance tragedy film.',
-                isAlternative: true,
-                altMovieName: 'Love Affair'
-              }
-            );
-          } else if (lowerGenres.includes('comedy') || lowerGenres.includes('crime') || movie.id === 'fleabag' || movie.id === 'the-bear' || movie.id === 'succession') {
-            streams.push(
-              {
-                id: 'https://archive.org/download/HisGirlFriday1940_201804/His%20Girl%20Friday%20%281940%29.mp4',
-                title: 'His Girl Friday (1940)',
-                desc: 'Matched as a 100% legal, copyright-safe, fast screwball romance comedy classic.',
-                isAlternative: true,
-                altMovieName: 'His Girl Friday'
-              },
-              {
-                id: 'https://archive.org/download/MeetJohnDoe1941_201708/Meet%20John%20Doe%20%281941%29.mp4',
-                title: 'Meet John Doe (1941)',
-                desc: 'Matched as a 100% legal, copyright-safe, Frank Capra comedy-drama classic.',
-                isAlternative: true,
-                altMovieName: 'Meet John Doe'
-              },
-              {
-                id: 'https://archive.org/download/SteamboatBillJr.1928/Steamboat%20Bill%20Jr.%20%281928%29.mp4',
-                title: 'Steamboat Bill Jr. (1928)',
-                desc: 'Matched as a 100% legal, copyright-safe, physical comedy masterpiece by Buster Keaton.',
-                isAlternative: true,
-                altMovieName: 'Steamboat Bill Jr.'
-              }
-            );
-          } else {
-            // Default Sci-Fi / Action / Adventure / Fantasy
-            streams.push(
-              {
-                id: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
-                title: 'Tears of Steel (2012)',
-                desc: 'Matched as a 100% legal, copyright-safe, open-source science fiction cinematic CGI showcase.',
-                isAlternative: true,
-                altMovieName: 'Tears of Steel'
-              },
-              {
-                id: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
-                title: 'Sintel (2010)',
-                desc: 'Matched as a 100% legal, copyright-safe, open-source fantasy drama animated masterpiece.',
-                isAlternative: true,
-                altMovieName: 'Sintel'
-              },
-              {
-                id: 'https://archive.org/download/The_General_Buster_Keaton/The_General_512kb.mp4',
-                title: 'The General (1926)',
-                desc: 'Matched as a 100% legal, copyright-safe, silent action-adventure train chase masterpiece.',
-                isAlternative: true,
-                altMovieName: 'The General'
-              },
-              {
-                id: 'https://archive.org/download/Metropolis_1927_1080p/Metropolis_1927_1080p_512kb.mp4',
-                title: 'Metropolis (1927)',
-                desc: 'Matched as a 100% legal, copyright-safe, monumental silent sci-fi dystopia classic.',
-                isAlternative: true,
-                altMovieName: 'Metropolis'
-              }
-            );
-          }
-
-          return streams[index % streams.length] || streams[0];
+          const mediaId = movie.fullMovieYoutubeId || movie.youtubeId || movie.trailerYoutubeId || TRAILER_IDS[movie.id] || OFFICIAL_MEDIA_MAP[movie.id]?.youtubeId || 'Way9Dexny3w';
+          return {
+            id: mediaId,
+            title: movie.title,
+            desc: `Official stream for ${movie.title}`,
+            isAlternative: false,
+            altMovieName: movie.title
+          };
         };
 
         const seasons = getSeriesSeasons(theaterMovie);
         const isFullStream = streamMode === 'full';
         const streamOffset = theaterMovie.type === 'Series' ? (activeEpisode - 1) + (activeSeason - 1) * 8 : 0;
         const safeStream = getCopyrightSafeFullMovie(theaterMovie, backupIndex + streamOffset);
-        const videoId = isFullStream ? safeStream.id : (TRAILER_IDS[theaterMovie.id] || 'Way9Dexny3w');
+        const videoId = isFullStream ? safeStream.id : (TRAILER_IDS[theaterMovie.id] || OFFICIAL_MEDIA_MAP[theaterMovie.id]?.youtubeId || theaterMovie.trailerYoutubeId || 'Way9Dexny3w');
         const matchPercent = recommendationMatrix.find(item => item.movie.id === theaterMovie.id)?.matchPercentage || 85;
         const inWatchlist = userState.watchlist.includes(theaterMovie.id);
 

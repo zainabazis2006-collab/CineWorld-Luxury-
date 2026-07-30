@@ -826,7 +826,9 @@ export default function CinemaPlayer({
     (playMethod === 'prime' && link.platform === 'Amazon Prime')
   );
 
-  if (streamMode === 'trailer') {
+  const isYouTube = youtubeId && !youtubeId.startsWith('http') && !youtubeId.endsWith('.mp4') && playMethod !== 'archive' && !customStreamingUrl;
+
+  if (streamMode === 'trailer' || isYouTube) {
     return (
       <div 
         id="cinema-theater-frame"
@@ -842,12 +844,12 @@ export default function CinemaPlayer({
           referrerPolicy="no-referrer"
         />
 
-        {/* Floating Telemetry & Stream Details Header for Trailer Mode */}
+        {/* Floating Telemetry & Stream Details Header */}
         <div className="absolute top-4 left-4 flex items-center gap-2.5 bg-black/85 border border-white/10 p-2 rounded-xl backdrop-blur-md shadow-2xl pointer-events-none">
           <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></div>
           <div>
             <p className="text-[9px] font-mono font-black uppercase text-white/90 tracking-widest flex items-center gap-1">
-              OFFICIAL MOVIE TRAILER ACTIVE
+              {streamMode === 'trailer' ? 'OFFICIAL MOVIE TRAILER ACTIVE' : `OFFICIAL STREAM: ${movie.title.toUpperCase()}`}
             </p>
             <p className={`text-[8px] ${theme.text} font-mono uppercase tracking-wider`}>
               Streaming Live from YouTube CDN • Muted: {isMuted ? 'YES' : 'NO'}
