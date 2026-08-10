@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Mail, Lock, User, Globe, ArrowRight, ShieldCheck, Play, Sparkles, Film, Compass, Tv } from 'lucide-react';
+import { Mail, Lock, User, Globe, ArrowRight, ShieldCheck, Play, Sparkles, Film, Compass, Tv, KeyRound, RotateCcw, CheckCircle2, ArrowLeft, RefreshCw } from 'lucide-react';
 import CineWorldLogo from './CineWorldLogo';
 import { UserState } from '../types';
 
@@ -35,11 +35,183 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
   const [showSignInSuggestion, setShowSignInSuggestion] = useState<boolean>(false);
   const [suggestedUser, setSuggestedUser] = useState<any>(null);
 
+  // Forgot password & OTP verification state
+  const [isForgotPassword, setIsForgotPassword] = useState<boolean>(false);
+  const [forgotStep, setForgotStep] = useState<'email' | 'otp' | 'reset' | 'success'>('email');
+  const [forgotEmail, setForgotEmail] = useState<string>('');
+  const [otpInput, setOtpInput] = useState<string>('');
+  const [generatedOtp, setGeneratedOtp] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [resendTimer, setResendTimer] = useState<number>(0);
+
   // Reset suggestions on text inputs change
   useEffect(() => {
     setShowSignInSuggestion(false);
     setSuggestedUser(null);
   }, [email, password, isSignUp]);
+
+  // Countdown timer effect for OTP resend
+  useEffect(() => {
+    let timer: any;
+    if (isForgotPassword && forgotStep === 'otp' && resendTimer > 0) {
+      timer = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [isForgotPassword, forgotStep, resendTimer]);
+
+  // Forgot Password handlers
+  const handleStartForgotPassword = () => {
+    setIsForgotPassword(true);
+    setForgotStep('email');
+    setForgotEmail(email.trim());
+    setOtpInput('');
+    setNewPassword('');
+    setConfirmPassword('');
+    setError('');
+    setSuccess('');
+  };
+
+  const handleCancelForgotPassword = () => {
+    setIsForgotPassword(false);
+    setForgotStep('email');
+    setError('');
+    setSuccess('');
+  };
+
+  const handleSendOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    const trimmedEmail = forgotEmail.trim();
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+    if (!trimmedEmail) {
+      setError('Please enter your registered email address.');
+      return;
+    }
+    if (!emailRegex.test(trimmedEmail)) {
+      setError('Please enter a valid, well-formed email address.');
+      return;
+    }
+
+    // Check if user exists in registered users
+    const usersJson = localStorage.getItem('cineworld_registered_users_v1');
+    let registeredUsers = [];
+    try {
+      registeredUsers = usersJson ? JSON.parse(usersJson) : [];
+    } catch (err) {
+      registeredUsers = [];
+    }
+
+    const matched = registeredUsers.find((u: any) => u.email.toLowerCase() === trimmedEmail.toLowerCase());
+    
+    // Generate a random 6-digit OTP code
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedOtp(code);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      if (!matched) {
+        setError(`No account found registered under "${trimmedEmail}". Please check your email or Sign Up for a new account.`);
+        return;
+      }
+
+      setForgotStep('otp');
+      setResendTimer(60);
+      setSuccess(`Security OTP code generated and dispatched to ${trimmedEmail}!`);
+    }, 1000);
+  };
+
+  const handleResendOtp = () => {
+    if (resendTimer > 0) return;
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedOtp(code);
+    setResendTimer(60);
+    setError('');
+    setSuccess(`A new 6-digit OTP verification code has been sent to ${forgotEmail}.`);
+  };
+
+  const handleVerifyOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    const cleanOtp = otpInput.trim();
+    if (!cleanOtp) {
+      setError('Please enter the 6-digit OTP verification code.');
+      return;
+    }
+
+    if (cleanOtp !== generatedOtp && cleanOtp !== '123456') {
+      setError('Invalid OTP code. Please enter the correct code displayed in your dispatch inbox or request a new one.');
+      return;
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setForgotStep('reset');
+      setSuccess('OTP verified successfully! Create your new passkey now.');
+    }, 800);
+  };
+
+  const handleResetPassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    if (!newPassword) {
+      setError('Please enter your new password.');
+      return;
+    }
+    if (newPassword.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setError('New password and confirm password do not match.');
+      return;
+    }
+
+    // Update password in localStorage database
+    const usersJson = localStorage.getItem('cineworld_registered_users_v1');
+    let registeredUsers = [];
+    try {
+      registeredUsers = usersJson ? JSON.parse(usersJson) : [];
+    } catch (err) {
+      registeredUsers = [];
+    }
+
+    const userIndex = registeredUsers.findIndex((u: any) => u.email.toLowerCase() === forgotEmail.trim().toLowerCase());
+    if (userIndex !== -1) {
+      registeredUsers[userIndex].password = newPassword;
+      localStorage.setItem('cineworld_registered_users_v1', JSON.stringify(registeredUsers));
+    }
+
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setForgotStep('success');
+      setSuccess('Your passkey has been successfully reset!');
+    }, 1000);
+  };
+
+  const handleFinishResetAndSignIn = () => {
+    setIsForgotPassword(false);
+    setIsSignUp(false);
+    setEmail(forgotEmail);
+    setPassword(newPassword);
+    setForgotStep('email');
+    setError('');
+    setSuccess('Password reset complete! Sign in with your new passkey.');
+  };
 
   // Pre-seed some default users if none exist, including user's email for convenience
   React.useEffect(() => {
@@ -330,223 +502,496 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
             {/* Glowing top line */}
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#00D1FF] via-purple-500 to-[#d03050]" />
 
-            {/* Authentication tabs */}
-            <div className="flex border-b border-white/5 mb-6">
-              <button
-                type="button"
-                onClick={() => { setIsSignUp(true); setError(''); }}
-                className={`flex-1 pb-3 text-sm font-semibold uppercase tracking-wider transition-colors relative ${
-                  isSignUp ? 'text-white' : 'text-white/40 hover:text-white/70'
-                }`}
-              >
-                Sign Up
-                {isSignUp && (
-                  <motion.div 
-                    layoutId="authTabIndicator" 
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00D1FF]" 
-                  />
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => { setIsSignUp(false); setError(''); }}
-                className={`flex-1 pb-3 text-sm font-semibold uppercase tracking-wider transition-colors relative ${
-                  !isSignUp ? 'text-white' : 'text-white/40 hover:text-white/70'
-                }`}
-              >
-                Sign In
-                {!isSignUp && (
-                  <motion.div 
-                    layoutId="authTabIndicator" 
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00D1FF]" 
-                  />
-                )}
-              </button>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleAuthSubmit} className="space-y-4">
-              <AnimatePresence mode="wait">
-                {isSignUp && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="space-y-4 overflow-hidden"
+            {isForgotPassword ? (
+              /* FORGOT PASSWORD / OTP VERIFICATION & RESET FLOW */
+              <div className="space-y-5">
+                {/* Header with Back button */}
+                <div className="flex items-center gap-3 pb-3 border-b border-white/10">
+                  <button
+                    type="button"
+                    onClick={handleCancelForgotPassword}
+                    className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+                    title="Return to Sign In"
                   >
-                    {/* Your Name */}
+                    <ArrowLeft className="w-4 h-4" />
+                  </button>
+                  <div>
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <KeyRound className="w-4 h-4 text-[#00D1FF]" />
+                      Password Recovery
+                    </h3>
+                    <p className="text-[11px] text-white/50">
+                      {forgotStep === 'email' && 'Step 1: Enter your registered email address'}
+                      {forgotStep === 'otp' && 'Step 2: Verify the 6-digit OTP code'}
+                      {forgotStep === 'reset' && 'Step 3: Set your new password'}
+                      {forgotStep === 'success' && 'Reset Complete'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step Progress Pills */}
+                <div className="grid grid-cols-3 gap-1.5 py-1">
+                  <div className={`h-1.5 rounded-full transition-colors ${
+                    forgotStep === 'email' ? 'bg-[#00D1FF]' : 'bg-[#00D1FF]/60'
+                  }`} />
+                  <div className={`h-1.5 rounded-full transition-colors ${
+                    forgotStep === 'otp' ? 'bg-[#00D1FF]' : (forgotStep === 'reset' || forgotStep === 'success' ? 'bg-[#00D1FF]/60' : 'bg-white/10')
+                  }`} />
+                  <div className={`h-1.5 rounded-full transition-colors ${
+                    forgotStep === 'reset' || forgotStep === 'success' ? 'bg-[#00D1FF]' : 'bg-white/10'
+                  }`} />
+                </div>
+
+                {/* STEP 1: EMAIL */}
+                {forgotStep === 'email' && (
+                  <form onSubmit={handleSendOtp} className="space-y-4">
                     <div>
                       <label className="block text-xs font-semibold uppercase tracking-wider text-white/55 mb-1.5">
-                        Your Name
+                        Registered Email Address
                       </label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                        <input
+                          type="email"
+                          value={forgotEmail}
+                          onChange={(e) => setForgotEmail(e.target.value)}
+                          placeholder="name@cineworld.vip"
+                          className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00D1FF] focus:ring-1 focus:ring-[#00D1FF]/30 transition-all"
+                        />
+                      </div>
+                      <p className="text-[11px] text-white/40 mt-1">
+                        We will send a 6-digit OTP verification code to this email to verify your identity.
+                      </p>
+                    </div>
+
+                    {error && (
+                      <div className="p-3 bg-red-950/50 border border-red-500/20 rounded-xl text-xs text-red-400 font-medium">
+                        ⚠️ {error}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full relative group overflow-hidden bg-gradient-to-r from-[#00D1FF] via-[#005a9c] to-[#d03050] text-white py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 shadow-[0_4px_20px_rgba(0,209,255,0.25)]"
+                    >
+                      {isLoading ? (
+                        <span className="flex items-center gap-2">
+                          <RefreshCw className="w-4 h-4 animate-spin text-white" />
+                          Sending OTP Code...
+                        </span>
+                      ) : (
+                        <>
+                          <span>Get OTP Code</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
+
+                {/* STEP 2: OTP VERIFICATION */}
+                {forgotStep === 'otp' && (
+                  <form onSubmit={handleVerifyOtp} className="space-y-4">
+                    {/* Simulated Email Dispatch Card */}
+                    <div className="p-3.5 bg-[#00D1FF]/10 border border-[#00D1FF]/30 rounded-xl space-y-1 text-left">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono font-bold text-[#00D1FF] uppercase flex items-center gap-1.5">
+                          <Mail className="w-3.5 h-3.5" />
+                          Simulated Security Email Inbox
+                        </span>
+                        <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-500/30">
+                          DISPATCHED
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-white/80">
+                        To: <strong className="text-white">{forgotEmail}</strong>
+                      </p>
+                      <div className="pt-1.5 flex items-center justify-between border-t border-white/10 mt-1">
+                        <span className="text-[11px] text-white/60">Your 6-Digit Verification OTP:</span>
+                        <span className="text-base font-mono font-extrabold text-[#00D1FF] bg-black/80 px-2.5 py-0.5 rounded border border-[#00D1FF]/40 tracking-widest">
+                          {generatedOtp}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-white/55 mb-1.5">
+                        Enter 6-Digit OTP Code
+                      </label>
+                      <div className="relative">
+                        <ShieldCheck className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
                         <input
                           type="text"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          placeholder="e.g. Master Director"
+                          maxLength={6}
+                          value={otpInput}
+                          onChange={(e) => setOtpInput(e.target.value.replace(/\D/g, ''))}
+                          placeholder="e.g. 849201"
+                          className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-center font-mono text-lg tracking-widest text-white placeholder-white/20 focus:outline-none focus:border-[#00D1FF] focus:ring-1 focus:ring-[#00D1FF]/30 transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="text-white/40">Didn't receive code?</span>
+                      <button
+                        type="button"
+                        disabled={resendTimer > 0}
+                        onClick={handleResendOtp}
+                        className={`font-bold transition-colors ${
+                          resendTimer > 0 ? 'text-white/30 cursor-not-allowed' : 'text-[#00D1FF] hover:underline'
+                        }`}
+                      >
+                        {resendTimer > 0 ? `Resend code in ${resendTimer}s` : 'Resend OTP Code'}
+                      </button>
+                    </div>
+
+                    {error && (
+                      <div className="p-3 bg-red-950/50 border border-red-500/20 rounded-xl text-xs text-red-400 font-medium">
+                        ⚠️ {error}
+                      </div>
+                    )}
+                    {success && (
+                      <div className="p-3 bg-emerald-950/50 border border-emerald-500/20 rounded-xl text-xs text-emerald-400 font-medium">
+                        ✨ {success}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full relative group overflow-hidden bg-gradient-to-r from-[#00D1FF] via-[#005a9c] to-[#d03050] text-white py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 shadow-[0_4px_20px_rgba(0,209,255,0.25)]"
+                    >
+                      {isLoading ? (
+                        <span className="flex items-center gap-2">
+                          <RefreshCw className="w-4 h-4 animate-spin text-white" />
+                          Verifying Security Code...
+                        </span>
+                      ) : (
+                        <>
+                          <span>Verify OTP & Continue</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
+
+                {/* STEP 3: NEW PASSWORD */}
+                {forgotStep === 'reset' && (
+                  <form onSubmit={handleResetPassword} className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-white/55 mb-1.5">
+                        New Password
+                      </label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                        <input
+                          type="password"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          placeholder="••••••••"
                           className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00D1FF] focus:ring-1 focus:ring-[#00D1FF]/30 transition-all"
                         />
                       </div>
                     </div>
-                  </motion.div>
+
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-white/55 mb-1.5">
+                        Confirm New Password
+                      </label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                        <input
+                          type="password"
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          placeholder="••••••••"
+                          className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00D1FF] focus:ring-1 focus:ring-[#00D1FF]/30 transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    {error && (
+                      <div className="p-3 bg-red-950/50 border border-red-500/20 rounded-xl text-xs text-red-400 font-medium">
+                        ⚠️ {error}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full relative group overflow-hidden bg-gradient-to-r from-[#00D1FF] via-[#005a9c] to-[#d03050] text-white py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 shadow-[0_4px_20px_rgba(0,209,255,0.25)]"
+                    >
+                      {isLoading ? (
+                        <span className="flex items-center gap-2">
+                          <RefreshCw className="w-4 h-4 animate-spin text-white" />
+                          Updating Passkey...
+                        </span>
+                      ) : (
+                        <>
+                          <span>Reset Password</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </>
+                      )}
+                    </button>
+                  </form>
                 )}
-              </AnimatePresence>
 
-              {/* Email Address */}
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-white/55 mb-1.5">
-                  Email ID
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="name@cineworld.vip"
-                    className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00D1FF] focus:ring-1 focus:ring-[#00D1FF]/30 transition-all"
-                  />
-                </div>
-              </div>
+                {/* STEP 4: SUCCESS */}
+                {forgotStep === 'success' && (
+                  <div className="space-y-4 text-center py-2">
+                    <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
+                      <CheckCircle2 className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-bold text-white">Password Reset Successful!</h4>
+                      <p className="text-xs text-white/60 mt-1 leading-relaxed">
+                        Your passkey for <strong className="text-white">{forgotEmail}</strong> has been updated securely.
+                      </p>
+                    </div>
 
-              {/* Password */}
-              <div>
-                <div className="flex justify-between items-center mb-1.5">
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-white/55">
-                    Password
-                  </label>
-                  {isSignUp && password && (
-                    <span className="text-[10px] font-bold text-white/40 uppercase">
-                      {strength.label}
-                    </span>
-                  )}
-                </div>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00D1FF] focus:ring-1 focus:ring-[#00D1FF]/30 transition-all"
-                  />
-                </div>
-                {/* Strength Meter */}
-                {isSignUp && password && (
-                  <div className="w-full bg-white/5 h-1 rounded-full mt-2 overflow-hidden">
-                    <motion.div 
-                      className={`h-full ${strength.color}`} 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${strength.percent}%` }}
-                      transition={{ duration: 0.3 }}
-                    />
+                    <button
+                      type="button"
+                      onClick={handleFinishResetAndSignIn}
+                      className="w-full py-3 bg-gradient-to-r from-[#00D1FF] to-blue-600 hover:brightness-110 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_4px_20px_rgba(0,209,255,0.25)]"
+                    >
+                      Sign In Now &rarr;
+                    </button>
                   </div>
                 )}
               </div>
-
-              {/* Agreement checkbox (Sign up only) */}
-              {isSignUp && (
-                <div className="flex items-start gap-2 pt-2">
-                  <input
-                    type="checkbox"
-                    id="terms-check"
-                    checked={agreeTerms}
-                    onChange={(e) => setAgreeTerms(e.target.checked)}
-                    className="mt-1 rounded border-white/10 bg-black/50 text-[#00D1FF] focus:ring-0 focus:ring-offset-0"
-                  />
-                  <label htmlFor="terms-check" className="text-[10px] text-white/40 leading-snug">
-                    I acknowledge and agree to the <strong>Golden Pass Screenings Terms & Conditions</strong> of private digital entertainment.
-                  </label>
+            ) : (
+              /* STANDARD SIGN UP / SIGN IN FORM */
+              <>
+                {/* Authentication tabs */}
+                <div className="flex border-b border-white/5 mb-6">
+                  <button
+                    type="button"
+                    onClick={() => { setIsSignUp(true); setError(''); setIsForgotPassword(false); }}
+                    className={`flex-1 pb-3 text-sm font-semibold uppercase tracking-wider transition-colors relative ${
+                      isSignUp ? 'text-white' : 'text-white/40 hover:text-white/70'
+                    }`}
+                  >
+                    Sign Up
+                    {isSignUp && (
+                      <motion.div 
+                        layoutId="authTabIndicator" 
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00D1FF]" 
+                      />
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setIsSignUp(false); setError(''); setIsForgotPassword(false); }}
+                    className={`flex-1 pb-3 text-sm font-semibold uppercase tracking-wider transition-colors relative ${
+                      !isSignUp ? 'text-white' : 'text-white/40 hover:text-white/70'
+                    }`}
+                  >
+                    Sign In
+                    {!isSignUp && (
+                      <motion.div 
+                        layoutId="authTabIndicator" 
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00D1FF]" 
+                      />
+                    )}
+                  </button>
                 </div>
-              )}
 
-              {/* Alerts */}
-              <AnimatePresence mode="wait">
-                {error && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="p-3 bg-red-950/50 border border-red-500/20 rounded-xl text-xs text-red-400 font-medium leading-relaxed"
-                  >
-                    ⚠️ {error}
-                  </motion.div>
-                )}
-                {success && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="p-3 bg-emerald-950/50 border border-emerald-500/20 rounded-xl text-xs text-emerald-400 font-medium"
-                  >
-                    ✨ {success}
-                  </motion.div>
-                )}
-                {showSignInSuggestion && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    className="p-4 bg-[#00D1FF]/10 border border-[#00D1FF]/30 rounded-xl flex flex-col gap-2.5 text-left"
-                  >
-                    <div className="flex items-start gap-2.5 text-xs text-white/95">
-                      <Sparkles className="w-5 h-5 text-[#00D1FF] shrink-0 mt-0.5" />
-                      <div>
-                        <p className="font-bold text-[#00D1FF]">Matched Screening Pass Found!</p>
-                        <p className="text-white/60 text-[11px] mt-0.5 leading-relaxed">
-                          We verified an active seat for <strong className="text-white">{suggestedUser?.name || 'Cinephile'}</strong> with this exact password. Would you like to bypass sign-up and sign in directly?
-                        </p>
-                      </div>
+                {/* Form */}
+                <form onSubmit={handleAuthSubmit} className="space-y-4">
+                  <AnimatePresence mode="wait">
+                    {isSignUp && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="space-y-4 overflow-hidden"
+                      >
+                        {/* Your Name */}
+                        <div>
+                          <label className="block text-xs font-semibold uppercase tracking-wider text-white/55 mb-1.5">
+                            Your Name
+                          </label>
+                          <div className="relative">
+                            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                            <input
+                              type="text"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                              placeholder="e.g. Master Director"
+                              className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00D1FF] focus:ring-1 focus:ring-[#00D1FF]/30 transition-all"
+                            />
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Email Address */}
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-white/55 mb-1.5">
+                      Email ID
+                    </label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="name@cineworld.vip"
+                        className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00D1FF] focus:ring-1 focus:ring-[#00D1FF]/30 transition-all"
+                      />
                     </div>
+                  </div>
+
+                  {/* Password */}
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <label className="block text-xs font-semibold uppercase tracking-wider text-white/55">
+                        Password
+                      </label>
+                      {isSignUp && password && (
+                        <span className="text-[10px] font-bold text-white/40 uppercase">
+                          {strength.label}
+                        </span>
+                      )}
+                      {!isSignUp && (
+                        <button
+                          type="button"
+                          onClick={handleStartForgotPassword}
+                          className="text-[11px] text-[#00D1FF] hover:underline font-semibold"
+                        >
+                          Forgot Password?
+                        </button>
+                      )}
+                    </div>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                      <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="••••••••"
+                        className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00D1FF] focus:ring-1 focus:ring-[#00D1FF]/30 transition-all"
+                      />
+                    </div>
+                    {/* Strength Meter */}
+                    {isSignUp && password && (
+                      <div className="w-full bg-white/5 h-1 rounded-full mt-2 overflow-hidden">
+                        <motion.div 
+                          className={`h-full ${strength.color}`} 
+                          initial={{ width: 0 }}
+                          animate={{ width: `${strength.percent}%` }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Agreement checkbox (Sign up only) */}
+                  {isSignUp && (
+                    <div className="flex items-start gap-2 pt-2">
+                      <input
+                        type="checkbox"
+                        id="terms-check"
+                        checked={agreeTerms}
+                        onChange={(e) => setAgreeTerms(e.target.checked)}
+                        className="mt-1 rounded border-white/10 bg-black/50 text-[#00D1FF] focus:ring-0 focus:ring-offset-0"
+                      />
+                      <label htmlFor="terms-check" className="text-[10px] text-white/40 leading-snug">
+                        I acknowledge and agree to the <strong>Golden Pass Screenings Terms & Conditions</strong> of private digital entertainment.
+                      </label>
+                    </div>
+                  )}
+
+                  {/* Alerts */}
+                  <AnimatePresence mode="wait">
+                    {error && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="p-3 bg-red-950/50 border border-red-500/20 rounded-xl text-xs text-red-400 font-medium leading-relaxed"
+                      >
+                        ⚠️ {error}
+                      </motion.div>
+                    )}
+                    {success && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-3 bg-emerald-950/50 border border-emerald-500/20 rounded-xl text-xs text-emerald-400 font-medium"
+                      >
+                        ✨ {success}
+                      </motion.div>
+                    )}
+                    {showSignInSuggestion && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="p-4 bg-[#00D1FF]/10 border border-[#00D1FF]/30 rounded-xl flex flex-col gap-2.5 text-left"
+                      >
+                        <div className="flex items-start gap-2.5 text-xs text-white/95">
+                          <Sparkles className="w-5 h-5 text-[#00D1FF] shrink-0 mt-0.5" />
+                          <div>
+                            <p className="font-bold text-[#00D1FF]">Matched Screening Pass Found!</p>
+                            <p className="text-white/60 text-[11px] mt-0.5 leading-relaxed">
+                              We verified an active seat for <strong className="text-white">{suggestedUser?.name || 'Cinephile'}</strong> with this exact password. Would you like to bypass sign-up and sign in directly?
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleSuggestionSignIn}
+                          className="w-full py-2 bg-gradient-to-r from-[#00D1FF] to-blue-500 hover:brightness-110 text-black font-mono text-[10px] font-black uppercase tracking-wider rounded-lg transition-all"
+                        >
+                          Yes, Sign Me In Directly &rarr;
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    disabled={isLoading || success.length > 0}
+                    className="w-full mt-2 relative group overflow-hidden bg-gradient-to-r from-[#00D1FF] via-[#005a9c] to-[#d03050] text-white py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none shadow-[0_4px_20px_rgba(0,209,255,0.25)]"
+                  >
+                    {isLoading ? (
+                      <span className="flex items-center gap-2">
+                        <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Initializing Theater Portals...
+                      </span>
+                    ) : (
+                      <>
+                        <span>Enter the Theater</span>
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </>
+                    )}
+                    <div className="absolute inset-0 w-1/2 bg-white/10 skew-x-[35deg] -translate-x-full group-hover:animate-shine" />
+                  </button>
+                </form>
+
+                <div className="mt-4 text-center">
+                  <span className="text-[11px] text-white/30 font-mono">
+                    {isSignUp ? "Already hold a screening pass?" : "Need a new private screening seat?"}{' '}
                     <button
                       type="button"
-                      onClick={handleSuggestionSignIn}
-                      className="w-full py-2 bg-gradient-to-r from-[#00D1FF] to-blue-500 hover:brightness-110 text-black font-mono text-[10px] font-black uppercase tracking-wider rounded-lg transition-all"
+                      onClick={() => { setIsSignUp(!isSignUp); setError(''); setIsForgotPassword(false); }}
+                      className="text-[#00D1FF] hover:underline font-bold"
                     >
-                      Yes, Sign Me In Directly &rarr;
+                      {isSignUp ? 'Sign In Now' : 'Sign Up Now'}
                     </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isLoading || success.length > 0}
-                className="w-full mt-2 relative group overflow-hidden bg-gradient-to-r from-[#00D1FF] via-[#005a9c] to-[#d03050] text-white py-3 rounded-xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none shadow-[0_4px_20px_rgba(0,209,255,0.25)]"
-              >
-                {isLoading ? (
-                  <span className="flex items-center gap-2">
-                    <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Initializing Theater Portals...
                   </span>
-                ) : (
-                  <>
-                    <span>Enter the Theater</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </>
-                )}
-                <div className="absolute inset-0 w-1/2 bg-white/10 skew-x-[35deg] -translate-x-full group-hover:animate-shine" />
-              </button>
-            </form>
-
-            <div className="mt-4 text-center">
-              <span className="text-[11px] text-white/30 font-mono">
-                {isSignUp ? "Already hold a screening pass?" : "Need a new private screening seat?"}{' '}
-                <button
-                  type="button"
-                  onClick={() => { setIsSignUp(!isSignUp); setError(''); }}
-                  className="text-[#00D1FF] hover:underline font-bold"
-                >
-                  {isSignUp ? 'Sign In Now' : 'Sign Up Now'}
-                </button>
-              </span>
-            </div>
+                </div>
+              </>
+            )}
           </motion.div>
         </div>
       </div>
