@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback, lazy, Suspense } from 'react';
 import { 
   Play, 
   Info, 
@@ -27,7 +27,9 @@ import {
   Settings,
   Image as LucideImage,
   MapPin,
-  Users
+  Users,
+  Shuffle,
+  RotateCcw
 } from 'lucide-react';
 import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
 import { UPCOMING_RELEASES } from './upcomingData';
@@ -510,13 +512,9 @@ const INITIAL_REVIEWS: Review[] = [
 
 // Clean search title to remove parenthetical context and season numbers
 function cleanSearchTitle(title: string): string {
-  // 1. Strip all colons and any sub-text words following them
   let clean = title;
-  if (clean.includes(':')) {
-    clean = clean.split(':')[0];
-  }
 
-  // 2. Strip multi-language brackets and parenthetical symbols completely
+  // 1. Strip multi-language brackets and parenthetical symbols completely
   clean = clean
     .replace(/\([^)]*\)/g, '')
     .replace(/\[[^\]]*\]/g, '')
@@ -526,6 +524,9 @@ function cleanSearchTitle(title: string): string {
     .replace(/『[^』]*』/g, '')
     .replace(/《[^》]*》/g, '')
     .replace(/〈[^〉]*〉/g, '');
+
+  // Strip trailing season tags like ": Season 5" or "Season 2"
+  clean = clean.replace(/:\s*season\s*\d+/i, '').replace(/\s+season\s*\d+/i, '');
 
   // Strip trailing year (e.g. " 2024")
   clean = clean.replace(/\s+\d{4}$/, '');
@@ -539,123 +540,15 @@ function cleanSearchTitle(title: string): string {
   return clean.trim();
 }
 
-// Special local mappings for fictional or unreleased titles to ensure perfect, atmospheric images
+// Special local mappings for unreleased or special titles
 const SPECIAL_LOCAL_MEDIA: Record<string, { posterUrl: string; backdropUrl: string }> = {
   "widow's bay": {
-    posterUrl: "https://images.unsplash.com/photo-1505852673653-db4fc4aa3dd4?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop"
+    posterUrl: "https://image.tmdb.org/t/p/w500/vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg",
+    backdropUrl: "https://image.tmdb.org/t/p/original/u6XtMg9Ai9siEbEs0UudPS3EaZY.jpg"
   },
   "if wishes could kill": {
     posterUrl: "https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=600&auto=format&fit=crop",
     backdropUrl: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=1200&auto=format&fit=crop"
-  },
-  "voicemails by isabelle": {
-    posterUrl: "https://images.unsplash.com/photo-1516280440614-37939bbacd6a?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop"
-  },
-  "avatar: fire and ash": {
-    posterUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=1200&auto=format&fit=crop"
-  },
-  "stranger things: season 5": {
-    posterUrl: "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200&auto=format&fit=crop"
-  },
-  "dune: messiah": {
-    posterUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1547234935-80c7145ec969?q=80&w=1200&auto=format&fit=crop"
-  },
-  "blade runner 2099": {
-    posterUrl: "https://images.unsplash.com/photo-1515621061946-eff1c2a352bd?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=1200&auto=format&fit=crop"
-  },
-  "project hail mary": {
-    posterUrl: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop"
-  },
-  "from": {
-    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop"
-  },
-  "goblin (guardian: the lonely and great god)": {
-    posterUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop"
-  },
-  "goblin": {
-    posterUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=1200&auto=format&fit=crop"
-  },
-  "lovely runner": {
-    posterUrl: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1518887570146-0612132dd618?q=80&w=1200&auto=format&fit=crop"
-  },
-  "queen of tears": {
-    posterUrl: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop"
-  },
-  "crash landing on you": {
-    posterUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1200&auto=format&fit=crop"
-  },
-  "my demon": {
-    posterUrl: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200&auto=format&fit=crop"
-  },
-  "shaitaan": {
-    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=1200&auto=format&fit=crop"
-  },
-  "panchayat": {
-    posterUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop"
-  },
-  "tumbbad": {
-    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1505852673653-db4fc4aa3dd4?q=80&w=1200&auto=format&fit=crop"
-  },
-  "enola holmes 3": {
-    posterUrl: "https://images.unsplash.com/photo-1511108690759-009324a90311?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=1200&auto=format&fit=crop"
-  },
-  "fallout": {
-    posterUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop"
-  },
-  "bridgerton": {
-    posterUrl: "https://images.unsplash.com/photo-1518887570146-0612132dd618?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=1200&auto=format&fit=crop"
-  },
-  "beef": {
-    posterUrl: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1533929736458-ca588d08c8be?q=80&w=1200&auto=format&fit=crop"
-  },
-  "the sandman": {
-    posterUrl: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=1200&auto=format&fit=crop"
-  },
-  "the expanse": {
-    posterUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1200&auto=format&fit=crop"
-  },
-  "the idea of you": {
-    posterUrl: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1200&auto=format&fit=crop"
-  },
-  "society of the snow": {
-    posterUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&auto=format&fit=crop"
-  },
-  "road house": {
-    posterUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=1200&auto=format&fit=crop"
-  },
-  "the covenant": {
-    posterUrl: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop"
-  },
-  "nimona": {
-    posterUrl: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=600&auto=format&fit=crop",
-    backdropUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"
   }
 };
 
@@ -845,6 +738,20 @@ function getVideoStreamUrl(movie: Movie): string {
   }
 }
 
+// Fisher-Yates array shuffle for non-repeating hero carousel decks
+function shuffleArray<T>(array: T[], avoidFirstItem?: T): T[] {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  if (avoidFirstItem && result.length > 1 && result[0] === avoidFirstItem) {
+    const swapIndex = 1 + Math.floor(Math.random() * (result.length - 1));
+    [result[0], result[swapIndex]] = [result[swapIndex], result[0]];
+  }
+  return result;
+}
+
 export default function App() {
   // Load state from localStorage if available, otherwise default
   const [userState, setUserState] = useState<UserState>(() => {
@@ -916,6 +823,11 @@ export default function App() {
   const [selectedMovieId, setSelectedMovieId] = useState<string>('shogun');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchLoading, setIsSearchLoading] = useState<boolean>(false);
+
+  // Non-repeating Hero Showcase Shuffle Engine States
+  const [shuffledDeck, setShuffledDeck] = useState<string[]>([]);
+  const [deckHistory, setDeckHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState<number>(-1);
 
   // Trigger loading spinner for perceived API search requests in progress
   useEffect(() => {
@@ -1136,20 +1048,100 @@ export default function App() {
     }
   }, [theaterMovieId]);
 
-  // Automated 10-second carousel timer for the Hero Showcase Section
+  // Initialize Hero shuffle deck when catalog is loaded
+  useEffect(() => {
+    if (displayCatalog.length === 0) return;
+    if (shuffledDeck.length === 0 && deckHistory.length === 0) {
+      const allIds = displayCatalog.map(m => m.id);
+      const initialShuffled = shuffleArray(allIds);
+      const firstMovieId = initialShuffled[0];
+      const remainingDeck = initialShuffled.slice(1);
+
+      setShuffledDeck(remainingDeck);
+      setDeckHistory([firstMovieId]);
+      setHistoryIndex(0);
+      setSelectedMovieId(firstMovieId);
+    }
+  }, [displayCatalog]);
+
+  // Advance to next un-repeated title in the hero shuffle
+  const advanceHeroShuffleNext = useCallback(() => {
+    if (displayCatalog.length === 0) return;
+
+    // If stepping forward in history
+    if (historyIndex < deckHistory.length - 1) {
+      const nextIdx = historyIndex + 1;
+      setHistoryIndex(nextIdx);
+      setSelectedMovieId(deckHistory[nextIdx]);
+      return;
+    }
+
+    // Need a new un-repeated movie from shuffledDeck
+    const currentDeck = shuffledDeck.filter(id => !deckHistory.includes(id));
+
+    if (currentDeck.length === 0) {
+      // Full catalog deck exhausted! Re-shuffle full catalog for a new cycle.
+      const allIds = displayCatalog.map(m => m.id);
+      const lastShownId = deckHistory[deckHistory.length - 1];
+      const newShuffled = shuffleArray(allIds, lastShownId);
+
+      const nextId = newShuffled[0];
+      const remaining = newShuffled.slice(1);
+
+      setShuffledDeck(remaining);
+      setDeckHistory([nextId]);
+      setHistoryIndex(0);
+      setSelectedMovieId(nextId);
+    } else {
+      // Pick next un-repeated item from current shuffled deck
+      const nextId = currentDeck[0];
+      const remaining = currentDeck.slice(1);
+
+      const newHistory = [...deckHistory, nextId];
+      setShuffledDeck(remaining);
+      setDeckHistory(newHistory);
+      setHistoryIndex(newHistory.length - 1);
+      setSelectedMovieId(nextId);
+    }
+  }, [displayCatalog, shuffledDeck, deckHistory, historyIndex]);
+
+  // Step back to previously shown item in history
+  const advanceHeroShufflePrev = useCallback(() => {
+    if (historyIndex > 0) {
+      const prevIdx = historyIndex - 1;
+      setHistoryIndex(prevIdx);
+      setSelectedMovieId(deckHistory[prevIdx]);
+    } else {
+      const currentIndex = displayCatalog.findIndex(m => m.id === selectedMovieId);
+      const prevIndex = (currentIndex - 1 + displayCatalog.length) % displayCatalog.length;
+      setSelectedMovieId(displayCatalog[prevIndex].id);
+    }
+  }, [historyIndex, deckHistory, displayCatalog, selectedMovieId]);
+
+  // Force reshuffle deck manually
+  const resetAndReshuffleHeroDeck = useCallback(() => {
+    if (displayCatalog.length === 0) return;
+    const allIds = displayCatalog.map(m => m.id);
+    const newShuffled = shuffleArray(allIds, selectedMovieId);
+    const nextId = newShuffled[0];
+    const remaining = newShuffled.slice(1);
+
+    setShuffledDeck(remaining);
+    setDeckHistory([nextId]);
+    setHistoryIndex(0);
+    setSelectedMovieId(nextId);
+  }, [displayCatalog, selectedMovieId]);
+
+  // Automated 10-second carousel timer for the Hero Showcase Section using non-repeating shuffle
   useEffect(() => {
     if (!isCarouselPlaying) return;
     
     const timer = setInterval(() => {
-      setSelectedMovieId((prevId) => {
-        const currentIndex = displayCatalog.findIndex(m => m.id === prevId);
-        const nextIndex = (currentIndex + 1) % displayCatalog.length;
-        return displayCatalog[nextIndex].id;
-      });
+      advanceHeroShuffleNext();
     }, 10000);
     
     return () => clearInterval(timer);
-  }, [selectedMovieId, isCarouselPlaying, displayCatalog]);
+  }, [isCarouselPlaying, advanceHeroShuffleNext]);
 
   // Preload currently selected movie's high-res poster and backdrop images for instant visual presentation
   useEffect(() => {
@@ -1241,6 +1233,21 @@ export default function App() {
     setSelectedMovieId(movieId);
     setTheaterMovieId(movieId); // Automatically start playing trailer in theater modal
     
+    // Sync with hero shuffle deck so manually chosen movie isn't repeated in the shuffle cycle
+    setDeckHistory(prevHistory => {
+      if (prevHistory.includes(movieId)) {
+        const idx = prevHistory.indexOf(movieId);
+        setHistoryIndex(idx);
+        return prevHistory;
+      } else {
+        const newHistory = [...prevHistory, movieId];
+        setHistoryIndex(newHistory.length - 1);
+        return newHistory;
+      }
+    });
+
+    setShuffledDeck(prevDeck => prevDeck.filter(id => id !== movieId));
+
     // Find movie to increment genre clicks
     const movie = displayCatalog.find(m => m.id === movieId);
     if (movie) {
@@ -2232,30 +2239,17 @@ export default function App() {
               <motion.div
                 key={`trailer-${currentMovie.id}`}
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.38 }}
+                animate={{ opacity: 0.55 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 1.0 }}
                 className="absolute inset-0 w-full h-full bg-black overflow-hidden pointer-events-none"
               >
-                <video
-                  src={(() => {
-                    const previews = [
-                      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
-                      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
-                      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-                      "https://vjs.zencdn.net/v/oceans.mp4"
-                    ];
-                    let hash = 0;
-                    for (let i = 0; i < currentMovie.id.length; i++) {
-                      hash = currentMovie.id.charCodeAt(i) + ((hash << 5) - hash);
-                    }
-                    return previews[Math.abs(hash) % previews.length];
-                  })()}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover pointer-events-none"
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${currentMovie.youtubeId || OFFICIAL_MEDIA_MAP[currentMovie.id]?.youtubeId || 'Way9Dexny3w'}?autoplay=1&mute=1&controls=0&loop=1&playlist=${currentMovie.youtubeId || OFFICIAL_MEDIA_MAP[currentMovie.id]?.youtubeId || 'Way9Dexny3w'}&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`}
+                  title={`${currentMovie.title} Official Trailer`}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] pointer-events-none object-cover aspect-video filter contrast-[1.08] saturate-[1.1] scale-110"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  style={{ border: 0 }}
                 />
               </motion.div>
             ) : (
@@ -2308,6 +2302,12 @@ export default function App() {
                 <span className="px-2.5 py-1 bg-white/5 text-white/70 text-[10px] font-mono rounded-full border border-white/10">
                   {currentMovie.runtimeOrSeasons}
                 </span>
+                {userState.autoplayTrailers && isHeroInView && (
+                  <span className="px-2.5 py-1 bg-red-600/20 border border-red-500/40 text-red-400 text-[10px] font-mono font-bold rounded-full uppercase tracking-wider flex items-center gap-1.5 animate-pulse">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                    Live Official Trailer
+                  </span>
+                )}
                 <span className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold rounded-full uppercase tracking-wider flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   100% Free Stream
@@ -2465,35 +2465,39 @@ export default function App() {
 
           {/* Previous Button */}
           <button
-            onClick={() => {
-              const currentIndex = displayCatalog.findIndex(m => m.id === currentMovie.id);
-              const prevIndex = (currentIndex - 1 + displayCatalog.length) % displayCatalog.length;
-              handleMovieSelect(displayCatalog[prevIndex].id);
-            }}
+            onClick={advanceHeroShufflePrev}
             className="text-white/50 hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-wider"
-            title="Previous Slide"
+            title="Previous Shuffled Title"
           >
             PREV
           </button>
 
-          {/* Slide Indicator */}
-          <div className="flex items-center gap-1.5 font-mono text-xs text-white/40">
+          {/* Shuffled Slide Indicator */}
+          <div 
+            className="flex items-center gap-1.5 font-mono text-xs text-white/50 bg-black/50 border border-white/10 px-2.5 py-1 rounded-full backdrop-blur-md"
+            title="Non-repeating shuffle cycle progress"
+          >
+            <Shuffle className="w-3 h-3 text-[#00D1FF]" />
             <span className="text-[#00D1FF] font-black">
-              {String(displayCatalog.findIndex(m => m.id === currentMovie.id) + 1).padStart(2, '0')}
+              {String(historyIndex + 1).padStart(2, '0')}
             </span>
-            <span>/</span>
-            <span>{String(displayCatalog.length).padStart(2, '0')}</span>
+            <span className="text-white/30">/</span>
+            <span className="text-white/60">{String(displayCatalog.length).padStart(2, '0')}</span>
           </div>
+
+          <button
+            onClick={resetAndReshuffleHeroDeck}
+            className="text-white/40 hover:text-[#00D1FF] transition-colors p-1"
+            title="Reshuffle Full Catalog Deck"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+          </button>
 
           {/* Next Button */}
           <button
-            onClick={() => {
-              const currentIndex = displayCatalog.findIndex(m => m.id === currentMovie.id);
-              const nextIndex = (currentIndex + 1) % displayCatalog.length;
-              handleMovieSelect(displayCatalog[nextIndex].id);
-            }}
+            onClick={advanceHeroShuffleNext}
             className="text-white/50 hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-wider"
-            title="Next Slide"
+            title="Next Shuffled Title"
           >
             NEXT
           </button>
@@ -3561,7 +3565,7 @@ export default function App() {
         const isFullStream = streamMode === 'full';
         const streamOffset = theaterMovie.type === 'Series' ? (activeEpisode - 1) + (activeSeason - 1) * 8 : 0;
         const safeStream = getCopyrightSafeFullMovie(theaterMovie, backupIndex + streamOffset);
-        const videoId = isFullStream ? safeStream.id : (TRAILER_IDS[theaterMovie.id] || OFFICIAL_MEDIA_MAP[theaterMovie.id]?.youtubeId || theaterMovie.trailerYoutubeId || 'Way9Dexny3w');
+        const videoId = isFullStream ? safeStream.id : (theaterMovie.youtubeId || OFFICIAL_MEDIA_MAP[theaterMovie.id]?.youtubeId || TRAILER_IDS[theaterMovie.id] || theaterMovie.trailerYoutubeId || 'Way9Dexny3w');
         const matchPercent = recommendationMatrix.find(item => item.movie.id === theaterMovie.id)?.matchPercentage || 85;
         const inWatchlist = userState.watchlist.includes(theaterMovie.id);
 

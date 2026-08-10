@@ -1,0 +1,506 @@
+{
+  "dune-part-two": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/6izwz7rsy95ARzTR3poZ8H6c5pp.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/eZ239CUp1d6OryZEBPnO2n87gMG.jpg"
+  },
+  "oppenheimer": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/neeNHeXjMF5fXoCJRsOmkNGC7q.jpg"
+  },
+  "interstellar": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/yQvGrMoipbRoddT0ZR8tPoR7NfX.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/5XNQBqnBwPA9yT0jZ0p3s8bbLh0.jpg"
+  },
+  "spider-verse": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/8mnXR9rey5uQ08rZAvzojKWbDQS.jpg"
+  },
+  "the-dark-knight": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/dqK9Hag1054tghRQSqLSfrkvQnA.jpg"
+  },
+  "stranger-things": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/uOOtwVbSr4QDjAGIifLDwpb2Pdl.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/56v2KjBlU4XaOv9rVYEQypROD7P.jpg"
+  },
+  "the-crown": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/1M876KPjulVwppEpldhdc8V4o68.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/8VXhcrl5z2I1zEU9X3pkkNrZlD.jpg"
+  },
+  "black-mirror": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/seN6rRfN0I6n8iDXjlSMk1QjNcq.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/dg3OindVAGZBjlT3xYKqIAdukPL.jpg"
+  },
+  "the-boys": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/in1R2dDc421JxsoRWaIIAqVI2KE.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/n6vVs6z8obNbExdD3QHTr4Utu1Z.jpg"
+  },
+  "rings-of-power": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/kf5Hz70tjNAHg4swGDzOr9BfoZ1.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/o2wg8QiSCQrhj91tBfxunE3O5Ba.jpg"
+  },
+  "fleabag": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/27vEYsRKa3eAniwmoccOoluEXQ1.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/hXdQ4MWsEOX6qg6VydKrLb3YJ4g.jpg"
+  },
+  "the-mandalorian": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/9zcbqSxdsRMZWHYtyCd1nXPr2xq.jpg"
+  },
+  "loki": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/rX1wQMTKFqF0gvZyS0DDQqgnQPB.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/q3jHCb4dMfYF6ojikKuHd6LscxC.jpg"
+  },
+  "shogun": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/7O4iVfOMQmdCSxhOg1WnzG1AgYT.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/bwSmgmd90hCWwqOKQYTEraeOZhJ.jpg"
+  },
+  "squid-game": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/2meX1nMdScFOoV4370rqHWKmXhY.jpg"
+  },
+  "wednesday": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/9PFonBhy4cQy7Jz20NpMygczOkv.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/iHSwvRVsRyxpX7FE7GbviaDvgGZ.jpg"
+  },
+  "reacher": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/f1VCQIG2iCyOookdgOzwtUpwWC0.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/JYgqp8g2kI3SEus9XBDSHukfBN.jpg"
+  },
+  "the-bear": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/eKfVzzEazSIjJMrw9ADa2x8ksLz.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/aJtG4txtmiRHwAAqENQHZvBs6kY.jpg"
+  },
+  "succession": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/z0XiwdrCQ9yVIr4O0pxzaAYRxdW.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/bcdUYUFk8GdpZJPiSAas9UeocLH.jpg"
+  },
+  "avatar-way-of-water": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/kJsPVzdyBrYHLomuNv5SJDXUQ2f.jpg"
+  },
+  "damsel": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/AgHbB9DCE9aE57zkHjSmseszh6e.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/deLWkOLZmBNkm8p16igfapQyqeq.jpg"
+  },
+  "severance": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/ixgFmf1X59PUZam2qbAfskx2gQr.jpg"
+  },
+  "arcane": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/fqldf2t8ztc9aiwn3k6mlX3tvRT.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/q8eejQcg1bAqImEV8jh8RtBD4uH.jpg"
+  },
+  "the-last-of-us": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/lY2DhbA7Hy44fAKddr06UrXWWaQ.jpg"
+  },
+  "eeao": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/u68AjlvlutfEIcpmbYpKcdi09ut.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/ss0Os3uWJfQAENILHZUdX8Tt1OC.jpg"
+  },
+  "cyberpunk-edgerunners": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/lqcDVZ8pyk08AVftMBildDR3QUK.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/bRE6zX4iOAejLOQCHryoV5WNu8G.jpg"
+  },
+  "godzilla-minus-one": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/2E2WTX0TJEflAged6kzErwqX1kt.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/oHBhHoNe59VH6bUMazDtJmWOFSS.jpg"
+  },
+  "white-lotus": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/gbSaK9v1CbcYH1ISgbM7XObD2dW.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/rCTLaPwuApDx8vLGjYZ9pRl7zRB.jpg"
+  },
+  "enola-holmes-1": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/kMe4TKMDNXTKptQPAdOF0oZHq3V.jpg"
+  },
+  "enola-holmes-2": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/tegBpjM5ODoYoM1NjaiHVLEA0QM.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/rjlG7C5GZfXutoVoE3BJaYGUhk4.jpg"
+  },
+  "enola-holmes-3": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/7kRYHH9H9PjBFwz1FprbHB2AAjI.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/AsaeoBF2xIXnSwQ1oT4rbhthozv.jpg"
+  },
+  "from-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/pRtJagIxpfODzzb0T0NAvZSzErC.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/xLdw1xdHocKYFFvx7w41NchXMfJ.jpg"
+  },
+  "alice-in-borderland": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/Ac8ruycRXzgcsndTZFK6ouGA0FA.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/QZaPkNUvhdcKONuO2fXuqtcQRo.jpg"
+  },
+  "if-wishes-could-kill": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/2CfTNVaR8kZQkWtWWE3Cntaiq33.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/zV9WYOfFr4MAnzXXD8PR5J6JnN3.jpg"
+  },
+  "all-of-us-are-dead": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/pTEFqAjLd5YTsMD6NSUxV6Dq7A6.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/8hp2CuGnw1iP5dLBVMAPUv23swx.jpg"
+  },
+  "crash-landing-on-you": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/fgBNLPr6mC8pxuR79ENAJY4nBmj.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/3yEHM2HT2vrUtO93YzTJNgEfiZG.jpg"
+  },
+  "queen-of-tears": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/7ZXLZ3KYL3IVvsSHBZaHjcNQzNU.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/wcP3FsRLog4GNEs9PFrDKKQdcof.jpg"
+  },
+  "past-lives": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/k3waqVXSnvCZWfJYNtdamTgTtTA.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/7HR38hMBl23lf38MAN63y4pKsHz.jpg"
+  },
+  "my-demon": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/xBnscv5BrJREKVSvh0le61y4KDk.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/pRStZQlU0aB6KaVNBKnyEAygDBw.jpg"
+  },
+  "shaitaan": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/oRvFzcagAcC6Q317xtV7QXzwBnj.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/yNGAfRd0VZwtSAZiC1WXWqCbvIb.jpg"
+  },
+  "the-conjuring": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/wVYREutTvI2tmxr6ujrHT704wGF.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/ecKQlAEG95k62SMGhvX83oEqANK.jpg"
+  },
+  "jujutsu-kaisen": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/fHpKWq9ayzSk8nSwqRuaAUemRKh.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/lthkKBLe1rX6iThgVFg22O02sJw.jpg"
+  },
+  "parasite": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/vbC0rzdrb7Ohc2TkbEbxtOABECe.jpg"
+  },
+  "breaking-bad": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/anFx9aTOOYqgS3v7x3R84Kz67ly.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/tsRy63Mu5cu8etL1X7ZLyf7UP1M.jpg"
+  },
+  "brooklyn-nine-nine": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/mpjlDzVjp7oyHUe2LaF9ltKe6f1.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/9AeiA1XtP5sel2tAf9LaGeUjhDb.jpg"
+  },
+  "the-office": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/mLyW3UTgi2lsMdtueYODcfAB9Ku.jpg"
+  },
+  "modern-family": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/k5Qg5rgPoKdh3yTJJrLtyoyYGwC.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/nO7EzksrBzlNpAg5rgv8HzaBIkx.jpg"
+  },
+  "mad-max-fury-road": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/ulcAi4dKpAjHwYGS08vNyx9H6I9.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/uT895WNwm0aIJRtGizcQhrejWUo.jpg"
+  },
+  "john-wick-4": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/7I6VUdPj6tQECNHdviJkUHD2u89.jpg"
+  },
+  "rrr": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/u0XUBNQWlOvrh0Gd97ARGpIkL0.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/i0Y0wP8H6SRgjr6QmuwbtQbS24D.jpg"
+  },
+  "tumbbad": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/vzjZAKozbDplHWcQXbXo0APKxst.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/l0YKBu3LaehIFzBNjseLjx7MbaN.jpg"
+  },
+  "hereditary": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/4GFPuL14eXi66V96xBWY73Y9PfR.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/gJbTXKNTL6O7r7PzF6ZRkJGBlPp.jpg"
+  },
+  "panchayat": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/xrfvAhrMdT6Uwg5fyTyQAZBYyiu.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/iZ8EtGAqKWZdRJPzWfFseNfVxjh.jpg"
+  },
+  "goblin": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/x8ZQyxAFjz9jtCGivbOMYUC4Tp3.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/65XyAN0PrUkkfqvGbFRLjk5x3wZ.jpg"
+  },
+  "business-proposal": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/iLh7L8ZuvgdxFaM9sImyv2iKYLe.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/lq0YqJuffMuZhoKTiC5xDqvtCSn.jpg"
+  },
+  "charade-1963": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/qqaPjC5FQidtKY65jbAKZPiOTaS.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/gj2TBYmOIy4E2GjMIpnbAEZNCQx.jpg"
+  },
+  "night-of-the-living-dead": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/5l0klDtj2v4FMFOGGCEH23AQb30.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/h1x4YiBtQEGY2dMx7k0fvlErlSn.jpg"
+  },
+  "the-general-1926": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/nIp4gIXogCjfB1QABNsWwa9gSca.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/mzox4HbcV9W42MH2dB1QsdDVGo3.jpg"
+  },
+  "his-girl-friday-1940": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/lu86Y9zTPH3neCiUzLzHCEFHf7f.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/ihoQaiMFAz4YCTAaSIsQjRknsNH.jpg"
+  },
+  "deadpool-and-wolverine": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/by8z9Fe8y7p4jo2YlW2SZDnptyT.jpg"
+  },
+  "gladiator-2": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/tOqIwliWMovSIZ9DyvHcHI7p2im.jpg"
+  },
+  "severance-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/ixgFmf1X59PUZam2qbAfskx2gQr.jpg"
+  },
+  "house-of-the-dragon": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/577eXC8wFQT0eUrJcgznSiFPRmk.jpg"
+  },
+  "lovely-runner": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/adcdNzLJ8LOjWJjNFrapXGzFco3.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/vbkpl0ps4s5tMTUnC7SFXNzWmVr.jpg"
+  },
+  "talk-to-me": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/kdPMUMJzyYAc4roD52qavX0nLIC.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/46Os8U0DEPmI0OnvKDxucl6SLVZ.jpg"
+  },
+  "narcos-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/rTmal9fDbwh5F0waol2hq35U4ah.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/y9ekzkPFmWSqUU3Kj0wHmYUM8qu.jpg"
+  },
+  "ozark-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/pCGyPVrI9Fzw6rE1Pvi4BIXF6ET.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/aatG9iVAUL7U7OyFEmupESpOrD2.jpg"
+  },
+  "bojack-horseman": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/6JFWzlChcGgLiIUo2COgNlWGFKy.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/qFYDJUIFh8zgEDy3EvnHwhgOl0S.jpg"
+  },
+  "the-irishman": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/mbm8k3GFhXS0ROd9AD1gqYbIFbM.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/1RDto0tLo8Fhq7OcwgDaM7nECb7.jpg"
+  },
+  "roma-movie": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/w90ItYf9qagQKVEBr1uFxPomAtf.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/abQxLSkGxpHyUxRjRXACt8NbiGf.jpg"
+  },
+  "glass-onion": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/vDGr1YdrlfbU9wxTOdpf3zChmv9.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/dKqa850uvbNSCaQCV4Im1XlzEtQ.jpg"
+  },
+  "extraction-movie": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/nygOUcBKPHFTbxsYRFZVePqgPK6.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/1R6cvRtZgsYCkh8UFuWFN33xBP4.jpg"
+  },
+  "marvelous-mrs-maisel": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/zS7fQiOZiKCVH2vlYSiIsFWW8hh.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/vQ77kC1amsZECKIxkUIsMJCtBVp.jpg"
+  },
+  "invincible-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/4tblBrslcKSifMVZ3TmtT2ukMor.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/9qrroces8C6R9aKr08hACNPVXdZ.jpg"
+  },
+  "saltburn-movie": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/zGTfMwG112BC66mpaveVxoWPOaB.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/f7DQup7q7HlK8AFw0XsoXakvqla.jpg"
+  },
+  "air-movie": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/76AKQPdH3M8cvsFR9K8JsOzVlY5.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/aT3sRVqgpkyCo23fp9myVfKPWbA.jpg"
+  },
+  "sound-of-metal": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/3178oOJKKPDeQ2legWQvMPpllv.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/7b5R8FfGUzlxfhOkPpL3xyIeuyF.jpg"
+  },
+  "fallout-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/c15BtJxCXMrISLVmysdsnZUPQft.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/coaPCIqQBPUZsOnJcWZxhaORcDT.jpg"
+  },
+  "bridgerton": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/uXTg565ahu9RwonCX1V2Hex1NU6.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/6umsRLI7t0ydFwCl0JNEIO0q2LH.jpg"
+  },
+  "beef-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/25ih0Xq2zWbxhhKxwhvswKYQyEr.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/2VHbof9yaNhovEnaancBkXEULCT.jpg"
+  },
+  "the-sandman-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/q54qEgagGOYCq5D1903eBVMNkbo.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/i8taDLjpF8cCbp53N8kOFt1LSkW.jpg"
+  },
+  "the-expanse": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/5vQlVWkIMPhZ88OWchJsgwGEK9.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/uUwnClwdMA12bpHgeKgkQrbu5Oe.jpg"
+  },
+  "the-idea-of-you": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/Y5P4Q3q8nrruZ9aD3wXeJS2Plg.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/sI6uCeF8mUlZx22mFfHSi9W3XQ9.jpg"
+  },
+  "society-of-the-snow": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/2e853FDVSIso600RqAMunPxiZjq.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/md848EEPm3dHZOqwGxxTVwH2vu5.jpg"
+  },
+  "road-house-2024": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/fDEdtS4P0gJsxHDIt8dG8TR5dx1.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/clFFCapyGpE7KD4Jsu5pUbFBZF4.jpg"
+  },
+  "the-covenant": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/r6jbhgqKao3K3in4eftu7gqgMNH.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/vn9BFSlvwILE4wPUITi4XDD3fEK.jpg"
+  },
+  "nimona": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/2NQljeavtfl22207D1kxLpa4LS3.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/sidvlo7V8VMyskNKGwua0Tarbol.jpg"
+  },
+  "laapataa-ladies": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/yXt07MYeiyQRzS69PMHy0BPjCGP.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/uUVXEEyMsyWxrcbmAppUCYg6egV.jpg"
+  },
+  "heeramandi-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/uSmnvWK3bCPz87jkE0GpZsMnYpT.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/z0F11p7HBaIUizZHGzyZ32FLm7O.jpg"
+  },
+  "kalki-2898-ad": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/rstcAnBeCkxNQjNp3YXrF6IP1tW.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/o8XSR1SONnjcsv84NRu6Mwsl5io.jpg"
+  },
+  "mirzapur-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/1rxLUFVrtTo82OxhbDXJDiJVkwL.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/3dV7pWAdwIPKR2lMIACMfObXdgK.jpg"
+  },
+  "farzi-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/cTS86RwEBIDgCgUmjWQTSoPsK6p.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/rGkjtv6UdL1ysDmZuBjbNl3PAA1.jpg"
+  },
+  "railway-men": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/kOYlMHtNSqnf1FgsoK1JJypfkrY.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/s7dpEDsAan8mvC5cikvWidOupsO.jpg"
+  },
+  "chamkila-movie": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/t9wSGgaPfbGUBBlne7xw8GaArvu.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/qh7PWKRfy2K8rZZP7LzembGgWIU.jpg"
+  },
+  "family-man-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/vCtEwgPHBjwMgehFyGnIlaUXJx6.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/sAzOPtLtqeveLDncierhahMIIpK.jpg"
+  },
+  "kohrra-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/oZbiASZweEKFOHsl56QTeNJ6a8R.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/bXXoR0UgauJaKePUWUXsBFsRSed.jpg"
+  },
+  "paatal-lok-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/qL8f1E0W42CFHG8NtpyJFMPeKnw.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/lgbMRcbGAbLr6LxF4wi514TpFpj.jpg"
+  },
+  "maamla-legal-hai": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/tDP5vC5wxSpHKx88RdyRpdaSo2u.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/2vWxGsPxoDYnnNqsq8jlv1wiFJj.jpg"
+  },
+  "aladdin": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/eLFfl7vS8dkeG1hKp5mwbm37V83.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/nenJjvfe2Eq8uBMXFJnWj5mw4bi.jpg"
+  },
+  "ikka": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/fp5EAKE8nTx402n1fWz55QsuYY9.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/uy16Ktm9blPb1DAoN6h5MwlBJ6V.jpg"
+  },
+  "peddi": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/kJAJNNBYlbqAcpTDxBNnaILSMTy.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/oPsRr7AfNLw6XaPuMpvkWK0bIUA.jpg"
+  },
+  "daadi-ki-shaadi": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/hKbQjE5ZcZUpuzApEjyoVCUWwdx.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/4QTWMWtrBkN5PdsL4XX5Pp27VIO.jpg"
+  },
+  "blast": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/lpsUpXieodUhN6DlK9ZDnjkysLk.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/xsoKAonKy1zk5XoQoUG1dUXDCKH.jpg"
+  },
+  "the-witcher-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/AoGsDM02UVt0npBA8OvpDcZbaMi.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/foGkPxpw9h8zln81j63mix5B7m8.jpg"
+  },
+  "mindhunter-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/fbKE87mojpIETWepSbD5Qt741fp.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/lpDVJuIro21gtMj9iXMFKHuroZN.jpg"
+  },
+  "everything-everywhere": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/u68AjlvlutfEIcpmbYpKcdi09ut.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/ss0Os3uWJfQAENILHZUdX8Tt1OC.jpg"
+  },
+  "fellowship-of-the-ring": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/mWDdRXTivGE7aaY2vo1Ie0PfCX5.jpg"
+  },
+  "the-white-lotus": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/gbSaK9v1CbcYH1ISgbM7XObD2dW.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/rCTLaPwuApDx8vLGjYZ9pRl7zRB.jpg"
+  },
+  "chernobyl-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/3URK0z9PzpVNJrGE7XOuyy6KFzk.jpg"
+  },
+  "all-quiet-western-front": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/2IRjbi9cADuDMKmHdLK7LaqQDKA.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/xBwtP27cx8WfjHJVFkpuV6F1RES.jpg"
+  },
+  "normal-people": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/c4mk4EQVIM11yd3W43DDdqDazDU.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/w8rTBScgj2MON7eGN7raoU5qChJ.jpg"
+  },
+  "the-night-manager": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/1MccRnw41qQjREuZkovqP2UX1i3.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/2vAOdruqvx9GojXxKi3xVsZZvKU.jpg"
+  },
+  "sacred-games": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/uEbNtFbK4At9WBDGap23lt1qO9n.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/qtac9X9lSLqZFbxS71347N8MiID.jpg"
+  },
+  "kantara-movie": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/jIsKmkxMzdCZ0Ux1GVSnu8m6Na6.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/kXElm7wt2kAXEVwJqW4cFhP43nW.jpg"
+  },
+  "dahaad-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/I460jEKaodXKZMyzVDjFnpUFYr.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/pO1tIrVa1ptJWS7vA15HokdeBcL.jpg"
+  },
+  "aarya-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/eHxzABVwpFtUg5kHu9PAEFWs67u.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/wPYnXZg8kXUA9vlpHSLXhXB87SY.jpg"
+  },
+  "criminal-justice-india": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/b9eHNNoUGju7P5Q2Ez5Kxu4fzst.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/oeTTGsDwxmvUpE3dia5GBvwdTx1.jpg"
+  },
+  "jaane-jaan": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/oaUOV9VCNM5MjrmonqgH4o3XNwQ.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/eF8XLbbBd5cIfvS00tzl0jWAcOX.jpg"
+  },
+  "super-deluxe-movie": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/rTsYDdFWyw87CTk4YgJO6nYmVcJ.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/trBGubNu0WWBGQMLxMBOJe4DylV.jpg"
+  },
+  "delhi-crime-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/xkpkTj6KGsjSaet0VQaq0aTn31D.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/j6djmR4hi8ULL0xUPQN4ZVyzgVN.jpg"
+  },
+  "jawan-movie": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/jFt1gS4BGHlK8xt76Y81Alp4dbt.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/5LtSjMNw6j3LkG29Oa4O0iY5U8.jpg"
+  },
+  "hanuman-legend": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/5PBsrG43twpomowfSHjNfug7FWF.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/jdMiCJqZQn2yyHYZbdUl3btvtGF.jpg"
+  },
+  "tumbbad-movie": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/vzjZAKozbDplHWcQXbXo0APKxst.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/l0YKBu3LaehIFzBNjseLjx7MbaN.jpg"
+  },
+  "suzhal-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/z6IJi7xmAMmKdbzSnwguIXLIVjN.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/hEFbJLsoFhEcf3OtFgptrllxBxI.jpg"
+  },
+  "shershaah-movie": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/zGvFnwoXJKrYnKhoVPytqkqCJ8V.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/AguDwIJdqUFEUXlmXyixotE0WnT.jpg"
+  },
+  "special-ops-series": {
+    "posterUrl": "https://image.tmdb.org/t/p/w500/doqymbPdJNLpkkEOhvlRALidJGb.jpg",
+    "backdropUrl": "https://image.tmdb.org/t/p/original/xSFE12HYkcs2UuVr315jY4dQaau.jpg"
+  }
+}

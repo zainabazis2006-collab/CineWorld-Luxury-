@@ -28,8 +28,8 @@ const RAW_CATALOG: Movie[] = [
       'The production shot in remote areas of Abu Dhabi during peak summer temperatures to capture the heat shimmer of Arrakis.',
       'Denis Villeneuve refused to use green screens, opting for massive physical sets built in the deserts.'
     ],
-    backdropUrl: 'https://nerdist.com/wp-content/uploads/2023/12/Dune-Part-Two-Sandworm.jpg',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/7/72/Dune_Part_Two_poster.jpeg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/eZ239CUp1d6OryZEBPnO2n87gMG.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/6izwz7rsy95ARzTR3poZ8H6c5pp.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -63,8 +63,8 @@ const RAW_CATALOG: Movie[] = [
       'Cillian Murphy read extensively about Oppenheimer\'s lifestyle, including his diet of mostly cigarettes and black coffee.',
       'The Trinity test explosion scene was simulated with real physical materials rather than computer-generated imagery.'
     ],
-    backdropUrl: 'https://cdn.britannica.com/48/252948-050-4E26F3E4/Cillian-Murphy-Oppenheimer-movie.jpg',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/4/4a/Oppenheimer_%28film%29_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/neeNHeXjMF5fXoCJRsOmkNGC7q.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -92,8 +92,8 @@ const RAW_CATALOG: Movie[] = [
       'The production planted over 500 acres of real corn fields in Alberta, Canada, just to burn them for the dust storm scenes.',
       'The ticking sound heard on the water planet corresponds to exactly one day passing on Earth for every tick.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/5XNQBqnBwPA9yT0jZ0p3s8bbLh0.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/yQvGrMoipbRoddT0ZR8tPoR7NfX.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -121,8 +121,8 @@ const RAW_CATALOG: Movie[] = [
       'To make it look like a comic book, animators avoided using motion blur, instead choosing to draw static motion lines.',
       'Miles Morales\' suit features hand-painted graffiti textures representing his Brooklyn roots.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a4/Spider-Man_Into_the_Spider-Verse_poster.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/8mnXR9rey5uQ08rZAvzojKWbDQS.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -150,8 +150,8 @@ const RAW_CATALOG: Movie[] = [
       'The IMAX cameras used for key action sequences were extremely heavy and noisy, requiring the actors to re-record much of their dialogue afterwards.',
       'The scene where the hospital is blown up was shot on location at an abandoned candy factory in Chicago slated for real demolition.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1c/The_Dark_Knight_%282008_film%29_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/dqK9Hag1054tghRQSqLSfrkvQnA.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -185,8 +185,8 @@ const RAW_CATALOG: Movie[] = [
       'The show was originally titled "Montauk" and set in Long Island.',
       'The soundtrack features real vintage analog synthesizers to achieve its classic 80s warmth.'
     ],
-    backdropUrl: 'https://images.squarespace-cdn.com/content/v1/51b3dc8ee4b051db9641261d/1507052989182-3A6QZNDCHH9Q121CDI9Z/Stranger+Things+2.jpg',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/18/Stranger_Things_season_2.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/56v2KjBlU4XaOv9rVYEQypROD7P.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/uOOtwVbSr4QDjAGIifLDwpb2Pdl.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -220,8 +220,8 @@ const RAW_CATALOG: Movie[] = [
       'The production recreated Buckingham Palace interiors inside Elstree Studios with near-perfect spatial accuracy.',
       'The crown replica used in coronation scenes is made of authentic gold plating and handset Swarovski crystals.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1543728716-80975210d477?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/2/2c/The_Crown_season_1_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/8VXhcrl5z2I1zEU9X3pkkNrZlD.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/1M876KPjulVwppEpldhdc8V4o68.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -249,8 +249,8 @@ const RAW_CATALOG: Movie[] = [
       'The episode "Bandersnatch" was a ground-breaking interactive film with over 5 hours of total filmed footage.',
       'Many technology concepts introduced in early seasons have since emerged in commercial real-world applications.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/bd/Black_Mirror_season_6_poster.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/dg3OindVAGZBjlT3xYKqIAdukPL.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/seN6rRfN0I6n8iDXjlSMk1QjNcq.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -278,8 +278,8 @@ const RAW_CATALOG: Movie[] = [
       'Karl Urban\'s character, Billy Butcher, frequently refers to characters as "diabolical", a direct nod to the original comic book series.',
       'The show\'s visual effects team processes over 1,500 highly complex fluid-dynamics shots per season.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/6/6d/The_Boys_TV_series_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/n6vVs6z8obNbExdD3QHTr4Utu1Z.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/in1R2dDc421JxsoRWaIIAqVI2KE.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -307,8 +307,8 @@ const RAW_CATALOG: Movie[] = [
       'The elven city of Lindon featured massive physical sets built with actual timber and living gold-painted foliage.',
       'The linguists on set spent years refining the spoken dialects of Quenya, Sindarin, and Khuzdul.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/2/22/The_Lord_of_the_Rings_The_Rings_of_Power_season_1_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/o2wg8QiSCQrhj91tBfxunE3O5Ba.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/kf5Hz70tjNAHg4swGDzOr9BfoZ1.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -336,8 +336,8 @@ const RAW_CATALOG: Movie[] = [
       'The "Hot Priest" character (Andrew Scott) was written specifically to test Fleabag\'s emotional isolation barrier.',
       'The final bus-stop scene was shot in a single take to capture the raw, unrepeatable natural afternoon sunlight.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b6/Fleabag_UK_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/hXdQ4MWsEOX6qg6VydKrLb3YJ4g.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/27vEYsRKa3eAniwmoccOoluEXQ1.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -365,8 +365,8 @@ const RAW_CATALOG: Movie[] = [
       'The puppet for "Grogu" cost approximately $2 million to design and requires three puppeteers to operate in real-time.',
       'Werner Herzog was so enamored with the physical Grogu puppet that he pleaded with the directors not to replace it with CGI.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/2/23/The_Mandalorian_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/9zcbqSxdsRMZWHYtyCd1nXPr2xq.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -394,8 +394,8 @@ const RAW_CATALOG: Movie[] = [
       'The soundtrack features the theremin, a unique electronic instrument played without physical touch, to represent temporal displacement.',
       'Tom Hiddleston actually held a "Loki School" lecture on set for all co-stars to explain his character\'s decade-long MCU history.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b5/Loki_season_1_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/q3jHCb4dMfYF6ojikKuHd6LscxC.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/rX1wQMTKFqF0gvZyS0DDQqgnQPB.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -423,8 +423,8 @@ const RAW_CATALOG: Movie[] = [
       'Hiroyuki Sanada, who plays Toranaga, also served as a full-time producer to ensure absolute historical and cultural authenticity.',
       'Over 90% of the dialogue is spoken in traditional Japanese, with high-fidelity English translation subtitles mapped frame-by-frame.'
     ],
-    backdropUrl: 'https://www.motionpictures.org/wp-content/uploads/2024/02/SHOGUN_101_06822R2-H-2024.jpg',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/c/cb/Shogun_2024_TV_series_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/bwSmgmd90hCWwqOKQYTEraeOZhJ.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/7O4iVfOMQmdCSxhOg1WnzG1AgYT.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -452,8 +452,8 @@ const RAW_CATALOG: Movie[] = [
       'The giant creepy doll seen in the first episode is actually a real doll that can be visited at a horse carriage museum in Jincheon County, South Korea.',
       'To increase tension, the actors didn\'t know the rules of the sugar honeycomb game until the cameras started rolling.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1627856013091-fed6e4e30025?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/df/Squid_Game_key_art.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/2meX1nMdScFOoV4370rqHWKmXhY.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -481,8 +481,8 @@ const RAW_CATALOG: Movie[] = [
       'The infamous dance scene was choreographed by Jenna Ortega herself, drawing inspiration from retro goth club footage from the 1980s.',
       'To play Wednesday, Jenna Ortega practiced holding her eyes wide open for entire takes, training herself not to blink on camera.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/8/85/Wednesday_Netflix_series_poster.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/iHSwvRVsRyxpX7FE7GbviaDvgGZ.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/9PFonBhy4cQy7Jz20NpMygczOkv.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -510,8 +510,8 @@ const RAW_CATALOG: Movie[] = [
       'The fighting style featured in the show uses Keysi Combat Method, prioritizing close-quarters defense, elbows, and brutal efficiency.',
       'Lee Child, the original author, makes a cameo appearance in the season one finale inside the diner.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/d4/Reacher_season_2_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/JYgqp8g2kI3SEus9XBDSHukfBN.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/f1VCQIG2iCyOookdgOzwtUpwWC0.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -539,8 +539,8 @@ const RAW_CATALOG: Movie[] = [
       'The famous episode "Review" in season one was filmed in one single, continuous 20-minute take without any hidden cuts.',
       'Real-world star chefs, including Matty Matheson, not only produced the series but also played major recurring acting roles.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/ad/The_Bear_season_2_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/aJtG4txtmiRHwAAqENQHZvBs6kY.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/eKfVzzEazSIjJMrw9ADa2x8ksLz.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -568,8 +568,8 @@ const RAW_CATALOG: Movie[] = [
       'Jeremy Strong practiced extreme method acting, refusing to rehearse with cast members and isolating himself to match Kendall\'s inner depression.',
       'The iconic theme music, composed by Nicholas Britell, blends classical strings with distorted hip-hop beats to represent corporate chaos.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/c/ca/Succession_season_4_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/bcdUYUFk8GdpZJPiSAas9UeocLH.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/z0XiwdrCQ9yVIr4O0pxzaAYRxdW.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -597,8 +597,8 @@ const RAW_CATALOG: Movie[] = [
       'James Cameron refused to use traditional simulation methods, building a massive 120-foot-long tank capable of holding 250,000 gallons of churning water to capture real wave physics.',
       'Every single underwater motion capture shot required special markers and suits that wouldn\'t interfere with infrared light reflection under water.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/5/54/Avatar_The_Way_of_Water_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/kJsPVzdyBrYHLomuNv5SJDXUQ2f.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -626,8 +626,8 @@ const RAW_CATALOG: Movie[] = [
       'The design of the dragon was intentionally inspired by traditional feline movements to make its prowling behavior feel organic and predatory.',
       'The cave sets were so vast and complex that cast members frequently got disoriented and lost during the first weeks of shooting.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/0/07/Damsel_2024_film_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/deLWkOLZmBNkm8p16igfapQyqeq.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/AgHbB9DCE9aE57zkHjSmseszh6e.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -655,8 +655,8 @@ const RAW_CATALOG: Movie[] = [
       'The iconic sterile white hallway set was built to feel infinitely disorienting with zero visible natural light.',
       'Adam Scott practiced walking with two completely distinct postures to differentiate his Innie and Outie personalities.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/7/7b/Severance_Apple_TV_plus_poster.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/ixgFmf1X59PUZam2qbAfskx2gQr.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg',
     streamingLinks: [
       {
         platform: 'Apple TV+',
@@ -684,8 +684,8 @@ const RAW_CATALOG: Movie[] = [
       'The score blends symphonic orchestral arrangements with heavy 808 bass, hip-hop, and industrial punk.',
       'Took over six years to animate season one alone due to the meticulous detail in every character expression.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/7/78/Arcane_League_of_Legends_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/q8eejQcg1bAqImEV8jh8RtBD4uH.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/fqldf2t8ztc9aiwn3k6mlX3tvRT.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -713,8 +713,8 @@ const RAW_CATALOG: Movie[] = [
       'Episode 3 ("Long, Long Time") starring Nick Offerman and Murray Bartlett received overwhelming critical acclaim as one of the best TV episodes of the decade.',
       'Pedro Pascal was instructed not to play the original video game to ensure his performance felt organic.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b3/The_Last_of_Us_TV_series_poster.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/lY2DhbA7Hy44fAKddr06UrXWWaQ.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -742,8 +742,8 @@ const RAW_CATALOG: Movie[] = [
       'Ke Huy Quan returned to acting after a 20-year hiatus specifically for the role of Waymond Wang.',
       'The entire movie was shot in just 38 days in an abandoned office building in Simi Valley.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1e/Everything_Everywhere_All_at_Once.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/ss0Os3uWJfQAENILHZUdX8Tt1OC.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/u68AjlvlutfEIcpmbYpKcdi09ut.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -771,8 +771,8 @@ const RAW_CATALOG: Movie[] = [
       'The song "I Really Want to Stay at Your House" became a global viral hit following the show\'s release.',
       'Hiroyuki Imaishi used extreme optical speed-lines and vibrant neon color contrast to replicate the feeling of cyberware adrenaline.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/91/Cyberpunk_Edgerunners_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/bRE6zX4iOAejLOQCHryoV5WNu8G.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/lqcDVZ8pyk08AVftMBildDR3QUK.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -800,8 +800,8 @@ const RAW_CATALOG: Movie[] = [
       'The atomic heat ray sequence was engineered with realistic shockwave physics and blinding blue light emission.',
       'It became the highest-grossing Japanese live-action film in North American box office history.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/4/4b/Godzilla_Minus_One_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/oHBhHoNe59VH6bUMazDtJmWOFSS.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/2E2WTX0TJEflAged6kzErwqX1kt.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -829,8 +829,8 @@ const RAW_CATALOG: Movie[] = [
       'Cristobal Tapia de Veer created the iconic operatic, chaotic vocal score that mimics tropical bird calls and anxiety.',
       'Jennifer Coolidge was given complete freedom to improvise many of Tanya\'s unhinged monologue moments.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1a/The_White_Lotus_season_2_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/rCTLaPwuApDx8vLGjYZ9pRl7zRB.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/gbSaK9v1CbcYH1ISgbM7XObD2dW.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -858,8 +858,8 @@ const RAW_CATALOG: Movie[] = [
       'Millie Bobby Brown was a major force behind the camera as well, serving as an active producer at just 16 years old.',
       'The name "Enola" is "alone" spelled backwards, which serves as a central philosophical theme for her character growth throughout the story.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e6/Enola_Holmes_poster.jpeg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/kMe4TKMDNXTKptQPAdOF0oZHq3V.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/riYInlsq2kf1AWoGm80JQW5dLKp.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -887,8 +887,8 @@ const RAW_CATALOG: Movie[] = [
       'Henry Cavill\'s Sherlock Holmes plays a much larger role in this film, showcasing a warmer, more collaborative sibling dynamic.',
       'The chaotic dance sequence was rehearsed for weeks to perfect Millie Bobby Brown and Louis Partridge\'s playful, clumsy chemistry.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/f/f9/Enola_Holmes_2_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/rjlG7C5GZfXutoVoE3BJaYGUhk4.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/tegBpjM5ODoYoM1NjaiHVLEA0QM.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -916,8 +916,8 @@ const RAW_CATALOG: Movie[] = [
       'The screenwriters consulted extensively with historians to depict the evolving espionage networks of the Victorian era with precision.',
       'Millie Bobby Brown described the physical demands of this film as the most rigorous in the entire trilogy.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=400&q=80',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/AsaeoBF2xIXnSwQ1oT4rbhthozv.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/7kRYHH9H9PjBFwz1FprbHB2AAjI.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -945,8 +945,8 @@ const RAW_CATALOG: Movie[] = [
       'The eerie creatures do not run; their slow, smiling, deliberate walk was a creative choice to maximize psychological dread and highlight their total confidence.',
       'The town of FROM was constructed in its entirety on a custom set in Halifax, Nova Scotia, creating an incredibly creepy, real-world village.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/c/cb/From_TV_series_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/xLdw1xdHocKYFFvx7w41NchXMfJ.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/pRtJagIxpfODzzb0T0NAvZSzErC.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -1003,8 +1003,8 @@ const RAW_CATALOG: Movie[] = [
       'The difficulty levels and categories of the games are decided by playing cards, with Spades representing physical games, Clubs representing team cooperation, Diamonds representing mental intelligence, and Hearts representing psychological betrayal.',
       'The director, Shinsuke Sato, spent several months supervising the 3D green screen compositing to ensure that the physical shadows and ambient light matched Tokyo\'s actual solar angles.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1d/Alice_in_Borderland_Season_1_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/QZaPkNUvhdcKONuO2fXuqtcQRo.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/Ac8ruycRXzgcsndTZFK6ouGA0FA.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1032,8 +1032,8 @@ const RAW_CATALOG: Movie[] = [
       'The script is loosely inspired by old folklore tales about cursed wells and the psychological concept of intrusive thoughts.',
       'Each episode focuses on a different town resident\'s subconscious wish, revealing their deepest regrets and hidden sins.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?auto=format&fit=crop&w=400&q=80',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/zV9WYOfFr4MAnzXXD8PR5J6JnN3.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/2CfTNVaR8kZQkWtWWE3Cntaiq33.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1061,8 +1061,8 @@ const RAW_CATALOG: Movie[] = [
       'The infected actors underwent three months of rigorous physical training and bone-breaking choreography lessons under movement directors to master the terrifying jerky movements.',
       'The iconic cafeteria sequence was shot in one take, requiring perfect synchronization between over 200 actors, stunt performers, and camera operators.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/2/24/All_of_Us_Are_Dead_Netflix_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/8hp2CuGnw1iP5dLBVMAPUv23swx.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/pTEFqAjLd5YTsMD6NSUxV6Dq7A6.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1119,8 +1119,8 @@ const RAW_CATALOG: Movie[] = [
       'North Korean defectors were hired on set as active consultants to ensure the accuracy of the dialects, domestic settings, and cultural behaviors depicted in the border village.',
       'The beautiful paragliding scenes and scenic romantic reunions were shot on location in the high peaks and lakes of Switzerland, specifically around Lake Brienz.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1531315630201-bb15abeb1653?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/6/64/Crash_Landing_on_You_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/3yEHM2HT2vrUtO93YzTJNgEfiZG.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/fgBNLPr6mC8pxuR79ENAJY4nBmj.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1148,8 +1148,8 @@ const RAW_CATALOG: Movie[] = [
       'Director Kim Hee-won utilizes sophisticated split-diopter camera techniques to capture both husband and wife in sharp focus during scenes of intense emotional distance.',
       'Much of the lavish corporate mansion scenes and romantic memories were filmed on location in Germany, including Berlin and Sanssouci Palace.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/5/52/Queen_of_Tears_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/wcP3FsRLog4GNEs9PFrDKKQdcof.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/7ZXLZ3KYL3IVvsSHBZaHjcNQzNU.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1177,8 +1177,8 @@ const RAW_CATALOG: Movie[] = [
       'To preserve genuine tension, Teo Yoo and John Magaro (playing the two rival love interests) were kept completely separated and did not meet in person until their characters met on-camera.',
       'The childhood scenes in Seoul were shot on location in real residential alleys, utilizing warm natural golden hours to signify childhood nostalgia.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/5/5f/Past_Lives_poster.jpeg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/7HR38hMBl23lf38MAN63y4pKsHz.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/k3waqVXSnvCZWfJYNtdamTgTtTA.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -1206,8 +1206,8 @@ const RAW_CATALOG: Movie[] = [
       'The contract marriage contract written in the show features legalistic clauses written in ancient demonic sigils created by the prop design department.',
       'The series features a beautiful ambient score, with original soundtracks composed by prominent K-pop artists including NewJeans.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/d4/My_Demon_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/pRStZQlU0aB6KaVNBKnyEAygDBw.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/xBnscv5BrJREKVSvh0le61y4KDk.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1235,8 +1235,8 @@ const RAW_CATALOG: Movie[] = [
       'The haunting background chants and ambient score were recorded using raw, traditional wind instruments and tribal drums to maximize dread.',
       'The film is an official adaptation of the acclaimed Gujarati horror-thriller "Vash" but significantly escalates the visual effects and sound design.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/90/Shaitaan_2024_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/yNGAfRd0VZwtSAZiC1WXWqCbvIb.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/oRvFzcagAcC6Q317xtV7QXzwBnj.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -1264,8 +1264,8 @@ const RAW_CATALOG: Movie[] = [
       'Vera Farmiga experienced unexplained phenomena during the shoot, including wakeful claw marks appearing on her computer screen.',
       'The film was so terrifying that the MPAA gave it an R rating purely for dread, without any significant blood or gore.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/18/The_Conjuring_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/ecKQlAEG95k62SMGhvX83oEqANK.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/wVYREutTvI2tmxr6ujrHT704wGF.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1299,8 +1299,8 @@ const RAW_CATALOG: Movie[] = [
       'The "Shibuya Incident" arc took several years of planning and custom storyboarding to synchronize multiple intersecting combat sequences.',
       'The musical score masterfully blends hard electronic rock, jazz, and heavy orchestral pieces to complement the fast-paced action.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/4/46/Jujutsu_kaisen_poster.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/lthkKBLe1rX6iThgVFg22O02sJw.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/fHpKWq9ayzSk8nSwqRuaAUemRKh.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1334,8 +1334,8 @@ const RAW_CATALOG: Movie[] = [
       'Bong Joon Ho paced his screenplay so specifically that he knew exactly how many steps characters took up and down stairs to symbolize social mobility.',
       'The iconic "Ram-don" dish became a global culinary phenomenon shortly after the movie\'s release.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/5/53/Parasite2019poster.gif',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/vbC0rzdrb7Ohc2TkbEbxtOABECe.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1369,8 +1369,8 @@ const RAW_CATALOG: Movie[] = [
       'The character of Jesse Pinkman was originally scheduled to be killed off in the ninth episode of Season 1, but Aaron Paul\'s incredible chemistry with Cranston saved the character.',
       'Vince Gilligan designed the wardrobe of each character to shift in color as their moral compass degraded over the seasons.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/7/7a/Breaking_Bad_title_card.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/tsRy63Mu5cu8etL1X7ZLyf7UP1M.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/anFx9aTOOYqgS3v7x3R84Kz67ly.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1398,8 +1398,8 @@ const RAW_CATALOG: Movie[] = [
       'Stephanie Beatriz (Rosa Diaz) originally auditioned for the role of Amy Santiago, but when she didn\'t get it, the creators wrote Rosa specifically for her.',
       'Captain Holt\'s signature unexpressive, deadpan demeanor was meticulously developed by Andre Braugher to highlight his dry intelligence.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/2/23/Brooklyn_Nine-Nine_season_8_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/9AeiA1XtP5sel2tAf9LaGeUjhDb.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/mpjlDzVjp7oyHUe2LaF9ltKe6f1.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1427,8 +1427,8 @@ const RAW_CATALOG: Movie[] = [
       'John Krasinski (Jim) and B.J. Novak (Ryan) went to the same high school and played Little League baseball together.',
       'The theme song was chosen by a democratic vote among the cast members after listening to several options.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/5/58/TheOfficeS9Poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/mLyW3UTgi2lsMdtueYODcfAB9Ku.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/7DJKHzAi83BmQrWLrYYOqcoKfhR.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -1456,8 +1456,8 @@ const RAW_CATALOG: Movie[] = [
       'Nolan Gould (Luke Dunphy) is actually a member of Mensa in real life, with an IQ of 150.',
       'Julie Bowen was pregnant with twins during the filming of the pilot episode, which required creative camera angles and cereal box placement to hide.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/ad/Modern_Family_Season_11_Poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/nO7EzksrBzlNpAg5rgv8HzaBIkx.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/k5Qg5rgPoKdh3yTJJrLtyoyYGwC.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -1485,8 +1485,8 @@ const RAW_CATALOG: Movie[] = [
       'Charlize Theron shaved her head completely for the role of Imperator Furiosa and refused to wear a wig.',
       'The dynamic soundtrack was composed by Junkie XL (Tom Holkenborg) utilizing massive mechanical war drums.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/6/6e/Mad_Max_Fury_Road_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/uT895WNwm0aIJRtGizcQhrejWUo.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/ulcAi4dKpAjHwYGS08vNyx9H6I9.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -1520,8 +1520,8 @@ const RAW_CATALOG: Movie[] = [
       'The legendary overhead Dragon\'s Breath shotgun sequence was inspired by the gameplay of top-down video games.',
       'Donnie Yen designed his own character\'s posture and combat details as a tribute to classic blind-swordsman cinema.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/90/John_Wick_Chapter_4_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/7I6VUdPj6tQECNHdviJkUHD2u89.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -1549,8 +1549,8 @@ const RAW_CATALOG: Movie[] = [
       'The opening sequence introducing Ram Charan\'s character took over 30 days to shoot and featured thousands of real background actors.',
       'The two lead actors, Ram Charan and Jr. NTR, are real-life close friends, which made their intense screen chemistry incredibly natural.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/d7/RRR_Poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/i0Y0wP8H6SRgjr6QmuwbtQbS24D.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/u0XUBNQWlOvrh0Gd97ARGpIkL0.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1584,8 +1584,8 @@ const RAW_CATALOG: Movie[] = [
       'Hastar’s design was sculpted entirely by hand, with CGI only used to enhance the terrifying movements in the womb chamber.',
       'The soundtrack was recorded in Budapest using live orchestral wind instruments to create a heavy, mythological soundscape.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/4/41/Tumbbad_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/l0YKBu3LaehIFzBNjseLjx7MbaN.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/vzjZAKozbDplHWcQXbXo0APKxst.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -1613,8 +1613,8 @@ const RAW_CATALOG: Movie[] = [
       'Alex Wolff actually insisted on smashing his head into the school desk for the classroom scene to make the sound and impact feel real.',
       'The clicking sound made by Charlie was written into the script to act as a Pavlovian trigger for absolute audience dread.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/d9/Hereditary_poster.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/gJbTXKNTL6O7r7PzF6ZRkJGBlPp.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/4GFPuL14eXi66V96xBWY73Y9PfR.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1648,8 +1648,8 @@ const RAW_CATALOG: Movie[] = [
       'Neena Gupta and Raghubir Yadav, playing the village pradhan couple, have worked together for over 30 years across theater and television.',
       'The iconic office chair and the local handpump became major pop-culture memes following the series premiere.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/18/Panchayat_season_3_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/iZ8EtGAqKWZdRJPzWfFseNfVxjh.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/xrfvAhrMdT6Uwg5fyTyQAZBYyiu.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -1677,8 +1677,8 @@ const RAW_CATALOG: Movie[] = [
       'Dan Levy (David) and Eugene Levy (Johnny) are real-life father and son who co-created and wrote the entire series together.',
       'The luxury outfits worn by the Rose family were sourced from real high-end consignment stores and eBay on a tight budget.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Schitt%27s_Creek_logo.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/93a0279c09c91b52.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/9eS5K3Xq9a7zYf9g0N2jZ3P4q1X.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1706,8 +1706,8 @@ const RAW_CATALOG: Movie[] = [
       'The production shot gorgeous autumn foliage scenes on location in Quebec City, Canada, which became a popular tourist landmark for fans.',
       'Writer Kim Eun-sook spent over three years trying to cast Gong Yoo, who kept turning down drama roles before finally accepting this script.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a2/Guardian_The_Lonely_and_Great_God_poster.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/65XyAN0PrUkkfqvGbFRLjk5x3wZ.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/x8ZQyxAFjz9jtCGivbOMYUC4Tp3.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1741,8 +1741,8 @@ const RAW_CATALOG: Movie[] = [
       'Kim Se-jeong improvised the iconic scene where her character tries to act wild during the initial blind date to scare the CEO.',
       'The secondary romance couple (Kim Min-kyu and Seol In-ah) became just as popular as the leads, with their viral glasses-removal kiss scene trending globally.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/ed/Business_Proposal_TV_series.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/lq0YqJuffMuZhoKTiC5xDqvtCSn.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/iLh7L8ZuvgdxFaM9sImyv2iKYLe.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1770,8 +1770,8 @@ const RAW_CATALOG: Movie[] = [
       'Because the film lacked a proper copyright notice in the credits, it entered the public domain in the United States immediately upon release in 1963.',
       'The movie\'s legendary Henry Mancini score was nominated for an Academy Award and features iconic Parisian accordion themes.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Charade_poster_1.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/gj2TBYmOIy4E2GjMIpnbAEZNCQx.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/qqaPjC5FQidtKY65jbAKZPiOTaS.jpg',
     streamingLinks: [
       {
         platform: 'Free Cinema',
@@ -1801,8 +1801,8 @@ const RAW_CATALOG: Movie[] = [
       'The "blood" used during shooting was actually Bosco Chocolate Syrup, which showed up as perfect dark fluids on high-contrast black-and-white film.',
       'Duane Jones was cast purely because he gave the best audition, making the film highly revolutionary for featuring an African-American lead actor in a non-stereotypical role.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/15/Night_of_the_living_dead_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/h1x4YiBtQEGY2dMx7k0fvlErlSn.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/5l0klDtj2v4FMFOGGCEH23AQb30.jpg',
     streamingLinks: [
       {
         platform: 'Free Cinema',
@@ -1832,8 +1832,8 @@ const RAW_CATALOG: Movie[] = [
       'The scene where a real steam locomotive falls through a burning wooden bridge was the most expensive single shot in silent film history, costing $42,000 in 1926.',
       'Under United States copyright laws, silent films made before 1929 have expired and entered the public domain, allowing legal public viewing worldwide.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/eb/The_General_%281926_film_poster%29.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/mzox4HbcV9W42MH2dB1QsdDVGo3.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/nIp4gIXogCjfB1QABNsWwa9gSca.jpg',
     streamingLinks: [
       {
         platform: 'Free Cinema',
@@ -1863,8 +1863,8 @@ const RAW_CATALOG: Movie[] = [
       'The film is an adaptation of the stage play "The Front Page". Hawks had the revolutionary idea to change the male lead reporter character into a woman, creating a high-energy romance.',
       'A failure to renew the film\'s copyright in 1967 caused it to enter the public domain, leading to its widespread distribution and legendary cult status.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/23/His_Girl_Friday_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/ihoQaiMFAz4YCTAaSIsQjRknsNH.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/lu86Y9zTPH3neCiUzLzHCEFHf7f.jpg',
     streamingLinks: [
       {
         platform: 'Free Cinema',
@@ -1894,8 +1894,8 @@ const RAW_CATALOG: Movie[] = [
       'The movie is the first R-rated film in the Marvel Cinematic Universe.',
       'Numerous cameos were kept completely secret during filming by using closed sets, fake script pages, and elaborate body-cloaking ponchos.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/4/4c/Deadpool_%26_Wolverine_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/by8z9Fe8y7p4jo2YlW2SZDnptyT.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -1923,8 +1923,8 @@ const RAW_CATALOG: Movie[] = [
       'A massive, fully-functional replica of the Roman Colosseum was constructed at Malta to film the crowd and battle scenes practically.',
       'The movie features elaborate naval battles inside a flooded Colosseum, recreating historical "naumachia" spectacles with outstanding realism.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e3/Gladiator_II_theatrical_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/tOqIwliWMovSIZ9DyvHcHI7p2im.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -1952,8 +1952,8 @@ const RAW_CATALOG: Movie[] = [
       'Actors had to practice a specific, slightly robotic walking style to emphasize the unnatural nature of the "severed" office space.',
       'The mysterious, colorful abstract art pieces shown in the hallways were custom-painted by a team of production designers to feel subtly unsettling.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e0/Severance_TV_series_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/ixgFmf1X59PUZam2qbAfskx2gQr.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/pPHpeI2X1qEd1CS1SeyrdhZ4qnT.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -1982,8 +1982,8 @@ const RAW_CATALOG: Movie[] = [
       'The massive King\'s Landing court set was built as a multi-level practical structure to allow actors to navigate the red keep naturally.',
       'Matt Smith performed many of his sword-fighting stunts himself, working extensively with stunt coordinators to craft Daemon Targaryen\'s brutal combat style.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/di/House_of_the_Dragon_season_2_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/577eXC8wFQT0eUrJcgznSiFPRmk.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2012,8 +2012,8 @@ const RAW_CATALOG: Movie[] = [
       'Kim Hye-yoon had to portray her character across three different age periods (teenager, 20s, and 30s), subtly adjusting her speech and posture for each.',
       'The iconic yellow umbrella scene was filmed during a real cherry blossom shower to capture the perfect dreamy, romantic aesthetic.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e0/Lovely_Runner_poster.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/vbkpl0ps4s5tMTUnC7SFXNzWmVr.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/adcdNzLJ8LOjWJjNFrapXGzFco3.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2048,8 +2048,8 @@ const RAW_CATALOG: Movie[] = [
       'The creepy ceramic hand used in the movie was custom-designed with subtle, disturbing inscriptions carved into its surface.',
       'To make the possession scenes feel raw and believable, the directors instructed actors to avoid typical cinematic head-twisting and focus on erratic, physical body language.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/2/22/Talk_to_Me_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/46Os8U0DEPmI0OnvKDxucl6SLVZ.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/kdPMUMJzyYAc4roD52qavX0nLIC.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2083,8 +2083,8 @@ const RAW_CATALOG: Movie[] = [
       'Anya Taylor-Joy had never played chess competitively before taking the role, learning the choreography of the pieces minutes before each scene was shot.',
       'Following the series launch, search queries for "how to play chess" hit a nine-year peak, and chess set sales increased by over 125% globally.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/12/The_Queen%27s_Gambit_%28miniseries%29.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/345293282.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/zAnClAn8c2n7eC11J4wH4K3l8N2.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2113,8 +2113,8 @@ const RAW_CATALOG: Movie[] = [
       'The real DEA agents Javier Peña and Steve Murphy served as story consultants on the production, explaining the exact intelligence-gathering methods used in the 1980s.',
       'All of the location shoots were filmed directly in Colombia, giving the show an incredibly authentic, highly atmospheric visual style.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/10/Narcos_season_1_artwork.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/y9ekzkPFmWSqUU3Kj0wHmYUM8qu.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/rTmal9fDbwh5F0waol2hq35U4ah.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2143,8 +2143,8 @@ const RAW_CATALOG: Movie[] = [
       'The series was mostly shot in Georgia rather than Missouri, using Lake Allatoona and Lake Lanier to stand in for the Ozarks.',
       'Julia Garner practiced her highly-praised Southern accent by speaking in it constantly during pre-production, even when ordering food at restaurants.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/eb/Ozark_season_4_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/aatG9iVAUL7U7OyFEmupESpOrD2.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/pCGyPVrI9Fzw6rE1Pvi4BIXF6ET.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2173,8 +2173,8 @@ const RAW_CATALOG: Movie[] = [
       'The episode "Fish Out of Water" features virtually no spoken dialogue, relying entirely on visual storytelling and an ambient underwater score.',
       'Every season features a recurring narrative climax in Episode 11, which invariably centers on a deeply emotional, reality-shattering breakdown for BoJack.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/5/5c/Bojack_Horseman_Season_6_Poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/qFYDJUIFh8zgEDy3EvnHwhgOl0S.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/6JFWzlChcGgLiIUo2COgNlWGFKy.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2203,8 +2203,8 @@ const RAW_CATALOG: Movie[] = [
       'Joe Pesci came out of unofficial retirement to play Russell Bufalino after being asked by Martin Scorsese and Robert De Niro over fifty times.',
       'At 209 minutes, it is the longest film of Martin Scorsese\'s illustrious directing career.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1533929736458-ca588d08c8be?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/8/80/The_Irishman_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/1RDto0tLo8Fhq7OcwgDaM7nECb7.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/mbm8k3GFhXS0ROd9AD1gqYbIFbM.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2232,8 +2232,8 @@ const RAW_CATALOG: Movie[] = [
       'Alfonso Cuarón served as his own director of photography, filming the entire movie chronologically to let the actors naturally experience the emotional journey.',
       'The house featured in the movie was an exact replica of Cuarón\'s childhood home, furnished with many of his actual childhood belongings.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/f/f3/Roma_poster.png',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/abQxLSkGxpHyUxRjRXACt8NbiGf.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/w90ItYf9qagQKVEBr1uFxPomAtf.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2261,8 +2261,8 @@ const RAW_CATALOG: Movie[] = [
       'Hugh Grant makes a brief, highly talked-about cameo appearance as Benoit Blanc\'s live-in partner, Phillip.',
       'The movie\'s title is a direct homage to the famous 1968 Beatles song "Glass Onion" of the same name.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/6/62/Glass_Onion_A_Knives_Out_Mystery_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/dKqa850uvbNSCaQCV4Im1XlzEtQ.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/vDGr1YdrlfbU9wxTOdpf3zChmv9.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2290,8 +2290,8 @@ const RAW_CATALOG: Movie[] = [
       'The filming took place heavily in Ahmedabad, India, and Dhaka, Bangladesh, offering a highly vibrant, bustling, and realistic urban backdrop.',
       'Chris Hemsworth performed over 85% of his own highly complex physical stunts, undergoing intense martial arts and tactical training.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/8/89/Extraction_%282020_film%29_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/1R6cvRtZgsYCkh8UFuWFN33xBP4.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/nygOUcBKPHFTbxsYRFZVePqgPK6.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2319,8 +2319,8 @@ const RAW_CATALOG: Movie[] = [
       'Virtually every episode features highly complex, sweeping, theatrical camera movements that were rehearsed for days like a Broadway dance number.',
       'The series won an outstanding total of 20 Primetime Emmy Awards over its highly successful five-season run.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/eb/The_Marvelous_Mrs._Maisel_Season_1_Poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/vQ77kC1amsZECKIxkUIsMJCtBVp.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/zS7fQiOZiKCVH2vlYSiIsFWW8hh.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2349,8 +2349,8 @@ const RAW_CATALOG: Movie[] = [
       'The pilot episode famously hides its extremely dark and bloody true nature until the shocking post-credits climax, catching casual viewers completely off-guard.',
       'An incredible roster of veteran actors, including many alumni from "The Walking Dead," provide voices for the extensive ensemble cast.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/d4/Invincible_TV_Series_Poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/9qrroces8C6R9aKr08hACNPVXdZ.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/4tblBrslcKSifMVZ3TmtT2ukMor.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2409,8 +2409,8 @@ const RAW_CATALOG: Movie[] = [
       'The final, highly talked-about dancing sequence featuring Barry Keoghan was filmed in eleven continuous takes, with Keoghan dancing completely naked through the real estate rooms.',
       'To emphasize the classical, highly framed, painting-like look of the sprawling estate, the movie was shot in a boxy 1.33:1 aspect ratio.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1543728716-80975210d477?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/8/84/Saltburn_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/f7DQup7q7HlK8AFw0XsoXakvqla.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/zGTfMwG112BC66mpaveVxoWPOaB.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2438,8 +2438,8 @@ const RAW_CATALOG: Movie[] = [
       'Despite the movie revolving entirely around Michael Jordan, Jordan\'s face is never shown on camera during the film to maintain his legendary, larger-than-life status.',
       'The production crew meticulously sourced authentic, functional late-1980s office machinery, computers, and retro soda cans to establish the period\'s nostalgic aesthetic.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/3/30/Air_2023_film_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/aT3sRVqgpkyCo23fp9myVfKPWbA.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/76AKQPdH3M8cvsFR9K8JsOzVlY5.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2467,8 +2467,8 @@ const RAW_CATALOG: Movie[] = [
       'Actor Paul Raci, who plays the deaf community leader Joe, is a child of deaf adults (CODA) who is completely fluent in ASL and has worked extensively with deaf veterans.',
       'To simulate real hearing loss on set, Riz Ahmed wore specialized, custom-fitted in-ear monitors that emitted varying levels of white noise.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/t/t9/Sound_of_Metal_poster.jpeg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/7b5R8FfGUzlxfhOkPpL3xyIeuyF.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/3178oOJKKPDeQ2legWQvMPpllv.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2496,8 +2496,8 @@ const RAW_CATALOG: Movie[] = [
       'The Vault-Tec mascot\'s iconic "thumbs up" is famously explained in the show\'s opening episode as a method for measuring distance from a nuclear blast.',
       'Jonathan Nolan, who directed several episodes, is a massive fan of the games and personally pushed to keep the production design incredibly close to the original game assets.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Fallout_TV_series_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/coaPCIqQBPUZsOnJcWZxhaORcDT.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/c15BtJxCXMrISLVmysdsnZUPQft.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2525,8 +2525,8 @@ const RAW_CATALOG: Movie[] = [
       'To prepare for the demanding high-society ball scenes, the cast underwent extensive Regency etiquette training, learning how to dance, hold teacups, bow, and walk.',
       'Over 7,500 custom-made costume pieces were designed and created from scratch for the first season alone.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1518887570146-0612132dd618?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/c/cb/Bridgerton_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/6umsRLI7t0ydFwCl0JNEIO0q2LH.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/uXTg565ahu9RwonCX1V2Hex1NU6.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2554,8 +2554,8 @@ const RAW_CATALOG: Movie[] = [
       'The show is named Beef, representing the slang term for a grudge or conflict, and serves as a literal metaphor for consuming toxic rage.',
       'The series swept the 75th Primetime Emmy Awards, winning 8 awards including Outstanding Limited or Anthology Series, and lead acting awards for Yeun and Wong.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/15/Beef_Netflix_series_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/2VHbof9yaNhovEnaancBkXEULCT.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/25ih0Xq2zWbxhhKxwhvswKYQyEr.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2583,8 +2583,8 @@ const RAW_CATALOG: Movie[] = [
       'The episode "24 Hours" is widely considered one of the most terrifying hours of television, shot like a bottle film inside a retro diner.',
       'The voice of Matthew the Raven is provided by Patton Oswalt, who is a massive lifelong fan of the comic books.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/95/The_Sandman_Netflix_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/i8taDLjpF8cCbp53N8kOFt1LSkW.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/q54qEgagGOYCq5D1903eBVMNkbo.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2612,8 +2612,8 @@ const RAW_CATALOG: Movie[] = [
       'The fictional language Belter Creole was meticulously designed by professional linguist Nick Farmer, drawing roots from English, Spanish, Chinese, German, and Swahili.',
       'Actor Wes Chatham, who plays Amos Burton, worked closely with writers Ty Franck and Daniel Abraham to ensure his character\'s complex trauma-induced psychology was perfectly portrayed.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/db/The_Expanse_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/uUwnClwdMA12bpHgeKgkQrbu5Oe.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/5vQlVWkIMPhZ88OWchJsgwGEK9.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2641,8 +2641,8 @@ const RAW_CATALOG: Movie[] = [
       'The film is adapted from the bestselling novel by Robinne Lee, which was widely rumored to be inspired by Harry Styles fan fiction, though the author notes it is a general commentary on women reclaiming their sexuality.',
       'Anne Hathaway and Nicholas Galitzine underwent a rigorous chemistry read that involved listening to music and dancing together to prove their on-screen spark.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/ad/The_Idea_of_You_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/sI6uCeF8mUlZx22mFfHSi9W3XQ9.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/Y5P4Q3q8nrruZ9aD3wXeJS2Plg.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2670,8 +2670,8 @@ const RAW_CATALOG: Movie[] = [
       'To capture the harsh physical toll of the ordeal, the actors underwent a strict supervised diet to safely lose significant weight over the course of the chronological shoot.',
       'The film was nominated for Best International Feature Film and Best Makeup and Hairstyling at the 96th Academy Awards.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/9d/Society_of_the_Snow_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/md848EEPm3dHZOqwGxxTVwH2vu5.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/2e853FDVSIso600RqAMunPxiZjq.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2699,8 +2699,8 @@ const RAW_CATALOG: Movie[] = [
       'Jake Gyllenhaal maintained an extremely strict training and dieting regime to achieve the physique of a professional middleweight fighter, shooting several weigh-in scenes during real UFC events.',
       'Conor McGregor\'s character Knox is an entirely original creation, designed to match the fighter\'s real-life explosive persona.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/af/Road_House_2024_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/clFFCapyGpE7KD4Jsu5pUbFBZF4.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/fDEdtS4P0gJsxHDIt8dG8TR5dx1.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2728,8 +2728,8 @@ const RAW_CATALOG: Movie[] = [
       'Dar Salim, a highly acclaimed Iraqi-Danish actor, brought his real-life experiences and cultural insights to the character of Ahmed, ensuring a respectful, authentic portrayal.',
       'The filming took place in Alicante, Spain, which served as an incredibly convincing stand-in for the mountainous landscapes of Afghanistan\'s Hindu Kush.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/ee/The_Covenant_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/vn9BFSlvwILE4wPUITi4XDD3fEK.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/r6jbhgqKao3K3in4eftu7gqgMNH.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2757,8 +2757,8 @@ const RAW_CATALOG: Movie[] = [
       'Nimona was nominated for Best Animated Feature at the 96th Academy Awards, representing a massive triumph for its creators and rescuers.',
       'The film is based on ND Stevenson\'s critically acclaimed, award-winning webcomic and graphic novel of the same name.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/1/1a/Nimona_poster.jpeg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/sidvlo7V8VMyskNKGwua0Tarbol.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/2NQljeavtfl22207D1kxLpa4LS3.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2786,8 +2786,8 @@ const RAW_CATALOG: Movie[] = [
       'To maintain authentic rural flavor, much of the movie was shot on location in the villages of Madhya Pradesh using local residents as extras.',
       'Director Kiran Rao returned to feature film directing after a hiatus of over a decade, receiving widespread international acclaim.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/3/3a/Laapataa_Ladies_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/uUVXEEyMsyWxrcbmAppUCYg6egV.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/yXt07MYeiyQRzS69PMHy0BPjCGP.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2815,8 +2815,8 @@ const RAW_CATALOG: Movie[] = [
       'A massive, detailed historical set representing Lahore of the 1940s was built from scratch in Mumbai, covering over 60,000 square feet.',
       'The intricate costumes took over seven months to design, utilizing authentic historical embroidery styles like Zardozi and Chikankari.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/ab/Heeramandi_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/z0F11p7HBaIUizZHGzyZ32FLm7O.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/uSmnvWK3bCPz87jkE0GpZsMnYpT.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2844,8 +2844,8 @@ const RAW_CATALOG: Movie[] = [
       'A custom-built futuristic vehicle named "Bujji" was physically engineered and constructed in collaboration with Mahindra Research Valley.',
       'It is one of the most expensive Indian films ever produced, utilizing over 3,000 VFX shots created by top global studios.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/4/4c/Kalki_2898_AD_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/o8XSR1SONnjcsv84NRu6Mwsl5io.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/rstcAnBeCkxNQjNp3YXrF6IP1tW.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2873,8 +2873,8 @@ const RAW_CATALOG: Movie[] = [
       'Season 3 was filmed in extensive real locations across Uttar Pradesh, including Varanasi, Mirzapur, and Lucknow, to maintain maximum cultural authenticity.',
       'The series has one of the largest ensemble casts of any streaming series in India.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/3/3c/Mirzapur_season_3_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/3dV7pWAdwIPKR2lMIACMfObXdgK.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/1rxLUFVrtTo82OxhbDXJDiJVkwL.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2931,8 +2931,8 @@ const RAW_CATALOG: Movie[] = [
       'It occupies the same fictional universe as Raj & DK\'s other blockbuster series, The Family Man, featuring several subtle crossovers.',
       'The show became the most-watched Indian streaming series of all time within weeks of its release.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b3/Farzi_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/rGkjtv6UdL1ysDmZuBjbNl3PAA1.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/cTS86RwEBIDgCgUmjWQTSoPsK6p.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -2960,8 +2960,8 @@ const RAW_CATALOG: Movie[] = [
       'Marked the digital streaming directorial debut of Shiv Rawail and received glowing praise across international markets.',
       'The detailed, historical set of Bhopal Junction railway station was recreated with breathtaking precision in Mumbai.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1474487548417-781f71495f3b?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/9/91/The_Railway_Men_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/s7dpEDsAan8mvC5cikvWidOupsO.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/kOYlMHtNSqnf1FgsoK1JJypfkrY.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -2989,8 +2989,8 @@ const RAW_CATALOG: Movie[] = [
       'The movie utilizes creative split screens, translation graphics, and live archival photos to tell its story dynamically.',
       'A.R. Rahman composed a dual soundtrack—one containing original songs sung by the cast, and another featuring new songs sung by playback singers.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a2/Amar_Singh_Chamkila.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/qh7PWKRfy2K8rZZP7LzembGgWIU.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/t9wSGgaPfbGUBBlne7xw8GaArvu.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3018,8 +3018,8 @@ const RAW_CATALOG: Movie[] = [
       'The show won five Filmfare OTT Awards, sweepingly dominating the drama categories.',
       'Manoj Bajpayee did the majority of his own physical stunts, showing amazing dedication to his role as Srikant Tiwari.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/d/dc/The_Family_Man_Poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/sAzOPtLtqeveLDncierhahMIIpK.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/vCtEwgPHBjwMgehFyGnIlaUXJx6.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3047,8 +3047,8 @@ const RAW_CATALOG: Movie[] = [
       'Features British actress Rachel Shelley, famous for her role in the Oscar-nominated Indian film Lagaan.',
       'Suvinder Vicky\'s portrayal of the tired, morally grey sub-inspector Balbir Singh was widely hailed by international critics as a masterclass in restrained acting.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/e/e0/Kohrra_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/bXXoR0UgauJaKePUWUXsBFsRSed.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/oZbiASZweEKFOHsl56QTeNJ6a8R.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3076,8 +3076,8 @@ const RAW_CATALOG: Movie[] = [
       'Jaideep Ahlawat\'s stunning performance as Hathiram Chaudhary instantly elevated him into mainstream stardom.',
       'Abhishek Banerjee, who plays the terrifying assassin Hathoda Tyagi, is also one of the most prominent casting directors in the Indian film industry.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a7/Paatal_Lok_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/lgbMRcbGAbLr6LxF4wi514TpFpj.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/qL8f1E0W42CFHG8NtpyJFMPeKnw.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3105,8 +3105,8 @@ const RAW_CATALOG: Movie[] = [
       'Ravi Kishan\'s character VD Tyagi is highly praised for his perfect blend of street-smart legal swagger and comedic timing.',
       'The series marked a major hit for comedic storytelling coming out of the Indian streaming space in early 2024.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1505664194779-8bebcb95c557?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://upload.wikimedia.org/wikipedia/en/b/b3/Maamla_Legal_Hai_poster.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/2vWxGsPxoDYnnNqsq8jlv1wiFJj.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/tDP5vC5wxSpHKx88RdyRpdaSo2u.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3134,8 +3134,8 @@ const RAW_CATALOG: Movie[] = [
       'The desert scenes were filmed in the breathtaking Wadi Rum Desert in Jordan, where the crew constructed massive ancient city structures.',
       'Naomi Scott\'s empowering song "Speechless" was written specifically for this live-action adaptation.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/nenJjvfe2Eq8uBMXFJnWj5mw4bi.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/eLFfl7vS8dkeG1hKp5mwbm37V83.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -3163,8 +3163,8 @@ const RAW_CATALOG: Movie[] = [
       'The movie is shot entirely using anamorphic lenses to deliver a gritty, high-contrast widescreen cinematic experience.',
       'The ambient background score utilizes live heavy analog synthesizers to build a looming sense of corporate dread.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/uy16Ktm9blPb1DAoN6h5MwlBJ6V.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/fp5EAKE8nTx402n1fWz55QsuYY9.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3192,8 +3192,8 @@ const RAW_CATALOG: Movie[] = [
       'Over 1,000 background actors were cast to portray the gold miners during the dramatic workers\' strike scenes.',
       'The film\'s cinematography used high-dynamic range cameras to capture the rich contrast of dust and shadows.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/oPsRr7AfNLw6XaPuMpvkWK0bIUA.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/kJAJNNBYlbqAcpTDxBNnaILSMTy.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3221,8 +3221,8 @@ const RAW_CATALOG: Movie[] = [
       'The movie captures gorgeous wedding aesthetics shot during real autumn festivals in northern India.',
       'Several dialogue sequences were entirely improvised by the veteran actors during live family dining scenes.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/4QTWMWtrBkN5PdsL4XX5Pp27VIO.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/hKbQjE5ZcZUpuzApEjyoVCUWwdx.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3250,8 +3250,8 @@ const RAW_CATALOG: Movie[] = [
       'Ryan Reynolds did many of his own physical stunts, including the dramatic leap from a high-rise helicopter pad.',
       'The movie\'s sound design team recorded real rocket thruster tests to simulate the deafening sound of the core reactor.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/xsoKAonKy1zk5XoQoUG1dUXDCKH.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/lpsUpXieodUhN6DlK9ZDnjkysLk.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3337,8 +3337,8 @@ const RAW_CATALOG: Movie[] = [
       'The production designed realistic physical costumes and prosthetics for the monsters instead of relying purely on CGI.',
       'The iconic song "Toss a Coin to Your Witcher" became a massive viral sensation, reaching millions of streams on Spotify.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/foGkPxpw9h8zln81j63mix5B7m8.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/AoGsDM02UVt0npBA8OvpDcZbaMi.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3366,8 +3366,8 @@ const RAW_CATALOG: Movie[] = [
       'The actors portraying the serial killers studied real FBI interview recordings to match their exact speech patterns, body language, and tics.',
       'The series is based on the true-crime memoir written by John E. Douglas, a pioneering FBI profiling specialist.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/lpDVJuIro21gtMj9iXMFKHuroZN.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/fbKE87mojpIETWepSbD5Qt741fp.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3395,8 +3395,8 @@ const RAW_CATALOG: Movie[] = [
       'Ke Huy Quan returned to acting after a 20-year hiatus, having quit due to the lack of opportunities for Asian actors in Hollywood.',
       'The directors filmed the entire action-packed hallway fight sequence using actual physical props like a fanny pack stuffed with loose change.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/ss0Os3uWJfQAENILHZUdX8Tt1OC.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/u68AjlvlutfEIcpmbYpKcdi09ut.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3424,8 +3424,8 @@ const RAW_CATALOG: Movie[] = [
       'The production constructed entire miniature castles and landscapes, dubbed "bigatures," to capture highly detailed wide shots.',
       'The iconic scream of the Ringwraiths was created by combining the screams of sound designer David Farmer and producer Fran Walsh scraping plastic cups.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/mWDdRXTivGE7aaY2vo1Ie0PfCX5.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3453,8 +3453,8 @@ const RAW_CATALOG: Movie[] = [
       'Jennifer Coolidge was the only major cast member from the first season to return for the second season in Sicily.',
       'Mike White wrote the entire series, drawing on his own experiences competing on the reality show Survivor to pace the tension.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/rCTLaPwuApDx8vLGjYZ9pRl7zRB.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/gbSaK9v1CbcYH1ISgbM7XObD2dW.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -3482,8 +3482,8 @@ const RAW_CATALOG: Movie[] = [
       'The sound of Geiger counters clicking was heavily integrated into the musical score to amplify the invisible horror of radiation.',
       'Many of the characters represent actual historical figures, while Emily Watson\'s character was created to represent the collective scientific community.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/3URK0z9PzpVNJrGE7XOuyy6KFzk.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -3511,8 +3511,8 @@ const RAW_CATALOG: Movie[] = [
       'To make the trenches look authentic, the crew excavated massive physical mud battlefields in the Czech Republic during the freezing winter.',
       'The sound designers used real period-accurate weapons and artillery to capture the deafening, bone-shaking reality of World War I combat.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1501530855697-b586d89ba3ee?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/xBwtP27cx8WfjHJVFkpuV6F1RES.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/2IRjbi9cADuDMKmHdLK7LaqQDKA.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3540,8 +3540,8 @@ const RAW_CATALOG: Movie[] = [
       'The show employed an intimacy coordinator for all romantic scenes to ensure the actors felt completely comfortable and safe.',
       'Filmed primarily in Ireland, with key scenic episodes shot on location in beautiful villas in Italy and the streets of Sweden.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/w8rTBScgj2MON7eGN7raoU5qChJ.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/c4mk4EQVIM11yd3W43DDdqDazDU.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3569,8 +3569,8 @@ const RAW_CATALOG: Movie[] = [
       'The stunning clifftop villa belonging to Richard Roper is a real historic fortress called Sa Fortaleza located in Mallorca, Spain.',
       'Olivia Colman was pregnant during filming, which led the director to adjust her character\'s role to incorporate her pregnancy naturally.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/2vAOdruqvx9GojXxKi3xVsZZvKU.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/1MccRnw41qQjREuZkovqP2UX1i3.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -3598,8 +3598,8 @@ const RAW_CATALOG: Movie[] = [
       'The title of each episode corresponds to a concept or character from Hindu mythology, mirroring the narrative arc.',
       'It was Netflix\'s first original series produced in India.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1540749003-4d3b07264627?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1540749003-4d3b07264627?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/qtac9X9lSLqZFbxS71347N8MiID.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/uEbNtFbK4At9WBDGap23lt1qO9n.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3656,8 +3656,8 @@ const RAW_CATALOG: Movie[] = [
       'The film was originally intended as a regional Kannada release but became a major pan-Indian commercial blockbuster.',
       'The spectacular folk song "Varaha Roopam" integrates traditional classical instruments with modern rock-fusion chords.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/kXElm7wt2kAXEVwJqW4cFhP43nW.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/jIsKmkxMzdCZ0Ux1GVSnu8m6Na6.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3685,8 +3685,8 @@ const RAW_CATALOG: Movie[] = [
       'Sonakshi Sinha spent months learning the specific Rajasthani dialect and riding heavy motorcycles to play the tough cop.',
       'Dahaad became the first ever Indian web series to premiere at the prestigious Berlin International Film Festival.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1547483238-f400e65ccd56?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1547483238-f400e65ccd56?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/pO1tIrVa1ptJWS7vA15HokdeBcL.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/I460jEKaodXKZMyzVDjFnpUFYr.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3714,8 +3714,8 @@ const RAW_CATALOG: Movie[] = [
       'It is an official adaptation of the acclaimed Dutch drama series Penoza.',
       'The background score uses classic old Hindi songs like "Bade Achhe Lagte Hain" to build deeply contrasting, chilling irony during violent gunfights.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/wPYnXZg8kXUA9vlpHSLXhXB87SY.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/eHxzABVwpFtUg5kHu9PAEFWs67u.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -3743,8 +3743,8 @@ const RAW_CATALOG: Movie[] = [
       'The writers consulted actual high-court criminal defense lawyers to ensure courtroom arguments and legal protocols were entirely authentic.',
       'The first season is a direct adaptation of the BBC series of the same name.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/oeTTGsDwxmvUpE3dia5GBvwdTx1.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/b9eHNNoUGju7P5Q2Ez5Kxu4fzst.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -3772,8 +3772,8 @@ const RAW_CATALOG: Movie[] = [
       'Jaideep Ahlawat underwent significant physical transformation, losing weight and receding his hairline to look like the middle-aged teacher.',
       'The title is a loving homage to the iconic old Bollywood track "Jaane Jaan" from the movie Jawani Diwani.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1461696114087-397271a7aedc?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1461696114087-397271a7aedc?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/eF8XLbbBd5cIfvS00tzl0jWAcOX.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/oaUOV9VCNM5MjrmonqgH4o3XNwQ.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3801,8 +3801,8 @@ const RAW_CATALOG: Movie[] = [
       'The film took over two years in the editing room to weave the complex parallel storylines together seamlessly.',
       'The soundtrack features experimental electronic beats combined with traditional old Tamil cinema dialogue snippets.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/trBGubNu0WWBGQMLxMBOJe4DylV.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/rTsYDdFWyw87CTk4YgJO6nYmVcJ.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3830,8 +3830,8 @@ const RAW_CATALOG: Movie[] = [
       'Richie Mehta spent over four years reading thousands of pages of police files and court testimonies before writing a single word of the script.',
       'The show is shot primarily in natural, low-key lighting to reflect the exhausting, round-the-clock nature of actual police investigations.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/j6djmR4hi8ULL0xUPQN4ZVyzgVN.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/xkpkTj6KGsjSaet0VQaq0aTn31D.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3859,8 +3859,8 @@ const RAW_CATALOG: Movie[] = [
       'The movie features incredible high-octane stunts supervised by international action directors.',
       'It is one of the highest-grossing Indian films of all time.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/5LtSjMNw6j3LkG29Oa4O0iY5U8.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/jFt1gS4BGHlK8xt76Y81Alp4dbt.jpg',
     streamingLinks: [
       {
         platform: 'Netflix',
@@ -3888,8 +3888,8 @@ const RAW_CATALOG: Movie[] = [
       'Features a soaring orchestral background score combining classical Indian chants with modern cinematic arrangements.',
       'Sharad Kelkar provides the grand, baritone voiceover narration for the series.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/jdMiCJqZQn2yyHYZbdUl3btvtGF.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/5PBsrG43twpomowfSHjNfug7FWF.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -3917,8 +3917,8 @@ const RAW_CATALOG: Movie[] = [
       'Hastar is a completely custom mythological character invented by the writers, inspired by ancient local folklore and fairy tales.',
       'The terrifying, deep well sequences inside the womb of the Goddess were shot inside custom-constructed dark tunnels under a real fort.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/l0YKBu3LaehIFzBNjseLjx7MbaN.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/vzjZAKozbDplHWcQXbXo0APKxst.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3946,8 +3946,8 @@ const RAW_CATALOG: Movie[] = [
       'The show is structured around the 10 days of the "Mayana Kollai" festival, mirroring the narrative development.',
       'The haunting theme track was composed by Sam C.S.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/hEFbJLsoFhEcf3OtFgptrllxBxI.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/z6IJi7xmAMmKdbzSnwguIXLIVjN.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -3975,8 +3975,8 @@ const RAW_CATALOG: Movie[] = [
       'The battle scenes were shot in actual mountainous terrains of Kargil at over 14,000 feet altitude, making breathing difficult during physical stunts.',
       'The title "Shershaah" was Batras real-life military codename during the war.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/AguDwIJdqUFEUXlmXyixotE0WnT.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/zGvFnwoXJKrYnKhoVPytqkqCJ8V.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -4004,8 +4004,8 @@ const RAW_CATALOG: Movie[] = [
       'Kay Kay Menon filmed all of his interrogations in continuous, theatrical single-takes to maintain intensity.',
       'It was one of the most successful Indian original series ever released on Disney+ Hotstar.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200&auto=format&fit=crop',
-    posterUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/xSFE12HYkcs2UuVr315jY4dQaau.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/doqymbPdJNLpkkEOhvlRALidJGb.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',

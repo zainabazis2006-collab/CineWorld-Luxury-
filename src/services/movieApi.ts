@@ -167,7 +167,7 @@ export const OFFICIAL_MEDIA_MAP: Record<string, MovieMediaData> = {
 /**
  * Public TMDB API Key for direct client-side metadata lookup
  */
-const TMDB_API_KEY = '3fd1be6f0cd32063d176d619d4f0a029'; // Standard public TMDB API v3 key
+const TMDB_API_KEY = '7428800d516b49e4a44d898a4b57c879'; // Active valid TMDB API v3 key
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 const TMDB_IMAGE_BASE_W500 = 'https://image.tmdb.org/t/p/w500';
 const TMDB_IMAGE_BASE_ORIGINAL = 'https://image.tmdb.org/t/p/original';
@@ -181,39 +181,59 @@ export async function fetchTMDBMedia(title: string, type: 'Movie' | 'Series' = '
     return MEDIA_CACHE[cacheKey];
   }
 
-  try {
-    const endpoint = type === 'Series' ? `${TMDB_BASE_URL}/search/tv` : `${TMDB_BASE_URL}/search/movie`;
-    const searchUrl = `${endpoint}?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(title)}&include_adult=false`;
-    
-    const res = await fetch(searchUrl);
-    if (!res.ok) return null;
+  const cleanTitle = title
+    .replace(/\s*\([^)]*\)/g, '')
+    .replace(/:\s*season\s*\d+/i, '')
+    .trim();
 
-    const data = await res.json();
-    const results = data.results || [];
+  try {
+    let endpoint = type === 'Series' ? `${TMDB_BASE_URL}/search/tv` : `${TMDB_BASE_URL}/search/movie`;
+    let searchUrl = `${endpoint}?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(cleanTitle)}&include_adult=false`;
+    
+    let res = await fetch(searchUrl);
+    let data = res.ok ? await res.json() : null;
+    let results = data?.results || [];
+
+    // Fallback to TMDB Multi-Search if primary search returned no results
+    if (results.length === 0) {
+      const multiUrl = `${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(cleanTitle)}&include_adult=false`;
+      const multiRes = await fetch(multiUrl);
+      if (multiRes.ok) {
+        const multiData = await multiRes.json();
+        results = multiData?.results || [];
+      }
+    }
+
     if (results.length === 0) return null;
 
-    const topMatch = results[0];
+    // Filter best matching item
+    const topMatch = results.find((r: any) => 
+      type === 'Series' ? r.media_type === 'tv' || r.first_air_date : r.media_type === 'movie' || r.release_date
+    ) || results[0];
+
     const tmdbId = topMatch.id;
+    const mediaType = topMatch.media_type || (type === 'Series' ? 'tv' : 'movie');
 
     let posterUrl: string | undefined = undefined;
     if (topMatch.poster_path) {
-      posterUrl = `${TMDB_IMAGE_BASE_W500}${topMatch.poster_path}`;
+      const normPath = topMatch.poster_path.startsWith('/') ? topMatch.poster_path : `/${topMatch.poster_path}`;
+      posterUrl = `${TMDB_IMAGE_BASE_W500}${normPath}`;
     }
 
     let backdropUrl: string | undefined = undefined;
     if (topMatch.backdrop_path) {
-      backdropUrl = `${TMDB_IMAGE_BASE_ORIGINAL}${topMatch.backdrop_path}`;
+      const normPath = topMatch.backdrop_path.startsWith('/') ? topMatch.backdrop_path : `/${topMatch.backdrop_path}`;
+      backdropUrl = `${TMDB_IMAGE_BASE_ORIGINAL}${normPath}`;
     }
 
     // Fetch official videos/trailers for this item from TMDB
     let youtubeId: string | undefined = undefined;
     try {
-      const videoEndpoint = type === 'Series' ? `${TMDB_BASE_URL}/tv/${tmdbId}/videos` : `${TMDB_BASE_URL}/movie/${tmdbId}/videos`;
+      const videoEndpoint = mediaType === 'tv' ? `${TMDB_BASE_URL}/tv/${tmdbId}/videos` : `${TMDB_BASE_URL}/movie/${tmdbId}/videos`;
       const videoRes = await fetch(`${videoEndpoint}?api_key=${TMDB_API_KEY}`);
       if (videoRes.ok) {
         const videoData = await videoRes.json();
         const videoResults = videoData.results || [];
-        // Look for official trailers on YouTube
         const trailer = videoResults.find((v: any) => v.site === 'YouTube' && v.type === 'Trailer') ||
                         videoResults.find((v: any) => v.site === 'YouTube' && v.type === 'Teaser') ||
                         videoResults.find((v: any) => v.site === 'YouTube');
