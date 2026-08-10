@@ -19,7 +19,15 @@ const AVATARS = [
 ];
 
 export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAuthProps) {
-  const [isSignUp, setIsSignUp] = useState<boolean>(true);
+  const [isSignUp, setIsSignUp] = useState<boolean>(() => {
+    try {
+      const usersJson = localStorage.getItem('cineworld_registered_users_v1');
+      const users = usersJson ? JSON.parse(usersJson) : [];
+      return users.length === 0;
+    } catch (err) {
+      return false;
+    }
+  });
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -354,7 +362,12 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
       );
 
       if (!matchedUser) {
-        setError('Incorrect email or password. No matching pass found in our private screening register. Please register first or verify your details.');
+        const emailMatch = registeredUsers.find((u: any) => u.email.toLowerCase() === emailTrimmed.toLowerCase());
+        if (emailMatch) {
+          setError('Incorrect password for this email. Use "Forgot Password?" below to reset your passkey securely via OTP code.');
+        } else {
+          setError('No registered account found under this email. Please check your email or switch to Sign Up to create an account.');
+        }
         return;
       }
     }
@@ -857,15 +870,6 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
                           {strength.label}
                         </span>
                       )}
-                      {!isSignUp && (
-                        <button
-                          type="button"
-                          onClick={handleStartForgotPassword}
-                          className="text-[11px] text-[#00D1FF] hover:underline font-semibold"
-                        >
-                          Forgot Password?
-                        </button>
-                      )}
                     </div>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
@@ -877,6 +881,22 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
                         className="w-full bg-black/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 focus:outline-none focus:border-[#00D1FF] focus:ring-1 focus:ring-[#00D1FF]/30 transition-all"
                       />
                     </div>
+
+                    {/* Prominent Forgot Password bar on Sign In stage */}
+                    {!isSignUp && (
+                      <div className="flex items-center justify-between pt-2">
+                        <span className="text-[11px] text-white/40 font-medium">Forgotten your password?</span>
+                        <button
+                          type="button"
+                          onClick={handleStartForgotPassword}
+                          className="text-xs text-[#00D1FF] hover:text-white font-bold flex items-center gap-1.5 transition-all px-2.5 py-1 bg-[#00D1FF]/10 hover:bg-[#00D1FF]/20 border border-[#00D1FF]/30 rounded-lg"
+                        >
+                          <KeyRound className="w-3.5 h-3.5 text-[#00D1FF]" />
+                          <span>Forgot Password?</span>
+                        </button>
+                      </div>
+                    )}
+
                     {/* Strength Meter */}
                     {isSignUp && password && (
                       <div className="w-full bg-white/5 h-1 rounded-full mt-2 overflow-hidden">
@@ -913,9 +933,21 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="p-3 bg-red-950/50 border border-red-500/20 rounded-xl text-xs text-red-400 font-medium leading-relaxed"
+                        className="p-3 bg-red-950/60 border border-red-500/30 rounded-xl space-y-2 text-left"
                       >
-                        ⚠️ {error}
+                        <p className="text-xs text-red-300 font-medium leading-relaxed">
+                          ⚠️ {error}
+                        </p>
+                        {!isSignUp && (
+                          <button
+                            type="button"
+                            onClick={handleStartForgotPassword}
+                            className="w-full py-2 px-3 bg-red-900/40 hover:bg-red-800/60 border border-red-500/40 rounded-lg text-xs font-bold text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                          >
+                            <KeyRound className="w-3.5 h-3.5 text-[#00D1FF]" />
+                            <span>Recover Account via OTP Code &rarr;</span>
+                          </button>
+                        )}
                       </motion.div>
                     )}
                     {success && (
@@ -978,7 +1010,7 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
                   </button>
                 </form>
 
-                <div className="mt-4 text-center">
+                <div className="mt-4 pt-3 border-t border-white/5 flex flex-col items-center gap-1.5 text-center">
                   <span className="text-[11px] text-white/30 font-mono">
                     {isSignUp ? "Already hold a screening pass?" : "Need a new private screening seat?"}{' '}
                     <button
@@ -989,6 +1021,16 @@ export default function CinematicAuth({ userState, onAuthSuccess }: CinematicAut
                       {isSignUp ? 'Sign In Now' : 'Sign Up Now'}
                     </button>
                   </span>
+                  {!isSignUp && (
+                    <button
+                      type="button"
+                      onClick={handleStartForgotPassword}
+                      className="text-[11px] text-white/40 hover:text-[#00D1FF] transition-colors flex items-center gap-1 font-mono"
+                    >
+                      <KeyRound className="w-3 h-3 text-[#00D1FF]" />
+                      <span>Trouble signing in? Reset Password</span>
+                    </button>
+                  )}
                 </div>
               </>
             )}
