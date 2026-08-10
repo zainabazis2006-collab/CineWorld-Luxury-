@@ -889,7 +889,7 @@ export default function App() {
   // Dynamic images & media state resolved from our custom proxy API
   const [resolvedImages, setResolvedImages] = useState<Record<string, { posterUrl?: string; backdropUrl?: string; youtubeId?: string }>>(() => {
     try {
-      const saved = localStorage.getItem('cineworld_resolved_images_v10');
+      const saved = localStorage.getItem('cineworld_resolved_images_v12');
       return saved ? JSON.parse(saved) : {};
     } catch {
       return {};
@@ -898,7 +898,7 @@ export default function App() {
 
   // Save resolved images to localStorage
   useEffect(() => {
-    localStorage.setItem('cineworld_resolved_images_v10', JSON.stringify(resolvedImages));
+    localStorage.setItem('cineworld_resolved_images_v12', JSON.stringify(resolvedImages));
   }, [resolvedImages]);
 
   // Prioritize active selected movie resolution
@@ -1006,12 +1006,21 @@ export default function App() {
   // Dynamic display catalog mapping depending on the chosen posterSafetyMode and resolved images
   const displayCatalog = CURATED_CATALOG.map(movie => {
     const resolved = resolvedImages[movie.id];
-    let poster = userState.posterSafetyMode === 'safe' ? (movie.safePosterUrl || movie.posterUrl) : movie.posterUrl;
-    let backdrop = userState.posterSafetyMode === 'safe' ? (movie.safeBackdropUrl || movie.backdropUrl) : movie.backdropUrl;
+    let poster = movie.posterUrl;
+    let backdrop = movie.backdropUrl;
 
-    // Use our high-resolution, hotlink-friendly resolved images if available
-    if (resolved?.posterUrl) poster = getProxiedUrl(resolved.posterUrl);
-    if (resolved?.backdropUrl) backdrop = getProxiedUrl(resolved.backdropUrl);
+    // Use resolved images if available and valid TMDB links or if catalog link is missing
+    if (resolved?.posterUrl && (resolved.posterUrl.includes('tmdb.org') || !poster.includes('tmdb.org'))) {
+      poster = getProxiedUrl(resolved.posterUrl);
+    } else {
+      poster = getProxiedUrl(poster);
+    }
+
+    if (resolved?.backdropUrl && (resolved.backdropUrl.includes('tmdb.org') || !backdrop.includes('tmdb.org'))) {
+      backdrop = getProxiedUrl(resolved.backdropUrl);
+    } else {
+      backdrop = getProxiedUrl(backdrop);
+    }
 
     return {
       ...movie,
@@ -2232,46 +2241,29 @@ export default function App() {
 
       {/* HERO SHOWCASE - Atmospheric Display of Currently Active Movie in Automated Carousel */}
       <section className="relative w-full overflow-hidden border-b border-white/5 z-10" id="hero-showcase">
-        {/* Dynamic High-Fidelity Backdrop / Auto-play Trailer with heavy gradient vignette */}
-        <div className="absolute inset-0 z-0 bg-black">
+        {/* Dynamic High-Fidelity Content Poster Backdrop behind Content Name */}
+        <div className="absolute inset-0 z-0 bg-[#050508] overflow-hidden">
           <AnimatePresence mode="wait">
-            {userState.autoplayTrailers && isHeroInView ? (
-              <motion.div
-                key={`trailer-${currentMovie.id}`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.55 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1.0 }}
-                className="absolute inset-0 w-full h-full bg-black overflow-hidden pointer-events-none"
-              >
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${currentMovie.youtubeId || OFFICIAL_MEDIA_MAP[currentMovie.id]?.youtubeId || 'Way9Dexny3w'}?autoplay=1&mute=1&controls=0&loop=1&playlist=${currentMovie.youtubeId || OFFICIAL_MEDIA_MAP[currentMovie.id]?.youtubeId || 'Way9Dexny3w'}&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`}
-                  title={`${currentMovie.title} Official Trailer`}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] h-[160%] pointer-events-none object-cover aspect-video filter contrast-[1.08] saturate-[1.1] scale-110"
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  style={{ border: 0 }}
-                />
-              </motion.div>
-            ) : (
-              <motion.div
-                key={`backdrop-${currentMovie.id}`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.3 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1.0, ease: "easeInOut" }}
-                className="absolute inset-0 w-full h-full"
-              >
-                <BlurUpImage 
-                  src={currentMovie.backdropUrl} 
-                  alt={currentMovie.title}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover scale-105 filter saturate-[1.1] contrast-[1.05]"
-                />
-              </motion.div>
-            )}
+            <motion.div
+              key={`backdrop-${currentMovie.id}`}
+              initial={{ opacity: 0, scale: 1.06 }}
+              animate={{ opacity: 0.65, scale: 1.02 }}
+              exit={{ opacity: 0, scale: 1.0 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute inset-0 w-full h-full"
+            >
+              <BlurUpImage 
+                src={currentMovie.backdropUrl || currentMovie.posterUrl} 
+                alt={currentMovie.title}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-center filter saturate-[1.15] contrast-[1.08]"
+              />
+            </motion.div>
           </AnimatePresence>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/85 to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-transparent to-[#050508]"></div>
+          {/* Multi-layered cinematic gradient vignettes to make content title & details pop */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-[#050508]/75 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#050508] via-[#050508]/65 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050508]/60 via-transparent to-[#050508]"></div>
         </div>
 
         <AnimatePresence mode="wait">
@@ -2302,12 +2294,10 @@ export default function App() {
                 <span className="px-2.5 py-1 bg-white/5 text-white/70 text-[10px] font-mono rounded-full border border-white/10">
                   {currentMovie.runtimeOrSeasons}
                 </span>
-                {userState.autoplayTrailers && isHeroInView && (
-                  <span className="px-2.5 py-1 bg-red-600/20 border border-red-500/40 text-red-400 text-[10px] font-mono font-bold rounded-full uppercase tracking-wider flex items-center gap-1.5 animate-pulse">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                    Live Official Trailer
-                  </span>
-                )}
+                <span className="px-2.5 py-1 bg-[#00D1FF]/10 border border-[#00D1FF]/30 text-[#00D1FF] text-[10px] font-mono font-bold rounded-full uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00D1FF] animate-pulse"></span>
+                  Ultra HD Presentation
+                </span>
                 <span className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold rounded-full uppercase tracking-wider flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   100% Free Stream

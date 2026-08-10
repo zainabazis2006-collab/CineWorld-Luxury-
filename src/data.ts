@@ -974,8 +974,8 @@ const RAW_CATALOG: Movie[] = [
       'Willem Dafoe learned authentic late 19th-century sailors\' slang and shanties to add rugged realism to his performance as the lighthouse keeper.',
       'Sound designers spent weeks capturing real sounds of coastal winds, grinding tides, and harbor foghorns to create an immersive, unsettling audio landscape.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?auto=format&fit=crop&w=400&q=80',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/keIxh0wPr2Ymj0Btjh4gW7JJ89e.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/qAZ0pzat24kLdO3o8ejmbLxyOac.jpg',
     streamingLinks: [
       {
         platform: 'Amazon Prime',
@@ -1090,8 +1090,8 @@ const RAW_CATALOG: Movie[] = [
       'The series was shot on location in Paris and the French Riviera during autumn to capture the cool, moody natural lighting.',
       'Charlotte Wells directed every episode, focusing heavily on quiet spaces, unspoken tensions, and the burden of grief.'
     ],
-    backdropUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80',
-    posterUrl: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=400&q=80',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/neeNHeXjMF5fXoCJRsOmkNGC7q.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv3B23824P.jpg',
     streamingLinks: [
       {
         platform: 'Disney+ Hotstar',
@@ -4226,14 +4226,12 @@ const SAFE_BACKDROPS: Record<string, string> = {
 };
 
 export const CURATED_CATALOG: Movie[] = RAW_CATALOG.map(movie => {
-  const safePoster = SAFE_POSTERS[movie.id] || movie.posterUrl;
-  const safeBackdrop = SAFE_BACKDROPS[movie.id] || movie.backdropUrl;
   return {
     ...movie,
     posterUrl: getProxiedUrl(movie.posterUrl),
     backdropUrl: getProxiedUrl(movie.backdropUrl),
-    safePosterUrl: getProxiedUrl(safePoster),
-    safeBackdropUrl: getProxiedUrl(safeBackdrop)
+    safePosterUrl: getProxiedUrl(movie.posterUrl),
+    safeBackdropUrl: getProxiedUrl(movie.backdropUrl)
   };
 });
 
