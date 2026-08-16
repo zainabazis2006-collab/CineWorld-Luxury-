@@ -30,7 +30,8 @@ import {
   MapPin,
   Users,
   Shuffle,
-  RotateCcw
+  RotateCcw,
+  Layers
 } from 'lucide-react';
 import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
 import { Movie, Review, UserState, ChatMessage } from './types';
@@ -485,10 +486,10 @@ const TRAILER_IDS: Record<string, string> = {
 const INITIAL_REVIEWS: Review[] = [
   {
     id: 'rev-1',
-    movieId: 'shogun',
-    userEmail: 'lord.blackthorne@cineworld.vip',
+    movieId: 'dhurandhar-raw-and-andekha',
+    userEmail: 'tactical.cinephile@cineworld.vip',
     rating: 5,
-    comment: 'The sheer linguistic precision and commitment to period authenticity elevates this beyond standard television. It is a cinematic triumph that honors historical narrative architecture.',
+    comment: 'Aditya Dhar and Ranveer Singh deliver an absolute masterclass in tactical espionage. The gritty realism, explosive combat choreography, and ensemble powerhouse with Sanjay Dutt make this an instant action classic.',
     createdAt: '2026-07-02T10:14:00Z'
   },
   {
@@ -782,7 +783,7 @@ export default function App() {
     }
     return {
       ratings: {},
-      watchlist: ['shogun', 'fleabag'],
+      watchlist: ['dhurandhar-raw-and-andekha', 'mai-wapas-aunga', 'fleabag'],
       reviews: {},
       genreClicks: { 'Sci-Fi': 2, 'Drama': 1 },
       clicks: {},
@@ -819,7 +820,7 @@ export default function App() {
   }, [userState.genreClickHistory]);
 
   // General App states
-  const [selectedMovieId, setSelectedMovieId] = useState<string>('shogun');
+  const [selectedMovieId, setSelectedMovieId] = useState<string>('dhurandhar-raw-and-andekha');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchLoading, setIsSearchLoading] = useState<boolean>(false);
   const [isHeaderSearchFocused, setIsHeaderSearchFocused] = useState<boolean>(false);
@@ -1059,6 +1060,31 @@ export default function App() {
       });
   }, [resolvedImages, activeType]);
 
+  // Hero Showcase Deck - Excludes 'shogun' and prioritizes new blockbuster arrivals
+  const heroDisplayCatalog = useMemo(() => {
+    // Specifically remove shogun and other unwanted titles from hero section rotation
+    return displayCatalog.filter(m => m.id !== 'shogun');
+  }, [displayCatalog]);
+
+  // Priority new blockbuster titles to lead the hero showcase deck
+  const PRIORITY_HERO_IDS = useMemo(() => [
+    'dhurandhar-raw-and-andekha',
+    'dhurandhar-the-revenge',
+    'mai-wapas-aunga',
+    'safed-sagar',
+    'peddi',
+    'tere-ishk-mein',
+    'cocktail-2',
+    'stree-2',
+    'kalki-2898-ad',
+    'pushpa-2',
+    'mirzapur-series',
+    'aavesham-movie',
+    'interstellar',
+    'dune-part-two',
+    'oppenheimer'
+  ], []);
+
   // Automatically reset stream mode, backup index, season, and episode when the theater movie changes
   // and dynamically fetch high-definition official trailer and direct HD video stream from API
   useEffect(() => {
@@ -1094,27 +1120,37 @@ export default function App() {
     }
   }, [theaterMovieId, displayCatalog]);
 
-  // Reset and synchronize hero deck whenever displayCatalog / activeType changes
+  // Reset and synchronize hero deck whenever heroDisplayCatalog / activeType changes
   useEffect(() => {
-    if (displayCatalog.length === 0) return;
+    if (heroDisplayCatalog.length === 0) return;
     
-    // Check if the currently selected movie is still within the active catalog
-    const isCurrentInDeck = displayCatalog.some(m => m.id === selectedMovieId);
+    // Check if the currently selected movie is in the hero catalog (and not shogun)
+    const isCurrentInDeck = heroDisplayCatalog.some(m => m.id === selectedMovieId);
     
-    const allIds = displayCatalog.map(m => m.id);
-    const initialShuffled = shuffleArray(allIds);
-    const firstMovieId = isCurrentInDeck && selectedMovieId ? selectedMovieId : initialShuffled[0];
-    const remainingDeck = initialShuffled.filter(id => id !== firstMovieId);
+    // Prioritize new releases first in the deck
+    const allHeroIds = heroDisplayCatalog.map(m => m.id);
+    const priorityAvailable = PRIORITY_HERO_IDS.filter(id => allHeroIds.includes(id));
+    const nonPriorityAvailable = allHeroIds.filter(id => !PRIORITY_HERO_IDS.includes(id));
+    
+    // Shuffle priority items and non-priority items
+    const shuffledPriority = shuffleArray(priorityAvailable);
+    const shuffledRemaining = shuffleArray(nonPriorityAvailable);
+    const combinedDeck = [...shuffledPriority, ...shuffledRemaining];
+
+    const firstMovieId = isCurrentInDeck && selectedMovieId && selectedMovieId !== 'shogun' 
+      ? selectedMovieId 
+      : combinedDeck[0];
+    const remainingDeck = combinedDeck.filter(id => id !== firstMovieId);
 
     setShuffledDeck(remainingDeck);
     setDeckHistory([firstMovieId]);
     setHistoryIndex(0);
     setSelectedMovieId(firstMovieId);
-  }, [activeType, displayCatalog.length]);
+  }, [activeType, heroDisplayCatalog.length, PRIORITY_HERO_IDS]);
 
   // Advance to next un-repeated title in the hero shuffle
   const advanceHeroShuffleNext = useCallback(() => {
-    if (displayCatalog.length === 0) return;
+    if (heroDisplayCatalog.length === 0) return;
 
     // If stepping forward in history
     if (historyIndex < deckHistory.length - 1) {
@@ -1128,8 +1164,8 @@ export default function App() {
     const currentDeck = shuffledDeck.filter(id => !deckHistory.includes(id));
 
     if (currentDeck.length === 0) {
-      // Full catalog deck exhausted! Re-shuffle full catalog for a new cycle.
-      const allIds = displayCatalog.map(m => m.id);
+      // Full catalog deck exhausted! Re-shuffle full hero catalog for a brand new non-repeating cycle.
+      const allIds = heroDisplayCatalog.map(m => m.id);
       const lastShownId = deckHistory[deckHistory.length - 1];
       const newShuffled = shuffleArray(allIds, lastShownId);
 
@@ -1151,7 +1187,7 @@ export default function App() {
       setHistoryIndex(newHistory.length - 1);
       setSelectedMovieId(nextId);
     }
-  }, [displayCatalog, shuffledDeck, deckHistory, historyIndex]);
+  }, [heroDisplayCatalog, shuffledDeck, deckHistory, historyIndex]);
 
   // Step back to previously shown item in history
   const advanceHeroShufflePrev = useCallback(() => {
@@ -1160,16 +1196,16 @@ export default function App() {
       setHistoryIndex(prevIdx);
       setSelectedMovieId(deckHistory[prevIdx]);
     } else {
-      const currentIndex = displayCatalog.findIndex(m => m.id === selectedMovieId);
-      const prevIndex = (currentIndex - 1 + displayCatalog.length) % displayCatalog.length;
-      setSelectedMovieId(displayCatalog[prevIndex].id);
+      const currentIndex = heroDisplayCatalog.findIndex(m => m.id === selectedMovieId);
+      const prevIndex = (currentIndex - 1 + heroDisplayCatalog.length) % heroDisplayCatalog.length;
+      setSelectedMovieId(heroDisplayCatalog[prevIndex].id);
     }
-  }, [historyIndex, deckHistory, displayCatalog, selectedMovieId]);
+  }, [historyIndex, deckHistory, heroDisplayCatalog, selectedMovieId]);
 
   // Force reshuffle deck manually
   const resetAndReshuffleHeroDeck = useCallback(() => {
-    if (displayCatalog.length === 0) return;
-    const allIds = displayCatalog.map(m => m.id);
+    if (heroDisplayCatalog.length === 0) return;
+    const allIds = heroDisplayCatalog.map(m => m.id);
     const newShuffled = shuffleArray(allIds, selectedMovieId);
     const nextId = newShuffled[0];
     const remaining = newShuffled.slice(1);
@@ -1178,7 +1214,7 @@ export default function App() {
     setDeckHistory([nextId]);
     setHistoryIndex(0);
     setSelectedMovieId(nextId);
-  }, [displayCatalog, selectedMovieId]);
+  }, [heroDisplayCatalog, selectedMovieId]);
 
   // Automated 10-second carousel timer for the Hero Showcase Section using non-repeating shuffle
   useEffect(() => {
@@ -1194,7 +1230,7 @@ export default function App() {
   // Preload currently selected movie's high-res poster and backdrop images for instant visual presentation
   useEffect(() => {
     if (!selectedMovieId) return;
-    const movie = displayCatalog.find(m => m.id === selectedMovieId);
+    const movie = heroDisplayCatalog.find(m => m.id === selectedMovieId) || displayCatalog.find(m => m.id === selectedMovieId);
     if (!movie) return;
 
     // Preload backdrop image
@@ -1207,7 +1243,7 @@ export default function App() {
       const imgPoster = new Image();
       imgPoster.src = movie.posterUrl;
     }
-  }, [selectedMovieId, displayCatalog]);
+  }, [selectedMovieId, heroDisplayCatalog, displayCatalog]);
   
   // Custom reviews state
   const [allReviews, setAllReviews] = useState<Review[]>(() => {
@@ -1262,8 +1298,8 @@ export default function App() {
     return dict[key] || TRANSLATIONS['en'][key] || key;
   };
 
-  // Find currently selected movie
-  const currentMovie = displayCatalog.find(m => m.id === selectedMovieId) || displayCatalog[0];
+  // Find currently selected movie (hero catalog excludes shogun)
+  const currentMovie = heroDisplayCatalog.find(m => m.id === selectedMovieId) || displayCatalog.find(m => m.id === selectedMovieId) || heroDisplayCatalog[0] || displayCatalog[0];
 
   // Calculate "More Like This" recommended movies based on shared genres and ratings
   const moreLikeThisMovies = displayCatalog
@@ -1461,8 +1497,10 @@ export default function App() {
       matchedMovie = CURATED_CATALOG.find(m => m.id === 'the-mandalorian');
     } else if (lower.includes('loki')) {
       matchedMovie = CURATED_CATALOG.find(m => m.id === 'loki');
-    } else if (lower.includes('shogun') || lower.includes('shōgun')) {
-      matchedMovie = CURATED_CATALOG.find(m => m.id === 'shogun');
+    } else if (lower.includes('dhurandar') || lower.includes('dhurandhar') || lower.includes('ranveer')) {
+      matchedMovie = CURATED_CATALOG.find(m => m.id === 'dhurandar-raw-and-andekha') || CURATED_CATALOG.find(m => m.id === 'dhurandar-the-revenge');
+    } else if (lower.includes('mai wapas aunga') || lower.includes('main wapas') || lower.includes('wapas aunga')) {
+      matchedMovie = CURATED_CATALOG.find(m => m.id === 'mai-wapas-aunga');
     }
 
     if (matchedMovie) {
@@ -1717,7 +1755,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050508] text-[#F5F5F5] font-sans relative overflow-x-hidden flex flex-col selection:bg-[#00D1FF]/30 selection:text-white">
+    <div className="min-h-screen bg-[#050508] text-[#F5F5F5] font-sans relative overflow-x-hidden flex flex-col selection:bg-[#00D1FF]/30 selection:text-white pb-20 lg:pb-0">
       
       {/* FLOATING LUXURY ELEVATOR NAVIGATOR & SCROLL PROGRESS */}
       <LuxuryScrollProgressAndElevator 
@@ -2476,8 +2514,53 @@ export default function App() {
                 </div>
               </div>
 
+              {/* Premier Arrivals Showcase Strip */}
+              <div className="pt-2 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#00D1FF] flex items-center gap-1.5">
+                    <Sparkles className="w-3 h-3 text-[#00D1FF] animate-pulse" />
+                    Featured In Non-Repeating Shuffle:
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 overflow-x-auto pb-1 max-w-3xl no-scrollbar">
+                  {[
+                    { id: 'dhurandhar-raw-and-andekha', label: 'Dhurandhar (Raw & Andekha)', badge: 'Ranveer Singh' },
+                    { id: 'dhurandhar-the-revenge', label: 'Dhurandhar (The Revenge)', badge: 'Ranveer Singh' },
+                    { id: 'mai-wapas-aunga', label: 'Main Wapas Aaunga', badge: 'Kay Kay Menon' },
+                    { id: 'safed-sagar', label: 'Safed Sagar', badge: 'Jaideep Ahlawat' },
+                    { id: 'peddi', label: 'Peddi', badge: 'Ram Charan' },
+                    { id: 'tere-ishk-mein', label: 'Tere Ishk Mein', badge: 'Dhanush' },
+                    { id: 'cocktail-2', label: 'Cocktail 2', badge: 'Shahid Kapoor' },
+                    { id: 'stree-2', label: 'Stree 2', badge: 'Shraddha Kapoor' },
+                    { id: 'kalki-2898-ad', label: 'Kalki 2898 AD', badge: 'Prabhas' },
+                    { id: 'pushpa-2', label: 'Pushpa 2', badge: 'Allu Arjun' }
+                  ].map((item) => {
+                    const isSelected = currentMovie.id === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => handleMovieSelect(item.id)}
+                        className={`flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-full text-xs tracking-wide transition-all duration-200 cursor-pointer ${
+                          isSelected
+                            ? 'bg-[#00D1FF] text-black shadow-[0_0_15px_rgba(0,209,255,0.4)] scale-105 font-black'
+                            : 'bg-white/10 text-white/80 hover:bg-white/20 hover:text-white border border-white/10 font-semibold'
+                        }`}
+                      >
+                        <span>{item.label}</span>
+                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-mono font-bold uppercase ${
+                          isSelected ? 'bg-black/20 text-black' : 'bg-white/10 text-[#00D1FF]'
+                        }`}>
+                          {item.badge}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Action Buttons & Streaming Integration Hub */}
-              <div className="space-y-3 pt-2">
+              <div className="space-y-3 pt-1">
                 <div className="flex flex-wrap gap-3.5">
                   
                   {/* Play Now Button */}
@@ -2519,11 +2602,11 @@ export default function App() {
         </AnimatePresence>
 
         {/* Dynamic Carousel Navigation Bar */}
-        <div className="absolute bottom-6 left-6 md:left-12 z-20 flex items-center gap-4 bg-black/85 border border-white/10 px-4 py-2.5 rounded-full backdrop-blur-md">
+        <div className="absolute bottom-4 sm:bottom-6 left-3 sm:left-6 md:left-12 z-20 flex items-center gap-2 sm:gap-3.5 bg-black/90 border border-white/10 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full backdrop-blur-md max-w-[calc(100vw-24px)] overflow-x-auto no-scrollbar shadow-[0_10px_25px_rgba(0,0,0,0.8)]">
           {/* Play/Pause Button */}
           <button 
             onClick={() => setIsCarouselPlaying(!isCarouselPlaying)}
-            className="text-white/60 hover:text-[#00D1FF] transition-colors p-1 flex items-center justify-center w-5 h-5"
+            className="text-white/60 hover:text-[#00D1FF] transition-colors p-1.5 flex items-center justify-center min-w-[28px] min-h-[28px] cursor-pointer"
             title={isCarouselPlaying ? "Pause Autoplay" : "Resume Autoplay"}
           >
             {isCarouselPlaying ? (
@@ -2536,7 +2619,7 @@ export default function App() {
             )}
           </button>
 
-          <div className="h-4 w-[1px] bg-white/10"></div>
+          <div className="h-4 w-[1px] bg-white/10 shrink-0"></div>
 
           {/* Quick Toggle Auto-play Trailers */}
           <button
@@ -2545,7 +2628,7 @@ export default function App() {
               setUserState(prev => ({ ...prev, autoplayTrailers: newValue }));
               pushSystemChatMessage(newValue ? "Auto-play trailers enabled for Hero Showcase." : "Auto-play trailers disabled.");
             }}
-            className={`transition-all duration-300 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-mono font-black uppercase tracking-wider ${
+            className={`transition-all duration-300 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-mono font-black uppercase tracking-wider shrink-0 cursor-pointer ${
               userState.autoplayTrailers 
                 ? 'bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/20 shadow-[0_0_10px_rgba(0,209,255,0.15)]' 
                 : 'bg-white/5 text-white/40 border border-white/5 hover:text-white/70 hover:bg-white/10'
@@ -2556,12 +2639,12 @@ export default function App() {
             <span>Trailers: {userState.autoplayTrailers ? "ON" : "OFF"}</span>
           </button>
 
-          <div className="h-4 w-[1px] bg-white/10"></div>
+          <div className="h-4 w-[1px] bg-white/10 shrink-0"></div>
 
           {/* Previous Button */}
           <button
             onClick={advanceHeroShufflePrev}
-            className="text-white/50 hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-wider"
+            className="text-white/50 hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 py-1 rounded min-h-[28px] cursor-pointer"
             title="Previous Shuffled Title"
           >
             PREV
@@ -2569,7 +2652,7 @@ export default function App() {
 
           {/* Shuffled Slide Indicator */}
           <div 
-            className="flex items-center gap-1.5 font-mono text-xs text-white/50 bg-black/50 border border-white/10 px-2.5 py-1 rounded-full backdrop-blur-md"
+            className="flex items-center gap-1.5 font-mono text-xs text-white/50 bg-black/50 border border-white/10 px-2.5 py-1 rounded-full backdrop-blur-md shrink-0"
             title="Non-repeating shuffle cycle progress"
           >
             <Shuffle className="w-3 h-3 text-[#00D1FF]" />
@@ -2577,12 +2660,13 @@ export default function App() {
               {String(historyIndex + 1).padStart(2, '0')}
             </span>
             <span className="text-white/30">/</span>
-            <span className="text-white/60">{String(displayCatalog.length).padStart(2, '0')}</span>
+            <span className="text-white/60">{String(heroDisplayCatalog.length).padStart(2, '0')}</span>
+            <span className="hidden md:inline text-[9px] font-mono text-[#00D1FF]/70 uppercase tracking-wider pl-1">• Non-Repeating</span>
           </div>
 
           <button
             onClick={resetAndReshuffleHeroDeck}
-            className="text-white/40 hover:text-[#00D1FF] transition-colors p-1"
+            className="text-white/40 hover:text-[#00D1FF] transition-colors p-1.5 min-w-[28px] min-h-[28px] flex items-center justify-center cursor-pointer"
             title="Reshuffle Full Catalog Deck"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -2591,10 +2675,11 @@ export default function App() {
           {/* Next Button */}
           <button
             onClick={advanceHeroShuffleNext}
-            className="text-white/50 hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-wider"
+            className="text-white/50 hover:text-white transition-colors text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 px-1.5 py-1 rounded min-h-[28px] cursor-pointer"
             title="Next Shuffled Title"
           >
-            NEXT
+            <span>NEXT</span>
+            <Shuffle className="w-2.5 h-2.5 text-[#00D1FF]" />
           </button>
         </div>
 
@@ -3211,11 +3296,11 @@ export default function App() {
       </footer>
 
       {/* PERSISTENT LUXURY ASSISTANT VIEWPORT BUTTON */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-20 right-4 sm:bottom-6 sm:right-6 z-50">
         {!isChatOpen ? (
           <button
             onClick={() => setIsChatOpen(true)}
-            className="bg-gradient-to-tr from-[#00D1FF] to-[#7000FF] text-white p-4 rounded-full shadow-[0_0_20px_rgba(0,209,255,0.45)] hover:shadow-[0_0_25px_rgba(0,209,255,0.7)] transform hover:scale-105 transition-all flex items-center gap-2 group border border-white/20"
+            className="bg-gradient-to-tr from-[#00D1FF] to-[#7000FF] text-white p-3.5 sm:p-4 rounded-full shadow-[0_0_20px_rgba(0,209,255,0.45)] hover:shadow-[0_0_25px_rgba(0,209,255,0.7)] transform hover:scale-105 transition-all flex items-center gap-2 group border border-white/20 min-w-[48px] min-h-[48px] justify-center cursor-pointer"
           >
             <MessageSquare className="w-5 h-5 fill-current" />
             <span className="text-xs font-bold uppercase tracking-wider pr-1 hidden md:inline">Discover AI</span>
@@ -3223,7 +3308,7 @@ export default function App() {
             <span className="absolute -top-1 -right-1 bg-red-600 w-3 h-3 rounded-full border border-black animate-ping"></span>
           </button>
         ) : (
-          <div className="w-[360px] sm:w-[400px] h-[520px] bg-[#050508] border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-up">
+          <div className="w-[calc(100vw-32px)] sm:w-[400px] h-[480px] sm:h-[520px] max-h-[80vh] bg-[#050508] border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slide-up">
             
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-950/80 to-black/80 px-4 py-3 border-b border-white/10 flex items-center justify-between">
@@ -3236,7 +3321,7 @@ export default function App() {
               </div>
               <button 
                 onClick={() => setIsChatOpen(false)}
-                className="text-white/40 hover:text-white transition-colors"
+                className="text-white/40 hover:text-white transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center cursor-pointer"
               >
                 <X className="w-4.5 h-4.5" />
               </button>
@@ -3305,22 +3390,22 @@ export default function App() {
             {/* Floating Quick Macros */}
             <div className="px-3 py-2 bg-black/80 border-t border-white/5 flex gap-1.5 overflow-x-auto shrink-0 select-none">
               <button 
-                onClick={() => pushUserChatMessage("What is Shogun about?")}
+                onClick={() => pushUserChatMessage("Tell me about Dhurandhar starring Ranveer Singh")}
                 className="bg-white/5 border border-white/10 hover:border-[#00D1FF] text-[9px] font-mono text-white/60 hover:text-[#00D1FF] px-2 py-1 rounded whitespace-nowrap"
               >
-                About Shōgun 🏮
+                Dhurandhar ⚡
               </button>
               <button 
-                onClick={() => pushUserChatMessage("Recommend me a dark sci-fi thriller")}
+                onClick={() => pushUserChatMessage("What is Main Wapas Aaunga about?")}
                 className="bg-white/5 border border-white/10 hover:border-[#00D1FF] text-[9px] font-mono text-white/60 hover:text-[#00D1FF] px-2 py-1 rounded whitespace-nowrap"
               >
-                Dark Sci-Fi 🧪
+                Main Wapas Aaunga 🎭
               </button>
               <button 
-                onClick={() => pushUserChatMessage("Which series has the highest budget?")}
+                onClick={() => pushUserChatMessage("Recommend me a high-octane action thriller")}
                 className="bg-white/5 border border-white/10 hover:border-[#00D1FF] text-[9px] font-mono text-white/60 hover:text-[#00D1FF] px-2 py-1 rounded whitespace-nowrap"
               >
-                Highest Budget? 💰
+                Action Thriller 💥
               </button>
             </div>
 
@@ -3339,7 +3424,7 @@ export default function App() {
               <button
                 type="submit"
                 disabled={!chatInput.trim()}
-                className="bg-[#00D1FF] text-black p-2 rounded-xl hover:bg-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="bg-[#00D1FF] text-black p-2 rounded-xl hover:bg-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed min-w-[36px] min-h-[36px] flex items-center justify-center cursor-pointer"
               >
                 <Send className="w-4 h-4" />
               </button>
@@ -4017,6 +4102,82 @@ export default function App() {
         isOpen={isUserDatabaseOpen} 
         onClose={() => setIsUserDatabaseOpen(false)} 
       />
+
+      {/* MOBILE BOTTOM NAVIGATION BAR (Luxury Touch-Optimized for Mobile/Tablet) */}
+      <nav 
+        className="lg:hidden fixed bottom-0 inset-x-0 bg-[#07070d]/95 border-t border-white/10 backdrop-blur-xl z-40 px-2 py-1.5 flex items-center justify-around shadow-[0_-10px_25px_rgba(0,0,0,0.8)]"
+        aria-label="Mobile Navigation"
+      >
+        <button
+          type="button"
+          onClick={() => {
+            navigateToSection('hero-showcase', 'all');
+          }}
+          className={`flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[48px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+            activeLayoutTab === 'all' && !isMobileMenuOpen ? 'text-[#00D1FF]' : 'text-white/50 hover:text-white/80'
+          }`}
+        >
+          <Sparkles className="w-4 h-4" />
+          <span className="text-[9px] font-mono font-bold uppercase tracking-wider">Home</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            navigateToSection('interactive-genre-vault', 'genres');
+          }}
+          className={`flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[48px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+            activeLayoutTab === 'genres' ? 'text-[#00D1FF]' : 'text-white/50 hover:text-white/80'
+          }`}
+        >
+          <Layers className="w-4 h-4" />
+          <span className="text-[9px] font-mono font-bold uppercase tracking-wider">Vault</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            navigateToSection('trending-section', 'trending');
+          }}
+          className={`flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[48px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+            activeLayoutTab === 'trending' ? 'text-[#00D1FF]' : 'text-white/50 hover:text-white/80'
+          }`}
+        >
+          <Flame className="w-4 h-4" />
+          <span className="text-[9px] font-mono font-bold uppercase tracking-wider">Trends</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            navigateToSection('watchlist-section', 'community');
+          }}
+          className={`relative flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[48px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+            activeLayoutTab === 'community' ? 'text-[#00D1FF]' : 'text-white/50 hover:text-white/80'
+          }`}
+        >
+          <Bookmark className="w-4 h-4" />
+          <span className="text-[9px] font-mono font-bold uppercase tracking-wider">Saved</span>
+          {userState.watchlist.length > 0 && (
+            <span className="absolute top-1 right-2 bg-red-600 text-white text-[8px] font-bold px-1 rounded-full border border-black animate-pulse">
+              {userState.watchlist.length}
+            </span>
+          )}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setIsChatOpen(prev => !prev);
+          }}
+          className={`flex flex-col items-center justify-center gap-1 min-w-[56px] min-h-[48px] px-2 py-1 rounded-xl transition-all cursor-pointer ${
+            isChatOpen ? 'text-[#00D1FF]' : 'text-white/50 hover:text-white/80'
+          }`}
+        >
+          <MessageSquare className="w-4 h-4" />
+          <span className="text-[9px] font-mono font-bold uppercase tracking-wider">AI Guide</span>
+        </button>
+      </nav>
 
     </div>
   );

@@ -708,7 +708,7 @@ export default function InteractiveGenreVault({
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
                     {visibleRemaining.map((movie) => {
                       const isSelected = movie.id === selectedMovieId;
                       const isWatchlisted = userState.watchlist.includes(movie.id);
@@ -725,7 +725,7 @@ export default function InteractiveGenreVault({
                         >
                           <div>
                             {/* Poster Thumbnail */}
-                            <div className="h-56 relative overflow-hidden">
+                            <div className="h-44 sm:h-56 relative overflow-hidden">
                               <BlurUpImage
                                 src={movie.posterUrl}
                                 alt={movie.title}
@@ -734,8 +734,8 @@ export default function InteractiveGenreVault({
                               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
 
                               {/* Badges */}
-                              <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between z-10">
-                                <span className="px-2 py-0.5 bg-black/80 backdrop-blur-md border border-white/20 text-[#00D1FF] text-[10px] font-mono font-bold rounded-full">
+                              <div className="absolute top-2 left-2 right-2 flex items-center justify-between z-10">
+                                <span className="px-2 py-0.5 bg-black/80 backdrop-blur-md border border-white/20 text-[#00D1FF] text-[9px] sm:text-[10px] font-mono font-bold rounded-full">
                                   ★ {movie.rating}
                                 </span>
                                 
@@ -744,47 +744,48 @@ export default function InteractiveGenreVault({
                                     e.stopPropagation();
                                     toggleWatchlist(movie.id);
                                   }}
-                                  className={`p-1.5 rounded-full border backdrop-blur-md transition-all ${
+                                  className={`p-1.5 rounded-full border backdrop-blur-md transition-all min-w-[32px] min-h-[32px] flex items-center justify-center ${
                                     isWatchlisted 
                                       ? 'bg-amber-400 text-black border-amber-400' 
                                       : 'bg-black/60 text-white/70 border-white/20 hover:text-white'
                                   }`}
+                                  title="Bookmark"
                                 >
-                                  <Bookmark className={`w-3 h-3 ${isWatchlisted ? 'fill-current' : ''}`} />
+                                  <Bookmark className={`w-3.5 h-3.5 ${isWatchlisted ? 'fill-current' : ''}`} />
                                 </button>
                               </div>
 
                               {/* Hover Play Button */}
                               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
-                                <div className="w-12 h-12 rounded-full bg-[#00D1FF] text-black flex items-center justify-center shadow-[0_0_15px_rgba(0,209,255,0.8)] transform scale-75 group-hover:scale-100 transition-transform">
-                                  <Play className="w-5 h-5 fill-current ml-0.5" />
+                                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#00D1FF] text-black flex items-center justify-center shadow-[0_0_15px_rgba(0,209,255,0.8)] transform scale-75 group-hover:scale-100 transition-transform">
+                                  <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current ml-0.5" />
                                 </div>
                               </div>
                             </div>
 
                             {/* Info */}
-                            <div className="p-4 space-y-1.5">
-                              <div className="flex items-center justify-between gap-2">
-                                <h6 className="text-xs font-black italic uppercase text-white group-hover:text-[#00D1FF] transition-colors truncate">
+                            <div className="p-3 sm:p-4 space-y-1 sm:space-y-1.5">
+                              <div className="flex items-center justify-between gap-1.5">
+                                <h6 className="text-[11px] sm:text-xs font-black italic uppercase text-white group-hover:text-[#00D1FF] transition-colors truncate">
                                   {movie.title}
                                 </h6>
-                                <span className="text-[10px] font-mono text-white/50">{movie.year}</span>
+                                <span className="text-[9px] sm:text-[10px] font-mono text-white/50 shrink-0">{movie.year}</span>
                               </div>
-                              <p className="text-[11px] text-white/60 line-clamp-2 leading-relaxed">
+                              <p className="text-[10px] sm:text-[11px] text-white/60 line-clamp-2 leading-relaxed font-sans">
                                 {movie.synopsis}
                               </p>
                             </div>
                           </div>
 
                           {/* Action Button */}
-                          <div className="p-4 pt-0">
+                          <div className="p-2.5 sm:p-4 pt-0">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleMovieSelect(movie.id);
                                 setTheaterMovieId(movie.id);
                               }}
-                              className="w-full py-2 bg-white/5 hover:bg-[#00D1FF] text-white hover:text-black border border-white/10 hover:border-[#00D1FF] font-mono text-[9px] font-bold uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer"
+                              className="w-full py-2.5 sm:py-2 bg-white/5 hover:bg-[#00D1FF] text-white hover:text-black border border-white/10 hover:border-[#00D1FF] font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider rounded-xl sm:rounded-lg flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer min-h-[36px]"
                             >
                               <Play className="w-3 h-3 fill-current" />
                               <span>Watch Trailer</span>
