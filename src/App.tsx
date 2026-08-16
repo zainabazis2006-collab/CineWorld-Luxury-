@@ -35,7 +35,7 @@ import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
 import { UPCOMING_RELEASES } from './upcomingData';
 import { Movie, Review, UserState, ChatMessage } from './types';
 import { getSeriesSeasons } from './episodes';
-import { OFFICIAL_MEDIA_MAP, fetchMovieTrailer } from './services/movieApi';
+import { OFFICIAL_MEDIA_MAP, fetchMovieTrailer, fetchContentVideo } from './services/movieApi';
 import { motion, AnimatePresence } from 'motion/react';
 import LazySection from './components/LazySection';
 import UserDatabaseConsole from './components/UserDatabaseConsole';
@@ -852,6 +852,7 @@ export default function App() {
   const [streamMode, setStreamMode] = useState<'full' | 'trailer'>('trailer');
   const [backupIndex, setBackupIndex] = useState<number>(0);
   const [activeTrailerKey, setActiveTrailerKey] = useState<string>('Way9Dexny3w');
+  const [activeDirectStreamUrl, setActiveDirectStreamUrl] = useState<string>('');
   const [isTrailerLoading, setIsTrailerLoading] = useState<boolean>(false);
 
   // Series Season & Episode State
@@ -1058,7 +1059,7 @@ export default function App() {
   }, [resolvedImages, activeType]);
 
   // Automatically reset stream mode, backup index, season, and episode when the theater movie changes
-  // and dynamically fetch high-definition official trailer from TMDB / /api/trailer
+  // and dynamically fetch high-definition official trailer and direct HD video stream from API
   useEffect(() => {
     if (theaterMovieId) {
       setStreamMode('trailer');
@@ -1074,14 +1075,17 @@ export default function App() {
           setActiveTrailerKey(instantKey);
         }
 
-        // 2. Dynamic live API lookup to guarantee latest official TMDB trailer
+        // 2. Dynamic live API lookup to guarantee content playback across YouTube and Direct HD Stream API
         setIsTrailerLoading(true);
-        fetchMovieTrailer(targetMovie).then((trailerData) => {
-          if (trailerData?.youtubeId) {
-            setActiveTrailerKey(trailerData.youtubeId);
+        fetchContentVideo(targetMovie).then((videoData) => {
+          if (videoData?.youtubeId) {
+            setActiveTrailerKey(videoData.youtubeId);
+          }
+          if (videoData?.directStreamUrl) {
+            setActiveDirectStreamUrl(videoData.directStreamUrl);
           }
         }).catch((err) => {
-          console.warn('Failed to resolve live trailer:', err);
+          console.warn('Failed to resolve content video stream:', err);
         }).finally(() => {
           setIsTrailerLoading(false);
         });
@@ -3286,6 +3290,7 @@ export default function App() {
                   movie={theaterMovie}
                   streamMode={streamMode}
                   youtubeId={videoId}
+                  directStreamUrl={activeDirectStreamUrl}
                   activeSeason={activeSeason}
                   activeEpisode={activeEpisode}
                   onRotateStream={() => {

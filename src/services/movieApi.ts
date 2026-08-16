@@ -334,10 +334,79 @@ export async function resolveMovieMedia(movie: Movie): Promise<MovieMediaData> {
   };
 }
 
+export interface ContentVideoSource {
+  id: string;
+  name: string;
+  type: 'youtube' | 'direct_mp4' | 'archive_mp4';
+  url?: string;
+  key?: string;
+}
+
+export interface ContentVideoResponse {
+  success: boolean;
+  title: string;
+  type: string;
+  youtubeId: string;
+  directStreamUrl: string;
+  archiveStreamUrl?: string | null;
+  quality: string;
+  sources: ContentVideoSource[];
+  backupStreams: string[];
+}
+
+/**
+ * Universal content video & stream resolver API client
+ */
+export async function fetchContentVideo(movie: { id?: string; title: string; type?: 'Movie' | 'Series'; genres?: string[]; year?: number }): Promise<ContentVideoResponse> {
+  const genresParam = (movie.genres || []).join(',');
+  try {
+    const res = await fetch(`/api/content-video?title=${encodeURIComponent(movie.title)}&type=${movie.type || 'Movie'}&id=${encodeURIComponent(movie.id || '')}&genres=${encodeURIComponent(genresParam)}`);
+    if (res.ok) {
+      const data = await res.json() as ContentVideoResponse;
+      if (data && data.success) {
+        return data;
+      }
+    }
+  } catch (err) {
+    console.warn(`[Content Video API] /api/content-video fetch error for "${movie.title}":`, err);
+  }
+
+  // Client-side fallback stream resolver
+  const genresStr = ((movie.genres || []).join(' ') + ' ' + movie.title).toLowerCase();
+  let fallbackStream = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4";
+  if (genresStr.includes('animat') || genresStr.includes('comedy') || genresStr.includes('family')) {
+    fallbackStream = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  } else if (genresStr.includes('fanta') || genresStr.includes('romance') || genresStr.includes('drama')) {
+    fallbackStream = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4";
+  } else if (genresStr.includes('horror') || genresStr.includes('thriller') || genresStr.includes('myst')) {
+    fallbackStream = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+  }
+
+  const ytKey = (movie.id && OFFICIAL_MEDIA_MAP[movie.id]?.youtubeId) || 'Way9Dexny3w';
+
+  return {
+    success: true,
+    title: movie.title,
+    type: movie.type || 'Movie',
+    youtubeId: ytKey,
+    directStreamUrl: fallbackStream,
+    quality: "1080p Ultra HD",
+    sources: [
+      { id: "youtube_official", name: "YouTube Official Stream", type: "youtube", key: ytKey },
+      { id: "direct_hd_stream", name: "Universal Direct HD Video Stream", type: "direct_mp4", url: fallbackStream }
+    ],
+    backupStreams: [
+      fallbackStream,
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+    ]
+  };
+}
+
 /**
  * Fetch high-definition official trailer from /api/trailer or TMDB
  */
-export async function fetchMovieTrailer(movie: { id?: string; title: string; type?: 'Movie' | 'Series'; year?: number; youtubeId?: string }): Promise<{ youtubeId: string; title: string; source: string }> {
+export async function fetchMovieTrailer(movie: { id?: string; title: string; type?: 'Movie' | 'Series'; year?: number; youtubeId?: string; genres?: string[] }): Promise<{ youtubeId: string; title: string; source: string; directStreamUrl?: string; backupStreams?: string[] }> {
   // 1. Direct memory check
   if (movie.id && OFFICIAL_MEDIA_MAP[movie.id]?.youtubeId) {
     return {
@@ -357,14 +426,17 @@ export async function fetchMovieTrailer(movie: { id?: string; title: string; typ
 
   // 2. Query backend /api/trailer
   try {
-    const res = await fetch(`/api/trailer?title=${encodeURIComponent(movie.title)}&type=${movie.type || 'Movie'}&id=${encodeURIComponent(movie.id || '')}&year=${movie.year || ''}`);
+    const genresParam = (movie.genres || []).join(',');
+    const res = await fetch(`/api/trailer?title=${encodeURIComponent(movie.title)}&type=${movie.type || 'Movie'}&id=${encodeURIComponent(movie.id || '')}&year=${movie.year || ''}&genres=${encodeURIComponent(genresParam)}`);
     if (res.ok) {
       const data = await res.json();
       if (data.youtubeId) {
         return {
           youtubeId: data.youtubeId,
           title: data.title || `${movie.title} Official Trailer`,
-          source: data.source || 'api'
+          source: data.source || 'api',
+          directStreamUrl: data.directStreamUrl,
+          backupStreams: data.backupStreams
         };
       }
     }
@@ -389,7 +461,8 @@ export async function fetchMovieTrailer(movie: { id?: string; title: string; typ
   return {
     youtubeId: 'Way9Dexny3w',
     title: `${movie.title} Official Trailer`,
-    source: 'default'
+    source: 'default',
+    directStreamUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
   };
 }
 

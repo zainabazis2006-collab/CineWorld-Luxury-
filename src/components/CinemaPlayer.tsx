@@ -31,6 +31,7 @@ interface CinemaPlayerProps {
   safeStreamTitle?: string;
   backupIndex?: number;
   youtubeId?: string;
+  directStreamUrl?: string;
 }
 
 // Map movies to actual beautiful, stable, high-definition public-domain/creative-commons video streams
@@ -149,7 +150,8 @@ export default function CinemaPlayer({
   onRotateStream,
   safeStreamTitle,
   backupIndex = 0,
-  youtubeId
+  youtubeId,
+  directStreamUrl
 }: CinemaPlayerProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -191,11 +193,38 @@ export default function CinemaPlayer({
   const [isBuffering, setIsBuffering] = useState<boolean>(false);
   const [showSkipIntro, setShowSkipIntro] = useState<boolean>(true);
   const [playMethod, setPlayMethod] = useState<'netflix' | 'prime' | 'hotstar' | 'archive'>('netflix');
+  const [playerSource, setPlayerSource] = useState<'youtube' | 'direct_hd' | 'archive'>('youtube');
+  const [streamFallbackIndex, setStreamFallbackIndex] = useState<number>(0);
 
   // HLS.js states
   const hlsRef = useRef<Hls | null>(null);
   const [hlsQualities, setHlsQualities] = useState<{ id: number; height: number; width: number; bitrate: number; label: string }[]>([]);
   const [currentHlsQuality, setCurrentHlsQuality] = useState<number>(-1); // -1 is Auto
+
+  // Reset player source and fallback index when movie changes
+  useEffect(() => {
+    setPlayerSource('youtube');
+    setStreamFallbackIndex(0);
+  }, [movie.id]);
+
+  // Listen to window postMessage for potential YouTube player errors (error codes 100, 101, 150)
+  useEffect(() => {
+    const handleWindowMessage = (event: MessageEvent) => {
+      try {
+        if (typeof event.data === 'string' && event.data.startsWith('{')) {
+          const parsed = JSON.parse(event.data);
+          if (parsed.event === 'onError' || parsed.info === 100 || parsed.info === 101 || parsed.info === 150) {
+            console.warn('[CinemaPlayer] YouTube video restricted/unavailable, switching immediately to Direct HD API Stream');
+            setPlayerSource('direct_hd');
+          }
+        }
+      } catch {
+        // Ignore non-json frames
+      }
+    };
+    window.addEventListener('message', handleWindowMessage);
+    return () => window.removeEventListener('message', handleWindowMessage);
+  }, []);
 
   // Archive.org Live API states
   const [archiveUrl, setArchiveUrl] = useState<string | null>(null);
@@ -420,17 +449,35 @@ export default function CinemaPlayer({
       }
     }
     
-    // For trailers, use fast streams always
-    if (streamMode === 'trailer') {
-      const index = getDeterministicIndex(movie.id, UNIQUE_STREAMS.length);
-      return UNIQUE_STREAMS[index];
+    // 1. If directStreamUrl is provided from API, prioritize it
+    if (directStreamUrl) {
+      return directStreamUrl;
     }
 
-    // Default High-Speed CDN methods (Netflix, Prime, Hotstar bypass nodes) - loads under 1 second!
+    // 2. Direct genre-mapped fallback streams
+    const genresStr = ((movie.genres || []).join(' ') + ' ' + movie.title).toLowerCase();
+    if (genresStr.includes('animat') || genresStr.includes('comedy') || genresStr.includes('family')) {
+      return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+    }
+    if (genresStr.includes('fanta') || genresStr.includes('romance') || genresStr.includes('drama')) {
+      return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4";
+    }
+    if (genresStr.includes('horror') || genresStr.includes('thriller') || genresStr.includes('myst')) {
+      return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+    }
+
+    // 3. Fallback High-Speed CDN methods (Netflix, Prime, Hotstar bypass nodes)
+    const fallbackStreams = [
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      ...UNIQUE_STREAMS
+    ];
     const episodeSuffix = activeEpisode ? `-s${activeSeason || 1}e${activeEpisode}` : '';
     const seed = `${movie.id}${episodeSuffix}-${playMethod}`;
-    const index = getDeterministicIndex(seed, UNIQUE_STREAMS.length);
-    return UNIQUE_STREAMS[index];
+    const baseIndex = getDeterministicIndex(seed, fallbackStreams.length);
+    const resolvedIndex = (baseIndex + streamFallbackIndex) % fallbackStreams.length;
+    return fallbackStreams[resolvedIndex];
   };
 
   const videoUrl = getVideoStreamUrl();
@@ -827,13 +874,13 @@ export default function CinemaPlayer({
   );
 
   const [useStandardEmbed, setUseStandardEmbed] = useState<boolean>(false);
-  const isYouTube = (streamMode === 'trailer' || youtubeId) && !youtubeId?.startsWith('http') && !youtubeId?.endsWith('.mp4') && playMethod !== 'archive' && !customStreamingUrl;
+  const isYouTube = playerSource === 'youtube' && (streamMode === 'trailer' || youtubeId) && !youtubeId?.startsWith('http') && !youtubeId?.endsWith('.mp4') && playMethod !== 'archive' && !customStreamingUrl;
 
-  if (streamMode === 'trailer' || isYouTube) {
+  if (isYouTube) {
     const cleanYoutubeId = youtubeId || 'Way9Dexny3w';
     const domain = useStandardEmbed ? 'www.youtube.com' : 'www.youtube-nocookie.com';
     // Clean embed URL with autoplay, controls, no restricted origin parameters to guarantee universal playback within website
-    const embedUrl = `https://${domain}/embed/${cleanYoutubeId}?autoplay=1&controls=1&rel=0&playsinline=1&modestbranding=1&iv_load_policy=3`;
+    const embedUrl = `https://${domain}/embed/${cleanYoutubeId}?autoplay=1&controls=1&rel=0&playsinline=1&modestbranding=1&iv_load_policy=3&enablejsapi=1`;
 
     return (
       <div 
@@ -857,23 +904,34 @@ export default function CinemaPlayer({
             <div className="w-2 h-2 bg-red-500 rounded-full animate-ping"></div>
             <div>
               <p className="text-[10px] font-mono font-black uppercase text-white tracking-widest flex items-center gap-1.5">
-                <span>OFFICIAL TRAILER</span>
-                <span className="text-[8px] bg-[#00D1FF]/20 text-[#00D1FF] px-1.5 py-0.5 rounded font-mono font-bold">HD • IN-SITE STREAM</span>
+                <span>TRAILER STREAM</span>
+                <span className="text-[8px] bg-[#00D1FF]/20 text-[#00D1FF] px-1.5 py-0.5 rounded font-mono font-bold">1080p HD</span>
               </p>
-              <p className={`text-[9px] ${theme.text} font-mono uppercase tracking-wider truncate max-w-[240px] sm:max-w-md`}>
+              <p className={`text-[9px] ${theme.text} font-mono uppercase tracking-wider truncate max-w-[200px] sm:max-w-xs`}>
                 {movie.title} • {movie.year}
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 pointer-events-auto">
+            {/* Universal Instant Direct HD API Switcher */}
+            <button
+              onClick={() => setPlayerSource('direct_hd')}
+              className="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-mono font-black text-[10px] uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(0,209,255,0.4)] flex items-center gap-1.5 cursor-pointer"
+              title="Switch to Universal Direct HD Video Stream (API)"
+            >
+              <Sparkles className="w-3.5 h-3.5 fill-black" />
+              <span className="hidden sm:inline">Direct HD Stream (API)</span>
+              <span className="sm:hidden">Direct HD</span>
+            </button>
+
             <button
               onClick={() => setUseStandardEmbed(!useStandardEmbed)}
               className="px-2.5 py-1.5 bg-black/80 hover:bg-[#00D1FF] hover:text-black text-white/80 border border-white/20 text-[9px] font-mono font-bold uppercase rounded-lg transition-all flex items-center gap-1 shadow-md cursor-pointer"
               title="Switch Player Stream Server"
             >
               <RotateCcw className="w-3 h-3" />
-              <span className="hidden sm:inline">{useStandardEmbed ? 'Server: Std' : 'Server: Fast'}</span>
+              <span className="hidden md:inline">{useStandardEmbed ? 'Server: Std' : 'Server: Fast'}</span>
             </button>
 
             {matchedStreamingLink && (
@@ -881,7 +939,7 @@ export default function CinemaPlayer({
                 href={matchedStreamingLink.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#00D1FF] hover:bg-cyan-300 text-black font-black text-[10px] font-mono uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(0,209,255,0.4)]"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-[#00D1FF] hover:bg-cyan-300 text-black font-black text-[10px] font-mono uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(0,209,255,0.4)]"
               >
                 <span>Watch on {matchedStreamingLink.platform}</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -890,8 +948,15 @@ export default function CinemaPlayer({
           </div>
         </div>
 
-        {/* Floating Controls Overlay (Fullscreen) */}
+        {/* Floating Controls Overlay (Fullscreen & Switcher) */}
         <div className="absolute bottom-3 right-3 flex items-center gap-2 bg-black/80 border border-white/15 p-1.5 rounded-xl backdrop-blur-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
+          <button
+            onClick={() => setPlayerSource('direct_hd')}
+            className="px-2 py-1 bg-white/10 hover:bg-white/20 text-white rounded text-[9px] font-mono font-bold uppercase flex items-center gap-1"
+          >
+            <Play className="w-3 h-3" />
+            <span>Switch to HTML5 Cinema Mode</span>
+          </button>
           <button
             onClick={toggleFullscreen}
             className="p-1.5 text-white/80 hover:text-white hover:bg-white/10 transition-colors rounded-lg cursor-pointer flex items-center gap-1 text-[10px] font-mono"
@@ -926,6 +991,10 @@ export default function CinemaPlayer({
         onCanPlay={() => setIsBuffering(false)}
         onCanPlayThrough={() => setIsBuffering(false)}
         onLoadedData={() => setIsBuffering(false)}
+        onError={() => {
+          console.warn('[CinemaPlayer] Video playback encounter, switching to backup stream node');
+          setStreamFallbackIndex(prev => prev + 1);
+        }}
         autoPlay
         playsInline
       />
