@@ -3,6 +3,7 @@ import {
   Play, 
   Info, 
   Star, 
+  Search,
   Mic, 
   MicOff, 
   MessageSquare, 
@@ -32,7 +33,6 @@ import {
   RotateCcw
 } from 'lucide-react';
 import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
-import { UPCOMING_RELEASES } from './upcomingData';
 import { Movie, Review, UserState, ChatMessage } from './types';
 import { getSeriesSeasons } from './episodes';
 import { OFFICIAL_MEDIA_MAP, fetchMovieTrailer, fetchContentVideo } from './services/movieApi';
@@ -40,7 +40,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import LazySection from './components/LazySection';
 import UserDatabaseConsole from './components/UserDatabaseConsole';
 
-const ComingSoonSection = lazy(() => import('./components/ComingSoonSection'));
 const TrendingChart = lazy(() => import('./components/TrendingChart'));
 import TiltCard from './components/TiltCard';
 const CinemaPlayer = lazy(() => import('./components/CinemaPlayer'));
@@ -823,6 +822,29 @@ export default function App() {
   const [selectedMovieId, setSelectedMovieId] = useState<string>('shogun');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchLoading, setIsSearchLoading] = useState<boolean>(false);
+  const [isHeaderSearchFocused, setIsHeaderSearchFocused] = useState<boolean>(false);
+  const headerSearchInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Global keyboard shortcut: Press "/" or "Ctrl+K" / "Cmd+K" to focus search bar
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = (document.activeElement?.tagName || '').toLowerCase();
+      const isTyping = activeTag === 'input' || activeTag === 'textarea' || document.activeElement?.getAttribute('contenteditable') === 'true';
+
+      if (!isTyping && e.key === '/') {
+        e.preventDefault();
+        headerSearchInputRef.current?.focus();
+        headerSearchInputRef.current?.select();
+      } else if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        headerSearchInputRef.current?.focus();
+        headerSearchInputRef.current?.select();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Non-repeating Hero Showcase Shuffle Engine States
   const [shuffledDeck, setShuffledDeck] = useState<string[]>([]);
@@ -946,7 +968,7 @@ export default function App() {
   // Highly optimized parallel/concurrent background pre-fetcher for all movies in the catalog
   useEffect(() => {
     let active = true;
-    const moviesToResolve = [...CURATED_CATALOG, ...UPCOMING_RELEASES].filter(m => !resolvedImages[m.id]);
+    const moviesToResolve = CURATED_CATALOG.filter(m => !resolvedImages[m.id]);
 
     async function resolveAllInParallel() {
       const concurrencyLimit = 10;
@@ -1027,27 +1049,6 @@ export default function App() {
         } else {
           backdrop = getProxiedUrl(backdrop);
         }
-
-        return {
-          ...movie,
-          posterUrl: poster,
-          backdropUrl: backdrop,
-          youtubeId: resolved?.youtubeId || movie.youtubeId
-        };
-      });
-  }, [resolvedImages, activeType]);
-
-  // Dynamic display upcoming catalog mapping
-  const displayUpcomingCatalog = useMemo(() => {
-    return UPCOMING_RELEASES
-      .filter(movie => activeType === 'All' || movie.type === activeType)
-      .map(movie => {
-        const resolved = resolvedImages[movie.id];
-        let poster = movie.posterUrl;
-        let backdrop = movie.backdropUrl;
-
-        if (resolved?.posterUrl) poster = getProxiedUrl(resolved.posterUrl);
-        if (resolved?.backdropUrl) backdrop = getProxiedUrl(resolved.backdropUrl);
 
         return {
           ...movie,
@@ -1816,91 +1817,151 @@ export default function App() {
             </nav>
           </div>
 
-          {/* Premium Header Search bar */}
-          <div className="flex-grow max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-1 sm:mx-2 relative group z-30">
-            <div className="relative">
+          {/* Premium High-Visibility Header Search bar */}
+          <div className="flex-grow max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl mx-1 sm:mx-3 relative group z-30">
+            <div className="relative flex items-center">
               <input
+                ref={headerSearchInputRef}
                 type="text"
                 value={searchQuery}
+                onFocus={() => setIsHeaderSearchFocused(true)}
+                onBlur={() => setTimeout(() => setIsHeaderSearchFocused(false), 250)}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={exploreByTalent ? t('talentSearchPlaceholder') : t('searchPlaceholder')}
-                className="w-full bg-white/5 border border-white/10 hover:border-white/25 focus:border-[#00D1FF] focus:bg-black/90 rounded-full px-4 py-2.5 pl-10 pr-20 text-xs text-white placeholder-white/40 outline-none transition-all duration-300 shadow-inner"
+                placeholder={exploreByTalent ? t('talentSearchPlaceholder') : "Search movies, series, actors, directors, genres..."}
+                className="w-full bg-[#0b101e] border-2 border-[#00D1FF]/50 hover:border-[#00D1FF] focus:border-[#00D1FF] focus:bg-[#060a14] rounded-full px-4 py-2.5 sm:py-3 pl-11 pr-32 text-xs sm:text-sm font-medium text-white placeholder-white/60 outline-none transition-all duration-300 shadow-[0_0_18px_rgba(0,209,255,0.22)] focus:shadow-[0_0_28px_rgba(0,209,255,0.45)] focus:ring-2 focus:ring-[#00D1FF]/40"
               />
-              <Compass className="absolute left-3.5 top-3 w-4 h-4 text-white/40 group-focus-within:text-[#00D1FF] transition-colors" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-[#00D1FF] drop-shadow-[0_0_6px_rgba(0,209,255,0.7)] group-focus-within:scale-110 transition-transform" />
               
-              <div className="absolute right-2 top-2 flex items-center gap-1.5">
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
                 {isSearchLoading && (
-                  <span className="w-3.5 h-3.5 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="TMDB API searching..." />
+                  <span className="w-4 h-4 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="Searching TMDB & Local Database..." />
                 )}
                 {searchQuery && !isSearchLoading && (
                   <button 
                     onClick={() => setSearchQuery('')}
-                    className="text-white/40 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
+                    className="text-white/60 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
                     title="Clear search"
                   >
-                    <X className="w-3.5 h-3.5" />
+                    <X className="w-4 h-4" />
                   </button>
                 )}
+
+                {/* Voice Search Button */}
                 <button
+                  type="button"
+                  onClick={handleVoiceListen}
+                  className={`p-1.5 rounded-full transition-all cursor-pointer flex items-center justify-center ${
+                    isListening 
+                      ? 'bg-red-600 text-white animate-pulse shadow-[0_0_12px_rgba(239,68,68,0.7)]' 
+                      : 'text-[#00D1FF] hover:bg-[#00D1FF]/15 hover:text-white'
+                  }`}
+                  title="Voice Search"
+                >
+                  {isListening ? <MicOff className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
+                </button>
+
+                {/* Talent Search Mode Toggle */}
+                <button
+                  type="button"
                   onClick={() => setExploreByTalent(!exploreByTalent)}
-                  className={`px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider transition-all duration-300 ${
+                  className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer ${
                     exploreByTalent 
-                      ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black shadow-[0_0_12px_rgba(0,209,255,0.4)]' 
-                      : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
+                      ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black shadow-[0_0_12px_rgba(0,209,255,0.5)]' 
+                      : 'bg-white/10 text-white/70 hover:bg-white/20 hover:text-white'
                   }`}
                   title={t('exploreByTalent')}
                 >
-                  <span className="hidden xs:inline">Talent</span>
+                  <span className="hidden xs:inline">{exploreByTalent ? 'Talent' : 'Talent'}</span>
                   <span className="xs:hidden">★</span>
                 </button>
+
+                {/* Keyboard Shortcut Badge */}
+                <span className="hidden xl:inline-block px-1.5 py-0.5 rounded bg-white/10 text-[9px] font-mono text-white/50 border border-white/10" title="Press / or Ctrl+K to search">
+                  /
+                </span>
               </div>
             </div>
 
-            {/* Instant Floating Results Dropdown */}
-            {searchQuery && (
-              <div className="absolute top-11 left-0 w-full min-w-[200px] bg-[#0b0b12]/95 border border-white/15 rounded-xl p-3 shadow-[0_15px_30px_rgba(0,0,0,0.9)] backdrop-blur-md z-50 max-h-72 overflow-y-auto space-y-1">
-                <div className="text-[10px] font-bold text-[#00D1FF]/70 uppercase tracking-widest px-2 pb-1.5 border-b border-white/5 flex justify-between items-center">
-                  <span>Instant Results ({filteredCatalog.length})</span>
-                  <span className="text-[8px] text-white/30 font-mono">Dynamic suggestions</span>
-                </div>
-                {filteredCatalog.length === 0 ? (
-                  <div className="text-center py-4 text-xs text-white/40 italic">
-                    No results found
-                  </div>
+            {/* Instant Floating Results & Trending Suggestions Dropdown */}
+            {(searchQuery || isHeaderSearchFocused) && (
+              <div className="absolute top-12 sm:top-14 left-0 w-full min-w-[280px] bg-[#090d19]/98 border-2 border-[#00D1FF]/40 rounded-2xl p-3.5 shadow-[0_20px_40px_rgba(0,0,0,0.95)] backdrop-blur-xl z-50 max-h-80 overflow-y-auto space-y-1">
+                {searchQuery ? (
+                  <>
+                    <div className="text-[10px] font-bold text-[#00D1FF] uppercase tracking-widest px-2 pb-2 border-b border-white/10 flex justify-between items-center">
+                      <span className="flex items-center gap-1.5">
+                        <Search className="w-3 h-3" />
+                        Live Results ({filteredCatalog.length})
+                      </span>
+                      <span className="text-[9px] text-white/50 font-mono">Real-time filter active</span>
+                    </div>
+                    {filteredCatalog.length === 0 ? (
+                      <div className="text-center py-6 space-y-2">
+                        <p className="text-xs text-white/60">No titles match <span className="text-[#00D1FF] font-bold">"{searchQuery}"</span></p>
+                        <p className="text-[10px] text-white/40 font-mono">Try searching for an actor, genre (e.g. Sci-Fi, Horror, Comedy), or platform</p>
+                      </div>
+                    ) : (
+                      filteredCatalog.slice(0, 8).map((movie) => (
+                        <button
+                          key={movie.id}
+                          onClick={() => {
+                            handleMovieSelect(movie.id);
+                            setSearchQuery('');
+                            navigateToSection('hero-showcase');
+                          }}
+                          className="w-full text-left flex items-center gap-3 p-2.5 rounded-xl hover:bg-[#00D1FF]/15 text-white transition-all group cursor-pointer border border-transparent hover:border-[#00D1FF]/30"
+                        >
+                          <BlurUpImage 
+                            src={movie.posterUrl} 
+                            alt={movie.title} 
+                            referrerPolicy="no-referrer" 
+                            className="w-9 h-12 object-cover rounded-md border border-white/15 shrink-0 shadow" 
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-bold text-white group-hover:text-[#00D1FF] truncate transition-colors flex items-center gap-1.5">
+                              <span>{movie.title}</span>
+                              <span className="text-[9px] font-mono px-1.5 py-0.2 bg-white/10 text-white/80 rounded uppercase font-normal">{movie.type}</span>
+                            </p>
+                            {exploreByTalent ? (
+                              <p className="text-[10px] text-[#00D1FF]/90 font-mono truncate">
+                                Dir: {movie.directorOrCreator} • Cast: {movie.cast.slice(0, 3).join(', ')}
+                              </p>
+                            ) : (
+                              <p className="text-[10px] text-white/50 font-mono truncate">
+                                {movie.year} • {movie.genres.slice(0, 2).join(', ')} • {movie.directorOrCreator}
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex flex-col items-end shrink-0 gap-1">
+                            <span className="text-[9px] font-mono font-bold bg-[#00D1FF]/20 border border-[#00D1FF]/40 px-2 py-0.5 rounded text-[#00D1FF] group-hover:bg-[#00D1FF] group-hover:text-black transition-colors">
+                              WATCH
+                            </span>
+                            <span className="text-[9px] text-yellow-400 font-mono font-bold">★ {movie.rating}</span>
+                          </div>
+                        </button>
+                      ))
+                    )}
+                  </>
                 ) : (
-                  filteredCatalog.map((movie) => (
-                    <button
-                      key={movie.id}
-                      onClick={() => {
-                        handleMovieSelect(movie.id);
-                        setSearchQuery('');
-                        // Smoothly scroll to player showcase
-                        navigateToSection('hero-showcase');
-                      }}
-                      className="w-full text-left flex items-center gap-3 p-2 rounded-lg hover:bg-[#00D1FF]/10 text-white transition-all group"
-                    >
-                      <BlurUpImage 
-                        src={movie.posterUrl} 
-                        alt={movie.title} 
-                        referrerPolicy="no-referrer" 
-                        className="w-8 h-10 object-cover rounded border border-white/10 shrink-0" 
-                      />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold text-white group-hover:text-[#00D1FF] truncate transition-colors">{movie.title}</p>
-                        {exploreByTalent ? (
-                          <p className="text-[10px] text-[#00D1FF]/90 font-mono truncate">
-                            Creator/Dir: {movie.directorOrCreator} • Cast: {movie.cast.join(', ')}
-                          </p>
-                        ) : (
-                          <p className="text-[10px] text-white/40 font-mono truncate">{movie.directorOrCreator} • {movie.runtimeOrSeasons}</p>
-                        )}
-                      </div>
-                      <div className="flex flex-col items-end shrink-0 gap-0.5">
-                        <span className="text-[9px] font-mono bg-white/5 px-1.5 py-0.5 rounded text-[#00D1FF]">WATCH</span>
-                        <span className="text-[8px] text-white/30 font-mono">★ {movie.rating}</span>
-                      </div>
-                    </button>
-                  ))
+                  <div className="p-2 space-y-3">
+                    <div className="text-[10px] font-bold text-[#00D1FF] uppercase tracking-widest flex items-center gap-1.5 border-b border-white/10 pb-2">
+                      <Flame className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
+                      Popular & Trending Searches
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {['Stree 2', 'Kalki 2898 AD', 'Pushpa 2', 'Mirzapur', 'Panchayat', 'Interstellar', 'Aavesham', 'Dark', 'Sci-Fi', 'Horror'].map((tag) => (
+                        <button
+                          key={tag}
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            setSearchQuery(tag);
+                          }}
+                          className="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/5 hover:bg-[#00D1FF]/20 hover:text-[#00D1FF] text-white/80 border border-white/10 hover:border-[#00D1FF]/40 transition-all cursor-pointer"
+                        >
+                          {tag}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             )}
@@ -2615,6 +2676,159 @@ export default function App() {
         </section>
       )}
 
+      {/* SPOTLIGHT UNIVERSAL SEARCH BAR & DISCOVERY HUB */}
+      <section className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4">
+        <div className="bg-gradient-to-r from-[#0d1527]/90 via-[#070b14]/95 to-[#160e29]/90 border-2 border-[#00D1FF]/40 hover:border-[#00D1FF]/70 rounded-3xl p-5 sm:p-7 md:p-8 shadow-[0_0_40px_rgba(0,209,255,0.18)] backdrop-blur-2xl transition-all duration-300">
+          
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-5">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-[#00D1FF]/15 border border-[#00D1FF]/40 text-[#00D1FF] shadow-[0_0_15px_rgba(0,209,255,0.3)]">
+                  <Search className="w-5 h-5" />
+                </div>
+                <h2 className="text-xl sm:text-2xl font-black uppercase tracking-wider text-white">
+                  Universal Cinema Search
+                </h2>
+                <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/30 uppercase tracking-widest">
+                  Live Index
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-white/70 font-sans">
+                Search through 80+ blockbusters, web series, directors, and actors with real-time instant filtering.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 self-start md:self-auto">
+              <button
+                type="button"
+                onClick={() => setExploreByTalent(!exploreByTalent)}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 border cursor-pointer ${
+                  exploreByTalent 
+                    ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black border-[#00D1FF] shadow-[0_0_15px_rgba(0,209,255,0.4)]' 
+                    : 'bg-white/5 text-white/70 border-white/10 hover:text-white hover:bg-white/10'
+                }`}
+                title="Search specifically for Directors, Creators, and Cast members"
+              >
+                <User className="w-4 h-4" />
+                <span>{exploreByTalent ? 'Talent Mode: Active' : 'Filter by Talent'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleVoiceListen}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 border cursor-pointer ${
+                  isListening 
+                    ? 'bg-red-600 hover:bg-red-700 text-white shadow-[0_0_20px_rgba(239,68,68,0.6)] border-red-500 animate-pulse' 
+                    : 'bg-[#00D1FF]/15 text-[#00D1FF] border-[#00D1FF]/40 hover:bg-[#00D1FF]/25 hover:text-white'
+                }`}
+                title="Voice Search: Click and speak any movie title or actor"
+              >
+                {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                <span>{isListening ? 'Listening...' : 'Voice Search'}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Large High-Contrast Search Input Bar */}
+          <div className="relative group/search">
+            <div className="relative flex items-center">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={exploreByTalent ? "Type director (e.g. Rajamouli, Christopher Nolan) or actor (e.g. Shah Rukh Khan, Prabhas)..." : "Type movie title, series name, director, cast, or genre (e.g. Stree 2, Pushpa 2, Mirzapur, Sci-Fi)..."}
+                className="w-full bg-[#050811]/95 border-2 border-[#00D1FF]/60 hover:border-[#00D1FF] focus:border-[#00D1FF] focus:bg-black rounded-2xl py-3.5 sm:py-4 pl-12 sm:pl-14 pr-24 sm:pr-28 text-sm sm:text-base md:text-lg font-medium text-white placeholder-white/50 outline-none transition-all duration-300 shadow-[0_0_25px_rgba(0,209,255,0.2)] focus:shadow-[0_0_35px_rgba(0,209,255,0.45)] focus:ring-4 focus:ring-[#00D1FF]/20"
+              />
+              <Search className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 text-[#00D1FF] drop-shadow-[0_0_8px_rgba(0,209,255,0.8)]" />
+
+              <div className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                {isSearchLoading && (
+                  <span className="w-5 h-5 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="Searching catalog..." />
+                )}
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white/80 hover:text-white text-xs font-bold uppercase transition-colors flex items-center gap-1 cursor-pointer"
+                    title="Clear query"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Clear</span>
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Voice transcript notification */}
+          {voiceTranscript && (
+            <div className="mt-3 bg-[#00D1FF]/15 border border-[#00D1FF]/40 rounded-xl px-4 py-2 text-xs text-white font-mono flex items-center justify-between">
+              <span className="flex items-center gap-2">
+                <Mic className="w-3.5 h-3.5 text-[#00D1FF]" />
+                Voice Recognized: <strong className="text-[#00D1FF]">"{voiceTranscript}"</strong>
+              </span>
+              <button 
+                onClick={() => setVoiceTranscript('')}
+                className="text-white/50 hover:text-white text-[10px] uppercase font-bold"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
+          {/* Instant Quick-Search Tags */}
+          <div className="mt-4 pt-3 border-t border-white/10 flex flex-wrap items-center gap-2">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 font-bold flex items-center gap-1 mr-1">
+              <Flame className="w-3 h-3 text-rose-500 fill-rose-500" />
+              Quick Searches:
+            </span>
+            {[
+              { label: '🔥 Stree 2', val: 'Stree 2' },
+              { label: '🎬 Kalki 2898 AD', val: 'Kalki 2898 AD' },
+              { label: '⚡ Pushpa 2', val: 'Pushpa 2' },
+              { label: '👑 Mirzapur 3', val: 'Mirzapur' },
+              { label: '✨ Panchayat', val: 'Panchayat' },
+              { label: '🌌 Interstellar', val: 'Interstellar' },
+              { label: '💥 Aavesham', val: 'Aavesham' },
+              { label: '❤️ Safed Sagar', val: 'Safed Sagar' },
+              { label: '🚀 Sci-Fi', val: 'Sci-Fi' },
+              { label: '👻 Horror', val: 'Horror' },
+              { label: '🍿 Free Stream', val: 'Free' }
+            ].map(item => (
+              <button
+                key={item.label}
+                onClick={() => {
+                  setSearchQuery(item.val);
+                  navigateToSection('interactive-genre-vault');
+                }}
+                className={`px-3 py-1 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
+                  searchQuery.toLowerCase() === item.val.toLowerCase()
+                    ? 'bg-[#00D1FF] text-black font-black shadow-[0_0_12px_rgba(0,209,255,0.4)]'
+                    : 'bg-white/5 text-white/80 hover:bg-[#00D1FF]/20 hover:text-[#00D1FF] border border-white/10 hover:border-[#00D1FF]/40'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Real-time search status info */}
+          {searchQuery && (
+            <div className="mt-4 bg-[#00D1FF]/10 border border-[#00D1FF]/30 rounded-xl px-4 py-2.5 flex flex-wrap items-center justify-between gap-2">
+              <div className="text-xs text-white/90 font-mono">
+                Found <strong className="text-[#00D1FF] text-sm">{filteredCatalog.length}</strong> matching title{filteredCatalog.length === 1 ? '' : 's'} for <strong className="text-[#00D1FF]">"{searchQuery}"</strong>
+              </div>
+              <button
+                onClick={() => setSearchQuery('')}
+                className="text-xs text-[#00D1FF] hover:text-white font-bold uppercase underline underline-offset-4 cursor-pointer"
+              >
+                Reset Search (Show All {displayCatalog.length} Titles)
+              </button>
+            </div>
+          )}
+
+        </div>
+      </section>
+
       {/* INTERACTIVE NAVIGATION LAYOUT SWITCHER BAR */}
       <section className="sticky top-20 z-30 bg-[#06060c]/90 backdrop-blur-xl border-y border-white/10 py-3.5 px-4 sm:px-8 shadow-2xl my-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
@@ -2713,13 +2927,6 @@ export default function App() {
                 userState={userState} 
                 handleMovieSelect={handleMovieSelect} 
               />
-            </Suspense>
-          </LazySection>
-
-          {/* COMING SOON / ANTICIPATION SECTION */}
-          <LazySection height="250px">
-            <Suspense fallback={<div className="h-56 w-full flex items-center justify-center text-[#00D1FF] font-mono text-xs">Loading Section...</div>}>
-              <ComingSoonSection userState={userState} setUserState={setUserState} upcomingCatalog={displayUpcomingCatalog} />
             </Suspense>
           </LazySection>
 

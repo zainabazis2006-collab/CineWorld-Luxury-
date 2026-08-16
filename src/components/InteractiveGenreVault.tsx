@@ -369,26 +369,29 @@ export default function InteractiveGenreVault({
           <div className="relative z-10 pt-6 pb-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             {/* Search Input */}
             <div className="md:col-span-8">
-              <div className="relative w-full">
+              <div className="relative w-full flex items-center">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={exploreByTalent ? "Search director, creator or actors..." : "Search all movies, series, or keywords across genres..."}
-                  className="w-full bg-[#050508]/80 border border-white/15 focus:border-[#00D1FF] rounded-2xl px-4 py-3 pl-11 text-sm text-white placeholder-white/40 outline-none transition-all shadow-inner"
+                  className="w-full bg-[#0b101e] border-2 border-[#00D1FF]/50 hover:border-[#00D1FF] focus:border-[#00D1FF] focus:bg-black rounded-2xl px-4 py-3.5 pl-12 pr-24 text-sm font-medium text-white placeholder-white/60 outline-none transition-all shadow-[0_0_20px_rgba(0,209,255,0.2)] focus:shadow-[0_0_30px_rgba(0,209,255,0.4)] focus:ring-2 focus:ring-[#00D1FF]/30"
                 />
-                <Search className="absolute left-4 top-3.5 w-4.5 h-4.5 text-white/40" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#00D1FF] drop-shadow-[0_0_6px_rgba(0,209,255,0.7)]" />
                 
-                {isSearchLoading ? (
-                  <span className="absolute right-4 top-3.5 w-4 h-4 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="Searching..." />
-                ) : searchQuery ? (
-                  <button 
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-4 top-3.5 text-white/40 hover:text-white"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                ) : null}
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                  {isSearchLoading ? (
+                    <span className="w-4 h-4 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="Searching..." />
+                  ) : searchQuery ? (
+                    <button 
+                      onClick={() => setSearchQuery('')}
+                      className="text-white/60 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+                      title="Clear search"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  ) : null}
+                </div>
               </div>
             </div>
 
@@ -396,31 +399,33 @@ export default function InteractiveGenreVault({
             <div className="md:col-span-4 flex items-center gap-2 justify-between md:justify-end">
               {setExploreByTalent && (
                 <button
+                  type="button"
                   onClick={() => setExploreByTalent(!exploreByTalent)}
-                  className={`px-3 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer ${
+                  className={`px-3.5 py-3 rounded-2xl text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 border cursor-pointer ${
                     exploreByTalent 
-                      ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black border-transparent shadow-[0_0_15px_rgba(0,209,255,0.25)]' 
+                      ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black border-[#00D1FF] shadow-[0_0_15px_rgba(0,209,255,0.4)]' 
                       : 'bg-white/5 text-white/70 border-white/10 hover:text-white hover:bg-white/10'
                   }`}
                   title="Toggle Search by Director & Actors"
                 >
-                  <User className="w-3.5 h-3.5" />
-                  <span>{exploreByTalent ? 'Talent Mode' : 'Explore Talent'}</span>
+                  <User className="w-4 h-4" />
+                  <span>{exploreByTalent ? 'Talent Mode' : 'Talent Mode'}</span>
                 </button>
               )}
 
               {handleVoiceListen && (
                 <button
+                  type="button"
                   onClick={handleVoiceListen}
-                  className={`p-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 border ${
+                  className={`px-3.5 py-3 rounded-2xl transition-all cursor-pointer flex items-center gap-1.5 border ${
                     isListening 
-                      ? 'bg-red-600 hover:bg-red-700 text-white shadow-[0_0_15px_rgba(239,68,68,0.5)] border-red-500' 
-                      : 'bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/30 hover:bg-[#00D1FF]/20'
+                      ? 'bg-red-600 hover:bg-red-700 text-white shadow-[0_0_20px_rgba(239,68,68,0.6)] border-red-500 animate-pulse' 
+                      : 'bg-[#00D1FF]/15 text-[#00D1FF] border border-[#00D1FF]/40 hover:bg-[#00D1FF]/25 hover:text-white'
                   }`}
                   title="Voice Search"
                 >
-                  {isListening ? <MicOff className="w-4 h-4 animate-bounce" /> : <Mic className="w-4 h-4" />}
-                  <span className="text-xs font-mono font-bold hidden sm:inline">{isListening ? 'Listening...' : 'Voice'}</span>
+                  {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                  <span className="text-xs font-mono font-bold hidden sm:inline">{isListening ? 'Listening...' : 'Voice Search'}</span>
                 </button>
               )}
             </div>
