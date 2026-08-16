@@ -1,6 +1,29 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Play, Star, Bookmark, Info, Sparkles, Flame, Film, Tv, ChevronRight, Compass, Shield, Eye, ArrowUpRight, Zap, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
+import { 
+  Play, 
+  Star, 
+  Bookmark, 
+  Info, 
+  Sparkles, 
+  Flame, 
+  Film, 
+  Tv, 
+  ChevronRight, 
+  Compass, 
+  Shield, 
+  Eye, 
+  ArrowUpRight, 
+  Zap, 
+  RefreshCw, 
+  ChevronDown, 
+  ChevronUp, 
+  User, 
+  Mic, 
+  MicOff, 
+  X,
+  Search
+} from 'lucide-react';
 import { Movie, UserState } from '../types';
 import TiltCard from './TiltCard';
 import BlurUpImage from './BlurUpImage';
@@ -13,6 +36,17 @@ interface InteractiveGenreVaultProps {
   toggleWatchlist: (id: string) => void;
   onShowInfo: (movie: Movie) => void;
   setTheaterMovieId: (id: string) => void;
+  searchQuery?: string;
+  setSearchQuery?: (query: string) => void;
+  exploreByTalent?: boolean;
+  setExploreByTalent?: (active: boolean) => void;
+  activePlatform?: string;
+  setActivePlatform?: (platform: string) => void;
+  isListening?: boolean;
+  handleVoiceListen?: () => void;
+  voiceTranscript?: string;
+  isSearchLoading?: boolean;
+  t?: (key: string) => string;
 }
 
 interface GenreConfig {
@@ -28,38 +62,16 @@ interface GenreConfig {
 }
 
 const GENRE_CONFIGS: Record<string, GenreConfig> = {
-  'Horror': {
-    name: 'Horror & Supernatural',
-    icon: '👻',
-    themeColor: '#A855F7',
-    borderColor: 'border-purple-500/30',
-    bgGradient: 'from-purple-950/40 via-[#120518] to-slate-950/60',
-    accentText: 'text-purple-400',
-    badgeBg: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
-    vibeTag: 'Eerie & Psychological',
-    description: 'Haunting supernatural terrors, psychological suspense, gothic folklore, and dark dread.'
-  },
-  'Romantic': {
-    name: 'Romantic & Melodrama',
-    icon: '💖',
-    themeColor: '#EC4899',
-    borderColor: 'border-pink-500/30',
-    bgGradient: 'from-pink-950/40 via-[#180512] to-rose-900/50',
-    accentText: 'text-pink-400',
-    badgeBg: 'bg-pink-500/10 text-pink-400 border-pink-500/30',
-    vibeTag: 'Heartfelt & Passionate',
-    description: 'Sweeping love sagas, poetic relationships, heartwarming connections, and emotional romantic cinema.'
-  },
-  'Comedy': {
-    name: 'Comedy & Satire',
-    icon: '😂',
-    themeColor: '#F59E0B',
-    borderColor: 'border-amber-500/30',
-    bgGradient: 'from-amber-950/40 via-[#181205] to-yellow-950/50',
-    accentText: 'text-amber-400',
-    badgeBg: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-    vibeTag: 'Witty & Irreverent',
-    description: 'Laugh-out-loud humor, sharp social satire, absurd capers, parodies, and feel-good entertainment.'
+  'Action': {
+    name: 'Action & Combat',
+    icon: '💥',
+    themeColor: '#EF4444',
+    borderColor: 'border-red-500/30',
+    bgGradient: 'from-red-950/40 via-[#180505] to-rose-950/50',
+    accentText: 'text-red-400',
+    badgeBg: 'bg-red-500/10 text-red-400 border-red-500/30',
+    vibeTag: 'High Voltage & Adrenaline',
+    description: 'High-octane stunt choreography, martial arts combat, relentless velocity, and blockbuster showdowns.'
   },
   'Sci-Fi': {
     name: 'Sci-Fi & Cyberpunk',
@@ -72,16 +84,49 @@ const GENRE_CONFIGS: Record<string, GenreConfig> = {
     vibeTag: 'Cosmic & Mind-Bending',
     description: 'Futuristic worlds, interstellar voyages, artificial intelligence, time paradoxes, and metaphysical realities.'
   },
-  'Action': {
-    name: 'Action & Combat',
-    icon: '💥',
-    themeColor: '#EF4444',
-    borderColor: 'border-red-500/30',
-    bgGradient: 'from-red-950/40 via-[#180505] to-rose-950/50',
-    accentText: 'text-red-400',
-    badgeBg: 'bg-red-500/10 text-red-400 border-red-500/30',
-    vibeTag: 'High Voltage & Adrenaline',
-    description: 'High-octane stunt choreography, martial arts combat, relentless velocity, and blockbuster showdowns.'
+  'Thriller & Mystery': {
+    name: 'Thriller, Mystery & Crime',
+    icon: '🔍',
+    themeColor: '#6366F1',
+    borderColor: 'border-indigo-500/30',
+    bgGradient: 'from-indigo-950/40 via-[#070b19] to-slate-950/60',
+    accentText: 'text-indigo-400',
+    badgeBg: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30',
+    vibeTag: 'Intrigue & Suspense',
+    description: 'Mind-bending whodunits, noir detective investigations, espionage puzzles, and nerve-wracking suspense.'
+  },
+  'Comedy': {
+    name: 'Comedy & Satire',
+    icon: '😂',
+    themeColor: '#F59E0B',
+    borderColor: 'border-amber-500/30',
+    bgGradient: 'from-amber-950/40 via-[#181205] to-yellow-950/50',
+    accentText: 'text-amber-400',
+    badgeBg: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+    vibeTag: 'Witty & Irreverent',
+    description: 'Laugh-out-loud humor, sharp social satire, absurd capers, parodies, and feel-good entertainment.'
+  },
+  'Romantic': {
+    name: 'Romantic & Melodrama',
+    icon: '💖',
+    themeColor: '#EC4899',
+    borderColor: 'border-pink-500/30',
+    bgGradient: 'from-pink-950/40 via-[#180512] to-rose-900/50',
+    accentText: 'text-pink-400',
+    badgeBg: 'bg-pink-500/10 text-pink-400 border-pink-500/30',
+    vibeTag: 'Heartfelt & Passionate',
+    description: 'Sweeping love sagas, poetic relationships, heartwarming connections, and emotional romantic cinema.'
+  },
+  'Horror': {
+    name: 'Horror & Supernatural',
+    icon: '👻',
+    themeColor: '#A855F7',
+    borderColor: 'border-purple-500/30',
+    bgGradient: 'from-purple-950/40 via-[#120518] to-slate-950/60',
+    accentText: 'text-purple-400',
+    badgeBg: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
+    vibeTag: 'Eerie & Psychological',
+    description: 'Haunting supernatural terrors, psychological suspense, gothic folklore, and dark dread.'
   },
   'Anime': {
     name: 'Anime & Animation',
@@ -93,17 +138,6 @@ const GENRE_CONFIGS: Record<string, GenreConfig> = {
     badgeBg: 'bg-rose-500/10 text-rose-400 border-rose-500/30',
     vibeTag: 'Artistic & Legendary',
     description: 'Iconic Japanese anime sagas, breathtaking hand-drawn fantasy, visionary worlds, and animated masterpieces.'
-  },
-  'Thriller & Mystery': {
-    name: 'Thriller & Mystery',
-    icon: '🔍',
-    themeColor: '#6366F1',
-    borderColor: 'border-indigo-500/30',
-    bgGradient: 'from-indigo-950/40 via-[#070b19] to-slate-950/60',
-    accentText: 'text-indigo-400',
-    badgeBg: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30',
-    vibeTag: 'Intrigue & Suspense',
-    description: 'Mind-bending whodunits, noir detective investigations, espionage puzzles, and nerve-wracking suspense.'
   }
 };
 
@@ -121,13 +155,13 @@ const DEFAULT_GENRE_CONFIG: GenreConfig = {
 
 // 7 Focused Genre Pavilion Options
 const CURATED_PAVILIONS: string[] = [
-  'Horror',
-  'Romantic',
-  'Comedy',
-  'Sci-Fi',
   'Action',
-  'Anime',
-  'Thriller & Mystery'
+  'Sci-Fi',
+  'Thriller & Mystery',
+  'Comedy',
+  'Romantic',
+  'Horror',
+  'Anime'
 ];
 
 export default function InteractiveGenreVault({
@@ -137,7 +171,18 @@ export default function InteractiveGenreVault({
   handleMovieSelect,
   toggleWatchlist,
   onShowInfo,
-  setTheaterMovieId
+  setTheaterMovieId,
+  searchQuery = '',
+  setSearchQuery,
+  exploreByTalent = false,
+  setExploreByTalent,
+  activePlatform = 'All',
+  setActivePlatform,
+  isListening = false,
+  handleVoiceListen,
+  voiceTranscript = '',
+  isSearchLoading = false,
+  t = (k) => k
 }: InteractiveGenreVaultProps) {
   // Use the 7 selected genre options
   const availableGenres = CURATED_PAVILIONS;
@@ -151,37 +196,59 @@ export default function InteractiveGenreVault({
   // Internal sort per genre section: 'rating' | 'year' | 'title'
   const [sortBy, setSortBy] = useState<'rating' | 'year' | 'title'>('rating');
 
-  // Per-genre expansion state for Matrix Grid (shows 2 rows = 8 cards initially)
+  // Per-genre expansion state for Matrix Grid (shows 8 cards initially)
   const [expandedGenres, setExpandedGenres] = useState<Record<string, boolean>>({});
 
   const toggleGenreExpand = (genre: string) => {
     setExpandedGenres((prev) => ({ ...prev, [genre]: !prev[genre] }));
   };
 
-  // Filter movies matching each of the 7 curated genre pavilions
+  // Filter movies matching each of the 7 curated genre pavilions with active search and platform filters
   const getGenreMovies = (genre: string) => {
     let list = catalog.filter((m) => {
+      // 1. Check Search Query
+      if (searchQuery.trim() !== '') {
+        const query = searchQuery.toLowerCase();
+        if (exploreByTalent) {
+          const matchTalent = m.directorOrCreator.toLowerCase().includes(query) ||
+            m.cast.some(c => c.toLowerCase().includes(query));
+          if (!matchTalent) return false;
+        } else {
+          const matchTitle = m.title.toLowerCase().includes(query) ||
+            m.synopsis.toLowerCase().includes(query) ||
+            m.genres.some(g => g.toLowerCase().includes(query));
+          if (!matchTitle) return false;
+        }
+      }
+
+      // 2. Check Platform Filter
+      if (activePlatform !== 'All') {
+        const matchPlatform = m.streamingLinks.some(link => link.platform === activePlatform);
+        if (!matchPlatform) return false;
+      }
+
+      // 3. Match Genre
       const gList = (m.genres || []).map((g) => g.toLowerCase());
       if (genre === 'Horror') {
-        return gList.some((g) => g.includes('horror'));
+        return gList.some((g) => g.includes('horror') || g.includes('paranormal') || g.includes('supernatural'));
       }
       if (genre === 'Romantic') {
-        return gList.some((g) => g.includes('romance') || g.includes('romantic') || g.includes('korean'));
+        return gList.some((g) => g.includes('romance') || g.includes('romantic') || g.includes('korean') || g.includes('love'));
       }
       if (genre === 'Comedy') {
-        return gList.some((g) => g.includes('comedy'));
+        return gList.some((g) => g.includes('comedy') || g.includes('satire') || g.includes('sitcom') || g.includes('parody'));
       }
       if (genre === 'Sci-Fi') {
-        return gList.some((g) => g.includes('sci-fi') || g.includes('science fiction'));
+        return gList.some((g) => g.includes('sci-fi') || g.includes('science fiction') || g.includes('space') || g.includes('cyberpunk') || g.includes('fantasy'));
       }
       if (genre === 'Action') {
-        return gList.some((g) => g.includes('action') || g.includes('adventure'));
+        return gList.some((g) => g.includes('action') || g.includes('adventure') || g.includes('war') || g.includes('combat') || g.includes('sport'));
       }
       if (genre === 'Anime') {
-        return gList.some((g) => g.includes('anime') || g.includes('animation'));
+        return gList.some((g) => g.includes('anime') || g.includes('animation') || g.includes('animated'));
       }
       if (genre === 'Thriller & Mystery') {
-        return gList.some((g) => g.includes('thriller') || g.includes('mystery') || g.includes('crime'));
+        return gList.some((g) => g.includes('thriller') || g.includes('mystery') || g.includes('crime') || g.includes('drama') || g.includes('biography') || g.includes('history') || g.includes('anthology'));
       }
       return gList.some((g) => g.toLowerCase().includes(genre.toLowerCase()));
     });
@@ -218,30 +285,34 @@ export default function InteractiveGenreVault({
     ? [selectedGenreTab]
     : availableGenres;
 
+  // Calculate total matched movies across all pavilions
+  const totalMatchedCount = availableGenres.reduce((acc, g) => acc + getGenreMovies(g).length, 0);
+
   return (
-    <div className="space-y-12 my-8">
+    <div className="space-y-12 my-6">
       
-      {/* 1. INTERACTIVE GENRE HUB DOCK (Hero Navigation Deck) */}
+      {/* 1. UNIFIED INTERACTIVE GENRE HUB DOCK (Search, Filters & Navigation Deck) */}
       <div className="bg-[#0a0a14]/90 border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
         
         {/* Decorative Background Ambient Glow */}
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#00D1FF]/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
+        {/* Top Header & Overview */}
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-6 border-b border-white/10">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="px-3 py-1 rounded-full bg-[#00D1FF]/10 border border-[#00D1FF]/30 text-[#00D1FF] text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-1.5">
                 <Sparkles className="w-3 h-3 animate-spin" />
-                Interactive Genre Vault
+                Unified Genre Pavilions
               </span>
-              <span className="text-xs font-mono text-white/40">• 7 Curated Pavilions</span>
+              <span className="text-xs font-mono text-white/40">• All {catalog.length} Titles Organized By Genre</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black italic uppercase tracking-wider text-white">
               Explore By <span className="text-[#00D1FF] underline decoration-[#00D1FF]/40 decoration-4 underline-offset-8">Genre Pavilion</span>
             </h2>
             <p className="text-xs sm:text-sm text-white/60 font-sans mt-2 max-w-xl leading-relaxed">
-              Step away from generic streaming rows. Each genre operates as an independent interactive pavilion with custom atmospheric styling, top spotlight titles, and instant streaming access.
+              Every movie and series is neatly fitted into its dedicated genre pavilion with instant full-length streaming, trailers, talent spotlights, and ratings.
             </p>
           </div>
 
@@ -288,8 +359,98 @@ export default function InteractiveGenreVault({
           </div>
         </div>
 
+        {/* INTEGRATED SEARCH & VOICE CONTROLS */}
+        {setSearchQuery && (
+          <div className="relative z-10 pt-6 pb-4 grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+            {/* Search Input */}
+            <div className="md:col-span-8">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={exploreByTalent ? "Search director, creator or actors..." : "Search all movies, series, or keywords across genres..."}
+                  className="w-full bg-[#050508]/80 border border-white/15 focus:border-[#00D1FF] rounded-2xl px-4 py-3 pl-11 text-sm text-white placeholder-white/40 outline-none transition-all shadow-inner"
+                />
+                <Search className="absolute left-4 top-3.5 w-4.5 h-4.5 text-white/40" />
+                
+                {isSearchLoading ? (
+                  <span className="absolute right-4 top-3.5 w-4 h-4 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="Searching..." />
+                ) : searchQuery ? (
+                  <button 
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-4 top-3.5 text-white/40 hover:text-white"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                ) : null}
+              </div>
+            </div>
+
+            {/* Explore by Talent & Voice Toggle */}
+            <div className="md:col-span-4 flex items-center gap-2 justify-between md:justify-end">
+              {setExploreByTalent && (
+                <button
+                  onClick={() => setExploreByTalent(!exploreByTalent)}
+                  className={`px-3 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer ${
+                    exploreByTalent 
+                      ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black border-transparent shadow-[0_0_15px_rgba(0,209,255,0.25)]' 
+                      : 'bg-white/5 text-white/70 border-white/10 hover:text-white hover:bg-white/10'
+                  }`}
+                  title="Toggle Search by Director & Actors"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  <span>{exploreByTalent ? 'Talent Mode' : 'Explore Talent'}</span>
+                </button>
+              )}
+
+              {handleVoiceListen && (
+                <button
+                  onClick={handleVoiceListen}
+                  className={`p-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 border ${
+                    isListening 
+                      ? 'bg-red-600 hover:bg-red-700 text-white shadow-[0_0_15px_rgba(239,68,68,0.5)] border-red-500' 
+                      : 'bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/30 hover:bg-[#00D1FF]/20'
+                  }`}
+                  title="Voice Search"
+                >
+                  {isListening ? <MicOff className="w-4 h-4 animate-bounce" /> : <Mic className="w-4 h-4" />}
+                  <span className="text-xs font-mono font-bold hidden sm:inline">{isListening ? 'Listening...' : 'Voice'}</span>
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Voice Transcript Display */}
+        {voiceTranscript && (
+          <div className="relative z-10 mb-4 bg-[#00D1FF]/10 border border-[#00D1FF]/30 rounded-xl p-2.5 text-xs text-white/90 font-mono text-center">
+            🎤 Voice recognized: <span className="text-[#00D1FF] font-bold">"{voiceTranscript}"</span>
+          </div>
+        )}
+
+        {/* PLATFORM FILTERS */}
+        {setActivePlatform && (
+          <div className="relative z-10 pt-2 pb-4 flex flex-wrap gap-2 items-center">
+            <span className="text-[10px] uppercase font-mono tracking-widest text-white/50 font-bold mr-1">Platform:</span>
+            {['All', 'Netflix', 'Amazon Prime', 'Disney+ Hotstar', 'Free Cinema'].map((platform) => (
+              <button
+                key={platform}
+                onClick={() => setActivePlatform(platform)}
+                className={`px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-full transition-all cursor-pointer ${
+                  activePlatform === platform
+                    ? 'bg-gradient-to-r from-red-600 to-rose-700 text-white font-black shadow-[0_0_15px_rgba(225,29,72,0.4)] border border-red-500'
+                    : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
+                }`}
+              >
+                {platform === 'Free Cinema' ? '🍿 Free Streaming Only' : platform}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* INTERACTIVE GENRE BADGES MATRIX (7 Clickable Pavilions + All Vaults) */}
-        <div className="relative z-10 pt-6">
+        <div className="relative z-10 pt-4">
           <p className="text-[10px] font-mono uppercase tracking-widest text-white/50 mb-3">
             Select A Pavilion To Jump Or Filter:
           </p>
@@ -355,12 +516,37 @@ export default function InteractiveGenreVault({
 
       </div>
 
-      {/* 2. DISTINCT GENRE PAVILION SECTIONS (Separated Styled Stages) */}
+      {/* 2. DISTINCT GENRE PAVILION SECTIONS (All movies & series organized into respective genres) */}
       <div className="space-y-16">
         {displayedGenres.map((genre) => {
           const cfg = GENRE_CONFIGS[genre] || DEFAULT_GENRE_CONFIG;
           const movies = getGenreMovies(genre);
-          if (movies.length === 0) return null;
+          if (movies.length === 0) {
+            // When filtering specifically to single tab and nothing matches, show an informative card
+            if (viewMode === 'single' && selectedGenreTab === genre) {
+              return (
+                <section
+                  key={genre}
+                  id={getPavilionElementId(genre)}
+                  className={`relative bg-gradient-to-br ${cfg.bgGradient} border ${cfg.borderColor} rounded-3xl p-8 text-center backdrop-blur-xl shadow-2xl`}
+                >
+                  <p className="text-4xl mb-3">{cfg.icon}</p>
+                  <h3 className="text-xl font-bold text-white mb-2">No {genre} titles match the current search filters.</h3>
+                  <p className="text-xs text-white/50 mb-4">Try clearing your search query or selecting "All" platforms.</p>
+                  <button
+                    onClick={() => {
+                      if (setSearchQuery) setSearchQuery('');
+                      if (setActivePlatform) setActivePlatform('All');
+                    }}
+                    className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full text-xs font-bold uppercase tracking-wider"
+                  >
+                    Reset Filters
+                  </button>
+                </section>
+              );
+            }
+            return null;
+          }
 
           const spotlightMovie = movies[0]; // Highest rated or sorted title
           const remainingMovies = movies.slice(1);
@@ -373,7 +559,7 @@ export default function InteractiveGenreVault({
             <section
               key={genre}
               id={getPavilionElementId(genre)}
-              className={`relative bg-gradient-to-br ${cfg.bgGradient} border ${cfg.borderColor} rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-500 hover:border-white/20`}
+              className={`relative bg-gradient-to-br ${cfg.bgGradient} border ${cfg.borderColor} rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-500 hover:border-white/20 scroll-mt-28`}
             >
               {/* Decorative Genre Emblem Accent */}
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none select-none text-9xl">
@@ -391,7 +577,7 @@ export default function InteractiveGenreVault({
                       <span className={`text-[10px] font-mono font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border ${cfg.badgeBg}`}>
                         {cfg.vibeTag}
                       </span>
-                      <span className="text-xs font-mono text-white/40">{movies.length} Titles Available</span>
+                      <span className="text-xs font-mono text-white/40">{movies.length} Titles Available Free</span>
                     </div>
                     <h3 className="text-xl sm:text-2xl font-black italic uppercase tracking-wider text-white mt-1">
                       {cfg.name}
@@ -449,7 +635,7 @@ export default function InteractiveGenreVault({
                         </p>
 
                         <div className="pt-2">
-                          <p className="text-[10px] uppercase font-mono text-white/40 mb-1">Featured Cast:</p>
+                          <p className="text-[10px] uppercase font-mono text-white/40 mb-1">Featured Cast & Creator:</p>
                           <div className="flex flex-wrap gap-1.5">
                             {spotlightMovie.cast.slice(0, 3).map((actor) => (
                               <span key={actor} className="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded-md text-white/80">
@@ -470,7 +656,7 @@ export default function InteractiveGenreVault({
                           className="flex-1 py-3 px-4 bg-[#00D1FF] hover:bg-cyan-300 text-black font-black text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(0,209,255,0.4)] cursor-pointer"
                         >
                           <Play className="w-4 h-4 fill-current ml-0.5" />
-                          <span>Stream Free Now</span>
+                          <span>{spotlightMovie.type === 'Series' ? 'Stream Episode 1' : 'Stream Free Movie'}</span>
                         </button>
 
                         <button
@@ -591,7 +777,7 @@ export default function InteractiveGenreVault({
                               className="w-full py-2 bg-white/5 hover:bg-[#00D1FF] text-white hover:text-black border border-white/10 hover:border-[#00D1FF] font-mono text-[9px] font-bold uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer"
                             >
                               <Play className="w-3 h-3 fill-current" />
-                              <span>Stream Movie</span>
+                              <span>{movie.type === 'Series' ? 'Stream Series' : 'Stream Movie'}</span>
                             </button>
                           </div>
                         </TiltCard>
@@ -609,7 +795,7 @@ export default function InteractiveGenreVault({
                         <span>
                           {isExpanded
                             ? `Collapse ${genre} Pavilion`
-                            : `Explore ${remainingMovies.length - INITIAL_LIMIT} More ${genre} Masterpieces`}
+                            : `Explore All ${remainingMovies.length} ${genre} Titles (${remainingMovies.length - INITIAL_LIMIT} more)`}
                         </span>
                         {isExpanded ? (
                           <ChevronUp className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />

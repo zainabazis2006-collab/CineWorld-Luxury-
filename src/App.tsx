@@ -883,8 +883,7 @@ export default function App() {
   const [isHeaderSettingsOpen, setIsHeaderSettingsOpen] = useState<boolean>(false);
 
   // Interactive Dashboard Layout & View Mode States
-  const [activeLayoutTab, setActiveLayoutTab] = useState<'all' | 'genres' | 'catalog' | 'trending' | 'community'>('all');
-  const [catalogDisplayMode, setCatalogDisplayMode] = useState<'grid' | 'carousel'>('grid');
+  const [activeLayoutTab, setActiveLayoutTab] = useState<'all' | 'genres' | 'trending' | 'community'>('all');
 
   // Dynamic images & media state resolved from our custom proxy API
   const [resolvedImages, setResolvedImages] = useState<Record<string, { posterUrl?: string; backdropUrl?: string; youtubeId?: string }>>(() => {
@@ -1694,7 +1693,7 @@ export default function App() {
       {/* FLOATING LUXURY ELEVATOR NAVIGATOR & SCROLL PROGRESS */}
       <LuxuryScrollProgressAndElevator 
         totalMovies={filteredCatalog.length} 
-        onRandomPick={handleMovieSelect} 
+        onRandomPick={(movie) => handleMovieSelect(movie.id)} 
         catalog={CURATED_CATALOG} 
       />
       
@@ -2614,18 +2613,7 @@ export default function App() {
               }`}
             >
               <Compass className="w-3.5 h-3.5" />
-              <span>🏛️ Cinematic Genre Hub</span>
-            </button>
-            <button
-              onClick={() => { setActiveLayoutTab('catalog'); navigateToSection('catalog-library', 'catalog'); }}
-              className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-2 whitespace-nowrap cursor-pointer ${
-                activeLayoutTab === 'catalog' 
-                  ? 'bg-amber-400 text-black shadow-[0_0_15px_rgba(251,191,36,0.4)] font-black' 
-                  : 'bg-white/5 text-amber-400/90 hover:text-amber-300 hover:bg-white/10 border border-white/10'
-              }`}
-            >
-              <Globe className="w-3.5 h-3.5" />
-              <span>🍿 Free Stream Library</span>
+              <span>🏛️ Cinematic Genre Pavilions</span>
             </button>
             <button
               onClick={() => { setActiveLayoutTab('trending'); navigateToSection('trending-section', 'trending'); }}
@@ -2654,13 +2642,13 @@ export default function App() {
           <div className="flex items-center gap-3 self-end md:self-center">
             <span className="text-[10px] text-emerald-400 font-mono font-bold bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-              {filteredCatalog.length} Titles Available Free
+              {displayCatalog.length} Titles Fitted By Genre
             </span>
           </div>
         </div>
       </section>
 
-      {/* INTERACTIVE GENRE PAVILIONS VAULT */}
+      {/* INTERACTIVE GENRE PAVILIONS VAULT (Fitted by Respective Genres) */}
       {(activeLayoutTab === 'all' || activeLayoutTab === 'genres') && (
         <section id="interactive-genre-vault" className="relative z-20 max-w-7xl mx-auto px-6 py-4 scroll-mt-28">
           <InteractiveGenreVault
@@ -2671,408 +2659,18 @@ export default function App() {
             toggleWatchlist={toggleWatchlist}
             onShowInfo={setInfoMovie}
             setTheaterMovieId={setTheaterMovieId}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            exploreByTalent={exploreByTalent}
+            setExploreByTalent={setExploreByTalent}
+            activePlatform={activePlatform}
+            setActivePlatform={setActivePlatform}
+            isListening={isListening}
+            handleVoiceListen={handleVoiceListen}
+            voiceTranscript={voiceTranscript}
+            isSearchLoading={isSearchLoading}
+            t={t}
           />
-        </section>
-      )}
-
-      {/* VIEW SECTION 1: SEARCH, FILTERS & FREE STREAM LIBRARY */}
-      {(activeLayoutTab === 'all' || activeLayoutTab === 'catalog') && (
-        <section id="catalog-library" className="relative z-20 max-w-7xl mx-auto px-6 py-6 scroll-mt-28">
-          
-          {/* Row 1: Search and voice microphone */}
-          <div className="flex flex-col md:flex-row gap-6 items-center justify-between bg-black/40 border border-white/10 rounded-2xl p-6 backdrop-blur-md">
-            
-            <div className="w-full md:w-1/2 space-y-3">
-              <label className="text-xs font-black uppercase tracking-widest text-[#00D1FF] block flex items-center gap-1.5">
-                <Compass className="w-4 h-4" />
-                {t('allShows')}
-              </label>
-              
-              {/* Search Input field */}
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={exploreByTalent ? t('talentSearchPlaceholder') : t('searchPlaceholder')}
-                  className="w-full bg-[#050508] border border-white/15 focus:border-[#00D1FF] rounded-xl px-4 py-3 pl-11 text-sm text-white placeholder-white/40 outline-none transition-all shadow-inner"
-                />
-                <Compass className="absolute left-4 top-3.5 w-4.5 h-4.5 text-white/40" />
-                
-                {isSearchLoading ? (
-                  <span className="absolute right-4 top-3.5 w-4 h-4 rounded-full border-2 border-white/20 border-t-[#00D1FF] animate-spin" title="TMDB API searching..." />
-                ) : searchQuery ? (
-                  <button 
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-4 top-3.5 text-white/40 hover:text-white"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                ) : null}
-              </div>
-
-              {/* Dedicated Explore by Talent Search Mode Toggles */}
-              <div className="flex flex-wrap gap-2 pt-1">
-                <button
-                  onClick={() => setExploreByTalent(false)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer ${
-                    !exploreByTalent 
-                      ? 'bg-[#00D1FF]/15 text-[#00D1FF] border-[#00D1FF]/40' 
-                      : 'bg-transparent text-white/50 border-white/10 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <Compass className="w-3.5 h-3.5" />
-                  {t('allInOneSearch')}
-                </button>
-                <button
-                  onClick={() => setExploreByTalent(true)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer ${
-                    exploreByTalent 
-                      ? 'bg-gradient-to-r from-[#00D1FF] to-indigo-500 text-black border-transparent shadow-[0_0_15px_rgba(0,209,255,0.25)]' 
-                      : 'bg-transparent text-white/50 border-white/10 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  <User className="w-3.5 h-3.5" />
-                  {t('exploreByTalent')}
-                </button>
-              </div>
-            </div>
-
-            {/* Voice Command & Layout View Switcher */}
-            <div className="w-full md:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              
-              {/* Native Web Speech API Microphone component */}
-              <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-3.5 justify-between">
-                <div className="space-y-0.5">
-                  <p className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
-                    <span className={`w-2 h-2 rounded-full ${isListening ? 'bg-red-500 animate-ping' : 'bg-[#00D1FF]'}`}></span>
-                    Voice Commands
-                  </p>
-                  <p className="text-[10px] text-white/40 font-mono">
-                    {isListening ? t('voiceActive') : 'Tap mic to speak title'}
-                  </p>
-                </div>
-                
-                <button
-                  onClick={handleVoiceListen}
-                  className={`p-3 rounded-xl transition-all duration-200 cursor-pointer ${
-                    isListening 
-                      ? 'bg-red-600 hover:bg-red-700 text-white shadow-[0_0_15px_rgba(239,68,68,0.5)]' 
-                      : 'bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/30 hover:bg-[#00D1FF]/20'
-                  }`}
-                  title={t('speakTooltip')}
-                >
-                  {isListening ? <MicOff className="w-5 h-5 animate-bounce" /> : <Mic className="w-5 h-5" />}
-                </button>
-              </div>
-
-              {/* Layout Mode Toggle (Grid Matrix vs Rows) */}
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-2 flex items-center justify-center gap-1">
-                <button
-                  onClick={() => setCatalogDisplayMode('grid')}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
-                    catalogDisplayMode === 'grid'
-                      ? 'bg-[#00D1FF] text-black shadow-md'
-                      : 'text-white/60 hover:text-white hover:bg-white/10'
-                  }`}
-                  title="Display as Bento Matrix Grid"
-                >
-                  <span className="text-sm">📱</span>
-                  <span>Grid Matrix</span>
-                </button>
-                <button
-                  onClick={() => setCatalogDisplayMode('carousel')}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
-                    catalogDisplayMode === 'carousel'
-                      ? 'bg-[#00D1FF] text-black shadow-md'
-                      : 'text-white/60 hover:text-white hover:bg-white/10'
-                  }`}
-                  title="Display as Genre Carousels"
-                >
-                  <span className="text-sm">🎞️</span>
-                  <span>Genre Rows</span>
-                </button>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Voice transcript display */}
-          {voiceTranscript && (
-            <div className="mt-3 bg-[#00D1FF]/5 border border-[#00D1FF]/20 rounded-xl p-3 text-xs text-white/80 font-mono text-center">
-              🎤 Transcript heard: <span className="text-[#00D1FF] font-bold">"{voiceTranscript}"</span>
-            </div>
-          )}
-
-          {/* Interactive Filter Pills */}
-          <div className="flex flex-wrap gap-2.5 mt-6 items-center">
-            <div className="flex items-center gap-2 mr-2">
-              <span className="text-xs uppercase tracking-widest text-white/50 font-bold">Genres:</span>
-              <div className="group relative">
-                <span className="cursor-help text-[10px] text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30 font-sans tracking-wide transition-colors hover:bg-amber-400/20 font-bold">
-                  🔥 24h Trends
-                </span>
-                <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-30 w-64 p-3 bg-zinc-900 border border-white/10 rounded-xl text-[11px] text-white/80 shadow-2xl leading-relaxed">
-                  <p className="font-bold text-amber-400 mb-1 flex items-center gap-1">
-                    <Flame className="w-3.5 h-3.5 fill-amber-400 animate-pulse" />
-                    24-Hour Trending Genres
-                  </p>
-                  Genres with <span className="text-[#00D1FF] font-semibold">3+ interactions</span> in the last 24 hours are highlighted!
-                </div>
-              </div>
-            </div>
-            {allGenres.map((genre) => (
-              <button
-                key={genre}
-                onClick={() => handleGenreSelect(genre)}
-                className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-all flex items-center gap-1.5 cursor-pointer ${
-                  activeGenre === genre
-                    ? 'bg-[#00D1FF] text-black font-black shadow-[0_0_15px_rgba(0,209,255,0.4)]'
-                    : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
-                }`}
-              >
-                <span>{genre}</span>
-                {trendingGenres.includes(genre) && (
-                  <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-black tracking-tight ${
-                    activeGenre === genre 
-                      ? 'bg-black/15 text-black' 
-                      : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                  }`}>
-                    <Flame className="w-2.5 h-2.5 fill-current animate-pulse" />
-                    <span>Hot</span>
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* Interactive Platform Filter */}
-          <div className="flex flex-wrap gap-2.5 mt-4 items-center">
-            <span className="text-xs uppercase tracking-widest text-white/50 font-bold mr-2">Streaming On:</span>
-            {['All', 'Netflix', 'Amazon Prime', 'Disney+ Hotstar', 'Free Cinema'].map((platform) => (
-              <button
-                key={platform}
-                onClick={() => setActivePlatform(platform)}
-                className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full transition-all cursor-pointer ${
-                  activePlatform === platform
-                    ? 'bg-gradient-to-r from-red-600 to-rose-700 text-white font-black shadow-[0_0_15px_rgba(225,29,72,0.4)] border border-red-500'
-                    : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
-                }`}
-              >
-                {platform === 'Free Cinema' ? '🍿 Free Full Movies' : platform}
-              </button>
-            ))}
-          </div>
-
-          {/* CATALOG DISPLAY MODE 1: BENTO MATRIX GRID */}
-          {catalogDisplayMode === 'grid' && (
-            <div className="mt-8">
-              <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/10">
-                <h3 className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-white flex items-center gap-2">
-                  <Play className="w-4 h-4 text-[#00D1FF] fill-[#00D1FF]" />
-                  Free Streaming Catalog ({filteredCatalog.length} Titles)
-                </h3>
-                <span className="text-xs font-mono text-[#00D1FF]">100% Unlimited Free Play</span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {filteredCatalog.map((movie) => {
-                  const isSelected = movie.id === selectedMovieId;
-                  return (
-                    <motion.div
-                      key={movie.id}
-                      whileHover={{ y: -8, scale: 1.02 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                      className={`bg-[#0b0b12] border rounded-2xl overflow-hidden group cursor-pointer flex flex-col justify-between shadow-xl transition-all duration-300 ${
-                        isSelected ? 'border-[#00D1FF] shadow-[0_0_25px_rgba(0,209,255,0.3)]' : 'border-white/10 hover:border-[#00D1FF]/50'
-                      }`}
-                      onClick={() => handleMovieSelect(movie.id)}
-                    >
-                      <div>
-                        {/* Poster Frame */}
-                        <div className="h-64 sm:h-72 relative overflow-hidden">
-                          <BlurUpImage
-                            src={movie.posterUrl}
-                            alt={movie.title}
-                            referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b12] via-[#0b0b12]/20 to-transparent"></div>
-
-                          {/* Top Badges */}
-                          <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-10">
-                            <span className="px-2.5 py-1 bg-black/80 backdrop-blur-md border border-white/20 text-[#00D1FF] text-[10px] font-mono font-bold rounded-full">
-                              ★ {movie.rating}
-                            </span>
-                            <span className="px-2.5 py-1 bg-emerald-500/20 backdrop-blur-md border border-emerald-500/30 text-emerald-400 text-[9px] font-mono font-bold rounded-full uppercase tracking-wider">
-                              FREE
-                            </span>
-                          </div>
-
-                          {/* Hover Play Icon */}
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px]">
-                            <div className="w-14 h-14 rounded-full bg-[#00D1FF] text-black flex items-center justify-center shadow-[0_0_20px_rgba(0,209,255,0.8)] transform scale-75 group-hover:scale-100 transition-transform">
-                              <Play className="w-6 h-6 fill-current ml-0.5" />
-                            </div>
-                          </div>
-
-                          {/* Genre tag */}
-                          <div className="absolute bottom-3 left-3 z-10">
-                            <span className="px-2 py-0.5 bg-black/70 backdrop-blur-md text-[9px] font-bold text-[#00D1FF] rounded border border-white/10">
-                              {movie.genres.slice(0, 2).join(' • ')}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Title & Info */}
-                        <div className="p-4 space-y-2">
-                          <div className="flex items-center justify-between gap-2">
-                            <h4 className="text-sm font-black italic uppercase text-white group-hover:text-[#00D1FF] transition-colors truncate">
-                              {movie.title}
-                            </h4>
-                            <span className="text-xs font-mono text-white/50 shrink-0">{movie.year}</span>
-                          </div>
-                          
-                          <p className="text-xs text-white/60 line-clamp-2 leading-relaxed">
-                            {movie.synopsis}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Stream Action Button */}
-                      <div className="p-4 pt-0">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleMovieSelect(movie.id);
-                            setTheaterMovieId(movie.id);
-                          }}
-                          className="w-full py-2.5 bg-[#00D1FF]/15 hover:bg-[#00D1FF] border border-[#00D1FF]/40 hover:border-[#00D1FF] text-[#00D1FF] hover:text-black font-mono text-[10px] font-black uppercase tracking-widest rounded-full flex items-center justify-center gap-2 transition-all duration-300 shadow-sm cursor-pointer"
-                        >
-                          <Play className="w-3.5 h-3.5 fill-current" />
-                          <span>{movie.type === 'Movie' ? 'Stream Free Movie' : 'Stream Free Series'}</span>
-                        </button>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* CATALOG DISPLAY MODE 2: GENRE CAROUSEL ROWS */}
-          {catalogDisplayMode === 'carousel' && (
-            <div className="mt-8 space-y-16">
-              
-              {/* Movies Section */}
-              {filteredCatalog.some(m => m.type === 'Movie') && (
-                <div>
-                  <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
-                    <div className="flex items-center gap-3">
-                      <span className="p-1.5 bg-[#00D1FF]/10 text-[#00D1FF] rounded-lg border border-[#00D1FF]/20 flex items-center justify-center">
-                        <Play className="w-3.5 h-3.5 fill-current text-[#00D1FF]" />
-                      </span>
-                      <div>
-                        <h3 className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-white">
-                          Premium Cinematic Movies
-                        </h3>
-                        <p className="text-[10px] text-white/40 font-mono">Curated feature masterpieces and blockbuster titles organized by genre</p>
-                      </div>
-                    </div>
-                    <span className="text-[10px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-white/60 font-mono">
-                      {filteredCatalog.filter(m => m.type === 'Movie').length} titles
-                    </span>
-                  </div>
-
-                  {/* Genre-based Carousels */}
-                  <div className="space-y-4">
-                    {(activeGenre === 'All'
-                      ? Array.from(new Set(filteredCatalog.filter(m => m.type === 'Movie').flatMap(m => m.genres)))
-                      : [activeGenre]
-                    ).map((genre) => {
-                      const genreMovies = filteredCatalog.filter(m => m.type === 'Movie' && m.genres.includes(genre));
-                      if (genreMovies.length === 0) return null;
-                      
-                      return (
-                        <GenreCarousel
-                          key={genre}
-                          genre={genre}
-                          movies={genreMovies}
-                          selectedMovieId={selectedMovieId}
-                          handleMovieSelect={handleMovieSelect}
-                          recommendationMatrix={recommendationMatrix}
-                          exploreByTalent={exploreByTalent}
-                          onShowInfo={setInfoMovie}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* Series Section */}
-              {filteredCatalog.some(m => m.type === 'Series') && (
-                <div>
-                  <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/5">
-                    <div className="flex items-center gap-3">
-                      <span className="p-1.5 bg-[#00D1FF]/10 text-[#00D1FF] rounded-lg border border-[#00D1FF]/20 flex items-center justify-center">
-                        <Compass className="w-3.5 h-3.5 text-[#00D1FF]" />
-                      </span>
-                      <div>
-                        <h3 className="text-sm md:text-base font-black uppercase tracking-[0.2em] text-white">
-                          Exclusive Prestige Series
-                        </h3>
-                        <p className="text-[10px] text-white/40 font-mono">Award-winning television series, premium anthologies, and high-fidelity series</p>
-                      </div>
-                    </div>
-                    <span className="text-[10px] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-white/60 font-mono">
-                      {filteredCatalog.filter(m => m.type === 'Series').length} titles
-                    </span>
-                  </div>
-
-                  {/* Genre-based Carousels */}
-                  <div className="space-y-4">
-                    {(activeGenre === 'All'
-                      ? Array.from(new Set(filteredCatalog.filter(m => m.type === 'Series').flatMap(m => m.genres)))
-                      : [activeGenre]
-                    ).map((genre) => {
-                      const genreSeries = filteredCatalog.filter(m => m.type === 'Series' && m.genres.includes(genre));
-                      if (genreSeries.length === 0) return null;
-                      
-                      return (
-                        <GenreCarousel
-                          key={genre}
-                          genre={genre}
-                          movies={genreSeries}
-                          selectedMovieId={selectedMovieId}
-                          handleMovieSelect={handleMovieSelect}
-                          recommendationMatrix={recommendationMatrix}
-                          exploreByTalent={exploreByTalent}
-                          onShowInfo={setInfoMovie}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-            </div>
-          )}
-
-          {/* Global Empty State */}
-          {filteredCatalog.length === 0 && (
-            <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/5 animate-fade-in my-8">
-              <Compass className="w-12 h-12 text-white/20 mx-auto mb-4 animate-spin" />
-              <p className="text-white/60 font-semibold uppercase tracking-wider">No matching cinematic masterpieces found.</p>
-              <button 
-                onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); }}
-                className="mt-4 px-4 py-2 bg-white/10 text-white rounded-full hover:bg-white/20 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
-              >
-                Reset Filter Parameters
-              </button>
-            </div>
-          )}
-
         </section>
       )}
 
