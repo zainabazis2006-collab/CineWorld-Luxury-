@@ -656,7 +656,7 @@ export default function InteractiveGenreVault({
                           className="flex-1 py-3 px-4 bg-[#00D1FF] hover:bg-cyan-300 text-black font-black text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(0,209,255,0.4)] cursor-pointer"
                         >
                           <Play className="w-4 h-4 fill-current ml-0.5" />
-                          <span>{spotlightMovie.type === 'Series' ? 'Stream Episode 1' : 'Stream Free Movie'}</span>
+                          <span>Watch Trailer</span>
                         </button>
 
                         <button
@@ -777,7 +777,7 @@ export default function InteractiveGenreVault({
                               className="w-full py-2 bg-white/5 hover:bg-[#00D1FF] text-white hover:text-black border border-white/10 hover:border-[#00D1FF] font-mono text-[9px] font-bold uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer"
                             >
                               <Play className="w-3 h-3 fill-current" />
-                              <span>{movie.type === 'Series' ? 'Stream Series' : 'Stream Movie'}</span>
+                              <span>Watch Trailer</span>
                             </button>
                           </div>
                         </TiltCard>

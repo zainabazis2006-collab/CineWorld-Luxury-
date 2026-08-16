@@ -222,10 +222,10 @@ export default function GenreCarousel({
                           handleMovieSelect(movie.id);
                           document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                         }}
-                        className="w-full py-2.5 bg-gradient-to-r from-[#00D1FF]/15 to-[#00D1FF]/25 hover:from-[#00D1FF] hover:to-[#00D1FF] border border-[#00D1FF]/40 hover:border-[#00D1FF] text-[#00D1FF] hover:text-black font-mono text-[9px] font-black uppercase tracking-widest rounded-full flex items-center justify-center gap-1.5 transition-all duration-300 shadow-sm"
+                        className="w-full py-2.5 bg-gradient-to-r from-[#00D1FF]/15 to-[#00D1FF]/25 hover:from-[#00D1FF] hover:to-[#00D1FF] border border-[#00D1FF]/40 hover:border-[#00D1FF] text-[#00D1FF] hover:text-black font-mono text-[9px] font-black uppercase tracking-widest rounded-full flex items-center justify-center gap-1.5 transition-all duration-300 shadow-sm cursor-pointer"
                       >
                         <Play className="w-3 h-3 fill-current" />
-                        <span>{movie.type === 'Movie' ? 'Stream Free Movie' : 'Stream Free Series'}</span>
+                        <span>Watch Trailer</span>
                       </button>
                     </div>
                   </div>

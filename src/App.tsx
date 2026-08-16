@@ -2418,14 +2418,14 @@ export default function App() {
                   {/* Play Now Button */}
                   <button
                     onClick={() => {
-                      setStreamMode('full');
+                      setStreamMode('trailer');
                       setBackupIndex(0);
                       setTheaterMovieId(currentMovie.id);
                     }}
                     className="px-6 py-3.5 rounded-full font-black uppercase text-xs tracking-wider transition-all duration-300 flex items-center gap-2.5 bg-[#00D1FF] text-black hover:bg-white hover:scale-105 shadow-[0_0_25px_rgba(0,209,255,0.5)] cursor-pointer"
                   >
                     <Play className="w-4 h-4 fill-current animate-pulse" />
-                    <span>{currentMovie.type === 'Series' ? '🍿 Stream Season 1 Ep 1' : '🍿 Stream Free Full Movie'}</span>
+                    <span>Watch Trailer</span>
                   </button>
 
                   {/* Cast & Crew Info Button */}
@@ -3687,14 +3687,15 @@ export default function App() {
                 <button 
                   onClick={() => {
                     handleMovieSelect(infoMovie.id);
+                    setStreamMode('trailer');
+                    setTheaterMovieId(infoMovie.id);
                     setInfoMovie(null);
                     setLightboxImageIndex(null);
-                    document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                   }}
                   className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-[#00D1FF] to-blue-500 hover:from-white hover:to-white text-black font-mono text-[10px] font-black uppercase tracking-[0.15em] rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-[0_0_15px_rgba(0,209,255,0.35)] shrink-0 cursor-pointer"
                 >
                   <Play className="w-3 h-3 fill-current" />
-                  <span>Stream Film</span>
+                  <span>Watch Trailer</span>
                 </button>
               </div>
             </motion.div>
