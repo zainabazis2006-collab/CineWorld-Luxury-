@@ -4015,7 +4015,1619 @@ const RAW_CATALOG: Movie[] = [
       }
     ],
     productionTrivia: 'The crew collaborated with former RAW officers to ensure accurate procedural representations, codes, and operational methods.'
-  }
+  },
+  {
+    id: "alien-romulus",
+    title: "Alien: Romulus",
+    type: "Movie",
+    year: 2024,
+    runtimeOrSeasons: "119 min",
+    rating: 4.7,
+    genres: ["Horror","Sci-Fi","Thriller"],
+    directorOrCreator: "Fede Álvarez",
+    cast: ["Cailee Spaeny","David Jonsson","Archie Renaux","Isabela Merced"],
+    synopsis: "While scavenging the deep ends of a derelict space station, a group of young space colonizers come face to face with the most terrifying life form in the universe.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/iYqSQaWDttQIQzsxg9xHyg0bttG.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/2uSWRTtCG336nuBiG8jOTEUKSy8.jpg",
+    streamingLinks: [
+          {
+                "platform": "Disney+ Hotstar",
+                "url": "https://www.hotstar.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "bQlwYnouC98"
+  },
+  {
+    id: "inside-out-2",
+    title: "Inside Out 2",
+    type: "Movie",
+    year: 2024,
+    runtimeOrSeasons: "97 min",
+    rating: 4.8,
+    genres: ["Animation","Comedy","Family"],
+    directorOrCreator: "Kelsey Mann",
+    cast: ["Amy Poehler","Maya Hawke","Kensington Tallman","Liza Lapira"],
+    synopsis: "Teenager Riley's mind headquarters is undergoing a sudden demolition to make room for something entirely unexpected: new Emotions! Joy, Sadness, Anger, Fear and Disgust, who’ve long been running a successful operation by all accounts, aren’t sure how to feel when Anxiety shows up. And it looks like she’s not alone.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/p5ozvmdgsmbWe0H8Xk7Rc8SCwAB.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg",
+    streamingLinks: [
+          {
+                "platform": "Disney+ Hotstar",
+                "url": "https://www.hotstar.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "QGFELnpig2M"
+  },
+  {
+    id: "furiosa-mad-max",
+    title: "Furiosa: A Mad Max Saga",
+    type: "Movie",
+    year: 2024,
+    runtimeOrSeasons: "149 min",
+    rating: 4.8,
+    genres: ["Action","Sci-Fi","Adventure"],
+    directorOrCreator: "Dean Hood",
+    cast: ["Anya Taylor-Joy","Chris Hemsworth","Tom Burke","Alyla Browne"],
+    synopsis: "As the world falls, young Furiosa is snatched from the Green Place of Many Mothers into the hands of a great biker horde led by the warlord Dementus. Sweeping through the wasteland, they encounter the citadel presided over by Immortan Joe. The two tyrants wage war for dominance, and Furiosa must survive many trials as she puts together the means to find her way home.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/raph7qjAGTMXaIjVxt6ZDSXRzUr.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/iADOJ8Zymht2JPMoy3R7xceZprc.jpg",
+    streamingLinks: [
+          {
+                "platform": "HBO Max",
+                "url": "https://www.max.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "LYV3001u574"
+  },
+  {
+    id: "the-batman-2022",
+    title: "The Batman",
+    type: "Movie",
+    year: 2022,
+    runtimeOrSeasons: "177 min",
+    rating: 4.8,
+    genres: ["Action","Crime","Mystery"],
+    directorOrCreator: "Matt Reeves",
+    cast: ["Robert Pattinson","Zoë Kravitz","Jeffrey Wright","Colin Farrell"],
+    synopsis: "In his second year of fighting crime, Batman uncovers corruption in Gotham City that connects to his own family while facing a serial killer known as the Riddler.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/IYUD7rAIXzBM91TT3Z5fILUS7n.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg",
+    streamingLinks: [
+          {
+                "platform": "HBO Max",
+                "url": "https://www.max.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "XS8rfqYJXRY"
+  },
+  {
+    id: "top-gun-maverick",
+    title: "Top Gun: Maverick",
+    type: "Movie",
+    year: 2022,
+    runtimeOrSeasons: "131 min",
+    rating: 4.9,
+    genres: ["Action","Drama"],
+    directorOrCreator: "Tommy Harper",
+    cast: ["Tom Cruise","Miles Teller","Jennifer Connelly","Bashir Salahuddin"],
+    synopsis: "After more than thirty years of service as one of the Navy’s top aviators, and dodging the advancement in rank that would ground him, Pete “Maverick” Mitchell finds himself training a detachment of TOP GUN graduates for a specialized mission the likes of which no living pilot has ever seen.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/AaV1YIdWKnjAIAOe8UUKBFm327v.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/n0YuM4f5lvGAP6MAW2kBIzugXnc.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "Klc__shdj88"
+  },
+  {
+    id: "tenet-movie",
+    title: "Tenet",
+    type: "Movie",
+    year: 2020,
+    runtimeOrSeasons: "150 min",
+    rating: 4.7,
+    genres: ["Action","Sci-Fi","Thriller"],
+    directorOrCreator: "Thomas Hayslip",
+    cast: ["John David Washington","Robert Pattinson","Elizabeth Debicki","Kenneth Branagh"],
+    synopsis: "Armed with only one word - Tenet - and fighting for the survival of the entire world, the Protagonist journeys through a twilight world of international espionage on a mission that will unfold in something beyond real time.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/mQOUyqDybTqxl73hO5LujCZsM1o.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/aCIFMriQh8rvhxpN1IWGgvH0Tlg.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "KJP5RunZUKk"
+  },
+  {
+    id: "arrival-movie",
+    title: "Arrival",
+    type: "Movie",
+    year: 2016,
+    runtimeOrSeasons: "116 min",
+    rating: 4.9,
+    genres: ["Sci-Fi","Drama","Mystery"],
+    directorOrCreator: "Denis Villeneuve",
+    cast: ["Amy Adams","Jeremy Renner","Forest Whitaker","Michael Stuhlbarg"],
+    synopsis: "Taking place after alien crafts land around the world, an expert linguist is recruited by the military to determine whether they come in peace or are a threat.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/8MUZz7oPXQftFTslZpRP3CVMOoq.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "7W1m5ER3I1Y"
+  },
+  {
+    id: "whiplash-movie",
+    title: "Whiplash",
+    type: "Movie",
+    year: 2014,
+    runtimeOrSeasons: "107 min",
+    rating: 4.9,
+    genres: ["Drama","Music"],
+    directorOrCreator: "Damien Chazelle",
+    cast: ["Miles Teller","J.K. Simmons","Paul Reiser","Melissa Benoist"],
+    synopsis: "Under the direction of a ruthless instructor, a talented young drummer begins to pursue perfection at any cost, even his humanity.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/wbQa0EnWUyRzQ5d1pHLNRlmsCUP.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/7fn624j5lj3xTme2SgiLCeuedmO.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "Q7kZy3T6vRM"
+  },
+  {
+    id: "inglourious-basterds",
+    title: "Inglourious Basterds",
+    type: "Movie",
+    year: 2009,
+    runtimeOrSeasons: "153 min",
+    rating: 4.9,
+    genres: ["Action","Drama","War"],
+    directorOrCreator: "Lloyd Phillips",
+    cast: ["Brad Pitt","Mélanie Laurent","Christoph Waltz","Eli Roth"],
+    synopsis: "In Nazi-occupied France during World War II, a group of Jewish-American soldiers known as \"The Basterds\" are chosen specifically to spread fear throughout the Third Reich by scalping and brutally killing Nazis. The Basterds, lead by Lt. Aldo Raine soon cross paths with a French-Jewish teenage girl who runs a movie theater in Paris which is targeted by the soldiers.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/hwNtEmmugU5Yd7hpfprNWI0DGIn.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/aupnPtagH9JVBuMrGEanf4iqXEQ.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "uSEDz-my7XQ"
+  },
+  {
+    id: "the-matrix-1999",
+    title: "The Matrix",
+    type: "Movie",
+    year: 1999,
+    runtimeOrSeasons: "136 min",
+    rating: 5,
+    genres: ["Action","Sci-Fi"],
+    directorOrCreator: "Bruce Berman",
+    cast: ["Keanu Reeves","Laurence Fishburne","Carrie-Anne Moss","Hugo Weaving"],
+    synopsis: "Set in the 22nd century, The Matrix tells the story of a computer hacker who joins a group of underground insurgents fighting the vast and powerful computers who now rule the earth.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/tlm8UkiQsitc8rSuIAscQDCnP8d.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/dXNAPwY7VrqMAo51EKhhCJfaGb5.jpg",
+    streamingLinks: [
+          {
+                "platform": "HBO Max",
+                "url": "https://www.max.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "FVI84Dfx2-I"
+  },
+  {
+    id: "fight-club",
+    title: "Fight Club",
+    type: "Movie",
+    year: 1999,
+    runtimeOrSeasons: "139 min",
+    rating: 4.9,
+    genres: ["Drama","Thriller","Crime"],
+    directorOrCreator: "David Fincher",
+    cast: ["Edward Norton","Brad Pitt","Helena Bonham Carter","Meat Loaf"],
+    synopsis: "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/c6OLXfKAk5BKeR6broC8pYiCquX.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/jSziioSwPVrOy9Yow3XhWIBDjq1.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "dfeUzm6KF4g"
+  },
+  {
+    id: "pulp-fiction",
+    title: "Pulp Fiction",
+    type: "Movie",
+    year: 1994,
+    runtimeOrSeasons: "154 min",
+    rating: 4.9,
+    genres: ["Crime","Drama","Thriller"],
+    directorOrCreator: "Michael Shamberg",
+    cast: ["John Travolta","Samuel L. Jackson","Uma Thurman","Bruce Willis"],
+    synopsis: "A burger-loving hit man, his philosophical partner, a drug-addled gangster's moll and a washed-up boxer converge in this sprawling, comedic crime caper. Their adventures unfurl in three stories that ingeniously trip back and forth in time.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/vQWk5YBFWF4bZaofAbv0tShwBvQ.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "tGpTpVyI_OQ"
+  },
+  {
+    id: "the-godfather",
+    title: "The Godfather",
+    type: "Movie",
+    year: 1972,
+    runtimeOrSeasons: "175 min",
+    rating: 5,
+    genres: ["Crime","Drama"],
+    directorOrCreator: "Francis Ford Coppola",
+    cast: ["Marlon Brando","Al Pacino","James Caan","Robert Duvall"],
+    synopsis: "Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/tSPT36ZKlP2WVHJLM4cQPLSzv3b.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "Ew9ngL1GZvs"
+  },
+  {
+    id: "spirited-away",
+    title: "Spirited Away",
+    type: "Movie",
+    year: 2001,
+    runtimeOrSeasons: "125 min",
+    rating: 4.9,
+    genres: ["Animation","Adventure","Fantasy"],
+    directorOrCreator: "Yasuyoshi Tokuma",
+    cast: ["Rumi Hiiragi","Miyu Irino","Mari Natsuki","Takashi Naito"],
+    synopsis: "A young girl, Chihiro, becomes trapped in a strange new world of spirits. When her parents undergo a mysterious transformation, she must call upon the courage she never knew she had to free her family.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/dyJvKsNs2KP8qQnAXbRwDjblViy.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "GAp2_0JJskk"
+  },
+  {
+    id: "your-name",
+    title: "Your Name.",
+    type: "Movie",
+    year: 2016,
+    runtimeOrSeasons: "106 min",
+    rating: 4.9,
+    genres: ["Animation","Romance","Drama"],
+    directorOrCreator: "Makoto Shinkai",
+    cast: ["Ryunosuke Kamiki","Mone Kamishiraishi","Ryo Narita","Aoi Yuuki"],
+    synopsis: "High schoolers Mitsuha and Taki are complete strangers living separate lives. But one night, they suddenly switch places. Mitsuha wakes up in Taki’s body, and he in hers. This bizarre occurrence continues to happen randomly, and the two must adjust their lives around each other.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/8x9iKH8kWA0zdkgNdpAew7OstYe.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/vfJFJPepRKapMd5G2ro7klIRysq.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "RuyHIkXdYf8"
+  },
+  {
+    id: "spider-man-across-spider-verse",
+    title: "Spider-Man: Across the Spider-Verse",
+    type: "Movie",
+    year: 2023,
+    runtimeOrSeasons: "140 min",
+    rating: 4.9,
+    genres: ["Animation","Action","Sci-Fi"],
+    directorOrCreator: "Justin K. Thompson",
+    cast: ["Shameik Moore","Hailee Steinfeld","Brian Tyree Henry","Luna Lauren Vélez"],
+    synopsis: "After reuniting with Gwen Stacy, Brooklyn’s full-time, friendly neighborhood Spider-Man is catapulted across the Multiverse, where he encounters the Spider Society, a team of Spider-People charged with protecting the Multiverse's very existence. But when the heroes clash on how to handle a new threat, Miles finds himself pitted against the other Spiders and must set out on his own to save those he loves most.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/kVd3a9YeLGkoeR50jGEXM6EqseS.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "LYtS6yKsOEQ"
+  },
+  {
+    id: "barbie",
+    title: "Barbie",
+    type: "Movie",
+    year: 2023,
+    runtimeOrSeasons: "114 min",
+    rating: 4.7,
+    genres: ["Comedy","Fantasy","Adventure"],
+    directorOrCreator: "Michael Sharp",
+    cast: ["Margot Robbie","Ryan Gosling","America Ferrera","Ariana Greenblatt"],
+    synopsis: "Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to the real world, they soon discover the joys and perils of living among humans.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/3N5QNUqS76GFYNoEayfkkJyAyTN.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
+    streamingLinks: [
+          {
+                "platform": "HBO Max",
+                "url": "https://www.max.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "EDOdCaj3R3s"
+  },
+  {
+    id: "poor-things",
+    title: "Poor Things",
+    type: "Movie",
+    year: 2023,
+    runtimeOrSeasons: "141 min",
+    rating: 4.8,
+    genres: ["Comedy","Drama","Sci-Fi"],
+    directorOrCreator: "Daniel Battsek",
+    cast: ["Emma Stone","Mark Ruffalo","Willem Dafoe","Ramy Youssef"],
+    synopsis: "Brought back to life by an unorthodox scientist, a young woman runs off with a lawyer on a whirlwind adventure across the continents. Free from the prejudices of her times, she grows steadfast in her purpose to stand for equality and liberation.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/zh6IdheEYinU4TPtorWsjx6qPQE.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/kCGlIMHnOm8JPXq3rXM6c5wMxcT.jpg",
+    streamingLinks: [
+          {
+                "platform": "Disney+ Hotstar",
+                "url": "https://www.hotstar.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "fORsy_9Il_A"
+  },
+  {
+    id: "killers-of-the-flower-moon",
+    title: "Killers of the Flower Moon",
+    type: "Movie",
+    year: 2023,
+    runtimeOrSeasons: "206 min",
+    rating: 4.8,
+    genres: ["Crime","Drama","History"],
+    directorOrCreator: "Niels Juul",
+    cast: ["Leonardo DiCaprio","Robert De Niro","Lily Gladstone","Jesse Plemons"],
+    synopsis: "When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one—until the FBI steps in to unravel the mystery.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/acvE3RWjDLgvbL2RtcyzkrsAyNV.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/dB6Krk806zeqd0YNp2ngQ9zXteH.jpg",
+    streamingLinks: [
+          {
+                "platform": "Apple TV+",
+                "url": "https://tv.apple.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "Lm73h0l1W2M"
+  },
+  {
+    id: "the-zone-of-interest",
+    title: "The Zone of Interest",
+    type: "Movie",
+    year: 2023,
+    runtimeOrSeasons: "105 min",
+    rating: 4.8,
+    genres: ["Drama","History","War"],
+    directorOrCreator: "Jonathan Glazer",
+    cast: ["Christian Friedel","Sandra Hüller","Johann Karthaus","Luis Noah Witte"],
+    synopsis: "The commandant of Auschwitz, Rudolf Höss, and his wife Hedwig, strive to build a dream life for their family in a house and garden next to the camp.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/pnTSOKcYnvdpQNQElAtJM1rWOxH.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/hUu9zyZmDd8VZegKi1iK1Vk0RYS.jpg",
+    streamingLinks: [
+          {
+                "platform": "HBO Max",
+                "url": "https://www.max.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "W17B_MUkv9k"
+  },
+  {
+    id: "anatomy-of-a-fall",
+    title: "Anatomy of a Fall",
+    type: "Movie",
+    year: 2023,
+    runtimeOrSeasons: "151 min",
+    rating: 4.8,
+    genres: ["Crime","Drama","Mystery"],
+    directorOrCreator: "Justine Triet",
+    cast: ["Sandra Hüller","Swann Arlaud","Milo Machado-Graner","Antoine Reinartz"],
+    synopsis: "A woman is suspected of her husband's murder, and their blind son faces a moral dilemma as the sole witness.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/lDVl2jf6VB8ODl1olZ6FLvOV1gX.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/1ho0d4LNZw3Y0voeKmSvPSgJOJ2.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "vtNYnjWUFqE"
+  },
+  {
+    id: "challengers",
+    title: "Challengers",
+    type: "Movie",
+    year: 2024,
+    runtimeOrSeasons: "132 min",
+    rating: 4.7,
+    genres: ["Drama","Romance","Sport"],
+    directorOrCreator: "Luca Guadagnino",
+    cast: ["Zendaya","Mike Faist","Josh O'Connor","Darnell Appling"],
+    synopsis: "Tennis player turned coach Tashi has taken her husband, Art, and transformed him into a world-famous Major champion. To jolt him out of his recent losing streak, she signs him up for a \"Challenger\" event — close to the lowest level of pro tournament — where he finds himself standing across the net from his former best friend and Tashi's former boyfriend.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/tq8COKsI99Bivjd4CZIYVGoKcIx.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/H6vke7zGiuLsz4v4RPeReb9rsv.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "rpUlYM1i2mg"
+  },
+  {
+    id: "monkey-man",
+    title: "Monkey Man",
+    type: "Movie",
+    year: 2024,
+    runtimeOrSeasons: "122 min",
+    rating: 4.7,
+    genres: ["Action","Thriller"],
+    directorOrCreator: "Jonathan Fuhrman",
+    cast: ["Dev Patel","Sikandar Kher","Makrand Deshpande","Pitobash"],
+    synopsis: "Kid is an anonymous young man who ekes out a meager living in an underground fight club where, night after night, wearing a gorilla mask, he is beaten bloody by more popular fighters for cash. After years of suppressed rage, Kid discovers a way to infiltrate the enclave of the city’s sinister elite. As his childhood trauma boils over, his mysteriously scarred hands unleash an explosive campaign of retribution to settle the score with the men who took everything from him.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/9NSXdVHeSfSHUv49OzLispFcpz1.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/4lhR4L2vzzjl68P1zJyCH755Oz4.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "6LboWl0yRGg"
+  },
+  {
+    id: "the-wild-robot",
+    title: "The Wild Robot",
+    type: "Movie",
+    year: 2024,
+    runtimeOrSeasons: "102 min",
+    rating: 4.9,
+    genres: ["Animation","Sci-Fi","Adventure"],
+    directorOrCreator: "Chris Sanders",
+    cast: ["Lupita Nyong'o","Pedro Pascal","Kit Connor","Bill Nighy"],
+    synopsis: "After a shipwreck, an intelligent robot called Roz is stranded on an uninhabited island. To survive the harsh environment, Roz bonds with the island's animals and cares for an orphaned baby goose.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/mQZJoIhTEkNhCYAqcHrQqhENLdu.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/wTnV3PCVW5O92JMrFvvrRcV39RU.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "oEC84M0GMdg"
+  },
+  {
+    id: "stree-2",
+    title: "Stree 2",
+    type: "Movie",
+    year: 2024,
+    runtimeOrSeasons: "143 min",
+    rating: 4.8,
+    genres: ["Comedy","Horror"],
+    directorOrCreator: "Amar Kaushik",
+    cast: ["Rajkummar Rao","Shraddha Kapoor","Aparshakti Khurana","Abhishek Banerjee"],
+    synopsis: "Following the events of 'Stree', the town of Chanderi is being haunted again. This time, women are mysteriously abducted by a terrifying headless entity. Once again, it's up to Vicky and friends to save their town and loved ones.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/fVV0A67kDjTTQ4CvUn8LoletRmI.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/nfnhwfUEFuSOxxf4jDdBlY6Lccw.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "VlvOgk5BHS4"
+  },
+  {
+    id: "maharaja-2024",
+    title: "Maharaja",
+    type: "Movie",
+    year: 2024,
+    runtimeOrSeasons: "141 min",
+    rating: 4.9,
+    genres: ["Action","Crime","Drama"],
+    directorOrCreator: "Nithilan Saminathan",
+    cast: ["Vijay Sethupathi","Anurag Kashyap","Sachana Namidass","Natarajan Subramaniam"],
+    synopsis: "A barber seeks vengeance after his home is burglarized, cryptically telling police his \"Lakshmi\" has been taken, leaving them uncertain if it's a person or object, jeer at his request until they learn what they're really looking for.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/if61bpqSXngkGoGNjMdHZt02wZS.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/s0m4TM1XRAftQStgKpw024RvkJo.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "Otcr-vRuaQs"
+  },
+  {
+    id: "rrr-movie",
+    title: "RRR",
+    type: "Movie",
+    year: 2022,
+    runtimeOrSeasons: "187 min",
+    rating: 4.9,
+    genres: ["Action","Drama","History"],
+    directorOrCreator: "S. S. Rajamouli",
+    cast: ["N.T. Rama Rao Jr.","Ram Charan","Olivia Morris","Ray Stevenson"],
+    synopsis: "A fictional history of two legendary revolutionaries' journey away from home before they began fighting for their country in the 1920s.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/i0Y0wP8H6SRgjr6QmuwbtQbS24D.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/u0XUBNQWlOvrh0Gd97ARGpIkL0.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "i4pjiLGUTtk"
+  },
+  {
+    id: "12th-fail-movie",
+    title: "12th Fail",
+    type: "Movie",
+    year: 2023,
+    runtimeOrSeasons: "146 min",
+    rating: 4.9,
+    genres: ["Drama","Biography"],
+    directorOrCreator: "Vidhu Vinod Chopra",
+    cast: ["Vikrant Massey","Medha Shankr","Anant Joshi","Anshumaan Pushkar"],
+    synopsis: "Based on the true story of IPS officer Manoj Kumar Sharma, 12th Fail sheds limelight on fearlessly embracing the idea of restarting the academic journey despite the setbacks and challenges and reclaiming one's destiny at a place where millions of students attempt the world's toughest competitive exam: UPSC.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/6RV2o8PBCEyw9ylOWViV1CtULIF.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/eebUPRI4Z5e1Z7Hev4JZAwMIFkX.jpg",
+    streamingLinks: [
+          {
+                "platform": "Disney+ Hotstar",
+                "url": "https://www.hotstar.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "KjbtuqENvVE"
+  },
+  {
+    id: "la-la-land",
+    title: "La La Land",
+    type: "Movie",
+    year: 2016,
+    runtimeOrSeasons: "129 min",
+    rating: 4.8,
+    genres: ["Comedy","Drama","Music"],
+    directorOrCreator: "Michael Beugg",
+    cast: ["Ryan Gosling","Emma Stone","John Legend","Rosemarie DeWitt"],
+    synopsis: "Mia, an aspiring actress, serves lattes to movie stars in between auditions and Sebastian, a jazz musician, scrapes by playing cocktail party gigs in dingy bars, but as success mounts they are faced with decisions that begin to fray the fragile fabric of their love affair, and the dreams they worked so hard to maintain in each other threaten to rip them apart.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/nlPCdZlHtRNcF6C9hzUH4ebmV1w.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoFdKS4fzkUJt0Rf0.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "_oBwwSXdO_E"
+  },
+  {
+    id: "the-penguin-series",
+    title: "The Penguin",
+    type: "Series",
+    year: 2024,
+    runtimeOrSeasons: "1 Season",
+    rating: 4.9,
+    genres: ["Crime","Drama"],
+    directorOrCreator: "Lauren LeFranc",
+    cast: ["Colin Farrell","Cristin Milioti","Rhenzy Feliz","Deirdre O'Connell"],
+    synopsis: "With the city in peril following the seawall's collapse, Oswald \"Oz\" Cobb seeks to fill the power vacuum left by the death of Carmine Falcone and finally give his mother Francis the life he's always promised. But first, Oz must confront his enemies and his own demoralizing reputation as \"the Penguin.\"",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/4TdmuuwiIiKw3JOjIuhdgYxRXnN.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/vOWcqC4oDQws1doDWLO7d3dh5qc.jpg",
+    streamingLinks: [
+          {
+                "platform": "HBO Max",
+                "url": "https://www.max.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "da6afm5AAIY"
+  },
+  {
+    id: "true-detective",
+    title: "True Detective",
+    type: "Series",
+    year: 2014,
+    runtimeOrSeasons: "4 Seasons",
+    rating: 4.9,
+    genres: ["Crime","Drama","Mystery"],
+    directorOrCreator: "Nic Pizzolatto, Issa López",
+    cast: ["Jodie Foster","Kali Reis","Fiona Shaw","Finn Bennett"],
+    synopsis: "An American anthology police detective series utilizing multiple timelines in which investigations seem to unearth personal and professional secrets of those involved, both within or outside the law.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/v8YFr8BbU9qsO8PYIulzTeM6Qk.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/dC7jkj2g1aU8sxKqM6D4g44xA6w.jpg",
+    streamingLinks: [
+          {
+                "platform": "HBO Max",
+                "url": "https://www.max.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "fVQUcaO4AvE"
+  },
+  {
+    id: "better-call-saul",
+    title: "Better Call Saul",
+    type: "Series",
+    year: 2015,
+    runtimeOrSeasons: "6 Seasons",
+    rating: 4.9,
+    genres: ["Crime","Drama"],
+    directorOrCreator: "Vince Gilligan, Peter Gould",
+    cast: ["Bob Odenkirk","Jonathan Banks","Rhea Seehorn","Tony Dalton"],
+    synopsis: "Six years before Saul Goodman meets Walter White. We meet him when the man who will become Saul Goodman is known as Jimmy McGill, a small-time lawyer searching for his destiny, and, more immediately, hustling to make ends meet. Working alongside, and, often, against Jimmy, is “fixer” Mike Ehrmantraut. The series tracks Jimmy’s transformation into Saul Goodman, the man who puts “criminal” in “criminal lawyer\".",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/rfxryDIv8huejujg4JueDJx8zCz.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/zjg4jpK1Wp2kiRvtt5ND0kznako.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "HN4oydykJFc"
+  },
+  {
+    id: "the-wire",
+    title: "The Wire",
+    type: "Series",
+    year: 2002,
+    runtimeOrSeasons: "5 Seasons",
+    rating: 5,
+    genres: ["Crime","Drama","Thriller"],
+    directorOrCreator: "David Simon",
+    cast: ["Dominic West","Lance Reddick","Sonja Sohn","Wendell Pierce"],
+    synopsis: "Told from the points of view of both the Baltimore homicide and narcotics detectives and their targets, the series captures a universe in which the national war on drugs has become a permanent, self-sustaining bureaucracy, and distinctions between good and evil are routinely obliterated.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/layPSOJGckJv3PXZDIVluMq69mn.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/4lbclFySvugI51fwsyxBTOm4DqK.jpg",
+    streamingLinks: [
+          {
+                "platform": "HBO Max",
+                "url": "https://www.max.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "uDcQbk78CSw"
+  },
+  {
+    id: "the-sopranos",
+    title: "The Sopranos",
+    type: "Series",
+    year: 1999,
+    runtimeOrSeasons: "6 Seasons",
+    rating: 5,
+    genres: ["Crime","Drama"],
+    directorOrCreator: "David Chase",
+    cast: ["James Gandolfini","Edie Falco","Jamie-Lynn Sigler","Robert Iler"],
+    synopsis: "The story of New Jersey-based Italian-American mobster Tony Soprano and the difficulties he faces as he tries to balance the conflicting requirements of his home life and the criminal organization he heads. Those difficulties are often highlighted through his ongoing professional relationship with psychiatrist Jennifer Melfi. The show features Tony's family members and Mafia associates in prominent roles and story arcs, most notably his wife Carmela and his cousin and protégé Christopher Moltisanti.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/lNpkvX2s8LGB0mjGODMT4o6Up7j.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/rTc7ZXdroqjkKivFPvCPX0Ru7uw.jpg",
+    streamingLinks: [
+          {
+                "platform": "HBO Max",
+                "url": "https://www.max.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "Q8cBFvpqmH0"
+  },
+  {
+    id: "peaky-blinders",
+    title: "Peaky Blinders",
+    type: "Series",
+    year: 2013,
+    runtimeOrSeasons: "6 Seasons",
+    rating: 4.9,
+    genres: ["Crime","Drama","History"],
+    directorOrCreator: "Steven Knight",
+    cast: ["Cillian Murphy","Paul Anderson","Sophie Rundle","Natasha O'Keeffe"],
+    synopsis: "A gangster family epic set in 1919 Birmingham, England and centered on a gang who sew razor blades in the peaks of their caps, and their fierce boss Tommy Shelby, who means to move up in the world.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/dzq83RHwQcnP6WGJ6YkenIqeaa5.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/vUUqzWa2LnHIVqkaKVlVGkVcZIW.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "EM12mcTEI88"
+  },
+  {
+    id: "dark-series",
+    title: "Dark",
+    type: "Series",
+    year: 2017,
+    runtimeOrSeasons: "3 Seasons",
+    rating: 4.9,
+    genres: ["Sci-Fi","Mystery","Thriller"],
+    directorOrCreator: "Baran bo Odar, Jantje Friese",
+    cast: ["Louis Hofmann"],
+    synopsis: "A missing child sets four families on a frantic hunt for answers as they unearth a mind-bending mystery that spans three generations.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/3jDXL4Xvj3AzDOF6UH1xeyHW8MH.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/apbrbWs8M9lyOpJYU5WXrpFbk1Z.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "pi2k1u6eZuI"
+  },
+  {
+    id: "sherlock-series",
+    title: "Sherlock",
+    type: "Series",
+    year: 2010,
+    runtimeOrSeasons: "4 Seasons",
+    rating: 4.9,
+    genres: ["Crime","Drama","Mystery"],
+    directorOrCreator: "Mark Gatiss, Steven Moffat",
+    cast: ["Benedict Cumberbatch","Martin Freeman"],
+    synopsis: "A modern update finds the famous sleuth and his doctor partner solving crime in 21st century London.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/8rvLEmdI4gLrMO1rLqbNdnNcPFE.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/7WTsnHkbA0FaG6R9twfFde0I9hl.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "gGqWqGOSTGQ"
+  },
+  {
+    id: "attack-on-titan",
+    title: "Attack on Titan",
+    type: "Series",
+    year: 2013,
+    runtimeOrSeasons: "4 Seasons",
+    rating: 5,
+    genres: ["Animation","Action","Fantasy"],
+    directorOrCreator: "Manabu Otsuka",
+    cast: ["Marina Inoue","Hiro Shimono","Yuki Kaji","Natsuki Hanae"],
+    synopsis: "100 years ago, the last remnants of humanity were forced to retreat behind the towering walls of a fortified city to escape the massive, man-eating Titans that roamed the land outside their fortress. Only the members of the Scouting Legion dared to stray beyond the safety of the walls – but even those brave warriors seldom returned alive. Those within the city clung to the illusion of a peaceful existence until the day that dream was shattered, and their slim chance at survival was reduced to one horrifying choice: kill – or be devoured!",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/rqbCbjB19amtOtFQbb3K2lgm2zv.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "HJaUvV9Hwgs"
+  },
+  {
+    id: "frieren-beyond-journeys-end",
+    title: "Frieren: Beyond Journey's End",
+    type: "Series",
+    year: 2023,
+    runtimeOrSeasons: "1 Season",
+    rating: 5,
+    genres: ["Animation","Adventure","Fantasy"],
+    directorOrCreator: "Kazutaka Yamanaka",
+    cast: ["Atsumi Tanezaki","Kana Ichinose","Chiaki Kobayashi","Nobuhiko Okamoto"],
+    synopsis: "After the party of heroes defeated the Demon King, they restored peace to the land and returned to lives of solitude.  Generations pass, and the elven mage Frieren comes face to face with humanity’s mortality. She takes on a new apprentice and promises to fulfill old friends’ dying wishes. Can an elven mind make peace with the nature of life and death? Frieren embarks on her quest to find out.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/rBOnrVlck7BIlGeWVlzYiZeg4l2.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/dqZENchTd7lp5zht7BdlqM7RBhD.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "01WEqntM1NI"
+  },
+  {
+    id: "demon-slayer",
+    title: "Demon Slayer: Kimetsu no Yaiba",
+    type: "Series",
+    year: 2019,
+    runtimeOrSeasons: "4 Seasons",
+    rating: 4.9,
+    genres: ["Animation","Action","Fantasy"],
+    directorOrCreator: "Visionary Director",
+    cast: ["Natsuki Hanae","Akari Kito","Hiro Shimono","Yoshitsugu Matsuoka"],
+    synopsis: "After a demon attack leaves his family slain and his sister cursed, Tanjiro embarks upon a perilous journey to find a cure and avenge those he's lost.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/3GQKYh6Trm8pxd2AypovoYQf4Ay.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/xUfRZu2mi8jH6SzQEJGP6tjBuYj.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "SWAMTXfqer0"
+  },
+  {
+    id: "solo-leveling",
+    title: "Solo Leveling",
+    type: "Series",
+    year: 2024,
+    runtimeOrSeasons: "1 Season",
+    rating: 4.8,
+    genres: ["Animation","Action","Fantasy"],
+    directorOrCreator: "Masanori Miyake",
+    cast: ["Taito Ban","Genta Nakamura","Haruna Mikawa","Reina Ueda"],
+    synopsis: "They say whatever doesn’t kill you makes you stronger, but that’s not the case for the world’s weakest hunter Sung Jinwoo. After being brutally slaughtered by monsters in a high-ranking dungeon, Jinwoo came back with the System, a program only he could see, that’s leveling him up in every way. Now, he’s inspired to discover the secrets behind his powers and the dungeon that spawned them.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/xMNH87maNLt9n2bMDYeI6db5VFm.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/geCRueV3ElhRTr0xtJuEWJt6dJ1.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "HkIKAnwLZCw"
+  },
+  {
+    id: "blue-eye-samurai",
+    title: "BLUE EYE SAMURAI",
+    type: "Series",
+    year: 2023,
+    runtimeOrSeasons: "1 Season",
+    rating: 4.9,
+    genres: ["Animation","Action","Drama"],
+    directorOrCreator: "Amber Noizumi, Michael Green",
+    cast: ["Maya Erskine","George Takei","Masi Oka","Cary-Hiroyuki Tagawa"],
+    synopsis: "Driven by a dream of revenge against those who made her an outcast in Edo-period Japan, a young warrior cuts a bloody path toward her destiny.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/oCMZpwLBcb3dnRuzEKWNWrw1tHz.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/fXm3JT4WLQVnwukdvghtAblc1wc.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "3ciOn_4XFfE"
+  },
+  {
+    id: "andor-series",
+    title: "Andor",
+    type: "Series",
+    year: 2022,
+    runtimeOrSeasons: "2 Seasons",
+    rating: 4.9,
+    genres: ["Sci-Fi","Action","Drama"],
+    directorOrCreator: "Tony Gilroy",
+    cast: ["Diego Luna","Anton Lesser","Muhannad Bhaier","Stellan Skarsgård"],
+    synopsis: "In an era filled with danger, deception and intrigue, Cassian Andor will discover the difference he can make in the struggle against the tyrannical Galactic Empire. He embarks on a path that is destined to turn him into a rebel hero.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/quCeAmVQHfsdcYkicbxZWVauCVb.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/khZqmwHQicTYoS7Flreb9EddFZC.jpg",
+    streamingLinks: [
+          {
+                "platform": "Disney+ Hotstar",
+                "url": "https://www.hotstar.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "duN-KQgOjYs"
+  },
+  {
+    id: "scavengers-reign",
+    title: "Scavengers Reign",
+    type: "Series",
+    year: 2023,
+    runtimeOrSeasons: "1 Season",
+    rating: 4.9,
+    genres: ["Animation","Sci-Fi","Drama"],
+    directorOrCreator: "Charles Huettner, Joseph Bennett, James Merrill",
+    cast: ["Sunita Mani","Wunmi Mosaku","Alia Shawkat","Bob Stephenson"],
+    synopsis: "When a deep space freighter is damaged by a solar flare its surviving crew are stranded on a beautiful and unforgiving planet. They begin to learn the true nature of this planet as they try to survive long enough to escape or be rescued.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/rrREM1cowfMZ8SmrJ9KCFO3y4j6.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/bFlVZV8TQbs8hcIY7PVYonYFMgK.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "NWQH8cMpWTU"
+  },
+  {
+    id: "tokyo-vice",
+    title: "Tokyo Vice",
+    type: "Series",
+    year: 2022,
+    runtimeOrSeasons: "2 Seasons",
+    rating: 4.8,
+    genres: ["Crime","Drama","Thriller"],
+    directorOrCreator: "J.T. Rogers",
+    cast: ["Ansel Elgort","Ken Watanabe","Rachel Keller","Show Kasamatsu"],
+    synopsis: "A first-hand account of the Tokyo Metropolitan Police beat following Jake Adelstein, an American journalist who embeds himself into the Tokyo Vice police squad to reveal corruption. Based on Jake Adelstein’s non-fiction book of the same name.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/fGhZTONMDkwSaE5V4FDxf26uenl.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/za5QWRfCLwgRLLVXUkx3NUSAm6G.jpg",
+    streamingLinks: [
+          {
+                "platform": "HBO Max",
+                "url": "https://www.max.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "uKNw8OLU0I4"
+  },
+  {
+    id: "slow-horses",
+    title: "Slow Horses",
+    type: "Series",
+    year: 2022,
+    runtimeOrSeasons: "4 Seasons",
+    rating: 4.9,
+    genres: ["Thriller","Drama","Comedy"],
+    directorOrCreator: "Adam Randall",
+    cast: ["Gary Oldman","Jack Lowden","Kristin Scott Thomas","Hugo Weaving"],
+    synopsis: "Follow a dysfunctional team of MI5 agents—and their obnoxious boss, the notorious Jackson Lamb—as they navigate the espionage world's smoke and mirrors to defend England from sinister forces.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/bDfboQUb45Cv9MYyVBDZw8M8xSM.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
+    streamingLinks: [
+          {
+                "platform": "Apple TV+",
+                "url": "https://tv.apple.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "O9ZJChzPn0U"
+  },
+  {
+    id: "silo-series",
+    title: "Silo",
+    type: "Series",
+    year: 2023,
+    runtimeOrSeasons: "2 Seasons",
+    rating: 4.8,
+    genres: ["Sci-Fi","Drama","Mystery"],
+    directorOrCreator: "Graham Yost",
+    cast: ["Rebecca Ferguson","Common","Chinaza Uche","Ashley Zukerman"],
+    synopsis: "In a ruined and toxic future, thousands live in a giant silo deep underground. After its sheriff breaks a cardinal rule and residents die mysteriously, engineer Juliette starts to uncover shocking secrets and the truth about the silo.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/uTWhbLc7Bj4qNSdW3ZvZKL8cOHv.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/gMYZZvnkVNTqSVnVCphWbPXwWwb.jpg",
+    streamingLinks: [
+          {
+                "platform": "Apple TV+",
+                "url": "https://tv.apple.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "8ZYhuvIv1pA"
+  },
+  {
+    id: "ted-lasso",
+    title: "Ted Lasso",
+    type: "Series",
+    year: 2020,
+    runtimeOrSeasons: "3 Seasons",
+    rating: 4.9,
+    genres: ["Comedy","Drama","Sport"],
+    directorOrCreator: "Jason Sudeikis, Bill Lawrence, Brendan Hunt, Joe Kelly",
+    cast: ["Jason Sudeikis","Hannah Waddingham","Jeremy Swift","Brett Goldstein"],
+    synopsis: "Ted Lasso, an American football coach, moves to England when he's hired to manage a soccer team—despite having no experience. With cynical players and a doubtful town, will he get them to see the Ted Lasso Way?",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/3KLmx6nLaiYe07kSwuWdpTEHJgE.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/uRHsiw1wLxPHFXkkv4Ix1s0O6f4.jpg",
+    streamingLinks: [
+          {
+                "platform": "Apple TV+",
+                "url": "https://tv.apple.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "BwPcMIDFVKw"
+  },
+  {
+    id: "fargo-series",
+    title: "Fargo",
+    type: "Series",
+    year: 2014,
+    runtimeOrSeasons: "5 Seasons",
+    rating: 4.9,
+    genres: ["Crime","Drama","Thriller"],
+    directorOrCreator: "Noah Hawley",
+    cast: ["Juno Temple","Jennifer Jason Leigh","David Rysdahl","Joe Keery"],
+    synopsis: "A close-knit anthology series dealing with stories involving malice, violence and murder based in and around Minnesota.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/4jrSbRpLqpvYJtLKncaxZVC47EW.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/a3VW6khsyUVKrG0GBCWFG3NzWPX.jpg",
+    streamingLinks: [
+          {
+                "platform": "Amazon Prime",
+                "url": "https://www.amazon.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "FXIeYKlMA_0"
+  },
+  {
+    id: "money-heist",
+    title: "Money Heist",
+    type: "Series",
+    year: 2017,
+    runtimeOrSeasons: "5 Seasons",
+    rating: 4.9,
+    genres: ["Action","Crime","Drama"],
+    directorOrCreator: "Álex Pina",
+    cast: ["Úrsula Corberó","Itziar Ituño","Álvaro Morte","Pedro Alonso"],
+    synopsis: "To carry out the biggest heist in history, a mysterious man called The Professor recruits a band of eight robbers who have a single characteristic: none of them has anything to lose. Five months of seclusion - memorizing every step, every detail, every probability - culminate in eleven days locked up in the National Coinage and Stamp Factory of Spain, surrounded by police forces and with dozens of hostages in their power, to find out whether their suicide wager will lead to everything or nothing.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/gFZriCkpJYsApPZEF3jhxL4yLzG.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "_InqQJRqGW4"
+  },
+  {
+    id: "kingdom-korea",
+    title: "Animal Kingdom",
+    type: "Series",
+    year: 2019,
+    runtimeOrSeasons: "2 Seasons",
+    rating: 4.8,
+    genres: ["Horror","Action","Drama"],
+    directorOrCreator: "Jonathan Lisco",
+    cast: ["Finn Cole","Shawn Hatosy","Ben Robson","Jake Weary"],
+    synopsis: "17-year-old Joshua \"J\" Cody moves in with his freewheeling relatives in their Southern California beach town after his mother dies of a heroin overdose. Headed by boot-tough matriarch Janine \"Smurf\" Cody and her right-hand Baz, who runs the business and calls the shots, the clan also consists of Pope, the oldest and most dangerous of the Cody boys; Craig, the tough and fearless middle son; and Deran, the troubled, suspicious \"baby\" of the family.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/eQJwfyMqSra10ck8HOoiCrbQR32.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/rzvdKrnSRKPFI0pgqMQknDPpRC9.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "_fNKG_O0-6U"
+  },
+  {
+    id: "baby-reindeer",
+    title: "Baby Reindeer",
+    type: "Series",
+    year: 2024,
+    runtimeOrSeasons: "1 Season",
+    rating: 4.8,
+    genres: ["Drama","Thriller","Biography"],
+    directorOrCreator: "Richard Gadd",
+    cast: ["Richard Gadd","Jessica Gunning","Nava Mau"],
+    synopsis: "When a struggling comedian shows one act of kindness to a vulnerable woman, it sparks a suffocating obsession which threatens to wreck both their lives.",
+    criticalAnalysis: "An extraordinary cinematic accomplishment. Praised by international critics for masterclass storytelling, visual grandeur, and riveting performances.",
+    trivia: ["Recognized globally with multiple prestigious industry award nominations and blockbuster commercial success.","The filmmakers utilized specialized cinematic equipment and innovative techniques to craft signature immersive sequences.","Achieved top-tier audience scores upon worldwide premiere."],
+    backdropUrl: "https://image.tmdb.org/t/p/original/2qLYxCyxf4fim0X5OqM5FjZqWXu.jpg",
+    posterUrl: "https://image.tmdb.org/t/p/w500/tN9OcbkAOPwHSr1sgMornZtQZBx.jpg",
+    streamingLinks: [
+          {
+                "platform": "Netflix",
+                "url": "https://www.netflix.com",
+                "availableRegions": [
+                      "US",
+                      "UK",
+                      "IN",
+                      "JP"
+                ],
+                "priceTier": "Included"
+          }
+    ],
+    productionTrivia: "The production underwent extensive location scouting and specialized set construction to create its iconic visual atmosphere.",
+    youtubeId: "eafm1gB6SCM"
+  },
 ];
 
 const SAFE_POSTERS: Record<string, string> = {
