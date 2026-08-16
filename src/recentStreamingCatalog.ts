@@ -1,7 +1,93 @@
 import { Movie } from './types';
 
 export const RECENT_STREAMING_CATALOG: Movie[] = [
-  // 1. User Specific: Safed Sagar
+  // 1. User Specific: Dhurandhar: Raw and Andekha (Starring Ranveer Singh)
+  {
+    id: 'dhurandhar-raw-and-andekha',
+    title: 'Dhurandhar: Raw and Andekha',
+    type: 'Movie',
+    year: 2025,
+    runtimeOrSeasons: '158 min',
+    rating: 4.9,
+    genres: ['Action', 'Thriller', 'Crime'],
+    directorOrCreator: 'Aditya Dhar',
+    cast: ['Ranveer Singh', 'Sanjay Dutt', 'R. Madhavan', 'Akshaye Khanna', 'Arjun Rampal', 'Sara Arjun'],
+    synopsis: 'Starring Ranveer Singh as a ferocious RAW deep-cover asset who leads an unsanctioned, ruthless covert operation across hostile borders to dismantle a multi-tier cross-continental terror financing grid.',
+    criticalAnalysis: 'An adrenaline-fueled espionage powerhouse directed by Aditya Dhar. Ranveer Singh delivers a blistering, gritty, and physically imposing performance, supported by a legendary ensemble cast including Sanjay Dutt and Akshaye Khanna.',
+    trivia: [
+      'Ranveer Singh underwent 8 months of rigorous tactical firearms handling and Krav Maga combat training with elite international special forces instructors.',
+      'Director Aditya Dhar reunites high-stakes military realism with a gripping character study of India\'s unseen intelligence operatives.',
+      'Features a heart-stopping 12-minute tactical infiltration sequence filmed across remote high-altitude terrains in sub-zero conditions.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/dhurandhar-raw-and-andekha',
+        availableRegions: ['IN', 'US', 'UK', 'AE', 'CA'],
+        priceTier: 'Included'
+      },
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/dhurandhar-raw-and-andekha',
+        availableRegions: ['IN', 'US'],
+        priceTier: 'Included'
+      },
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/dhurandhar-raw-and-andekha',
+        availableRegions: ['IN'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'The production utilized real declassified intelligence files from the Golden Crescent counter-terror operations.'
+  },
+
+  // 2. User Specific: Dhurandhar: The Revenge (Starring Ranveer Singh)
+  {
+    id: 'dhurandhar-the-revenge',
+    title: 'Dhurandhar: The Revenge',
+    type: 'Movie',
+    year: 2025,
+    runtimeOrSeasons: '162 min',
+    rating: 4.9,
+    genres: ['Action', 'Thriller', 'Drama'],
+    directorOrCreator: 'Aditya Dhar',
+    cast: ['Ranveer Singh', 'Sanjay Dutt', 'R. Madhavan', 'Akshaye Khanna', 'Mrunal Thakur', 'Prakash Raj'],
+    synopsis: 'Following a devastating internal betrayal that decimated his covert squad, Ranveer Singh’s rogue operative returns with unmatched fury to execute an uncompromising, high-stakes global vendetta against the syndicate masters.',
+    criticalAnalysis: 'A relentless, edge-of-the-seat revenge epic that escalates the cinematic scale of the Dhurandhar saga. Ranveer Singh’s raw intensity, bone-crushing action choreography, and explosive confrontation with Sanjay Dutt create an unforgettable cinematic spectacle.',
+    trivia: [
+      'Features an epic climax duel between Ranveer Singh and Sanjay Dutt, rehearsed for over 3 weeks with specialized martial arts coordinators from South Korea.',
+      'Filmed across diverse global backdrops including Bangkok docks, Istanbul alleyways, and the Thar desert.',
+      'The musical score features high-octane brass rhythms and authentic Punjabi-warrior battle percussion composed by Shashwat Sachdev.'
+    ],
+    backdropUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop',
+    posterUrl: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop',
+    streamingLinks: [
+      {
+        platform: 'Amazon Prime',
+        url: 'https://www.amazon.com/dp/dhurandhar-the-revenge',
+        availableRegions: ['IN', 'US', 'UK', 'CA'],
+        priceTier: 'Included'
+      },
+      {
+        platform: 'Netflix',
+        url: 'https://www.netflix.com/title/dhurandhar-the-revenge',
+        availableRegions: ['IN', 'US'],
+        priceTier: 'Included'
+      },
+      {
+        platform: 'Disney+ Hotstar',
+        url: 'https://www.hotstar.com/dhurandhar-the-revenge',
+        availableRegions: ['IN'],
+        priceTier: 'Included'
+      }
+    ],
+    productionTrivia: 'Constructed custom ballistic rig setups to capture ultra-high-speed 1000fps muzzle flare combat shots.'
+  },
+
+  // 3. User Specific: Safed Sagar
   {
     id: 'safed-sagar',
     title: 'Safed Sagar',

@@ -1948,7 +1948,7 @@ export default function App() {
                       Popular & Trending Searches
                     </div>
                     <div className="flex flex-wrap gap-1.5">
-                      {['Stree 2', 'Kalki 2898 AD', 'Pushpa 2', 'Mirzapur', 'Panchayat', 'Interstellar', 'Aavesham', 'Dark', 'Sci-Fi', 'Horror'].map((tag) => (
+                      {['Dhurandhar', 'Ranveer Singh', 'Stree 2', 'Kalki 2898 AD', 'Pushpa 2', 'Mirzapur', 'Panchayat', 'Interstellar', 'Aavesham', 'Dark', 'Sci-Fi', 'Horror'].map((tag) => (
                         <button
                           key={tag}
                           onMouseDown={(e) => {
@@ -2782,6 +2782,8 @@ export default function App() {
               Quick Searches:
             </span>
             {[
+              { label: '💥 Dhurandhar', val: 'Dhurandhar' },
+              { label: '⭐ Ranveer Singh', val: 'Ranveer Singh' },
               { label: '🔥 Stree 2', val: 'Stree 2' },
               { label: '🎬 Kalki 2898 AD', val: 'Kalki 2898 AD' },
               { label: '⚡ Pushpa 2', val: 'Pushpa 2' },
@@ -2791,8 +2793,7 @@ export default function App() {
               { label: '💥 Aavesham', val: 'Aavesham' },
               { label: '❤️ Safed Sagar', val: 'Safed Sagar' },
               { label: '🚀 Sci-Fi', val: 'Sci-Fi' },
-              { label: '👻 Horror', val: 'Horror' },
-              { label: '🍿 Free Stream', val: 'Free' }
+              { label: '👻 Horror', val: 'Horror' }
             ].map(item => (
               <button
                 key={item.label}
