@@ -826,85 +826,79 @@ export default function CinemaPlayer({
     (playMethod === 'prime' && link.platform === 'Amazon Prime')
   );
 
+  const [useStandardEmbed, setUseStandardEmbed] = useState<boolean>(false);
   const isYouTube = (streamMode === 'trailer' || youtubeId) && !youtubeId?.startsWith('http') && !youtubeId?.endsWith('.mp4') && playMethod !== 'archive' && !customStreamingUrl;
 
   if (streamMode === 'trailer' || isYouTube) {
     const cleanYoutubeId = youtubeId || 'Way9Dexny3w';
-    const embedUrl = `https://www.youtube.com/embed/${cleanYoutubeId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=1&rel=0&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}&playsinline=1`;
+    const domain = useStandardEmbed ? 'www.youtube.com' : 'www.youtube-nocookie.com';
+    // Clean embed URL with autoplay, controls, no restricted origin parameters to guarantee universal playback within website
+    const embedUrl = `https://${domain}/embed/${cleanYoutubeId}?autoplay=1&controls=1&rel=0&playsinline=1&modestbranding=1&iv_load_policy=3`;
 
     return (
       <div 
         id="cinema-theater-frame"
         ref={containerRef}
-        className="w-full aspect-video bg-black rounded-2xl border border-[#00D1FF]/30 overflow-hidden relative group select-none transition-all duration-500 shadow-2xl"
+        className="w-full aspect-video bg-black rounded-2xl border border-[#00D1FF]/40 overflow-hidden relative group select-none transition-all duration-500 shadow-2xl"
         style={{ boxShadow: `0 0 60px ${theme.glow}` }}
       >
         <iframe
-          key={cleanYoutubeId}
+          key={`${cleanYoutubeId}-${useStandardEmbed ? 'std' : 'nocookie'}`}
           src={embedUrl}
-          className="w-full h-full border-0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          referrerPolicy="no-referrer"
+          className="w-full h-full border-0 bg-black"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+          allowFullScreen={true}
           title={`${movie.title} Official Trailer`}
         />
 
         {/* Floating Telemetry & Stream Details Header */}
-        <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-3 pointer-events-none transition-opacity duration-300 opacity-90 group-hover:opacity-100">
-          <div className="flex items-center gap-2.5 bg-black/85 border border-white/10 px-3 py-1.5 rounded-xl backdrop-blur-md shadow-2xl">
-            <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></div>
+        <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 pointer-events-none transition-opacity duration-300 opacity-90 group-hover:opacity-100">
+          <div className="flex items-center gap-2 bg-black/85 border border-white/15 px-3 py-1.5 rounded-xl backdrop-blur-md shadow-2xl">
+            <div className="w-2 h-2 bg-red-500 rounded-full animate-ping"></div>
             <div>
               <p className="text-[10px] font-mono font-black uppercase text-white tracking-widest flex items-center gap-1.5">
-                <span>OFFICIAL HD TRAILER</span>
-                <span className="text-[8px] bg-[#00D1FF]/20 text-[#00D1FF] px-1.5 py-0.5 rounded font-mono">4K • TMDB</span>
+                <span>OFFICIAL TRAILER</span>
+                <span className="text-[8px] bg-[#00D1FF]/20 text-[#00D1FF] px-1.5 py-0.5 rounded font-mono font-bold">HD • IN-SITE STREAM</span>
               </p>
-              <p className={`text-[9px] ${theme.text} font-mono uppercase tracking-wider truncate max-w-[280px] sm:max-w-md`}>
+              <p className={`text-[9px] ${theme.text} font-mono uppercase tracking-wider truncate max-w-[240px] sm:max-w-md`}>
                 {movie.title} • {movie.year}
               </p>
             </div>
           </div>
 
-          {matchedStreamingLink && (
-            <a
-              href={matchedStreamingLink.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pointer-events-auto hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#00D1FF] hover:bg-cyan-300 text-black font-black text-[10px] font-mono uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(0,209,255,0.4)]"
+          <div className="flex items-center gap-2 pointer-events-auto">
+            <button
+              onClick={() => setUseStandardEmbed(!useStandardEmbed)}
+              className="px-2.5 py-1.5 bg-black/80 hover:bg-[#00D1FF] hover:text-black text-white/80 border border-white/20 text-[9px] font-mono font-bold uppercase rounded-lg transition-all flex items-center gap-1 shadow-md cursor-pointer"
+              title="Switch Player Stream Server"
             >
-              <span>Watch on {matchedStreamingLink.platform}</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </a>
-          )}
+              <RotateCcw className="w-3 h-3" />
+              <span className="hidden sm:inline">{useStandardEmbed ? 'Server: Std' : 'Server: Fast'}</span>
+            </button>
+
+            {matchedStreamingLink && (
+              <a
+                href={matchedStreamingLink.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#00D1FF] hover:bg-cyan-300 text-black font-black text-[10px] font-mono uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(0,209,255,0.4)]"
+              >
+                <span>Watch on {matchedStreamingLink.platform}</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </a>
+            )}
+          </div>
         </div>
 
-        {/* Floating Controls Overlay */}
-        <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-black/80 border border-white/15 p-1.5 rounded-xl backdrop-blur-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
-          <button
-            onClick={() => setIsMuted(!isMuted)}
-            className="px-2.5 py-1.5 text-white hover:text-[#00D1FF] hover:bg-white/10 transition-colors rounded-lg text-xs flex items-center gap-1.5 font-mono font-bold cursor-pointer"
-            title={isMuted ? "Unmute Audio" : "Mute Audio"}
-          >
-            {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-[#00D1FF]" />}
-            <span className="text-[9px] uppercase tracking-wider">{isMuted ? 'Unmute' : 'Audio On'}</span>
-          </button>
-
-          <a
-            href={`https://www.youtube.com/watch?v=${cleanYoutubeId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-2.5 py-1.5 text-white/80 hover:text-red-400 hover:bg-white/10 transition-colors rounded-lg text-xs flex items-center gap-1.5 font-mono font-bold"
-            title="Open on YouTube"
-          >
-            <Globe className="w-3.5 h-3.5" />
-            <span className="text-[9px] uppercase tracking-wider">YouTube</span>
-          </a>
-
+        {/* Floating Controls Overlay (Fullscreen) */}
+        <div className="absolute bottom-3 right-3 flex items-center gap-2 bg-black/80 border border-white/15 p-1.5 rounded-xl backdrop-blur-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
           <button
             onClick={toggleFullscreen}
-            className="p-1.5 text-white/80 hover:text-white hover:bg-white/10 transition-colors rounded-lg cursor-pointer"
+            className="p-1.5 text-white/80 hover:text-white hover:bg-white/10 transition-colors rounded-lg cursor-pointer flex items-center gap-1 text-[10px] font-mono"
             title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
           >
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+            <span className="hidden sm:inline uppercase">{isFullscreen ? 'Exit Full' : 'Fullscreen'}</span>
           </button>
         </div>
       </div>

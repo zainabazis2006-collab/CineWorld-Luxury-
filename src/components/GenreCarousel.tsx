@@ -127,7 +127,6 @@ export default function GenreCarousel({
                 <TiltCard
                   onClick={() => {
                     handleMovieSelect(movie.id);
-                    document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                   }}
                   className={`relative group bg-[#0b0b12] border rounded-xl overflow-hidden cursor-pointer h-full flex flex-col justify-between transition-all duration-300 ${
                     isSelected 
@@ -220,7 +219,6 @@ export default function GenreCarousel({
                         onClick={(e) => {
                           e.stopPropagation();
                           handleMovieSelect(movie.id);
-                          document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                         }}
                         className="w-full py-2.5 bg-gradient-to-r from-[#00D1FF]/15 to-[#00D1FF]/25 hover:from-[#00D1FF] hover:to-[#00D1FF] border border-[#00D1FF]/40 hover:border-[#00D1FF] text-[#00D1FF] hover:text-black font-mono text-[9px] font-black uppercase tracking-widest rounded-full flex items-center justify-center gap-1.5 transition-all duration-300 shadow-sm cursor-pointer"
                       >

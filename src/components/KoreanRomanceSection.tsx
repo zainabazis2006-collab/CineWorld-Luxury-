@@ -355,7 +355,6 @@ export default function KoreanRomanceSection({
                 <button
                   onClick={() => {
                     handleMovieSelect(activeMovie.id);
-                    document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                   }}
                   className="flex-grow sm:flex-initial px-5 py-3 rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-bold uppercase text-[10px] tracking-wider transition-all duration-300 shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:shadow-[0_0_25px_rgba(236,72,153,0.5)] flex items-center justify-center gap-2"
                 >

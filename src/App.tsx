@@ -2568,7 +2568,6 @@ export default function App() {
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 onClick={() => {
                   handleMovieSelect(movie.id);
-                  document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                 }}
                 className="group/card cursor-pointer"
               >

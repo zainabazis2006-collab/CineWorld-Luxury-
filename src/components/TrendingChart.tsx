@@ -211,7 +211,6 @@ export default function TrendingChart({ catalog, userState, handleMovieSelect }:
                   if (e && e.activePayload && e.activePayload.length) {
                     const id = e.activePayload[0].payload.id;
                     handleMovieSelect(id);
-                    document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
               >
@@ -331,7 +330,6 @@ export default function TrendingChart({ catalog, userState, handleMovieSelect }:
                 <button
                   onClick={() => {
                     handleMovieSelect(topMovie.id);
-                    document.getElementById("hero-showcase")?.scrollIntoView({ behavior: 'smooth' });
                   }}
                   className="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600 to-pink-600 hover:from-violet-700 hover:to-pink-700 text-white font-bold uppercase text-[10px] tracking-wider transition-all duration-300 shadow-xl flex items-center justify-center gap-2 group cursor-pointer"
                 >
