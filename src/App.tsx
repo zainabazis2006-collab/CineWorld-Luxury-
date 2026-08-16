@@ -1004,48 +1004,57 @@ export default function App() {
   }, []); // Run on mount only to prevent infinite loop
 
   // Dynamic display catalog mapping depending on the chosen posterSafetyMode and resolved images
-  const displayCatalog = CURATED_CATALOG.map(movie => {
-    const resolved = resolvedImages[movie.id];
-    let poster = movie.posterUrl;
-    let backdrop = movie.backdropUrl;
+  // Respect activeType filter globally (Movies vs. Series)
+  const displayCatalog = useMemo(() => {
+    return CURATED_CATALOG
+      .filter(movie => activeType === 'All' || movie.type === activeType)
+      .map(movie => {
+        const resolved = resolvedImages[movie.id];
+        let poster = movie.posterUrl;
+        let backdrop = movie.backdropUrl;
 
-    // Use resolved images if available and valid TMDB links or if catalog link is missing
-    if (resolved?.posterUrl && (resolved.posterUrl.includes('tmdb.org') || !poster.includes('tmdb.org'))) {
-      poster = getProxiedUrl(resolved.posterUrl);
-    } else {
-      poster = getProxiedUrl(poster);
-    }
+        // Use resolved images if available and valid TMDB links or if catalog link is missing
+        if (resolved?.posterUrl && (resolved.posterUrl.includes('tmdb.org') || !poster.includes('tmdb.org'))) {
+          poster = getProxiedUrl(resolved.posterUrl);
+        } else {
+          poster = getProxiedUrl(poster);
+        }
 
-    if (resolved?.backdropUrl && (resolved.backdropUrl.includes('tmdb.org') || !backdrop.includes('tmdb.org'))) {
-      backdrop = getProxiedUrl(resolved.backdropUrl);
-    } else {
-      backdrop = getProxiedUrl(backdrop);
-    }
+        if (resolved?.backdropUrl && (resolved.backdropUrl.includes('tmdb.org') || !backdrop.includes('tmdb.org'))) {
+          backdrop = getProxiedUrl(resolved.backdropUrl);
+        } else {
+          backdrop = getProxiedUrl(backdrop);
+        }
 
-    return {
-      ...movie,
-      posterUrl: poster,
-      backdropUrl: backdrop,
-      youtubeId: resolved?.youtubeId || movie.youtubeId
-    };
-  });
+        return {
+          ...movie,
+          posterUrl: poster,
+          backdropUrl: backdrop,
+          youtubeId: resolved?.youtubeId || movie.youtubeId
+        };
+      });
+  }, [resolvedImages, activeType]);
 
   // Dynamic display upcoming catalog mapping
-  const displayUpcomingCatalog = UPCOMING_RELEASES.map(movie => {
-    const resolved = resolvedImages[movie.id];
-    let poster = movie.posterUrl;
-    let backdrop = movie.backdropUrl;
+  const displayUpcomingCatalog = useMemo(() => {
+    return UPCOMING_RELEASES
+      .filter(movie => activeType === 'All' || movie.type === activeType)
+      .map(movie => {
+        const resolved = resolvedImages[movie.id];
+        let poster = movie.posterUrl;
+        let backdrop = movie.backdropUrl;
 
-    if (resolved?.posterUrl) poster = getProxiedUrl(resolved.posterUrl);
-    if (resolved?.backdropUrl) backdrop = getProxiedUrl(resolved.backdropUrl);
+        if (resolved?.posterUrl) poster = getProxiedUrl(resolved.posterUrl);
+        if (resolved?.backdropUrl) backdrop = getProxiedUrl(resolved.backdropUrl);
 
-    return {
-      ...movie,
-      posterUrl: poster,
-      backdropUrl: backdrop,
-      youtubeId: resolved?.youtubeId || movie.youtubeId
-    };
-  });
+        return {
+          ...movie,
+          posterUrl: poster,
+          backdropUrl: backdrop,
+          youtubeId: resolved?.youtubeId || movie.youtubeId
+        };
+      });
+  }, [resolvedImages, activeType]);
 
   // Automatically reset stream mode, backup index, season, and episode when the theater movie changes
   useEffect(() => {
@@ -1057,21 +1066,23 @@ export default function App() {
     }
   }, [theaterMovieId]);
 
-  // Initialize Hero shuffle deck when catalog is loaded
+  // Reset and synchronize hero deck whenever displayCatalog / activeType changes
   useEffect(() => {
     if (displayCatalog.length === 0) return;
-    if (shuffledDeck.length === 0 && deckHistory.length === 0) {
-      const allIds = displayCatalog.map(m => m.id);
-      const initialShuffled = shuffleArray(allIds);
-      const firstMovieId = initialShuffled[0];
-      const remainingDeck = initialShuffled.slice(1);
+    
+    // Check if the currently selected movie is still within the active catalog
+    const isCurrentInDeck = displayCatalog.some(m => m.id === selectedMovieId);
+    
+    const allIds = displayCatalog.map(m => m.id);
+    const initialShuffled = shuffleArray(allIds);
+    const firstMovieId = isCurrentInDeck && selectedMovieId ? selectedMovieId : initialShuffled[0];
+    const remainingDeck = initialShuffled.filter(id => id !== firstMovieId);
 
-      setShuffledDeck(remainingDeck);
-      setDeckHistory([firstMovieId]);
-      setHistoryIndex(0);
-      setSelectedMovieId(firstMovieId);
-    }
-  }, [displayCatalog]);
+    setShuffledDeck(remainingDeck);
+    setDeckHistory([firstMovieId]);
+    setHistoryIndex(0);
+    setSelectedMovieId(firstMovieId);
+  }, [activeType, displayCatalog.length]);
 
   // Advance to next un-repeated title in the hero shuffle
   const advanceHeroShuffleNext = useCallback(() => {
@@ -1666,7 +1677,7 @@ export default function App() {
   });
 
   // Collect all unique genres
-  const allGenres = ['All', ...Array.from(new Set(displayCatalog.flatMap(m => m.genres)))];
+  const allGenres: string[] = ['All', ...Array.from(new Set<string>(displayCatalog.flatMap(m => m.genres)))];
 
   if (!userState.isLoggedIn) {
     return (
@@ -1774,16 +1785,6 @@ export default function App() {
                 className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${activeType === 'Series' ? 'bg-[#00D1FF] text-black shadow-[0_0_12px_rgba(0,209,255,0.4)]' : 'text-white/70 hover:text-white hover:bg-white/10'}`}
               >
                 Series
-              </button>
-              <button 
-                onClick={() => { 
-                  setActivePlatform('Free Cinema'); 
-                  setActiveGenre('All'); 
-                }} 
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-1 ${activePlatform === 'Free Cinema' ? 'bg-amber-400 text-black shadow-[0_0_12px_rgba(251,191,36,0.4)]' : 'text-amber-400/90 hover:text-amber-300 hover:bg-white/10'}`}
-              >
-                <span>🍿</span>
-                <span>Free Full Movies</span>
               </button>
             </nav>
           </div>
