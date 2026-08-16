@@ -826,45 +826,85 @@ export default function CinemaPlayer({
     (playMethod === 'prime' && link.platform === 'Amazon Prime')
   );
 
-  const isYouTube = youtubeId && !youtubeId.startsWith('http') && !youtubeId.endsWith('.mp4') && playMethod !== 'archive' && !customStreamingUrl;
+  const isYouTube = (streamMode === 'trailer' || youtubeId) && !youtubeId?.startsWith('http') && !youtubeId?.endsWith('.mp4') && playMethod !== 'archive' && !customStreamingUrl;
 
   if (streamMode === 'trailer' || isYouTube) {
+    const cleanYoutubeId = youtubeId || 'Way9Dexny3w';
+    const embedUrl = `https://www.youtube.com/embed/${cleanYoutubeId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=1&rel=0&modestbranding=1&enablejsapi=1&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}&playsinline=1`;
+
     return (
       <div 
         id="cinema-theater-frame"
         ref={containerRef}
-        className="w-full aspect-video bg-black rounded-2xl border border-white/10 overflow-hidden relative group select-none transition-all duration-500 shadow-2xl"
-        style={{ boxShadow: `0 0 50px ${theme.glow}` }}
+        className="w-full aspect-video bg-black rounded-2xl border border-[#00D1FF]/30 overflow-hidden relative group select-none transition-all duration-500 shadow-2xl"
+        style={{ boxShadow: `0 0 60px ${theme.glow}` }}
       >
         <iframe
-          src={`https://www.youtube.com/embed/${youtubeId || 'Way9Dexny3w'}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3`}
+          key={cleanYoutubeId}
+          src={embedUrl}
           className="w-full h-full border-0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
           referrerPolicy="no-referrer"
+          title={`${movie.title} Official Trailer`}
         />
 
         {/* Floating Telemetry & Stream Details Header */}
-        <div className="absolute top-4 left-4 flex items-center gap-2.5 bg-black/85 border border-white/10 p-2 rounded-xl backdrop-blur-md shadow-2xl pointer-events-none">
-          <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></div>
-          <div>
-            <p className="text-[9px] font-mono font-black uppercase text-white/90 tracking-widest flex items-center gap-1">
-              {streamMode === 'trailer' ? 'OFFICIAL MOVIE TRAILER ACTIVE' : `OFFICIAL STREAM: ${movie.title.toUpperCase()}`}
-            </p>
-            <p className={`text-[8px] ${theme.text} font-mono uppercase tracking-wider`}>
-              Streaming Live from YouTube CDN • Muted: {isMuted ? 'YES' : 'NO'}
-            </p>
+        <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-3 pointer-events-none transition-opacity duration-300 opacity-90 group-hover:opacity-100">
+          <div className="flex items-center gap-2.5 bg-black/85 border border-white/10 px-3 py-1.5 rounded-xl backdrop-blur-md shadow-2xl">
+            <div className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></div>
+            <div>
+              <p className="text-[10px] font-mono font-black uppercase text-white tracking-widest flex items-center gap-1.5">
+                <span>OFFICIAL HD TRAILER</span>
+                <span className="text-[8px] bg-[#00D1FF]/20 text-[#00D1FF] px-1.5 py-0.5 rounded font-mono">4K • TMDB</span>
+              </p>
+              <p className={`text-[9px] ${theme.text} font-mono uppercase tracking-wider truncate max-w-[280px] sm:max-w-md`}>
+                {movie.title} • {movie.year}
+              </p>
+            </div>
           </div>
+
+          {matchedStreamingLink && (
+            <a
+              href={matchedStreamingLink.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pointer-events-auto hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#00D1FF] hover:bg-cyan-300 text-black font-black text-[10px] font-mono uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(0,209,255,0.4)]"
+            >
+              <span>Watch on {matchedStreamingLink.platform}</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </a>
+          )}
         </div>
 
-        {/* Control Panel to let the user Mute/Unmute if needed */}
-        <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-black/80 border border-white/10 p-1.5 rounded-xl backdrop-blur-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
+        {/* Floating Controls Overlay */}
+        <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-black/80 border border-white/15 p-1.5 rounded-xl backdrop-blur-md shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
           <button
             onClick={() => setIsMuted(!isMuted)}
-            className="p-1.5 text-white hover:text-red-400 transition-colors rounded text-xs flex items-center gap-1 font-mono font-bold"
+            className="px-2.5 py-1.5 text-white hover:text-[#00D1FF] hover:bg-white/10 transition-colors rounded-lg text-xs flex items-center gap-1.5 font-mono font-bold cursor-pointer"
+            title={isMuted ? "Unmute Audio" : "Mute Audio"}
           >
             {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4 text-[#00D1FF]" />}
-            <span className="text-[8px] uppercase tracking-wider">{isMuted ? 'Unmute' : 'Muted'}</span>
+            <span className="text-[9px] uppercase tracking-wider">{isMuted ? 'Unmute' : 'Audio On'}</span>
+          </button>
+
+          <a
+            href={`https://www.youtube.com/watch?v=${cleanYoutubeId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-2.5 py-1.5 text-white/80 hover:text-red-400 hover:bg-white/10 transition-colors rounded-lg text-xs flex items-center gap-1.5 font-mono font-bold"
+            title="Open on YouTube"
+          >
+            <Globe className="w-3.5 h-3.5" />
+            <span className="text-[9px] uppercase tracking-wider">YouTube</span>
+          </a>
+
+          <button
+            onClick={toggleFullscreen}
+            className="p-1.5 text-white/80 hover:text-white hover:bg-white/10 transition-colors rounded-lg cursor-pointer"
+            title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+          >
+            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
         </div>
       </div>

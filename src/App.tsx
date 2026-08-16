@@ -35,7 +35,7 @@ import { CURATED_CATALOG, TRANSLATIONS, getProxiedUrl } from './data';
 import { UPCOMING_RELEASES } from './upcomingData';
 import { Movie, Review, UserState, ChatMessage } from './types';
 import { getSeriesSeasons } from './episodes';
-import { OFFICIAL_MEDIA_MAP } from './services/movieApi';
+import { OFFICIAL_MEDIA_MAP, fetchMovieTrailer } from './services/movieApi';
 import { motion, AnimatePresence } from 'motion/react';
 import LazySection from './components/LazySection';
 import UserDatabaseConsole from './components/UserDatabaseConsole';
@@ -849,8 +849,10 @@ export default function App() {
   const [isCarouselPlaying, setIsCarouselPlaying] = useState<boolean>(true);
 
   // Free Stream Match Mode and Backup Stream Index state
-  const [streamMode, setStreamMode] = useState<'full' | 'trailer'>('full');
+  const [streamMode, setStreamMode] = useState<'full' | 'trailer'>('trailer');
   const [backupIndex, setBackupIndex] = useState<number>(0);
+  const [activeTrailerKey, setActiveTrailerKey] = useState<string>('Way9Dexny3w');
+  const [isTrailerLoading, setIsTrailerLoading] = useState<boolean>(false);
 
   // Series Season & Episode State
   const [activeSeason, setActiveSeason] = useState<number>(1);
@@ -1056,14 +1058,36 @@ export default function App() {
   }, [resolvedImages, activeType]);
 
   // Automatically reset stream mode, backup index, season, and episode when the theater movie changes
+  // and dynamically fetch high-definition official trailer from TMDB / /api/trailer
   useEffect(() => {
     if (theaterMovieId) {
-      setStreamMode('full');
+      setStreamMode('trailer');
       setBackupIndex(0);
       setActiveSeason(1);
       setActiveEpisode(1);
+
+      const targetMovie = displayCatalog.find(m => m.id === theaterMovieId) || CURATED_CATALOG.find(m => m.id === theaterMovieId);
+      if (targetMovie) {
+        // 1. Instant synchronous lookup for zero delay
+        const instantKey = OFFICIAL_MEDIA_MAP[targetMovie.id]?.youtubeId || TRAILER_IDS[targetMovie.id] || targetMovie.youtubeId;
+        if (instantKey && !instantKey.startsWith('http') && !instantKey.endsWith('.mp4')) {
+          setActiveTrailerKey(instantKey);
+        }
+
+        // 2. Dynamic live API lookup to guarantee latest official TMDB trailer
+        setIsTrailerLoading(true);
+        fetchMovieTrailer(targetMovie).then((trailerData) => {
+          if (trailerData?.youtubeId) {
+            setActiveTrailerKey(trailerData.youtubeId);
+          }
+        }).catch((err) => {
+          console.warn('Failed to resolve live trailer:', err);
+        }).finally(() => {
+          setIsTrailerLoading(false);
+        });
+      }
     }
-  }, [theaterMovieId]);
+  }, [theaterMovieId, displayCatalog]);
 
   // Reset and synchronize hero deck whenever displayCatalog / activeType changes
   useEffect(() => {
@@ -3170,7 +3194,9 @@ export default function App() {
         const isFullStream = streamMode === 'full';
         const streamOffset = theaterMovie.type === 'Series' ? (activeEpisode - 1) + (activeSeason - 1) * 8 : 0;
         const safeStream = getCopyrightSafeFullMovie(theaterMovie, backupIndex + streamOffset);
-        const videoId = isFullStream ? safeStream.id : (theaterMovie.youtubeId || OFFICIAL_MEDIA_MAP[theaterMovie.id]?.youtubeId || TRAILER_IDS[theaterMovie.id] || theaterMovie.trailerYoutubeId || 'Way9Dexny3w');
+        const videoId = isFullStream 
+          ? safeStream.id 
+          : (activeTrailerKey || theaterMovie.youtubeId || OFFICIAL_MEDIA_MAP[theaterMovie.id]?.youtubeId || TRAILER_IDS[theaterMovie.id] || theaterMovie.trailerYoutubeId || 'Way9Dexny3w');
         const matchPercent = recommendationMatrix.find(item => item.movie.id === theaterMovie.id)?.matchPercentage || 85;
         const inWatchlist = userState.watchlist.includes(theaterMovie.id);
 

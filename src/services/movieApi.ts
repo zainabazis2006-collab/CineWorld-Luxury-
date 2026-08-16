@@ -335,6 +335,65 @@ export async function resolveMovieMedia(movie: Movie): Promise<MovieMediaData> {
 }
 
 /**
+ * Fetch high-definition official trailer from /api/trailer or TMDB
+ */
+export async function fetchMovieTrailer(movie: { id?: string; title: string; type?: 'Movie' | 'Series'; year?: number; youtubeId?: string }): Promise<{ youtubeId: string; title: string; source: string }> {
+  // 1. Direct memory check
+  if (movie.id && OFFICIAL_MEDIA_MAP[movie.id]?.youtubeId) {
+    return {
+      youtubeId: OFFICIAL_MEDIA_MAP[movie.id].youtubeId!,
+      title: `${movie.title} Official Trailer`,
+      source: 'verified'
+    };
+  }
+
+  if (movie.youtubeId && movie.youtubeId.length >= 8 && !movie.youtubeId.startsWith('http') && !movie.youtubeId.endsWith('.mp4')) {
+    return {
+      youtubeId: movie.youtubeId,
+      title: `${movie.title} Official Trailer`,
+      source: 'catalog'
+    };
+  }
+
+  // 2. Query backend /api/trailer
+  try {
+    const res = await fetch(`/api/trailer?title=${encodeURIComponent(movie.title)}&type=${movie.type || 'Movie'}&id=${encodeURIComponent(movie.id || '')}&year=${movie.year || ''}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.youtubeId) {
+        return {
+          youtubeId: data.youtubeId,
+          title: data.title || `${movie.title} Official Trailer`,
+          source: data.source || 'api'
+        };
+      }
+    }
+  } catch (err) {
+    console.warn(`[Trailer Service] /api/trailer fetch failed for "${movie.title}":`, err);
+  }
+
+  // 3. Fallback direct client TMDB lookup
+  try {
+    const tmdbData = await fetchTMDBMedia(movie.title, movie.type || 'Movie');
+    if (tmdbData?.youtubeId) {
+      return {
+        youtubeId: tmdbData.youtubeId,
+        title: `${movie.title} Official Trailer`,
+        source: 'tmdb-client'
+      };
+    }
+  } catch {
+    // Ignore fallback errors
+  }
+
+  return {
+    youtubeId: 'Way9Dexny3w',
+    title: `${movie.title} Official Trailer`,
+    source: 'default'
+  };
+}
+
+/**
  * Batch enrich an array of movies with official TMDB thumbnails and YouTube trailer IDs
  */
 export async function enrichCatalogWithMedia(movies: Movie[]): Promise<Movie[]> {
