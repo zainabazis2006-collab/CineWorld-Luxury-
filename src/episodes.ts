@@ -155,6 +155,63 @@ const DETAILED_SERIES_EPISODES: Record<string, Record<number, Episode[]>> = {
       { number: 9, title: 'Tolerance Is Extinction - Part 2', runtime: '34 min', synopsis: 'The X-Men split into blue and gold strike teams to assault Bastion\'s base and Asteroid M, leading to an iconic confrontation with Magneto.' },
       { number: 10, title: 'Tolerance Is Extinction - Part 3', runtime: '37 min', synopsis: 'The X-Men sacrifice everything to steer Asteroid M away from Earth, scattering through time to ancient Egypt and the far future.' }
     ]
+  },
+  'mai-wapas-aunga': {
+    1: [
+      { number: 1, title: 'The Black Site', runtime: '52 min', synopsis: 'Special Operative Kabir is imprisoned in a high-security offshore fortress after being framed for high treason by a phantom syndicate.' },
+      { number: 2, title: 'Blueprint of Defiance', runtime: '48 min', synopsis: 'Kabir recruits a renegade communications officer and crafts an impossible underwater escape route through the prison cooling turbines.' },
+      { number: 3, title: 'Ghost in the Machine', runtime: '49 min', synopsis: 'Reaching the bustling streets of Istanbul, Kabir hacks financial channels to trace the encrypted wire transfers that bought his conviction.' },
+      { number: 4, title: 'The Siege of Karaköy', runtime: '54 min', synopsis: 'A team of elite international mercenaries ambushes Kabir in an ancient Turkish bathhouse, triggering an electrifying 14-minute one-take tactical showdown.' },
+      { number: 5, title: 'Shadow Protocols', runtime: '46 min', synopsis: 'Kabir arrives in Mumbai under an assumed identity, confronting his former commanding officer and discovering the traitor inside the Ministry.' },
+      { number: 6, title: 'The Syndicate Unveiled', runtime: '51 min', synopsis: 'A sting operation at a lavish diplomatic gala in New Delhi exposes the puppet master pulling the strings of regional defense contracts.' },
+      { number: 7, title: 'High Altitude Reckoning', runtime: '55 min', synopsis: 'Kabir pursues the syndicate head to a remote mountain airstrip in Ladakh, racing against time to prevent a catastrophic border exchange.' },
+      { number: 8, title: 'Main Wapas Aaunga (Season Finale)', runtime: '58 min', synopsis: 'In an explosive finale, Kabir dismantles the syndicate headquarters and restores his honor, broadcasting undeniable proof to the nation.' }
+    ]
+  },
+  'panchayat-series': {
+    3: [
+      { number: 1, title: 'Rangbaazi', runtime: '39 min', synopsis: 'Abhishek Tripathi returns to Phulera after his transfer revocation, only to find the village divided by impending Panchayat elections and MLA rivalries.' },
+      { number: 2, title: 'Gaddha Aur Gaddi', runtime: '42 min', synopsis: 'A dispute over local road construction funds and Pradhanji’s new vehicle sparks heated debates between Bhushan’s faction and Vikas.' },
+      { number: 3, title: 'Gharwali Ki Naarajgi', runtime: '38 min', synopsis: 'Manju Devi takes a firm political stance against MLA Chandrakishore Singh, mobilizing women of Phulera to defend village sovereignty.' },
+      { number: 4, title: 'Kutta Aur Kissa', runtime: '44 min', synopsis: 'A bizarre case of a stolen pedigree canine brings the local police station into Phulera, creating comedic chaos for Abhishek.' },
+      { number: 5, title: 'Shanti Samjhauta', runtime: '41 min', synopsis: 'Attempts at a peaceful compromise between the rival political camps break down during a tense village feast at Prahlad’s residence.' },
+      { number: 6, title: 'Chunaavi Tevar', runtime: '43 min', synopsis: 'Election campaigns reach fever pitch with fiery speeches, wall posters, and unexpected alliances forming across neighborhood wards.' },
+      { number: 7, title: 'Aamne Saamne', runtime: '47 min', synopsis: 'A heated confrontation at the village square tests Abhishek’s neutrality as physical clashes erupt between the rival party workers.' },
+      { number: 8, title: 'Hisaab Kitaab (Season Finale)', runtime: '53 min', synopsis: 'An intense, emotional finale where Phulera stands united against outside political intimidation, culminating in a dramatic voting climax.' }
+    ]
+  },
+  'citadel-honey-bunny': {
+    1: [
+      { number: 1, title: 'The Stuntman & The Spy', runtime: '54 min', synopsis: 'In 1992 Bombay, movie stuntman Bunny recruits aspiring actress Honey for a lucrative espionage trial, unaware of the global stakes involved.' },
+      { number: 2, title: 'Tape Recorded', runtime: '49 min', synopsis: 'Honey and Bunny retrieve an encrypted audio cassette in Goa, triggering a lethal chase by shadowy operatives of an international tech syndicate.' },
+      { number: 3, title: 'The Belgrade Connection', runtime: '52 min', synopsis: 'Years later in 2000, Honey lives off-grid in Nainital with young Nadia until former assassins locate them, forcing Honey back into action.' },
+      { number: 4, title: 'Tenement Siege', runtime: '50 min', synopsis: 'Bunny and Honey reunite in Eastern Europe, fighting through a high-rise tenement in a relentless, synchronized martial arts masterclass.' },
+      { number: 5, title: 'The Telecommunications War', runtime: '48 min', synopsis: 'The team infiltrates a telecommunications exchange to destroy a prototype global surveillance grid designed to monitor civilian communications.' },
+      { number: 6, title: 'Legacy of Nadia (Finale)', runtime: '56 min', synopsis: 'Bunny sacrifices his cover to protect Honey and Nadia, cementing the origin of young Nadia Sinh’s path toward joining Citadel.' }
+    ]
+  },
+  'ic-814-kandahar': {
+    1: [
+      { number: 1, title: 'Flight into Peril', runtime: '45 min', synopsis: 'On 24 December 1999, Indian Airlines Flight IC 814 from Kathmandu to Delhi is hijacked by five armed terrorists shortly after takeoff.' },
+      { number: 2, title: 'Amritsar Crisis', runtime: '47 min', synopsis: 'The hijacked Airbus refuels in Amritsar under high-tension delays before taking off under gunpoint toward Lahore and UAE.' },
+      { number: 3, title: 'Tarmac in Kandahar', runtime: '46 min', synopsis: 'The aircraft lands in Taliban-controlled Kandahar. Captain Sharan Dev struggles to maintain passenger morale in sub-zero cabin temperatures.' },
+      { number: 4, title: 'The Negotiation Table', runtime: '48 min', synopsis: 'Indian diplomats and intelligence chiefs land in Kandahar to negotiate hostage release terms while Taliban militia surround the perimeter.' },
+      { number: 5, title: 'Deadlock & Diplomacy', runtime: '49 min', synopsis: 'Intense cabinet debates in New Delhi weigh national security versus the lives of 176 innocent passengers and crew members.' },
+      { number: 6, title: 'Safe Return (Finale)', runtime: '52 min', synopsis: 'A bittersweet diplomatic resolution is executed, securing the release of the passengers and ending the historic 7-day ordeal.' }
+    ]
+  },
+  'the-night-manager-india': {
+    1: [
+      { number: 1, title: 'Dhaka Nights', runtime: '53 min', synopsis: 'Shaan Sengupta, night manager at a luxury hotel in Dhaka, attempts to protect a young woman with proof of illegal arms shipments.' },
+      { number: 2, title: 'The King of Arms', runtime: '50 min', synopsis: 'RAW officer Lipika Saikia recruits Shaan to infiltrate the empire of charismatic billionaire arms broker Shailendra Rungta.' },
+      { number: 3, title: 'The Fortress in Rajasthan', runtime: '52 min', synopsis: 'Shaan orchestrates a staged rescue of Rungta’s son in Sri Lanka, gaining entry into Rungta’s fortified desert palace in Rajasthan.' },
+      { number: 4, title: 'The Inner Circle', runtime: '49 min', synopsis: 'Shaan earns Rungta’s trust, but BJ BJ begins suspecting Shaan’s true motives as romantic tension flares with Kaveri.' }
+    ],
+    2: [
+      { number: 1, title: 'Desert Strike', runtime: '51 min', synopsis: 'Shaan is named CEO of Rungta’s front company, overseeing a multi-million dollar weaponry demonstration in the Middle Eastern desert.' },
+      { number: 2, title: 'The Noose Tightens', runtime: '53 min', synopsis: 'Lipika faces sabotage from corrupt officials inside the Ministry, while Shaan must plant the tracking device before the arms vessel departs.' },
+      { number: 3, title: 'Checkmate (Finale)', runtime: '58 min', synopsis: 'Shaan and Lipika execute a coordinated raid on Rungta’s ocean tanker, bringing the arms tycoon to justice in an electrifying climax.' }
+    ]
   }
 };
 

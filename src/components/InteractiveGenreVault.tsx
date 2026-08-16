@@ -223,7 +223,12 @@ export default function InteractiveGenreVault({
 
       // 2. Check Platform Filter
       if (activePlatform !== 'All') {
-        const matchPlatform = m.streamingLinks.some(link => link.platform === activePlatform);
+        const matchPlatform = m.streamingLinks.some(link => {
+          if (activePlatform === 'JioHotstar' || activePlatform === 'Disney+ Hotstar' || activePlatform === 'JioHotstar / Disney+') {
+            return link.platform === 'Disney+ Hotstar' || link.platform === 'JioHotstar' || (link.platform as string) === 'JioCinema';
+          }
+          return link.platform === activePlatform;
+        });
         if (!matchPlatform) return false;
       }
 
@@ -433,12 +438,12 @@ export default function InteractiveGenreVault({
         {setActivePlatform && (
           <div className="relative z-10 pt-2 pb-4 flex flex-wrap gap-2 items-center">
             <span className="text-[10px] uppercase font-mono tracking-widest text-white/50 font-bold mr-1">Platform:</span>
-            {['All', 'Netflix', 'Amazon Prime', 'Disney+ Hotstar', 'Free Cinema'].map((platform) => (
+            {['All', 'Netflix', 'Amazon Prime', 'JioHotstar / Disney+', 'Free Cinema'].map((platform) => (
               <button
                 key={platform}
                 onClick={() => setActivePlatform(platform)}
                 className={`px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-full transition-all cursor-pointer ${
-                  activePlatform === platform
+                  activePlatform === platform || (platform === 'JioHotstar / Disney+' && (activePlatform === 'Disney+ Hotstar' || activePlatform === 'JioHotstar'))
                     ? 'bg-gradient-to-r from-red-600 to-rose-700 text-white font-black shadow-[0_0_15px_rgba(225,29,72,0.4)] border border-red-500'
                     : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10'
                 }`}

@@ -1,4 +1,4 @@
-export type StreamingPlatform = 'Netflix' | 'Amazon Prime' | 'Disney+ Hotstar' | 'Apple TV+' | 'HBO Max' | 'Free Cinema';
+export type StreamingPlatform = 'Netflix' | 'Amazon Prime' | 'Disney+ Hotstar' | 'JioHotstar' | 'JioCinema' | 'Apple TV+' | 'HBO Max' | 'Free Cinema';
 
 export interface StreamingLink {
   platform: StreamingPlatform;
