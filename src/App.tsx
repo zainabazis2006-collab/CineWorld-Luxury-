@@ -2514,53 +2514,8 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Premier Arrivals Showcase Strip */}
-              <div className="pt-2 space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#00D1FF] flex items-center gap-1.5">
-                    <Sparkles className="w-3 h-3 text-[#00D1FF] animate-pulse" />
-                    Featured In Non-Repeating Shuffle:
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 overflow-x-auto pb-1 max-w-3xl no-scrollbar">
-                  {[
-                    { id: 'dhurandhar-raw-and-andekha', label: 'Dhurandhar (Raw & Andekha)', badge: 'Ranveer Singh' },
-                    { id: 'dhurandhar-the-revenge', label: 'Dhurandhar (The Revenge)', badge: 'Ranveer Singh' },
-                    { id: 'mai-wapas-aunga', label: 'Main Wapas Aaunga', badge: 'Kay Kay Menon' },
-                    { id: 'safed-sagar', label: 'Safed Sagar', badge: 'Jaideep Ahlawat' },
-                    { id: 'peddi', label: 'Peddi', badge: 'Ram Charan' },
-                    { id: 'tere-ishk-mein', label: 'Tere Ishk Mein', badge: 'Dhanush' },
-                    { id: 'cocktail-2', label: 'Cocktail 2', badge: 'Shahid Kapoor' },
-                    { id: 'stree-2', label: 'Stree 2', badge: 'Shraddha Kapoor' },
-                    { id: 'kalki-2898-ad', label: 'Kalki 2898 AD', badge: 'Prabhas' },
-                    { id: 'pushpa-2', label: 'Pushpa 2', badge: 'Allu Arjun' }
-                  ].map((item) => {
-                    const isSelected = currentMovie.id === item.id;
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => handleMovieSelect(item.id)}
-                        className={`flex-shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-full text-xs tracking-wide transition-all duration-200 cursor-pointer ${
-                          isSelected
-                            ? 'bg-[#00D1FF] text-black shadow-[0_0_15px_rgba(0,209,255,0.4)] scale-105 font-black'
-                            : 'bg-white/10 text-white/80 hover:bg-white/20 hover:text-white border border-white/10 font-semibold'
-                        }`}
-                      >
-                        <span>{item.label}</span>
-                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-mono font-bold uppercase ${
-                          isSelected ? 'bg-black/20 text-black' : 'bg-white/10 text-[#00D1FF]'
-                        }`}>
-                          {item.badge}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
               {/* Action Buttons & Streaming Integration Hub */}
-              <div className="space-y-3 pt-1">
+              <div className="space-y-3 pt-2">
                 <div className="flex flex-wrap gap-3.5">
                   
                   {/* Play Now Button */}
