@@ -1500,7 +1500,13 @@ export default function App() {
     setTimeout(() => {
       const el = document.getElementById(sectionId);
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const headerOffset = 90;
+        const elementPosition = el.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -2242,21 +2248,31 @@ export default function App() {
       {/* HERO SHOWCASE - Atmospheric Display of Currently Active Movie in Automated Carousel */}
       <section className="relative w-full overflow-hidden border-b border-white/5 z-10" id="hero-showcase">
         {/* Dynamic High-Fidelity Content Poster Backdrop behind Content Name */}
-        <div className="absolute inset-0 z-0 bg-[#050508] overflow-hidden">
+        <div className="absolute inset-0 z-0 bg-[#050508] overflow-hidden pointer-events-none">
           <AnimatePresence mode="wait">
             <motion.div
               key={`backdrop-${currentMovie.id}`}
-              initial={{ opacity: 0, scale: 1.06 }}
-              animate={{ opacity: 0.65, scale: 1.02 }}
-              exit={{ opacity: 0, scale: 1.0 }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute inset-0 w-full h-full"
+              initial={{ opacity: 0, scale: 1.15, x: 10, y: -6 }}
+              animate={{ 
+                opacity: 0.7, 
+                scale: [1.12, 1.03],
+                x: [8, -8],
+                y: [-4, 4]
+              }}
+              exit={{ opacity: 0, scale: 1.0, transition: { duration: 0.8, ease: "easeOut" } }}
+              transition={{ 
+                opacity: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
+                scale: { duration: 16, ease: "linear", repeat: Infinity, repeatType: "reverse" },
+                x: { duration: 20, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" },
+                y: { duration: 18, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }
+              }}
+              className="absolute -inset-10 w-[calc(100%+80px)] h-[calc(100%+80px)] origin-center"
             >
               <BlurUpImage 
                 src={currentMovie.backdropUrl || currentMovie.posterUrl} 
                 alt={currentMovie.title}
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center filter saturate-[1.15] contrast-[1.08]"
+                className="w-full h-full object-cover object-center filter saturate-[1.18] contrast-[1.10]"
               />
             </motion.div>
           </AnimatePresence>

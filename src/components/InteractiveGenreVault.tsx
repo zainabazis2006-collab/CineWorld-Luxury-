@@ -198,13 +198,19 @@ export default function InteractiveGenreVault({
 
   const getPavilionElementId = (genre: string) => `genre-pavilion-${genre.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
 
-  // Scroll smoothly to a genre section ID
+  // Scroll smoothly to a genre section ID with header offset consideration
   const scrollToGenre = (genre: string) => {
     setSelectedGenreTab(genre);
     const elementId = getPavilionElementId(genre);
     const element = document.getElementById(elementId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const headerOffset = 90;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   };
 
