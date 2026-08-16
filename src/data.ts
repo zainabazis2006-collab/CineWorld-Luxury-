@@ -1,4 +1,5 @@
 import { Movie } from './types';
+import { MARVEL_MOVIES_CATALOG } from './marvelData';
 
 export function getProxiedUrl(url: string): string {
   if (!url) return '';
@@ -5837,7 +5838,12 @@ const SAFE_BACKDROPS: Record<string, string> = {
   'delhi-crime-series': 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=1200&auto=format&fit=crop'
 };
 
-export const CURATED_CATALOG: Movie[] = RAW_CATALOG.map(movie => {
+// Deduplicate catalog combining existing titles with full Marvel & Avengers catalog
+const MERGED_RAW_MAP = new Map<string, Movie>();
+RAW_CATALOG.forEach(m => MERGED_RAW_MAP.set(m.id, m));
+MARVEL_MOVIES_CATALOG.forEach(m => MERGED_RAW_MAP.set(m.id, m));
+
+export const CURATED_CATALOG: Movie[] = Array.from(MERGED_RAW_MAP.values()).map(movie => {
   return {
     ...movie,
     posterUrl: getProxiedUrl(movie.posterUrl),

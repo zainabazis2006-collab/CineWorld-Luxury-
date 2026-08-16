@@ -82,6 +82,79 @@ const DETAILED_SERIES_EPISODES: Record<string, Record<number, Episode[]>> = {
       { number: 3, title: 'Get Some', runtime: '57 min', synopsis: 'Butcher blackmails a former associate to get dirt on the Seven, while Starlight faces the dark reality of her dream job.' },
       { number: 4, title: 'The Female of the Species', runtime: '57 min', synopsis: 'The Boys discover a silent, caged super-powered woman in an underground cellar, while Homelander orchestrates a horrific plane hijacking.' }
     ]
+  },
+  'wandavision': {
+    1: [
+      { number: 1, title: 'Filmed Before a Live Studio Audience', runtime: '30 min', synopsis: 'Wanda and Vision struggle to conceal their powers during a dinner party for Vision\'s boss in a 1950s black-and-white suburban comedy.' },
+      { number: 2, title: 'Don\'t Touch That Dial', runtime: '37 min', synopsis: 'In 1960s Technicolor, Wanda and Vision prepare a magic act for a neighborhood talent show, but strange anomalies begin to glitch the reality.' },
+      { number: 3, title: 'Now in Color', runtime: '33 min', synopsis: 'Wanda\'s pregnancy advances at rapid speed. When she gives birth to twin boys Tommy and Billy, a neighbor mentions Ultron and gets cast out.' },
+      { number: 4, title: 'We Interrupt This Program', runtime: '35 min', synopsis: 'Monica Rambeau, Jimmy Woo, and Darcy Lewis investigate the anomalous energy barrier surrounding Westview from a S.W.O.R.D. base.' },
+      { number: 5, title: 'On a Very Special Episode...', runtime: '42 min', synopsis: 'In an 80s sitcom style, Wanda confronts Vision\'s suspicions while S.W.O.R.D. sends an armed drone into the hex, ending on a shocking visitor.' },
+      { number: 6, title: 'All-New Halloween Spooktacular!', runtime: '38 min', synopsis: 'Halloween 90s chaos ensues. Vision investigates the outskirts of town and finds frozen residents, while Pietro mentors the boys.' },
+      { number: 7, title: 'Breaking the Fourth Wall', runtime: '38 min', synopsis: 'Wanda undergoes a modern 2000s mockumentary mental breakdown, descending into the basement to discover Agatha Harkness behind it all.' },
+      { number: 8, title: 'Previously On', runtime: '43 min', synopsis: 'Agatha takes Wanda on an emotional journey through her traumatic past in Sokovia and the Hydra facility, naming her the mythical Scarlet Witch.' },
+      { number: 9, title: 'The Series Finale', runtime: '50 min', synopsis: 'Wanda embraces the mantle of the Scarlet Witch in an epic magical duel above Westview before making the ultimate sacrifice for her family.' }
+    ]
+  },
+  'loki-series': {
+    1: [
+      { number: 1, title: 'Glorious Purpose', runtime: '51 min', synopsis: 'Loki is arrested by the Time Variance Authority after stealing the Tesseract and discovers the Infinity Stones are merely paperweights in the TVA.' },
+      { number: 2, title: 'The Variant', runtime: '54 min', synopsis: 'Loki joins Agent Mobius on the hunt for a dangerous timeline fugitive variant of himself attacking TVA Minutemen across apocalyptic events.' },
+      { number: 3, title: 'Lamentis', runtime: '42 min', synopsis: 'Loki and Sylvie end up stranded on a dying moon during an impending planetary collision, sharing insights on love, identity, and magic.' },
+      { number: 4, title: 'The Nexus Event', runtime: '48 min', synopsis: 'Faced with impending doom, Loki and Sylvie create a colossal nexus event that alerts the TVA, uncovering the Time-Keepers\' android secret.' },
+      { number: 5, title: 'Journey Into Mystery', runtime: '52 min', synopsis: 'Banished to the Void at the end of time, Loki meets Classic Loki, Kid Loki, and Alligator Loki, working to enchant the colossal beast Alioth.' },
+      { number: 6, title: 'For All Time. Always.', runtime: '46 min', synopsis: 'In the Citadel at the End of Time, Loki and Sylvie confront He Who Remains, leading to a fateful betrayal that fractures the multiverse.' }
+    ],
+    2: [
+      { number: 1, title: 'Ouroboros', runtime: '47 min', synopsis: 'Loki finds himself violently time-slipping between past, present, and future within the TVA, seeking assistance from repairs genius O.B.' },
+      { number: 2, title: 'Breaking Brad', runtime: '49 min', synopsis: 'Loki and Mobius track down Hunter X-5 living as an actor on the Sacred Timeline to locate Sylvie and General Dox\'s rogue faction.' },
+      { number: 3, title: '1893', runtime: '53 min', synopsis: 'Loki and Mobius travel to the 1893 Chicago World\'s Fair in search of Victor Timely, a mild-mannered inventor variant of Kang.' },
+      { number: 4, title: 'Heart of the TVA', runtime: '49 min', synopsis: 'Victor Timely and the team attempt to stabilize the overloading Temporal Loom, but an catastrophic surge consumes reality.' },
+      { number: 5, title: 'Science/Fiction', runtime: '45 min', synopsis: 'Loki time-slips across timeline branches to rescue his scattered friends and masters the ability to control time-slipping.' },
+      { number: 6, title: 'Glorious Purpose (Finale)', runtime: '56 min', synopsis: 'Loki spends centuries looping time to learn quantum physics before choosing to hold the infinite multiverse branches together as the God of Stories.' }
+    ]
+  },
+  'loki': {
+    1: [
+      { number: 1, title: 'Glorious Purpose', runtime: '51 min', synopsis: 'Loki is arrested by the Time Variance Authority after stealing the Tesseract and discovers the Infinity Stones are merely paperweights in the TVA.' },
+      { number: 2, title: 'The Variant', runtime: '54 min', synopsis: 'Loki joins Agent Mobius on the hunt for a dangerous timeline fugitive variant of himself attacking TVA Minutemen across apocalyptic events.' },
+      { number: 3, title: 'Lamentis', runtime: '42 min', synopsis: 'Loki and Sylvie end up stranded on a dying moon during an impending planetary collision, sharing insights on love, identity, and magic.' },
+      { number: 4, title: 'The Nexus Event', runtime: '48 min', synopsis: 'Faced with impending doom, Loki and Sylvie create a colossal nexus event that alerts the TVA, uncovering the Time-Keepers\' android secret.' },
+      { number: 5, title: 'Journey Into Mystery', runtime: '52 min', synopsis: 'Banished to the Void at the end of time, Loki meets Classic Loki, Kid Loki, and Alligator Loki, working to enchant the colossal beast Alioth.' },
+      { number: 6, title: 'For All Time. Always.', runtime: '46 min', synopsis: 'In the Citadel at the End of Time, Loki and Sylvie confront He Who Remains, leading to a fateful betrayal that fractures the multiverse.' }
+    ],
+    2: [
+      { number: 1, title: 'Ouroboros', runtime: '47 min', synopsis: 'Loki finds himself violently time-slipping between past, present, and future within the TVA, seeking assistance from repairs genius O.B.' },
+      { number: 2, title: 'Breaking Brad', runtime: '49 min', synopsis: 'Loki and Mobius track down Hunter X-5 living as an actor on the Sacred Timeline to locate Sylvie and General Dox\'s rogue faction.' },
+      { number: 3, title: '1893', runtime: '53 min', synopsis: 'Loki and Mobius travel to the 1893 Chicago World\'s Fair in search of Victor Timely, a mild-mannered inventor variant of Kang.' },
+      { number: 4, title: 'Heart of the TVA', runtime: '49 min', synopsis: 'Victor Timely and the team attempt to stabilize the overloading Temporal Loom, but an catastrophic surge consumes reality.' },
+      { number: 5, title: 'Science/Fiction', runtime: '45 min', synopsis: 'Loki time-slips across timeline branches to rescue his scattered friends and masters the ability to control time-slipping.' },
+      { number: 6, title: 'Glorious Purpose (Finale)', runtime: '56 min', synopsis: 'Loki spends centuries looping time to learn quantum physics before choosing to hold the infinite multiverse branches together as the God of Stories.' }
+    ]
+  },
+  'moon-knight': {
+    1: [
+      { number: 1, title: 'The Goldfish Problem', runtime: '47 min', synopsis: 'Gift-shop employee Steven Grant is plagued by blackouts and memories of another life, discovering he shares a body with mercenary Marc Spector.' },
+      { number: 2, title: 'Summon the Suit', runtime: '50 min', synopsis: 'Steven learns about Khonshu and summons Mr. Knight in a three-piece suit to battle jackal monsters in the streets of London.' },
+      { number: 3, title: 'The Friendly Type', runtime: '53 min', synopsis: 'In Cairo, Marc and Layla search for the tomb of Ammit with the assistance of the Ennead Council of Egyptian gods.' },
+      { number: 4, title: 'The Tomb', runtime: '51 min', synopsis: 'Steven and Layla navigate booby-trapped tombs in Egypt before Marc is shot and wakes up inside a surreal psychiatric hospital run by Arthur Harrow.' },
+      { number: 5, title: 'Asylum', runtime: '53 min', synopsis: 'Marc and Steven journey through the Duat with the goddess Taweret, confronting Marc\'s childhood trauma and the origin of the Steven personality.' },
+      { number: 6, title: 'Gods and Monsters', runtime: '44 min', synopsis: 'Marc and Steven achieve emotional harmony to defeat Ammit at the Pyramids of Giza, while a mysterious third persona, Jake Lockley, waits in the wings.' }
+    ]
+  },
+  'x-men-97': {
+    1: [
+      { number: 1, title: 'To Me, My X-Men', runtime: '31 min', synopsis: 'Following the death of Professor X, Cyclops leads the X-Men to rescue mutant captives from the Friends of Humanity, uncovering Sentinel weaponry.' },
+      { number: 2, title: 'Mutant Liberation Begins', runtime: '31 min', synopsis: 'Magneto is put on trial at the United Nations in Geneva, promising to honor Xavier\'s peaceful dream despite an assault by the X-Cutioner.' },
+      { number: 3, title: 'Fire Made Flesh', runtime: '31 min', synopsis: 'Mister Sinister unleashes Madelyne Pryor as the Goblin Queen, plunging the X-Mansion into a horrifying psychic nightmare.' },
+      { number: 4, title: 'Motendo / Lifedeath - Part 1', runtime: '32 min', synopsis: 'Jubilee is trapped inside an interactive 16-bit video game, while Storm struggles to accept the loss of her weather powers alongside Forge.' },
+      { number: 5, title: 'Remember It', runtime: '33 min', synopsis: 'The mutant sovereign nation of Genosha celebrates admission to the UN before a colossal three-headed Wild Sentinel attacks, resulting in tragedy.' },
+      { number: 6, title: 'Lifedeath - Part 2', runtime: '32 min', synopsis: 'Storm battles the demonic Adversary to regain her elemental powers, while Professor X recovers on the Shi\'ar throne world.' },
+      { number: 7, title: 'Bright', runtime: '33 min', synopsis: 'The X-Men search for survivors in the aftermath of Genosha, uncovering Bastion and Operation: Zero Tolerance turning humans into Prime Sentinels.' },
+      { number: 8, title: 'Tolerance Is Extinction - Part 1', runtime: '32 min', synopsis: 'Bastion unleashes Prime Sentinels across the globe, forcing Magneto to unleash an EMP wave from the North Pole shutting down global power.' },
+      { number: 9, title: 'Tolerance Is Extinction - Part 2', runtime: '34 min', synopsis: 'The X-Men split into blue and gold strike teams to assault Bastion\'s base and Asteroid M, leading to an iconic confrontation with Magneto.' },
+      { number: 10, title: 'Tolerance Is Extinction - Part 3', runtime: '37 min', synopsis: 'The X-Men sacrifice everything to steer Asteroid M away from Earth, scattering through time to ancient Egypt and the far future.' }
+    ]
   }
 };
 
