@@ -28,39 +28,6 @@ interface GenreConfig {
 }
 
 const GENRE_CONFIGS: Record<string, GenreConfig> = {
-  'Sci-Fi': {
-    name: 'Sci-Fi & Cyberpunk',
-    icon: '🚀',
-    themeColor: '#00D1FF',
-    borderColor: 'border-[#00D1FF]/30',
-    bgGradient: 'from-cyan-950/40 via-[#050b18] to-blue-950/50',
-    accentText: 'text-[#00D1FF]',
-    badgeBg: 'bg-[#00D1FF]/10 text-[#00D1FF] border-[#00D1FF]/30',
-    vibeTag: 'Cosmic & Mind-Bending',
-    description: 'Futuristic worlds, interstellar exploration, AI, and metaphysical realities.'
-  },
-  'Action': {
-    name: 'Action & Thrillers',
-    icon: '💥',
-    themeColor: '#EF4444',
-    borderColor: 'border-red-500/30',
-    bgGradient: 'from-red-950/40 via-[#180505] to-rose-950/50',
-    accentText: 'text-red-400',
-    badgeBg: 'bg-red-500/10 text-red-400 border-red-500/30',
-    vibeTag: 'High Voltage & Adrenaline',
-    description: 'High-octane stunt choreography, martial arts combat, and intense chases.'
-  },
-  'Romance': {
-    name: 'Romance & K-Drama',
-    icon: '💖',
-    themeColor: '#EC4899',
-    borderColor: 'border-pink-500/30',
-    bgGradient: 'from-pink-950/40 via-[#180512] to-rose-900/50',
-    accentText: 'text-pink-400',
-    badgeBg: 'bg-pink-500/10 text-pink-400 border-pink-500/30',
-    vibeTag: 'Heartwarming & Emotional',
-    description: 'Heartfelt passions, sweeping sagas, Korean romance, and soulmate connections.'
-  },
   'Horror': {
     name: 'Horror & Supernatural',
     icon: '👻',
@@ -70,7 +37,18 @@ const GENRE_CONFIGS: Record<string, GenreConfig> = {
     accentText: 'text-purple-400',
     badgeBg: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
     vibeTag: 'Eerie & Psychological',
-    description: 'Supernatural terrors, psychological suspense, haunted lore, and dark thrillers.'
+    description: 'Haunting supernatural terrors, psychological suspense, gothic folklore, and dark dread.'
+  },
+  'Romantic': {
+    name: 'Romantic & Melodrama',
+    icon: '💖',
+    themeColor: '#EC4899',
+    borderColor: 'border-pink-500/30',
+    bgGradient: 'from-pink-950/40 via-[#180512] to-rose-900/50',
+    accentText: 'text-pink-400',
+    badgeBg: 'bg-pink-500/10 text-pink-400 border-pink-500/30',
+    vibeTag: 'Heartfelt & Passionate',
+    description: 'Sweeping love sagas, poetic relationships, heartwarming connections, and emotional romantic cinema.'
   },
   'Comedy': {
     name: 'Comedy & Satire',
@@ -81,40 +59,51 @@ const GENRE_CONFIGS: Record<string, GenreConfig> = {
     accentText: 'text-amber-400',
     badgeBg: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
     vibeTag: 'Witty & Irreverent',
-    description: 'Laugh-out-loud humor, sharp social satire, absurd capers, and lighthearted fun.'
+    description: 'Laugh-out-loud humor, sharp social satire, absurd capers, parodies, and feel-good entertainment.'
   },
-  'Drama': {
-    name: 'Prestige Drama',
-    icon: '🎭',
-    themeColor: '#10B981',
-    borderColor: 'border-emerald-500/30',
-    bgGradient: 'from-emerald-950/40 via-[#051810] to-teal-950/50',
-    accentText: 'text-emerald-400',
-    badgeBg: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-    vibeTag: 'Critically Acclaimed & Deep',
-    description: 'Masterfully acted character studies, emotional triumphs, and narrative depth.'
+  'Sci-Fi': {
+    name: 'Sci-Fi & Cyberpunk',
+    icon: '🚀',
+    themeColor: '#00D1FF',
+    borderColor: 'border-[#00D1FF]/30',
+    bgGradient: 'from-cyan-950/40 via-[#050b18] to-blue-950/50',
+    accentText: 'text-[#00D1FF]',
+    badgeBg: 'bg-[#00D1FF]/10 text-[#00D1FF] border-[#00D1FF]/30',
+    vibeTag: 'Cosmic & Mind-Bending',
+    description: 'Futuristic worlds, interstellar voyages, artificial intelligence, time paradoxes, and metaphysical realities.'
   },
-  'Adventure': {
-    name: 'Adventure & Fantasy',
-    icon: '🔮',
-    themeColor: '#8B5CF6',
-    borderColor: 'border-violet-500/30',
-    bgGradient: 'from-violet-950/40 via-[#100518] to-indigo-950/50',
-    accentText: 'text-violet-400',
-    badgeBg: 'bg-violet-500/10 text-violet-400 border-violet-500/30',
-    vibeTag: 'Epic Quests & Magic',
-    description: 'Grand odysseys, mythical realms, treasures, and legendary journeys.'
+  'Action': {
+    name: 'Action & Combat',
+    icon: '💥',
+    themeColor: '#EF4444',
+    borderColor: 'border-red-500/30',
+    bgGradient: 'from-red-950/40 via-[#180505] to-rose-950/50',
+    accentText: 'text-red-400',
+    badgeBg: 'bg-red-500/10 text-red-400 border-red-500/30',
+    vibeTag: 'High Voltage & Adrenaline',
+    description: 'High-octane stunt choreography, martial arts combat, relentless velocity, and blockbuster showdowns.'
   },
-  'Biography': {
-    name: 'Biography & History',
-    icon: '📜',
-    themeColor: '#D97706',
-    borderColor: 'border-amber-600/30',
-    bgGradient: 'from-amber-950/30 via-[#140f05] to-stone-900/60',
-    accentText: 'text-amber-500',
-    badgeBg: 'bg-amber-600/10 text-amber-500 border-amber-600/30',
-    vibeTag: 'True Stories & Legacy',
-    description: 'Captivating real historical events, iconic figures, and monumental biographies.'
+  'Anime': {
+    name: 'Anime & Animation',
+    icon: '⚡',
+    themeColor: '#F43F5E',
+    borderColor: 'border-rose-500/30',
+    bgGradient: 'from-rose-950/40 via-[#1a050f] to-orange-950/50',
+    accentText: 'text-rose-400',
+    badgeBg: 'bg-rose-500/10 text-rose-400 border-rose-500/30',
+    vibeTag: 'Artistic & Legendary',
+    description: 'Iconic Japanese anime sagas, breathtaking hand-drawn fantasy, visionary worlds, and animated masterpieces.'
+  },
+  'Thriller & Mystery': {
+    name: 'Thriller & Mystery',
+    icon: '🔍',
+    themeColor: '#6366F1',
+    borderColor: 'border-indigo-500/30',
+    bgGradient: 'from-indigo-950/40 via-[#070b19] to-slate-950/60',
+    accentText: 'text-indigo-400',
+    badgeBg: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30',
+    vibeTag: 'Intrigue & Suspense',
+    description: 'Mind-bending whodunits, noir detective investigations, espionage puzzles, and nerve-wracking suspense.'
   }
 };
 
@@ -130,6 +119,17 @@ const DEFAULT_GENRE_CONFIG: GenreConfig = {
   description: 'Curated titles from our cinema vault.'
 };
 
+// 7 Focused Genre Pavilion Options
+const CURATED_PAVILIONS: string[] = [
+  'Horror',
+  'Romantic',
+  'Comedy',
+  'Sci-Fi',
+  'Action',
+  'Anime',
+  'Thriller & Mystery'
+];
+
 export default function InteractiveGenreVault({
   catalog,
   userState,
@@ -139,10 +139,8 @@ export default function InteractiveGenreVault({
   onShowInfo,
   setTheaterMovieId
 }: InteractiveGenreVaultProps) {
-  // Extract all unique genres from the catalog
-  const availableGenres = Array.from(
-    new Set(catalog.flatMap((m) => m.genres))
-  ).sort();
+  // Use the 7 selected genre options
+  const availableGenres = CURATED_PAVILIONS;
 
   // Active genre filter state ('All' or specific genre)
   const [selectedGenreTab, setSelectedGenreTab] = useState<string>('All');
@@ -160,9 +158,34 @@ export default function InteractiveGenreVault({
     setExpandedGenres((prev) => ({ ...prev, [genre]: !prev[genre] }));
   };
 
-  // Filter movies by genre
+  // Filter movies matching each of the 7 curated genre pavilions
   const getGenreMovies = (genre: string) => {
-    let list = catalog.filter((m) => m.genres.includes(genre));
+    let list = catalog.filter((m) => {
+      const gList = (m.genres || []).map((g) => g.toLowerCase());
+      if (genre === 'Horror') {
+        return gList.some((g) => g.includes('horror'));
+      }
+      if (genre === 'Romantic') {
+        return gList.some((g) => g.includes('romance') || g.includes('romantic') || g.includes('korean'));
+      }
+      if (genre === 'Comedy') {
+        return gList.some((g) => g.includes('comedy'));
+      }
+      if (genre === 'Sci-Fi') {
+        return gList.some((g) => g.includes('sci-fi') || g.includes('science fiction'));
+      }
+      if (genre === 'Action') {
+        return gList.some((g) => g.includes('action') || g.includes('adventure'));
+      }
+      if (genre === 'Anime') {
+        return gList.some((g) => g.includes('anime') || g.includes('animation'));
+      }
+      if (genre === 'Thriller & Mystery') {
+        return gList.some((g) => g.includes('thriller') || g.includes('mystery') || g.includes('crime'));
+      }
+      return gList.some((g) => g.toLowerCase().includes(genre.toLowerCase()));
+    });
+
     if (sortBy === 'rating') {
       list = [...list].sort((a, b) => b.rating - a.rating);
     } else if (sortBy === 'year') {
@@ -173,10 +196,13 @@ export default function InteractiveGenreVault({
     return list;
   };
 
+  const getPavilionElementId = (genre: string) => `genre-pavilion-${genre.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+
   // Scroll smoothly to a genre section ID
   const scrollToGenre = (genre: string) => {
     setSelectedGenreTab(genre);
-    const element = document.getElementById(`genre-pavilion-${genre}`);
+    const elementId = getPavilionElementId(genre);
+    const element = document.getElementById(elementId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -203,7 +229,7 @@ export default function InteractiveGenreVault({
                 <Sparkles className="w-3 h-3 animate-spin" />
                 Interactive Genre Vault
               </span>
-              <span className="text-xs font-mono text-white/40">• {availableGenres.length} Categories</span>
+              <span className="text-xs font-mono text-white/40">• 7 Curated Pavilions</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black italic uppercase tracking-wider text-white">
               Explore By <span className="text-[#00D1FF] underline decoration-[#00D1FF]/40 decoration-4 underline-offset-8">Genre Pavilion</span>
@@ -256,12 +282,12 @@ export default function InteractiveGenreVault({
           </div>
         </div>
 
-        {/* INTERACTIVE GENRE BADGES MATRIX (Clickable Pavilions) */}
+        {/* INTERACTIVE GENRE BADGES MATRIX (7 Clickable Pavilions + All Vaults) */}
         <div className="relative z-10 pt-6">
           <p className="text-[10px] font-mono uppercase tracking-widest text-white/50 mb-3">
             Select A Pavilion To Jump Or Filter:
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
             <button
               onClick={() => { setSelectedGenreTab('All'); setViewMode('pavilions'); }}
               className={`p-3 rounded-2xl border text-left transition-all duration-300 cursor-pointer flex flex-col justify-between h-22 ${
@@ -278,13 +304,13 @@ export default function InteractiveGenreVault({
               </div>
               <div>
                 <p className="text-xs font-black uppercase text-white tracking-wider">All Vaults</p>
-                <p className="text-[9px] text-white/40 font-mono truncate">Complete Library</p>
+                <p className="text-[9px] text-white/40 font-mono truncate">Full Collection</p>
               </div>
             </button>
 
             {availableGenres.map((genre) => {
               const cfg = GENRE_CONFIGS[genre] || DEFAULT_GENRE_CONFIG;
-              const count = catalog.filter((m) => m.genres.includes(genre)).length;
+              const count = getGenreMovies(genre).length;
               const isSelected = selectedGenreTab === genre;
 
               return (
@@ -340,7 +366,7 @@ export default function InteractiveGenreVault({
           return (
             <section
               key={genre}
-              id={`genre-pavilion-${genre}`}
+              id={getPavilionElementId(genre)}
               className={`relative bg-gradient-to-br ${cfg.bgGradient} border ${cfg.borderColor} rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-500 hover:border-white/20`}
             >
               {/* Decorative Genre Emblem Accent */}
