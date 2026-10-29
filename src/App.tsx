@@ -28,7 +28,6 @@ import {
   Settings,
   Image as LucideImage,
   MapPin,
-  Users,
   Shuffle,
   RotateCcw,
   Layers
@@ -39,13 +38,11 @@ import { getSeriesSeasons } from './episodes';
 import { OFFICIAL_MEDIA_MAP, fetchMovieTrailer, fetchContentVideo } from './services/movieApi';
 import { motion, AnimatePresence } from 'motion/react';
 import LazySection from './components/LazySection';
-import UserDatabaseConsole from './components/UserDatabaseConsole';
 
 const TrendingChart = lazy(() => import('./components/TrendingChart'));
 import TiltCard from './components/TiltCard';
 const CinemaPlayer = lazy(() => import('./components/CinemaPlayer'));
 import CineWorldLogo from './components/CineWorldLogo';
-import CinematicAuth from './components/CinematicAuth';
 import GenreCarousel from './components/GenreCarousel';
 import BlurUpImage from './components/BlurUpImage';
 import InteractiveGenreVault from './components/InteractiveGenreVault';
@@ -778,6 +775,7 @@ export default function App() {
         if (parsed.autoplayTrailers === undefined) {
           parsed.autoplayTrailers = true;
         }
+        parsed.isLoggedIn = true;
         return parsed;
       } catch (e) {}
     }
@@ -790,7 +788,9 @@ export default function App() {
       preferredLanguage: 'en',
       region: 'IN',
       autoplayTrailers: true,
-      genreClickHistory: defaultHistory
+      genreClickHistory: defaultHistory,
+      isLoggedIn: true,
+      userName: 'Guest Viewer'
     };
   });
 
@@ -1264,7 +1264,6 @@ export default function App() {
   const [reviewerEmail, setReviewerEmail] = useState<string>('cinephile@cineworld.vip');
 
   // Chatbot state
-  const [isUserDatabaseOpen, setIsUserDatabaseOpen] = useState<boolean>(false);
   const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
     return [
@@ -1745,15 +1744,6 @@ export default function App() {
   // Collect all unique genres
   const allGenres: string[] = ['All', ...Array.from(new Set<string>(displayCatalog.flatMap(m => m.genres)))];
 
-  if (!userState.isLoggedIn) {
-    return (
-      <CinematicAuth 
-        userState={userState} 
-        onAuthSuccess={(updatedState) => setUserState(prev => ({ ...prev, ...updatedState }))} 
-      />
-    );
-  }
-
   return (
     <div className="min-h-screen bg-[#050508] text-[#F5F5F5] font-sans relative overflow-x-hidden flex flex-col selection:bg-[#00D1FF]/30 selection:text-white pb-20 lg:pb-0">
       
@@ -1772,9 +1762,9 @@ export default function App() {
       {/* Luxury Decorative Top Banner / Status Indicator */}
       <div className="relative z-30 bg-[#07070d]/80 border-b border-white/10 backdrop-blur-md text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-white/50 px-4 md:px-8 py-2.5 flex flex-col sm:flex-row gap-2 justify-between items-center">
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-2 bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/20 px-2.5 py-0.5 rounded-full font-mono text-[9px] font-bold">
-            <span className="w-2 h-2 rounded-full bg-[#00D1FF] animate-pulse"></span>
-            LIVE STREAM SERVER ONLINE
+          <span className="flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-mono text-[9px] font-bold">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            FREE ACCESS • NO LOGIN REQUIRED
           </span>
           <span className="hidden md:inline text-white/20">|</span>
           <span className="hidden md:inline text-white/40 font-mono">100% Free • Unlimited HD Movies & Series</span>
@@ -1782,32 +1772,16 @@ export default function App() {
         <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
           <CineWorldLogo showText={false} size="sm" onClick={() => { setActiveGenre('All'); setActivePlatform('All'); setSearchQuery(''); }} />
           
-          {/* User Profile Avatar badge & Email */}
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-full hover:border-[#00D1FF]/40 transition-all cursor-pointer">
-            <span className="text-xs sm:text-sm">
-              {userState.selectedAvatar === 'director' ? '🎬' :
-               userState.selectedAvatar === 'critic' ? '🧐' :
-               userState.selectedAvatar === 'scifi' ? '🚀' :
-               userState.selectedAvatar === 'horror' ? '👻' :
-               userState.selectedAvatar === 'romance' ? '💖' :
-               userState.selectedAvatar === 'action' ? '💥' : '👤'}
+          {/* Free Viewer Badge */}
+          <div className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-full text-white/80">
+            <span className="text-xs sm:text-sm">🍿</span>
+            <span className="text-white/90 font-bold text-xs capitalize truncate max-w-[120px]">
+              Guest Viewer
             </span>
-            <span className="text-white/90 font-bold text-xs capitalize hidden sm:inline truncate max-w-[100px]">
-              {userState.userName || 'Cinephile'}
-            </span>
-            <span className="text-[#00D1FF] font-mono text-[9px] hidden md:inline">
-              [PRO MEMBER]
+            <span className="bg-[#00D1FF]/15 text-[#00D1FF] border border-[#00D1FF]/30 font-mono text-[9px] px-2 py-0.5 rounded-full font-bold">
+              FREE PASS
             </span>
           </div>
-
-          {/* Logout Action */}
-          <button 
-            onClick={() => setUserState(prev => ({ ...prev, isLoggedIn: false }))}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer active:scale-95 shrink-0"
-            title="Exit Screening Session"
-          >
-            <span>Exit Theater</span>
-          </button>
         </div>
       </div>
 
@@ -2120,21 +2094,6 @@ export default function App() {
                             <span className={`w-3.5 h-3.5 rounded-full bg-white transition-all absolute ${userState.autoplayTrailers ? 'right-0.5' : 'left-0.5'}`} />
                           </button>
                         </div>
-
-                        {/* Authority Center Access */}
-                        <div className="pt-2 border-t border-white/5">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setIsUserDatabaseOpen(true);
-                              setIsHeaderSettingsOpen(false);
-                            }}
-                            className="w-full py-2 bg-[#00D1FF]/10 hover:bg-[#00D1FF]/20 border border-[#00D1FF]/30 hover:border-[#00D1FF]/50 text-[#00D1FF] hover:text-white rounded-xl text-[10px] font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                          >
-                            <Users className="w-4 h-4" />
-                            <span>View User Database</span>
-                          </button>
-                        </div>
                       </div>
                     </motion.div>
                   </>
@@ -2317,47 +2276,20 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Mobile Admin Center */}
+                {/* Free Viewer Status Display */}
                 <div className="pt-4 border-t border-white/5">
-                  <button
-                    onClick={() => {
-                      setIsUserDatabaseOpen(true);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="w-full py-3 rounded-xl bg-[#00D1FF]/10 hover:bg-[#00D1FF]/20 border border-[#00D1FF]/30 text-[#00D1FF] hover:text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all min-h-[48px] cursor-pointer"
-                  >
-                    <Users className="w-4 h-4" />
-                    <span>View User Database</span>
-                  </button>
-                </div>
-
-                {/* Profile Display */}
-                <div className="pt-4 border-t border-white/5 flex flex-col gap-3">
-                  <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-3 rounded-xl min-h-[48px]">
-                    <span className="text-lg">
-                      {userState.selectedAvatar === 'director' ? '🎬' :
-                       userState.selectedAvatar === 'critic' ? '🧐' :
-                       userState.selectedAvatar === 'scifi' ? '🚀' :
-                       userState.selectedAvatar === 'horror' ? '👻' :
-                       userState.selectedAvatar === 'romance' ? '💖' :
-                       userState.selectedAvatar === 'action' ? '💥' : '👤'}
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-white text-xs font-bold truncate capitalize">{userState.userName || 'Cinephile'}</p>
-                      <p className="text-[10px] text-white/40 font-mono truncate">{userState.email || 'zainab.azis2006@gmail.com'}</p>
+                  <div className="flex items-center justify-between bg-white/5 border border-white/10 p-3.5 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">🍿</span>
+                      <div>
+                        <p className="text-white text-xs font-bold">Free Viewer Mode</p>
+                        <p className="text-[10px] text-emerald-400 font-mono">100% Free Streaming • No Login Required</p>
+                      </div>
                     </div>
+                    <span className="bg-[#00D1FF]/15 text-[#00D1FF] text-[9px] px-2.5 py-1 rounded-full font-mono font-bold border border-[#00D1FF]/30">
+                      FREE VIP
+                    </span>
                   </div>
-
-                  {/* Logout Button */}
-                  <button 
-                    onClick={() => {
-                      setUserState(prev => ({ ...prev, isLoggedIn: false }));
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="w-full py-3.5 rounded-xl bg-[#d03050]/10 hover:bg-[#d03050]/25 border border-[#d03050]/25 text-[#ff4c6c] hover:text-[#ff6a85] text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all min-h-[48px]"
-                  >
-                    <span>Exit Theater</span>
-                  </button>
                 </div>
               </div>
             </motion.div>
@@ -4051,12 +3983,6 @@ export default function App() {
           style={{ display: 'none', width: 0, height: 0 }}
         />
       )}
-
-      {/* Authority Center User Database Console Modal */}
-      <UserDatabaseConsole 
-        isOpen={isUserDatabaseOpen} 
-        onClose={() => setIsUserDatabaseOpen(false)} 
-      />
 
       {/* MOBILE BOTTOM NAVIGATION BAR (Luxury Touch-Optimized for Mobile/Tablet) */}
       <nav 
